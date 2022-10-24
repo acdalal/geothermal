@@ -10,9 +10,9 @@ def get_connection():
         program. Sometimes that's the right choice, but it depends on your
         error-handling needs. '''
     try:
-        return psycopg2.connect(database=config.database,
-                                user=config.user,
-                                password=config.password)
+        return psycopg2.connect(database=config.DATABASE,
+                                user=config.USER,
+                                password=config.PASSWORD)
     except Exception as e:
         print(e, file=sys.stderr)
         exit()
