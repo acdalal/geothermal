@@ -27,10 +27,6 @@ def get_connection() -> psycopg2.connection:
         exit()
 
 
-''' Execute DB queries with psycopg2 and return the queried results directly
-    before closing the connection'''
-
-
 def executeDBQuery(connection: psycopg2.connection, query: str) -> list[tuple]:
     '''
     Executes the passed query on the database and throws an exception if it encounters an error.
