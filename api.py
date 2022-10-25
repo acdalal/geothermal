@@ -1,4 +1,3 @@
-<<<<<<< Updated upstream
 import sys
 import psycopg2
 import config
