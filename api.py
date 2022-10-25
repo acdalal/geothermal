@@ -1,9 +1,9 @@
 import sys
 import psycopg2
 import config
+import json
 
-
-def get_connection() -> psycopg2.connection:
+def getConnection() -> psycopg2.connection:
 
     '''
     Returns a database connection object with which you can create cursors,
@@ -75,13 +75,13 @@ def findOutagesInUserData(startTime: str, endTime: str) -> list[tuple]:
                  FROM measurement_outage, outage_types
                  WHERE (start_datetime_utc BETWEEN {startTime} AND {endTime}) OR (end_datetime_utc BETWEEN {startTime} AND {endTime}) OR ({startTime} >= start_datetime_utc AND {endTime} <= end_datetime_utc'''
     try:
-        connection = get_connection()
+        connection = getConnection()
         allOutages = executeDBQuery(connection, query)
         return allOutages
     except Exception as e:
         print(e, file=sys.stderr)
 
-def createTempVsTimeQuery(channel: int, depth: str):
+def createTempVsTimeQuery(channel: int, depth: str) -> dict:
 
     '''
     Returns the results of the query for temp vs time
@@ -122,7 +122,7 @@ def createTempVsTimeQuery(channel: int, depth: str):
                         'datetime_utc':row[2].strftime(f"%Y-%,-%d %H:%M:%S"),
                         'data_id':row[3],
                         'temperature_c':row[4],
-                        'datetime'}
+                        'datetime': row[5]}
 
             results.append(datapoint)
     except Exception as e:
