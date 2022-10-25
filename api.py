@@ -2,6 +2,7 @@ import sys
 import psycopg2
 import config
 import json
+from datetime import datetime, timedelta
 
 
 def getConnection() -> psycopg2.connection:
@@ -125,6 +126,51 @@ def createTempVsTimeQuery(channel: int, depth: str) -> dict:
                 "datetime": row[5],
             }
 
+            results.append(datapoint)
+    except Exception as e:
+        print(e, file=sys.stderr)
+
+
+def createTempVsDepthQuery(channel: int, startHour: str):
+    """Given a channel (1 or 3) and a startHour (in string datetime
+    format: '%Y-%m-%d %H:%M:%S'), returns a list of all data points
+    across all measurements associated with a the channel during that hour
+    in JSON format.
+    """
+
+    query = """SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
+            dts_data.temperature_c, dts_data.depth_m
+            FROM measurement, dts_data
+            WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
+                                             channel_name='channel %s')
+            AND measurement.datetime_utc between %s AND %s
+            AND measurement.id = dts_data.measurement_id
+            """
+    results = []
+    startHourDatetime = datetime.strptime(startHour, f"%Y-%m-%d %H:%M:%S")
+    endHourDatetime = startHourDatetime + timedelta(hours=1)
+    endHour = endHourDatetime.strftime(f"%Y-%m-%d %H:%M:%S")
+
+    try:
+        connection = getConnection()
+        cursor = connection.cursor()
+        cursor.execute(
+            query,
+            (
+                channel,
+                startHour,
+                endHour,
+            ),
+        )
+        for row in cursor:
+            datapoint = {
+                "chanel_id": row[0],
+                "measurement_id": row[1],
+                "datatime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
+                "data_id": row[3],
+                "temperature_c": row[4],
+                "depth_m": row[5],
+            }
             results.append(datapoint)
     except Exception as e:
         print(e, file=sys.stderr)
