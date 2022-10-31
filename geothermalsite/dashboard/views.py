@@ -7,60 +7,73 @@ from datetime import datetime, timedelta
 def index(request):
     return HttpResponse("Hello, world. You're at the polls index.")
 
+
 def countMeasurement(request):
     # proof of concept query
 
-    query = 'select COUNT(*) from measurement'
-    with connections['geothermal'].cursor() as cursor:
+    query = "select COUNT(*) from measurement"
+    with connections["geothermal"].cursor() as cursor:
         cursor.execute(query)
         results = cursor.fetchall()
     return HttpResponse(results)
-    
+
 
 def getTempVsDepthResults(request):
-    # TODO: clean this function up
+    """
+    Returns a list of all data points across all measurements associated with
+    the channel during that hour.
 
-    """Given a channel (1 or 3) and a startHour (in string datetime
-    format: '%Y-%m-%d %H:%M:%S'), returns a list of all data points
-    across all measurements associated with a the channel during that hour
-    in JSON format.
+    Parameters
+    ----------
+    channel (int:1 or 3)
+    startHour (string datetime format: '%Y-%m-%d %H:%M:%S')
+
+    Returns
+    ----------
+    An HttpResponse holding a dictionary with form (column label:data point)
+
+    Example
+    ----------
+    URL: /dashboard/tempvsdepth?channel=1&startHour=2022-05-17 00:00:00
+    Result: all data points from channel 1 on 2022-05-17 from 00:00:00 to
+                                                              01:00:00
     """
 
-    query = """SELECT measurement_id, datetime_utc, dts_data.id, dts_data.temperature_c, dts_data.depth_m
-                FROM measurement, dts_data
-                WHERE measurement.channel_id = 15
-                AND measurement.datetime_utc between %s AND %s
-                AND measurement.id = dts_data.measurement_id
+    query = """SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
+            dts_data.temperature_c, dts_data.depth_m
+            FROM measurement, dts_data
+            WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
+                                             channel_name=%s)
+            AND measurement.datetime_utc between %s AND %s
+            AND measurement.id = dts_data.measurement_id;
             """
     results = []
-    #2022-05-17 00:00:00', '2022-05-17 01:00:00'
-    # startHourDatetime = datetime.strptime(startHour, f"%Y-%m-%d %H:%M:%S")
-    # endHourDatetime = startHourDatetime + timedelta(hours=1)
-    # endHour = endHourDatetime.strftime(f"%Y-%m-%d %H:%M:%S")
-    startHour = request.GET.get('startHour')
-    endHour = request.GET.get('endHour')
-    with connections['geothermal'].cursor() as cursor:
-        print("established connection")
+
+    channel = request.GET.get("channel")
+    channelName = "channel " + channel
+    startHour = request.GET.get("startHour")
+    startHourDatetime = datetime.strptime(startHour, f"%Y-%m-%d %H:%M:%S")
+    endHourDatetime = startHourDatetime + timedelta(hours=1)
+    endHour = endHourDatetime.strftime(f"%Y-%m-%d %H:%M:%S")
+
+    with connections["geothermal"].cursor() as cursor:
         cursor.execute(
-            query, (startHour, endHour,),
-            # (
-            #     channel,
-            # ),
+            query,
+            (
+                channelName,
+                startHour,
+                endHour,
+            ),
         )
-        print("query executed")
-        rowCount = 0
         for row in cursor.fetchall():
-            results.append(row)
-            # datapoint = {
-            #     "chanel_id": row[0],
-            #     "measurement_id": row[1],
-            #     "datatime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
-            #     "data_id": row[3],
-            #     "temperature_c": row[4],
-            #     "depth_m": row[5],
-            # }
-            # results.append(datapoint)
-            # rowCount += 1
-            # print(rowCount)
+            datapoint = {
+                "channel_id": row[0],
+                "measurement_id": row[1],
+                "datatime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
+                "data_id": row[3],
+                "temperature_c": row[4],
+                "depth_m": row[5],
+            }
+            results.append(datapoint)
 
     return HttpResponse(results)
