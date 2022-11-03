@@ -7,3 +7,11 @@ Run these commands:\
 `pip install -r requirements.txt` \
 `pre-commit install` \
 `pip install pre-commit-hooks`
+
+## Troubleshooting
+One of the packages relies on a specific version of the Python regex library, so if pip fails, try running \
+`ARCHFLAGS="-arch x86_64" pip install -r requirements.txt`.
+
+If psycopg2 doesn't install on Mac, try running \
+`brew install openssl` \
+`export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/`
