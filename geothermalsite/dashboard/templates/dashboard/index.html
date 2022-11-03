@@ -17,21 +17,30 @@
         <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
         <form action="/" method="post">
             <br>
+            {# Django requires this token statement #}
             {% csrf_token %}
             Get data from channel number
             {{ form.channelNumber }}
             from
             {{ form.startDate }}
+            {# This script enables the fancy datetime picker #}
             <script>
                 $(function () {
-                    $("#id_startDate").datetimepicker();
+                    $("#id_startDate").datetimepicker({
+                    minDate:'2017/05/01',
+                    maxDate: '0'
+                    });
                 });
             </script>
             to
             {{ form.endDate }}
+            {# This script enables the fancy datetime picker #}
             <script>
                 $(function () {
-                    $("#id_endDate").datetimepicker();
+                    $("#id_endDate").datetimepicker({
+                    minDate:'2017/05/01',
+                    maxDate: '0'
+                });
                 });
             </script>
 

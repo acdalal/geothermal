@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.db import connections
 from datetime import datetime, timedelta
-
+import dateparser
 from .forms import TempVsTimeForm
 
 
@@ -14,8 +14,11 @@ def index(request):
             channelNumber = userForm.cleaned_data["channelNumber"]
             startDate = userForm.cleaned_data["startDate"]
             endDate = userForm.cleaned_data["endDate"]
-            print("test")
-            print(channelNumber, startDate, endDate)
+
+            startDateUtc = dateparser.parse(startDate).__str__()
+
+            endDateUtc = dateparser.parse(endDate).__str__()
+            print(channelNumber, startDateUtc, endDateUtc)
         else:
             print(userForm.errors)
     form = TempVsTimeForm()
