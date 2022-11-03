@@ -5,20 +5,21 @@ from datetime import datetime, timedelta
 
 from .forms import TempVsTimeForm
 
+
 def index(request):
     if request.method == "POST":
         userForm = TempVsTimeForm(request.POST)
         # check whether it's valid:
         if userForm.is_valid():
-            channelNumber = userForm.cleaned_data['channelNumber']
-            startDate = userForm.cleaned_data['startDate']
-            endDate = userForm.cleaned_data['endDate']
-            print('test')
+            channelNumber = userForm.cleaned_data["channelNumber"]
+            startDate = userForm.cleaned_data["startDate"]
+            endDate = userForm.cleaned_data["endDate"]
+            print("test")
             print(channelNumber, startDate, endDate)
         else:
             print(userForm.errors)
     form = TempVsTimeForm()
-    return render(request, 'dashboard/index.html', {'form': form})
+    return render(request, "dashboard/index.html", {"form": form})
 
 
 def countMeasurement(request):

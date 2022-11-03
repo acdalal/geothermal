@@ -7,60 +7,91 @@ class Migration(migrations.Migration):
 
     initial = True
 
-    dependencies = [
-    ]
+    dependencies = []
 
     operations = [
         migrations.CreateModel(
-            name='Channel',
+            name="Channel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('channel_name', models.TextField()),
-                ('channel_length_m', models.FloatField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("channel_name", models.TextField()),
+                ("channel_length_m", models.FloatField()),
             ],
             options={
-                'db_table': 'channel',
-                'managed': False,
+                "db_table": "channel",
+                "managed": False,
             },
         ),
         migrations.CreateModel(
-            name='DtsConfig',
+            name="DtsConfig",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('dts_name', models.TextField()),
-                ('configuration_name', models.TextField()),
-                ('measurement_interval_s', models.FloatField(blank=True, null=True)),
-                ('step_increment_m', models.FloatField(blank=True, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("dts_name", models.TextField()),
+                ("configuration_name", models.TextField()),
+                ("measurement_interval_s", models.FloatField(blank=True, null=True)),
+                ("step_increment_m", models.FloatField(blank=True, null=True)),
             ],
             options={
-                'db_table': 'dts_config',
-                'managed': False,
+                "db_table": "dts_config",
+                "managed": False,
             },
         ),
         migrations.CreateModel(
-            name='DtsData',
+            name="DtsData",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('laf_m', models.FloatField()),
-                ('temperature_c', models.FloatField()),
-                ('elevation_m', models.FloatField()),
-                ('depth_m', models.FloatField()),
-                ('slope', models.FloatField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("laf_m", models.FloatField()),
+                ("temperature_c", models.FloatField()),
+                ("elevation_m", models.FloatField()),
+                ("depth_m", models.FloatField()),
+                ("slope", models.FloatField()),
             ],
             options={
-                'db_table': 'dts_data',
-                'managed': False,
+                "db_table": "dts_data",
+                "managed": False,
             },
         ),
         migrations.CreateModel(
-            name='Measurement',
+            name="Measurement",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('datetime_utc', models.DateTimeField()),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("datetime_utc", models.DateTimeField()),
             ],
             options={
-                'db_table': 'measurement',
-                'managed': False,
+                "db_table": "measurement",
+                "managed": False,
             },
         ),
     ]

@@ -9,13 +9,13 @@ from django.db import models
 
 
 class Channel(models.Model):
-    dts_config = models.ForeignKey('DtsConfig', models.DO_NOTHING)
+    dts_config = models.ForeignKey("DtsConfig", models.DO_NOTHING)
     channel_name = models.TextField()
     channel_length_m = models.FloatField()
 
     class Meta:
         managed = False
-        db_table = 'channel'
+        db_table = "channel"
 
 
 class DtsConfig(models.Model):
@@ -26,11 +26,11 @@ class DtsConfig(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'dts_config'
+        db_table = "dts_config"
 
 
 class DtsData(models.Model):
-    measurement = models.ForeignKey('Measurement', models.DO_NOTHING)
+    measurement = models.ForeignKey("Measurement", models.DO_NOTHING)
     laf_m = models.FloatField()
     temperature_c = models.FloatField()
     elevation_m = models.FloatField()
@@ -39,7 +39,7 @@ class DtsData(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'dts_data'
+        db_table = "dts_data"
 
 
 class Measurement(models.Model):
@@ -48,4 +48,4 @@ class Measurement(models.Model):
 
     class Meta:
         managed = False
-        db_table = 'measurement'
+        db_table = "measurement"
