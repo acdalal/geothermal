@@ -6,4 +6,5 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("tempvsdepth/", views.getTempVsDepthResults, name="tempvsdepth"),
     path("count/", views.countMeasurement, name="count"),
+    path("tempvstime/", views.getTempVsTimeResults, name = "tempvstime"),
 ]
