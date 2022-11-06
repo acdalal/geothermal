@@ -59,11 +59,12 @@ def getTempVsDepthResults(request):
 
     query = """SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
             dts_data.temperature_c, dts_data.depth_m
-            FROM measurement, dts_data
+            FROM measurement
+            JOIN dts_data
+            ON measurement.id = dts_data.measurement_id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name=%s)
-            AND measurement.datetime_utc between %s AND %s
-            AND measurement.id = dts_data.measurement_id;
+            AND measurement.datetime_utc between %s AND %s;
             """
     results = []
 
