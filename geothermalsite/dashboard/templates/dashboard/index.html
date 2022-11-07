@@ -15,38 +15,8 @@
     </head>
     <body>
         <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
-        <form action="/" method="post">
-            <br>
-            {# Django requires this token statement #}
-            {% csrf_token %}
-            Get data from channel number
-            {{ form.channelNumber }}
-            from
-            {{ form.startDate }}
-            {# This script enables the fancy datetime picker #}
-            <script>
-                $(function () {
-                    $("#id_startDate").datetimepicker({
-                    minDate:'2017/05/01',
-                    maxDate: '0'
-                    });
-                });
-            </script>
-            to
-            {{ form.endDate }}
-            {# This script enables the fancy datetime picker #}
-            <script>
-                $(function () {
-                    $("#id_endDate").datetimepicker({
-                    minDate:'2017/05/01',
-                    maxDate: '0'
-                });
-                });
-            </script>
+        <button type="button" onclick="window.location.href='tempvstime'">Temperature VS Time</button>
+        <button type="button" onclick="window.location.href='tempvsdepth'">Temperature VS Depth</button>
 
-            <div>
-                <input type="submit" value="Submit">
-            </div>
-        </form>
     </body>
 </html>

@@ -83,7 +83,7 @@ def _createTempVsDepthQuery(channel: int, timestamp: str) -> str:
 
 
     """
-    startTime = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
+    startTime = datetime.strptime(timestamp, "%Y/%m/%d %H:%M")
     endTime = startTime + timedelta(hours=1)
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
