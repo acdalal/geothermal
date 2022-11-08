@@ -1,0 +1,43 @@
+
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Carleton Geothermal Data</title>
+
+        <!-- jQuery -->
+        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+
+        <!-- XDSoft DateTimePicker -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+
+    </head>
+
+
+    <body>
+        <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
+        <button type="button" onclick="window.location.href='/'">Home</button>
+
+        {{ queryData }}
+
+
+        <form action="/tempvsdepth/" method="post">
+            {% csrf_token %}
+            {{ form }}
+            {# This script enables the fancy datetime picker #}
+            <script>
+                $(function () {
+                    $("#id_timestamp").datetimepicker({
+                    minDate:'2017/05/01',
+                    maxDate: '0'
+                });
+                });
+            </script>
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </body>
+</html>
