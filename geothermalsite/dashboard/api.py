@@ -60,7 +60,7 @@ def _createTempVsTimeQuery(
             ON measurement.id = dts_data.measurement_id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name={channel})
-            AND dt_data.depth_m = {depth}
+            AND dts_data.depth_m = {depth}
             limit 5;
             """
 
