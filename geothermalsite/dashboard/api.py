@@ -59,8 +59,8 @@ def _createTempVsTimeQuery(
             JOIN dts_data
             ON measurement.id = dts_data.measurement_id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
-                                             channel_name={channel})
-            AND dt_data.depth_m = {depth}
+                                             channel_name='channel {channel}')
+            AND dts_data.depth_m = {depth}
             limit 5;
             """
 
@@ -83,7 +83,7 @@ def _createTempVsDepthQuery(channel: int, timestamp: str) -> str:
 
 
     """
-    startTime = datetime.strptime(timestamp, "%Y/%m/%d %H:%M")
+    startTime = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
     endTime = startTime + timedelta(hours=1)
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
@@ -93,7 +93,7 @@ def _createTempVsDepthQuery(channel: int, timestamp: str) -> str:
             ON measurement.id = dts_data.measurement_id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
-            AND measurement.datetime_utc between {startTime} AND {endTime}
+            AND measurement.datetime_utc between '{startTime}' AND '{endTime}'
             """
 
     return query
@@ -176,6 +176,7 @@ def getTempVsTimeResults(
 
     with connections["geothermal"].cursor() as cursor:
         cursor.execute(query)
+        print("finished executing query")
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],

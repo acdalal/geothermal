@@ -17,11 +17,14 @@ def tempVsTime(request):
             channelNumber = userForm.cleaned_data["channelNumber"]
             startDate = userForm.cleaned_data["startDate"]
             endDate = userForm.cleaned_data["endDate"]
+            depth = userForm.cleaned_data["depth"]
 
             startDateUtc = dateparser.parse(startDate).__str__()
             endDateUtc = dateparser.parse(endDate).__str__()
 
-            queryResults = getTempVsDepthResults(channelNumber, startDateUtc)
+            queryResults = getTempVsTimeResults(
+                channelNumber, depth, startDateUtc, endDateUtc
+            )
             return render(
                 request, "dashboard/tempvstime.html", {"queryData": queryResults}
             )
@@ -43,7 +46,9 @@ def tempVsDepth(request):
             channelNumber = userForm.cleaned_data["channelNumber"]
             timestamp = userForm.cleaned_data["timestamp"]
 
-            queryResults = getTempVsDepthResults(channelNumber, timestamp)
+            timestampUtc = dateparser.parse(timestamp).__str__()
+
+            queryResults = getTempVsDepthResults(channelNumber, timestampUtc)
             return render(
                 request, "dashboard/tempvsdepth.html", {"queryData": queryResults}
             )
