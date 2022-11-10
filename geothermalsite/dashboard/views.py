@@ -14,7 +14,7 @@ def tempVsTime(request):
 
         userForm = TempVsTimeForm(request.POST)
         if userForm.is_valid():
-            channelNumber = userForm.cleaned_data["channelNumber"]
+            boreholeNumber = userForm.cleaned_data["boreholeNumber"]
             startDate = userForm.cleaned_data["startDate"]
             endDate = userForm.cleaned_data["endDate"]
             depth = userForm.cleaned_data["depth"]
@@ -23,7 +23,7 @@ def tempVsTime(request):
             endDateUtc = dateparser.parse(endDate).__str__()
 
             queryResults = getTempVsTimeResults(
-                channelNumber, depth, startDateUtc, endDateUtc
+                int(boreholeNumber), depth, startDateUtc, endDateUtc
             )
             return render(
                 request, "dashboard/tempvstime.html", {"queryData": queryResults}
@@ -43,12 +43,12 @@ def tempVsDepth(request):
 
         userForm = TempVsDepthForm(request.POST)
         if userForm.is_valid():
-            channelNumber = userForm.cleaned_data["channelNumber"]
+            boreholeNumber = userForm.cleaned_data["boreholeNumber"]
             timestamp = userForm.cleaned_data["timestamp"]
 
             timestampUtc = dateparser.parse(timestamp).__str__()
 
-            queryResults = getTempVsDepthResults(channelNumber, timestampUtc)
+            queryResults = getTempVsDepthResults(int(boreholeNumber), timestampUtc)
             return render(
                 request, "dashboard/tempvsdepth.html", {"queryData": queryResults}
             )

@@ -3,10 +3,12 @@ from django.http import HttpResponse
 from django.db import connections
 from datetime import datetime, timedelta
 import psycopg2
-from . import config
 import json
 from datetime import datetime, timedelta
 import dateparser as dp
+
+from . import config
+from .boreholes import boreholes
 
 
 def _createDataOutageQuery(startTime: str, endTime: str) -> str:
@@ -34,7 +36,7 @@ def _createDataOutageQuery(startTime: str, endTime: str) -> str:
 
 
 def _createTempVsTimeQuery(
-    channel: int, depth: str, startTime: str, endTime: str
+    borehole: int, depth: str, startTime: str, endTime: str
 ) -> str:
     """
     Creates a query for getting temperature vs time results for fixed depth
@@ -52,6 +54,11 @@ def _createTempVsTimeQuery(
 
 
     """
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafEnd = currentBorehole.getBottom()
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
             dts_data.temperature_c, dts_data.depth_m
@@ -60,14 +67,15 @@ def _createTempVsTimeQuery(
             ON measurement.id = dts_data.measurement_id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
-            AND dt_data.depth_m = {depth}
-            limit 5;
+            AND ABS(dts_data.depth_m-{depth}) < 0.001
+            AND dts_data.laf_m BETWEEN {lafStart} AND {lafEnd}
+            limit 10;
             """
 
     return query
 
 
-def _createTempVsDepthQuery(channel: int, timestamp: str) -> str:
+def _createTempVsDepthQuery(borehole: int, timestamp: str) -> str:
 
     """
     Creates a query for getting temperature vs depth results for fixed depth
@@ -86,6 +94,12 @@ def _createTempVsDepthQuery(channel: int, timestamp: str) -> str:
     startTime = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
     endTime = startTime + timedelta(hours=1)
 
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafEnd = currentBorehole.getBottom()
+
     query = f"""SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
             dts_data.temperature_c, dts_data.depth_m
             FROM measurement
@@ -93,7 +107,8 @@ def _createTempVsDepthQuery(channel: int, timestamp: str) -> str:
             ON measurement.id = dts_data.measurement_id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
-            AND measurement.datetime_utc between '{startTime}' AND '{endTime}'
+            AND measurement.datetime_utc between '{startTime}' AND '{endTime}
+            AND dts_data.laf_m BETWEEN {lafStart} AND {lafEnd}'
             """
 
     return query
@@ -110,7 +125,7 @@ def _countMeasurement(request) -> list[tuple]:
     return results
 
 
-def getTempVsDepthResults(channel: int, timestamp: str) -> list[dict]:
+def getTempVsDepthResults(borehole: int, timestamp: str) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
     the channel during that hour.
@@ -129,7 +144,7 @@ def getTempVsDepthResults(channel: int, timestamp: str) -> list[dict]:
     TODO
     """
 
-    query = _createTempVsDepthQuery(channel, timestamp)
+    query = _createTempVsDepthQuery(borehole, timestamp)
     results = list()
 
     with connections["geothermal"].cursor() as cursor:
@@ -150,7 +165,7 @@ def getTempVsDepthResults(channel: int, timestamp: str) -> list[dict]:
 
 
 def getTempVsTimeResults(
-    channel: int, depth: str, startTime: str, endTime: str
+    borehole: int, depth: str, startTime: str, endTime: str
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -171,10 +186,12 @@ def getTempVsTimeResults(
     ----------
     TODO
     """
-    query = _createTempVsTimeQuery(channel, depth, startTime, endTime)
+    query = _createTempVsTimeQuery(borehole, depth, startTime, endTime)
+    print("got the query")
     results = list()
 
     with connections["geothermal"].cursor() as cursor:
+        print("sending query")
         cursor.execute(query)
         print("finished executing query")
         for row in cursor.fetchall():
