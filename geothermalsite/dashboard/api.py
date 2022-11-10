@@ -87,7 +87,7 @@ def _createTempVsDepthQuery(borehole: int, timestamp: str) -> str:
 
     """
     startTime = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
-    endTime = startTime + timedelta(hours=1)
+    endTime = startTime + timedelta(minutes=30)
 
     currentBorehole = boreholes[borehole]
 
@@ -102,8 +102,9 @@ def _createTempVsDepthQuery(borehole: int, timestamp: str) -> str:
             ON measurement.id = dts_data.measurement_id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
-            AND measurement.datetime_utc between '{startTime}' AND '{endTime}
-            AND dts_data.laf_m BETWEEN {lafStart} AND {lafEnd}'
+            AND measurement.datetime_utc between '{startTime}' AND '{endTime}'
+            AND dts_data.laf_m BETWEEN {lafStart} AND {lafEnd}
+            ORDER BY dts_data.depth_m;
             """
 
     return query

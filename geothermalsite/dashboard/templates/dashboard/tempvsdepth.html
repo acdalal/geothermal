@@ -20,7 +20,10 @@
         <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
         <button type="button" onclick="window.location.href='/'">Home</button>
 
-        {{ queryData }}
+        {% for row in queryData %}
+            <div>{{ row }}</div>
+
+        {% endfor %}
 
         {{ test }}
 
