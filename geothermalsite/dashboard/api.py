@@ -1,13 +1,5 @@
-import sys
-from django.http import HttpResponse
 from django.db import connections
 from datetime import datetime, timedelta
-import psycopg2
-import json
-from datetime import datetime, timedelta
-import dateparser as dp
-
-from . import config
 from .boreholes import boreholes
 
 
@@ -15,7 +7,7 @@ def _createDataOutageQuery(startTime: str, endTime: str) -> str:
     """
     Creates a query for retrieving data outages during the selected period of time
 
-    Parameters
+    Paramete
     -----------
     startTime: start of the time range
     endTime: end of the time range
