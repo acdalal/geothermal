@@ -182,6 +182,7 @@ def getTempVsTimeResults(
     ----------
     TODO
     """
+
     query = _createTempVsTimeQuery(borehole, depth, startTime, endTime)
     print("got the query")
     results = list()

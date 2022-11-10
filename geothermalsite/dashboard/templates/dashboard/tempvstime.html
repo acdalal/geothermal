@@ -6,12 +6,10 @@
 
         <title>Carleton Geothermal Data</title>
 
-        <!-- jQuery -->
-        <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
-
-        <!-- XDSoft DateTimePicker -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
     </head>
 
@@ -34,20 +32,30 @@
             {% csrf_token %}
 
             {{ form }}
-            <script>
-                $(function () {
-                    $("#id_endDate").datetimepicker({
-                    minDate:'2017/05/01',
-                    maxDate: '0'
-                });
-                });
-            </script>
-            <script>
-                $(function () {
-                    $("#id_startDate").datetimepicker({
-                    minDate:'2017/05/01',
-                    maxDate: '0'
-                    });
+
+            <script type="text/javascript">
+                $(function() {
+
+                    var start = moment().subtract(29, 'days');
+                    var end = moment();
+
+                    function cb(start, end) {
+                        $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                    }
+
+                    $('#id_dateRange').daterangepicker({
+                        startDate: start,
+                        endDate: end,
+                        ranges: {
+                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                        'Last 3 Months': [moment().subtract(3, 'months'), moment()],
+                        'Last Year': [moment().subtract(1, 'years'), moment()]
+                        }
+                    }, cb);
+
+                    cb(start, end);
+
                 });
             </script>
 

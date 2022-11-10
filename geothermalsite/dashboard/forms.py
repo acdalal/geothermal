@@ -6,14 +6,14 @@ class TempVsTimeForm(forms.Form):
         label="Display temperature from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
     )
-    startDate = forms.CharField(
-        label="from ", widget=forms.TextInput(attrs={"autocomplete": "off"})
-    )
-    endDate = forms.CharField(
-        label="to ", widget=forms.TextInput(attrs={"autocomplete": "off"})
+    dateRange = forms.CharField(
+        label="during ", widget=forms.TextInput(attrs={"autocomplete": "off"})
     )
 
-    depth = forms.DecimalField(label="at depth:", decimal_places=2)
+    depth = forms.IntegerField(
+        label="at depth:",
+        widget=forms.NumberInput(attrs={"type": "number", "min": "0", "step": "1"}),
+    )
 
 
 class TempVsDepthForm(forms.Form):

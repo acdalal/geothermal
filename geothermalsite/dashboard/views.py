@@ -1,5 +1,6 @@
 from django.shortcuts import render
 import dateparser
+import re
 
 from .forms import TempVsTimeForm, TempVsDepthForm
 from .api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
@@ -15,9 +16,11 @@ def tempVsTime(request):
         userForm = TempVsTimeForm(request.POST)
         if userForm.is_valid():
             boreholeNumber = userForm.cleaned_data["boreholeNumber"]
-            startDate = userForm.cleaned_data["startDate"]
-            endDate = userForm.cleaned_data["endDate"]
+            dateRange = userForm.cleaned_data["dateRange"]
+            dateList = re.findall(r"../../....", dateRange)
             depth = userForm.cleaned_data["depth"]
+
+            startDate, endDate = dateList
 
             startDateUtc = dateparser.parse(startDate).__str__()
             endDateUtc = dateparser.parse(endDate).__str__()
@@ -30,7 +33,7 @@ def tempVsTime(request):
             return render(
                 request,
                 "dashboard/tempvstime.html",
-                context={"queryData": queryResults, "test": "test"},
+                context={"queryData": queryResults},
             )
         else:
             print(userForm.errors)
