@@ -52,15 +52,18 @@ def _createTempVsTimeQuery(
     lafStart = currentBorehole.getStart()
     lafEnd = currentBorehole.getBottom()
 
+    print(startTime, endTime)
+
     query = f"""SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
             dts_data.temperature_c, dts_data.depth_m
-            FROM measurement
+            FROM dts_config, measurement
             JOIN dts_data
             ON measurement.id = dts_data.measurement_id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
-            AND ABS(dts_data.depth_m-{depth}) < 0.001
+            AND ABS(dts_data.depth_m-{depth}) < dts_config.step_increment_m/2
             AND dts_data.laf_m BETWEEN {lafStart} AND {lafEnd}
+            AND measurement.datetime_utc BETWEEN '{startTime}' AND '{endTime}'
             limit 10;
             """
 
@@ -186,6 +189,7 @@ def getTempVsTimeResults(
         print("sending query")
         cursor.execute(query)
         print("finished executing query")
+
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -196,6 +200,8 @@ def getTempVsTimeResults(
                 "depth_m": row[5],
             }
             results.append(datapoint)
+
+    print(results)
 
     return results
 

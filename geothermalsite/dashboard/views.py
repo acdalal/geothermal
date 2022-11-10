@@ -25,8 +25,12 @@ def tempVsTime(request):
             queryResults = getTempVsTimeResults(
                 int(boreholeNumber), depth, startDateUtc, endDateUtc
             )
+
+            print(queryResults)
             return render(
-                request, "dashboard/tempvstime.html", {"queryData": queryResults}
+                request,
+                "dashboard/tempvstime.html",
+                context={"queryData": queryResults, "test": "test"},
             )
         else:
             print(userForm.errors)
