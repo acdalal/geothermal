@@ -201,8 +201,6 @@ def getTempVsTimeResults(
             }
             results.append(datapoint)
 
-    print(results)
-
     return results
 
 
