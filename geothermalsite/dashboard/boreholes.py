@@ -1,5 +1,4 @@
-### start and end laf for each of the boreholes
-
+### start, bottom, end, channel
 borehole1_data = [230.3, 388.8, 547.3, 1]
 borehole2_data = [775.1, 933.6, 1092.1, 1]
 borehole3_data = [1255.9, 1424.4, 1582.9, 1]
