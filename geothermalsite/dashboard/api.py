@@ -50,7 +50,7 @@ def _createTempVsTimeQuery(
 
     channel = currentBorehole.getChannel()
     lafStart = currentBorehole.getStart()
-    lafEnd = currentBorehole.getBottom()
+    lafBot = currentBorehole.getBottom()
 
     print(startTime, endTime)
 
@@ -62,7 +62,7 @@ def _createTempVsTimeQuery(
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
             AND ABS(dts_data.depth_m-{depth}) < dts_config.step_increment_m/2
-            AND dts_data.laf_m BETWEEN {lafStart} AND {lafEnd}
+            AND dts_data.laf_m BETWEEN {lafStart} AND {lafBot}
             AND measurement.datetime_utc BETWEEN '{startTime}' AND '{endTime}'
             limit 10;
             """
