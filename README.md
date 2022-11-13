@@ -15,3 +15,5 @@ One of the packages relies on a specific version of the Python regex library, so
 If psycopg2 doesn't install on Mac, try running \
 `brew install openssl` \
 `export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/`
+
+Function calls in api.py depends on installation of python3.9 or above version\
