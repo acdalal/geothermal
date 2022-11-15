@@ -54,20 +54,20 @@ def _createTempVsTimeQuery(
 
     print(startTime, endTime)
 
-    query = f"""SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
+    query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
-            FROM dts_data
-            INNER JOIN measurement
-            ON measurement.id = dts_data.measurement_id
-            INNER JOIN channel
-            ON measurement.channel_id = channel.id
-            INNER JOIN dts_config
-            ON channel.dts_config_id = dts_config.id
-            WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
+            FROM dts_data AS D 
+            INNER JOIN measurement AS M 
+            ON M.id = measurement_id
+            INNER JOIN channel AS H
+            ON channel_id = H.id
+            INNER JOIN dts_config AS C
+            ON dts_config_id = C.id
+            WHERE channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
-            AND ABS(dts_data.depth_m-{depth}) < dts_config.step_increment_m/2
-            AND dts_data.laf_m BETWEEN {lafStart} AND {lafBot}
-            AND measurement.datetime_utc BETWEEN '{startTime}' AND '{endTime}';
+            AND ABS(depth_m-{depth}) < step_increment_m/2
+            AND laf_m BETWEEN {lafStart} AND {lafBot}
+            AND datetime_utc BETWEEN '{startTime}' AND '{endTime}';
             """
 
     return query
@@ -98,16 +98,16 @@ def _createTempVsDepthQuery(borehole: int, timestamp: str) -> str:
     lafStart = currentBorehole.getStart()
     lafEnd = currentBorehole.getBottom()
 
-    query = f"""SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
-            dts_data.temperature_c, dts_data.depth_m
-            FROM measurement
-            JOIN dts_data
-            ON measurement.id = dts_data.measurement_id
-            WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
+    query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
+            temperature_c, depth_m
+            FROM measurement AS M 
+            JOIN dts_data AS D
+            ON M.id = D.measurement_id
+            WHERE channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
-            AND measurement.datetime_utc between '{startTime}' AND '{endTime}'
-            AND dts_data.laf_m BETWEEN {lafStart} AND {lafEnd}
-            ORDER BY dts_data.depth_m;
+            AND datetime_utc between '{startTime}' AND '{endTime}'
+            AND laf_m BETWEEN {lafStart} AND {lafEnd}
+            ORDER BY depth_m;
             """
 
     return query
