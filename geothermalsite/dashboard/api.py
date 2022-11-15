@@ -67,7 +67,8 @@ def _createTempVsTimeQuery(
                                              channel_name='channel {channel}')
             AND ABS(depth_m-{depth}) < step_increment_m/2
             AND laf_m BETWEEN {lafStart} AND {lafBot}
-            AND datetime_utc BETWEEN '{startTime}' AND '{endTime}';
+            AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
+            ORDER BY datetime_utc;
             """
 
     return query
