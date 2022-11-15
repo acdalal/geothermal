@@ -41,4 +41,10 @@ borehole3 = Borehole(borehole3_data)
 borehole4 = Borehole(borehole4_data)
 borehole5 = Borehole(borehole5_data)
 
-boreholes = {1: borehole1, 2: borehole2, 3: borehole3, 4: borehole4, 5: borehole5}
+boreholes = {
+    "1": borehole1,
+    "2": borehole2,
+    "3": borehole3,
+    "4": borehole4,
+    "5": borehole5,
+}

@@ -28,7 +28,7 @@ def _createDataOutageQuery(startTime: str, endTime: str) -> str:
 
 
 def _createTempVsTimeQuery(
-    borehole: int, depth: str, startTime: str, endTime: str
+    borehole: str, depth: str, startTime: str, endTime: str
 ) -> str:
     """
     Creates a query for getting temperature vs time results for fixed depth
@@ -56,8 +56,8 @@ def _createTempVsTimeQuery(
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
-            FROM dts_data AS D 
-            INNER JOIN measurement AS M 
+            FROM dts_data AS D
+            INNER JOIN measurement AS M
             ON M.id = measurement_id
             INNER JOIN channel AS H
             ON channel_id = H.id
@@ -74,7 +74,7 @@ def _createTempVsTimeQuery(
     return query
 
 
-def _createTempVsDepthQuery(borehole: int, timestamp: str) -> str:
+def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
 
     """
     Creates a query for getting temperature vs depth results for fixed depth
@@ -101,7 +101,7 @@ def _createTempVsDepthQuery(borehole: int, timestamp: str) -> str:
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
-            FROM measurement AS M 
+            FROM measurement AS M
             JOIN dts_data AS D
             ON M.id = D.measurement_id
             WHERE channel_id IN (SELECT id FROM channel WHERE
@@ -125,7 +125,7 @@ def _countMeasurement(request) -> list[tuple]:
     return results
 
 
-def getTempVsDepthResults(borehole: int, timestamp: str) -> list[dict]:
+def getTempVsDepthResults(borehole: str, timestamp: str) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
     the channel during that hour.
@@ -165,7 +165,7 @@ def getTempVsDepthResults(borehole: int, timestamp: str) -> list[dict]:
 
 
 def getTempVsTimeResults(
-    borehole: int, depth: str, startTime: str, endTime: str
+    borehole: str, depth: str, startTime: str, endTime: str
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with

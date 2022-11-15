@@ -10,23 +10,35 @@ def index(request):
     return render(request, "dashboard/index.html")
 
 
+def _getTempVsTimeFormData(cleanedData: dict) -> dict:
+    boreholeNumber = cleanedData["boreholeNumber"]
+    depth = cleanedData["depth"]
+
+    dateRange = cleanedData["dateRange"]
+    dateList = re.findall(r"../../....", dateRange)
+    startDate, endDate = dateList
+
+    startDateUtc = dateparser.parse(startDate).__str__()
+    endDateUtc = dateparser.parse(endDate).__str__()
+
+    return {
+        "boreholeNumber": boreholeNumber,
+        "depth": depth,
+        "startDateUtc": startDateUtc,
+        "endDateUtc": endDateUtc,
+    }
+
+
 def tempVsTime(request):
     if request.method == "POST":
-
         userForm = TempVsTimeForm(request.POST)
         if userForm.is_valid():
-            boreholeNumber = userForm.cleaned_data["boreholeNumber"]
-            dateRange = userForm.cleaned_data["dateRange"]
-            dateList = re.findall(r"../../....", dateRange)
-            depth = userForm.cleaned_data["depth"]
-
-            startDate, endDate = dateList
-
-            startDateUtc = dateparser.parse(startDate).__str__()
-            endDateUtc = dateparser.parse(endDate).__str__()
-
+            formData = _getTempVsTimeFormData(userForm.cleaned_data)
             queryResults = getTempVsTimeResults(
-                int(boreholeNumber), depth, startDateUtc, endDateUtc
+                formData["boreholeNumber"],
+                formData["depth"],
+                formData["startDateUtc"],
+                formData["endDateUtc"],
             )
 
             print(queryResults)
@@ -45,17 +57,24 @@ def tempVsTime(request):
         )
 
 
+def _getTempVsDepthFormData(cleanedData: dict) -> dict:
+    boreholeNumber = cleanedData["boreholeNumber"]
+
+    timestamp = cleanedData["timestamp"]
+    timestampUtc = dateparser.parse(timestamp).__str__()
+
+    return {"timestampUtc": timestampUtc, "boreholeNumber": boreholeNumber}
+
+
 def tempVsDepth(request):
     if request.method == "POST":
-
         userForm = TempVsDepthForm(request.POST)
         if userForm.is_valid():
-            boreholeNumber = userForm.cleaned_data["boreholeNumber"]
-            timestamp = userForm.cleaned_data["timestamp"]
+            formData = _getTempVsDepthFormData(userForm.cleaned_data)
 
-            timestampUtc = dateparser.parse(timestamp).__str__()
-
-            queryResults = getTempVsDepthResults(int(boreholeNumber), timestampUtc)
+            queryResults = getTempVsDepthResults(
+                formData["boreholeNumber"], formData["timestampUtc"]
+            )
             return render(
                 request, "dashboard/tempvsdepth.html", {"queryData": queryResults}
             )

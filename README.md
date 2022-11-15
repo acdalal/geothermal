@@ -17,3 +17,12 @@ If psycopg2 doesn't install on Mac, try running \
 `export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/`
 
 Function calls in api.py depends on installation of python3.9 or above version\
+
+## Project structure and key files
+`geothermalsite/settings.py` contains project settings such as installed apps and database configurations
+
+`geothermalsite/urls.py` specifies routing and what applications handle what URLs
+
+`dashboard/views.py` handles user forms and POST requests
+
+`dashboard/api.py` queries the database and returns cleaned data to `views.py`
