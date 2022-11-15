@@ -55,10 +55,14 @@ def _createTempVsTimeQuery(
     print(startTime, endTime)
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, dts_data.id,
-            dts_data.temperature_c, dts_data.depth_m
-            FROM dts_config, measurement
-            JOIN dts_data
+            temperature_c, depth_m
+            FROM dts_data
+            INNER JOIN measurement
             ON measurement.id = dts_data.measurement_id
+            INNER JOIN channel
+            ON measurement.channel_id = channel.id
+            INNER JOIN dts_config
+            ON channel.dts_config_id = dts_config.id
             WHERE measurement.channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
             AND ABS(dts_data.depth_m-{depth}) < dts_config.step_increment_m/2
