@@ -67,8 +67,7 @@ def _createTempVsTimeQuery(
                                              channel_name='channel {channel}')
             AND ABS(dts_data.depth_m-{depth}) < dts_config.step_increment_m/2
             AND dts_data.laf_m BETWEEN {lafStart} AND {lafBot}
-            AND measurement.datetime_utc BETWEEN '{startTime}' AND '{endTime}'
-            limit 10;
+            AND measurement.datetime_utc BETWEEN '{startTime}' AND '{endTime}';
             """
 
     return query
