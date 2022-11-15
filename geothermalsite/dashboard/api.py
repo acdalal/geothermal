@@ -52,8 +52,6 @@ def _createTempVsTimeQuery(
     lafStart = currentBorehole.getStart()
     lafBot = currentBorehole.getBottom()
 
-    print(startTime, endTime)
-
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM dts_data AS D
@@ -102,7 +100,7 @@ def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM measurement AS M
-            JOIN dts_data AS D
+            INNER JOIN dts_data AS D
             ON M.id = D.measurement_id
             WHERE channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
