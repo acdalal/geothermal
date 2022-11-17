@@ -1,6 +1,8 @@
+import time
 from django.db import connections
 from datetime import datetime, timedelta
 from .boreholes import boreholes
+
 
 
 def _createDataOutageQuery(startTime: str, endTime: str) -> str:
@@ -188,12 +190,13 @@ def getTempVsTimeResults(
     query = _createTempVsTimeQuery(borehole, depth, startTime, endTime)
     print("got the query")
     results = list()
-
+    startTime = time.time()
     with connections["geothermal"].cursor() as cursor:
         print("sending query")
+        
         cursor.execute(query)
         print("finished executing query")
-
+        print("RUNTIME:", (time.time() - startTime))
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
