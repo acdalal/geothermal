@@ -41,7 +41,6 @@ def tempVsTime(request):
                 formData["endDateUtc"],
             )
 
-            print(queryResults)
             return render(
                 request,
                 "dashboard/tempvstime.html",
