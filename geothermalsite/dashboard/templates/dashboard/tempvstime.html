@@ -18,7 +18,6 @@
         <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
         <button type="button" onclick="window.location.href='/'">Home</button>
 
-
         {% for row in queryData %}
             <div>{{ row }}</div>
 
@@ -60,7 +59,17 @@
             </script>
 
             <div>
-                <input type="submit" value="Submit">
+                <input type="submit" value="Submit" />
+            </div>
+        </form>
+
+
+        <form action="/tempvstime/download" method="post">
+            <br>
+            {% csrf_token %}
+            {{ form }}
+            <div>
+                <button onclick="window.location.href='/tempvstime/download'">Download</button>
             </div>
         </form>
     </body>

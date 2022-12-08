@@ -1,8 +1,10 @@
 from django.shortcuts import render
 import dateparser
 import re
+import csv
+from django.http import HttpResponse
 
-from .forms import TempVsTimeForm, TempVsDepthForm
+from .forms import TempVsTimeForm, TempVsTimeDownloadForm, TempVsDepthForm
 from .api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
 
 
@@ -56,6 +58,36 @@ def tempVsTime(request):
         )
 
 
+def tempVsTimeDownload(request):
+    if request.method == "POST":
+        userForm = TempVsTimeDownloadForm(request.POST)
+        if userForm.is_valid():
+            formData = _getTempVsTimeFormData(userForm.cleaned_data)
+            queryResults = getTempVsTimeResults(
+                formData["boreholeNumber"],
+                formData["depth"],
+                formData["startDateUtc"],
+                formData["endDateUtc"],
+            )
+
+        response = HttpResponse(
+            content_type="text/csv",
+            headers={
+                'Content-Disposition': 'attachment; filename="tempVsTimeDownload.csv"'},
+        )
+
+        writer = csv.writer(response)
+        writer.writerow(["channel_id", "measurement_id",
+                         "datetime_utc", "data_id", "temperature_c", "depth_m"])
+        for dictionary in queryResults:
+            writer.writerow(dictionary.values())
+        return response
+    else:
+        return render(
+            request, "dashboard/tempvstime.html", context={"form": TempVsTimeForm()}
+        )
+
+
 def _getTempVsDepthFormData(cleanedData: dict) -> dict:
     boreholeNumber = cleanedData["boreholeNumber"]
 
@@ -75,7 +107,8 @@ def tempVsDepth(request):
                 formData["boreholeNumber"], formData["timestampUtc"]
             )
             return render(
-                request, "dashboard/tempvsdepth.html", {"queryData": queryResults}
+                request, "dashboard/tempvsdepth.html", {
+                    "queryData": queryResults}
             )
         else:
             print(userForm.errors)
