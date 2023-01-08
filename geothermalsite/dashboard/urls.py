@@ -8,4 +8,5 @@ urlpatterns = [
     # path("count/", views.countMeasurement, name="count"),
     path("tempvstime/", views.tempVsTime, name="tempvstime"),
     path("tempvsdepth/", views.tempVsDepth, name="tempvsdepth"),
+    path("tempvstime/download", views.tempVsTimeDownload, name="tempvstimedownload")
 ]
