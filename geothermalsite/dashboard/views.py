@@ -7,6 +7,8 @@ from django.http import HttpResponse
 from .forms import TempVsTimeForm, TempVsTimeDownloadForm, TempVsDepthForm
 from .api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
 
+from .constants import DATA_START_DATE, DATA_END_DATE
+
 
 def index(request):
     return render(request, "dashboard/index.html")
@@ -46,15 +48,33 @@ def tempVsTime(request):
             return render(
                 request,
                 "dashboard/tempvstime.html",
-                context={"queryData": queryResults},
+                context={
+                    "queryData": queryResults,
+                    "dataStartDate": DATA_START_DATE,
+                    "dataEndDate": DATA_END_DATE,
+                },
             )
         else:
             print(userForm.errors)
-            return render(request, "dashboard/tempvstime.html", {"queryData": "error"})
+            return render(
+                request,
+                "dashboard/tempvstime.html",
+                {
+                    "queryData": "error",
+                    "dataStartDate": DATA_START_DATE,
+                    "dataEndDate": DATA_END_DATE,
+                },
+            )
 
     else:
         return render(
-            request, "dashboard/tempvstime.html", context={"form": TempVsTimeForm()}
+            request,
+            "dashboard/tempvstime.html",
+            context={
+                "form": TempVsTimeForm(),
+                "dataStartDate": DATA_START_DATE,
+                "dataEndDate": DATA_END_DATE,
+            },
         )
 
 
@@ -109,16 +129,28 @@ def tempVsDepth(request):
             return render(
                 request, "dashboard/tempvsdepth.html", {
                     "queryData": queryResults}
+                
             )
         else:
             print(userForm.errors)
             return render(
                 request,
                 "dashboard/tempvsdepth.html",
-                {"queryData": "error", "form": TempVsDepthForm()},
+                {
+                    "queryData": "error",
+                    "form": TempVsDepthForm(),
+                    "dataStartDate": DATA_START_DATE,
+                    "dataEndDate": DATA_END_DATE,
+                },
             )
 
     else:
         return render(
-            request, "dashboard/tempvsdepth.html", {"form": TempVsDepthForm()}
+            request,
+            "dashboard/tempvsdepth.html",
+            {
+                "form": TempVsDepthForm(),
+                "dataStartDate": DATA_START_DATE,
+                "dataEndDate": DATA_END_DATE,
+            },
         )

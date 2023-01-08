@@ -1,4 +1,5 @@
 from django import forms
+from .constants import DATA_START_DATE, DATA_END_DATE
 
 
 class TempVsTimeForm(forms.Form):
@@ -39,5 +40,6 @@ class TempVsDepthForm(forms.Form):
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
     )
     timestamp = forms.CharField(
-        label="at time ", widget=forms.TextInput(attrs={"autocomplete": "off"})
+        label="at time ",
+        widget=forms.TextInput(attrs={"autocomplete": "off", "value": DATA_START_DATE}),
     )

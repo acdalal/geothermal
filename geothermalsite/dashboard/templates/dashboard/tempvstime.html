@@ -6,6 +6,7 @@
 
         <title>Carleton Geothermal Data</title>
 
+        <!--daterangepicker package files-->
         <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -45,6 +46,8 @@
                     $('#id_dateRange').daterangepicker({
                         startDate: start,
                         endDate: end,
+                        minDate: "{{ dataStartDate }}",
+                        maxDate: "{{ dataEndDate }}",
                         ranges: {
                         'Last 7 Days': [moment().subtract(6, 'days'), moment()],
                         'Last 30 Days': [moment().subtract(29, 'days'), moment()],
