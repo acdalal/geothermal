@@ -4,7 +4,6 @@ from datetime import datetime, timedelta
 from .boreholes import boreholes
 
 
-
 def _createDataOutageQuery(startTime: str, endTime: str) -> str:
     """
     Creates a query for retrieving data outages during the selected period of time
@@ -19,9 +18,9 @@ def _createDataOutageQuery(startTime: str, endTime: str) -> str:
     Formatted query to be executed by the database cursor
 
     """
-
-    query = f""" SELECT outage_type_id, start_datetime_utc, end_datetime_utc, outage_type
-                 FROM measurement_outage, outage_types
+    # We don't have this outage_type table in the database right?
+    query = f""" SELECT id, channel_id, outage_type, start_datetime_utc, end_datetime_utc
+                 FROM measurement_outage
                  WHERE (start_datetime_utc BETWEEN {startTime} AND {endTime}) OR
                  (end_datetime_utc BETWEEN {startTime} AND {endTime}) OR
                  ({startTime} >= start_datetime_utc AND {endTime} <= end_datetime_utc)"""
@@ -75,7 +74,6 @@ def _createTempVsTimeQuery(
 
 
 def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
-
     """
     Creates a query for getting temperature vs depth results for fixed depth
 
@@ -193,7 +191,7 @@ def getTempVsTimeResults(
     startTime = time.time()
     with connections["geothermal"].cursor() as cursor:
         print("sending query")
-        
+
         cursor.execute(query)
         print("finished executing query")
         print("RUNTIME:", (time.time() - startTime))
@@ -222,7 +220,7 @@ def getDataOutages(startTime: str, endTime: str) -> list[tuple]:
 
     Returns
     ------------
-    A list of tuples (outageID, startTime, endTime, outageType) for each outage that happenned during the requested time range.
+    A list of tuples (outageID, channelID, outageType, start_datetime_utc, end_datetime_utc) for each outage that happenned during the requested time range.
     If no outages happenned, returns an empty list.
 
     """
@@ -235,9 +233,10 @@ def getDataOutages(startTime: str, endTime: str) -> list[tuple]:
         for row in cursor.fetchall():
             datapoint = {
                 "outage_id": row[0],
-                "start_time": row[1],
-                "end_time": row[2],
-                "outage_type": row[3],
+                "channelId": row[1],
+                "outage_type": row[2],
+                "start_time": row[3],
+                "end_time": row[4],
             }
             results.append(datapoint)
     return results

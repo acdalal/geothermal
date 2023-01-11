@@ -16,9 +16,9 @@ If psycopg2 doesn't install on Mac, try running \
 `brew install openssl` \
 `export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/openssl/lib/`
 
-Function calls in api.py depends on installation of python3.9 or above version\
+Function calls in api.py depends on installation of python3.9 or above version \
 
-Some issues may occur with psycopg2 on new Apple silicon Macs. Try installing necessary packages manually (instead of thorugh the requirements document)\
+Some issues may occur with psycopg2 on new Apple Silicon Macs. Try installing necessary packages manually (instead of thorugh the requirements document) \
 
 ## Project structure and key files
 `geothermalsite/settings.py` contains project settings such as installed apps and database configurations
