@@ -4,7 +4,12 @@ import re
 import csv
 from django.http import HttpResponse
 
-from .forms import TempVsTimeForm, TempVsTimeDownloadForm, TempVsDepthForm
+from .forms import (
+    TempVsTimeForm,
+    TempVsTimeDownloadForm,
+    TempVsDepthForm,
+    QuerySelectionForm,
+)
 from .api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
 
 from .constants import DATA_START_DATE, DATA_END_DATE
@@ -169,3 +174,27 @@ def tempVsDepth(request):
                 "dataEndDate": DATA_END_DATE,
             },
         )
+
+
+def _getQuerySelectionData(cleanedData: dict) -> dict:
+    queryType = cleanedData["queryType"]
+    return {"queryType": queryType}
+
+
+def selectQuery(request):
+    if request.method == "POST":
+        userForm = QuerySelectionForm(request.POST)
+        if userForm.is_valid():
+            formData = _getQuerySelectionData(userForm.cleaned_data)
+            queryType = formData["queryType"]
+            return render(
+                request,
+                "dashboard/{queryPath}.html".format(queryPath=queryType),
+            )
+
+        # return back to same page in the case of invalid form data
+        else:
+            return render(request, "/", context={"form": QuerySelectionForm()})
+
+    else:
+        return render(request, "/", context={"form": QuerySelectionForm()})
