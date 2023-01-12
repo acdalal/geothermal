@@ -11,11 +11,11 @@
     {{ block.super }}
 
     <!--daterangepicker package files-->
-    <!-- {% load static %}
+    {% load static %}
 
     <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
     <script type="text/javascript" src="{% static 'jquery.flot.js' %}"></script>
-    <script type="text/javascript" src="{% static 'jquery.flot.time.js' %}"></script> -->
+    <script type="text/javascript" src="{% static 'jquery.flot.time.js' %}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -32,6 +32,11 @@
         <div>{{ row }}</div>
 
     {% endfor %}
+
+    {% if queryData %}
+    <div id="graph" style="width:600px;height:300px"></div>
+
+    {% endif %}
 
     {{ test }}
 
