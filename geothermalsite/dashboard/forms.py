@@ -45,6 +45,7 @@ class TempVsDepthForm(forms.Form):
 
 class QuerySelectionForm(forms.Form):
     queryType = forms.ChoiceField(
+        label="Select a type of query:",
         choices=[
             ("tempvstime", "Temperature vs. Time"),
             ("tempvsdepth", "Temperature vs. Depth"),
