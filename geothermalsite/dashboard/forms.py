@@ -13,8 +13,7 @@ class TempVsTimeForm(forms.Form):
 
     depth = forms.IntegerField(
         label="at depth:",
-        widget=forms.NumberInput(
-            attrs={"type": "number", "min": "0", "step": "1"}),
+        widget=forms.NumberInput(attrs={"type": "number", "min": "0", "step": "1"}),
     )
 
 
@@ -29,8 +28,7 @@ class TempVsTimeDownloadForm(forms.Form):
 
     depth = forms.IntegerField(
         label="at depth:",
-        widget=forms.NumberInput(
-            attrs={"type": "number", "min": "0", "step": "1"}),
+        widget=forms.NumberInput(attrs={"type": "number", "min": "0", "step": "1"}),
     )
 
 
@@ -42,4 +40,14 @@ class TempVsDepthForm(forms.Form):
     timestamp = forms.CharField(
         label="at time ",
         widget=forms.TextInput(attrs={"autocomplete": "off", "value": DATA_START_DATE}),
+    )
+
+
+class QuerySelectionForm(forms.Form):
+    queryType = forms.ChoiceField(
+        label="Select a type of query:",
+        choices=[
+            ("tempvstime", "Temperature vs. Time"),
+            ("tempvsdepth", "Temperature vs. Depth"),
+        ],
     )

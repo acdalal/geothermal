@@ -2,16 +2,44 @@ from django.shortcuts import render
 import dateparser
 import re
 import csv
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 
-from .forms import TempVsTimeForm, TempVsTimeDownloadForm, TempVsDepthForm
+from .forms import (
+    TempVsTimeForm,
+    TempVsTimeDownloadForm,
+    TempVsDepthForm,
+    QuerySelectionForm,
+)
 from .api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
 
 from .constants import DATA_START_DATE, DATA_END_DATE
 
 
 def index(request):
-    return render(request, "dashboard/index.html")
+    if request.method == "POST":
+        userForm = QuerySelectionForm(request.POST)
+        if userForm.is_valid():
+            formData = _getQuerySelectionData(userForm.cleaned_data)
+            queryType = formData["queryType"]
+            return HttpResponseRedirect(
+                "dashboard/{queryPath}/".format(queryPath=queryType),
+            )
+
+        # return back to same page in the case of invalid form data
+        else:
+            return render(
+                request, "dashboard/index.html", context={"form": QuerySelectionForm()}
+            )
+
+    else:
+        return render(
+            request, "dashboard/index.html", context={"form": QuerySelectionForm()}
+        )
+
+
+def _getQuerySelectionData(cleanedData: dict) -> dict:
+    queryType = cleanedData["queryType"]
+    return {"queryType": queryType}
 
 
 def _getTempVsTimeFormData(cleanedData: dict) -> dict:
@@ -102,27 +130,35 @@ def tempVsTimeDownload(request):
                 formData["endDateUtc"],
             )
 
-        response = HttpResponse(
-            content_type="text/csv",
-            headers={
-                "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
-            },
-        )
+            response = HttpResponse(
+                content_type="text/csv",
+                headers={
+                    "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
+                },
+            )
 
-        writer = csv.writer(response)
-        writer.writerow(
-            [
-                "channel_id",
-                "measurement_id",
-                "datetime_utc",
-                "data_id",
-                "temperature_c",
-                "depth_m",
-            ]
-        )
-        for dictionary in queryResults:
-            writer.writerow(dictionary.values())
-        return response
+            writer = csv.writer(response)
+            writer.writerow(
+                [
+                    "channel_id",
+                    "measurement_id",
+                    "datetime_utc",
+                    "data_id",
+                    "temperature_c",
+                    "depth_m",
+                ]
+            )
+            for dictionary in queryResults:
+                writer.writerow(dictionary.values())
+
+            return response
+
+        # return back to same page in the case of invalid form data
+        else:
+            return render(
+                request, "dashboard/tempvstime.html", context={"form": TempVsTimeForm()}
+            )
+
     else:
         return render(
             request, "dashboard/tempvstime.html", context={"form": TempVsTimeForm()}
@@ -173,3 +209,8 @@ def tempVsDepth(request):
                 "dataEndDate": DATA_END_DATE,
             },
         )
+
+
+def _getQuerySelectionData(cleanedData: dict) -> dict:
+    queryType = cleanedData["queryType"]
+    return {"queryType": queryType}

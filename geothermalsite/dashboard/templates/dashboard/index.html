@@ -1,15 +1,19 @@
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'dashboard/base.html' %}
 
-        <title>Carleton Geothermal Data</title>
+{% block content %}
+    <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
 
-    </head>
-    <body>
-        <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
-        <button type="button" onclick="window.location.href='tempvstime'">Temperature VS Time</button>
-        <button type="button" onclick="window.location.href='tempvsdepth'">Temperature VS Depth</button>
+    {# Query selection dropdown form #}
+    <form action="" method="post">
+        <br>
+        {# Django requires this token statement #}
+        {% csrf_token %}
 
-    </body>
-</html>
+        {{ form.as_p }}
+
+        <input type="submit" value="Submit" class="btn btn-secondary"/>
+    </form>
+
+    <button type="button" onclick="window.location.href='tempvstime'">Temperature VS Time</button>
+    <button type="button" onclick="window.location.href='tempvsdepth'">Temperature VS Depth</button>
+{% endblock %}

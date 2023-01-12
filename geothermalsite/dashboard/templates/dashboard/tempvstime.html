@@ -1,119 +1,87 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'dashboard/base.html' %}
 
-        <title>Carleton Geothermal Data</title>
+{% block css %}
+    {{ block.super }}
 
-        <!--daterangepicker package files-->
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!--daterangepicker package files-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
 
-        <!-- {% load static %}
+{% block javascript %}
+    {{ block.super }}
 
-        <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
-        <script type="text/javascript" src="{% static 'jquery.flot.js' %}"></script>
-        <script type="text/javascript" src="{% static 'jquery.flot.time.js' %}"></script> -->
+    <!--daterangepicker package files-->
+    <!-- {% load static %}
 
+    <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jquery.flot.js' %}"></script>
+    <script type="text/javascript" src="{% static 'jquery.flot.time.js' %}"></script> -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+{% endblock %}
 
-    </head>
+{% block header %}
+    <h1>Temperature vs. Time</h1>
+{% endblock %}
 
+{% block content %}
+    <button type="button" onclick="window.location.href='/'">Home</button>
 
-    <body>
-        <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
-        <button type="button" onclick="window.location.href='/'">Home</button>
+    {% for row in queryData %}
+        <div>{{ row }}</div>
 
-        {% load static %}
-        <img src="{% static 'cat.jpg' %}" alt="My image">
+    {% endfor %}
 
+    {{ test }}
 
-        {% for row in queryData %}
-            <div>{{ row }}</div>
+    <form action="/tempvstime/" method="post">
+        <br>
+        {# Django requires this token statement #}
+        {% csrf_token %}
 
-        {% endfor %}
+        {{ form }}
 
-        {{ test }}
+        <script type="text/javascript">
+            $(function() {
 
-        <form action="/tempvstime/" method="post">
-            <br>
-            {# Django requires this token statement #}
-            {% csrf_token %}
+                var start = moment().subtract(29, 'days');
+                var end = moment();
 
-            {{ form }}
-
-            <script type="text/javascript">
-                $(function() {
-
-                    var start = moment().subtract(29, 'days');
-                    var end = moment();
-
-                    function cb(start, end) {
-                        $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                    }
-
-                    $('#id_dateRange').daterangepicker({
-                        startDate: start,
-                        endDate: end,
-                        minDate: "{{ dataStartDate }}",
-                        maxDate: "{{ dataEndDate }}",
-                        ranges: {
-                        'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                        'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                        'Last 3 Months': [moment().subtract(3, 'months'), moment()],
-                        'Last Year': [moment().subtract(1, 'years'), moment()]
-                        }
-                    }, cb);
-
-                    cb(start, end);
-
-                });
-            </script>
-
-            <div>
-                <input type="submit" value="Submit" />
-            </div>
-        </form>
-
-
-        <form action="/tempvstime/download" method="post">
-            <br>
-            {% csrf_token %}
-            {{ form }}
-            <div>
-                <button onclick="window.location.href='/tempvstime/download'">Download</button>
-            </div>
-        </form>
-
-        <div id="graph" style="width:600px;height:300px"></div>
-<!--
-        <script>
-            $.plot($("#graph"), {{ graphData }}, {
-                series: {
-                    lines: {
-                        show: true
-                    },
-                    points: {
-                        show: true
-                    }
-                },
-                grid: {
-                    hoverable: true,
-                    clickable: true
-                },
-                yaxis: {
-                    min: -1.2,
-                    max: 1.2
-                },
-                zoom: {
-                    interactive: true
-                },
-                pan: {
-                    interactive: true,
-                    enableTouch: true
+                function cb(start, end) {
+                    $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 }
+
+                $('#id_dateRange').daterangepicker({
+                    startDate: start,
+                    endDate: end,
+                    minDate: "{{ dataStartDate }}",
+                    maxDate: "{{ dataEndDate }}",
+                    ranges: {
+                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
+                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+                    'Last 3 Months': [moment().subtract(3, 'months'), moment()],
+                    'Last Year': [moment().subtract(1, 'years'), moment()]
+                    }
+                }, cb);
+
+                cb(start, end);
+
             });
-        </script> -->
-    </body>
-</html>
+        </script>
+
+        <div>
+            <input type="submit" value="Submit" />
+        </div>
+    </form>
+
+
+    <form action="/tempvstime/download" method="post">
+        <br>
+        {% csrf_token %}
+        {{ form }}
+        <div>
+            <button onclick="window.location.href='/tempvstime/download'">Download</button>
+        </div>
+    </form>
+{% endblock %}

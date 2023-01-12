@@ -1,49 +1,54 @@
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+{% extends 'dashboard/base.html' %}
 
-        <title>Carleton Geothermal Data</title>
+{% block css %}
+    {{ block.super }}
 
-        <!--daterangepicker package files-->
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-        <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-        <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+    <!--daterangepicker package files-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
 
-    </head>
+{% block javascript %}
+    {{ block.super }}
+
+    <!--daterangepicker package files-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
+{% endblock %}
+
+{% block header %}
+    <h1>Temperature vs. Depth</h1>
+{% endblock %}
+
+{% block content %}
+    <button type="button" onclick="window.location.href='/'">Home</button>
+
+    {% for row in queryData %}
+        <div>{{ row }}</div>
+
+    {% endfor %}
+
+    {{ test }}
 
 
-    <body>
-        <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
-        <button type="button" onclick="window.location.href='/'">Home</button>
+    <form action="/tempvsdepth/" method="post">
+        {% csrf_token %}
+        {{ form }}
+        {# This script enables the fancy datetime picker #}
 
-        {% for row in queryData %}
-            <div>{{ row }}</div>
-
-        {% endfor %}
-
-        {{ test }}
-
-
-        <form action="/tempvsdepth/" method="post">
-            {% csrf_token %}
-            {{ form }}
-            {# This script enables the fancy datetime picker #}
-
-            <script type="text/javascript">
-                $(function() {
-                    $('#id_timestamp').daterangepicker({
-                        singleDatePicker: true,
-                        minDate: "{{ dataStartDate }}",
-                        maxDate: "{{ dataEndDate }}",
-                    });
+        <script type="text/javascript">
+            $(function() {
+                $('#id_timestamp').daterangepicker({
+                    singleDatePicker: true,
+                    minDate: "{{ dataStartDate }}",
+                    maxDate: "{{ dataEndDate }}",
                 });
-            </script>
-            <div>
-                <input type="submit" value="Submit">
-                <button type="button">Download</button>
-            </div>
-        </form>
-    </body>
-</html>
+            });
+        </script>
+        <div>
+            <input type="submit" value="Submit">
+            <button type="button">Download</button>
+        </div>
+    </form>
+{% endblock %}
