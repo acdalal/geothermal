@@ -90,18 +90,35 @@ def tempVsTimeDownload(request):
                 formData["endDateUtc"],
             )
 
-        response = HttpResponse(
-            content_type="text/csv",
-            headers={
-                'Content-Disposition': 'attachment; filename="tempVsTimeDownload.csv"'},
-        )
+            response = HttpResponse(
+                content_type="text/csv",
+                headers={
+                    "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
+                },
+            )
 
-        writer = csv.writer(response)
-        writer.writerow(["channel_id", "measurement_id",
-                         "datetime_utc", "data_id", "temperature_c", "depth_m"])
-        for dictionary in queryResults:
-            writer.writerow(dictionary.values())
-        return response
+            writer = csv.writer(response)
+            writer.writerow(
+                [
+                    "channel_id",
+                    "measurement_id",
+                    "datetime_utc",
+                    "data_id",
+                    "temperature_c",
+                    "depth_m",
+                ]
+            )
+            for dictionary in queryResults:
+                writer.writerow(dictionary.values())
+
+            return response
+
+        # return back to same page in the case of invalid form data
+        else:
+            return render(
+                request, "dashboard/tempvstime.html", context={"form": TempVsTimeForm()}
+            )
+
     else:
         return render(
             request, "dashboard/tempvstime.html", context={"form": TempVsTimeForm()}
@@ -127,9 +144,7 @@ def tempVsDepth(request):
                 formData["boreholeNumber"], formData["timestampUtc"]
             )
             return render(
-                request, "dashboard/tempvsdepth.html", {
-                    "queryData": queryResults}
-                
+                request, "dashboard/tempvsdepth.html", {"queryData": queryResults}
             )
         else:
             print(userForm.errors)
