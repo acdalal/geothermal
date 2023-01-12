@@ -11,12 +11,23 @@
         <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
         <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
+        <!-- {% load static %}
+
+        <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
+        <script type="text/javascript" src="{% static 'jquery.flot.js' %}"></script>
+        <script type="text/javascript" src="{% static 'jquery.flot.time.js' %}"></script> -->
+
+
     </head>
 
 
     <body>
         <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
         <button type="button" onclick="window.location.href='/'">Home</button>
+
+        {% load static %}
+        <img src="{% static 'cat.jpg' %}" alt="My image">
+
 
         {% for row in queryData %}
             <div>{{ row }}</div>
@@ -74,5 +85,35 @@
                 <button onclick="window.location.href='/tempvstime/download'">Download</button>
             </div>
         </form>
+
+        <div id="graph" style="width:600px;height:300px"></div>
+<!--
+        <script>
+            $.plot($("#graph"), {{ graphData }}, {
+                series: {
+                    lines: {
+                        show: true
+                    },
+                    points: {
+                        show: true
+                    }
+                },
+                grid: {
+                    hoverable: true,
+                    clickable: true
+                },
+                yaxis: {
+                    min: -1.2,
+                    max: 1.2
+                },
+                zoom: {
+                    interactive: true
+                },
+                pan: {
+                    interactive: true,
+                    enableTouch: true
+                }
+            });
+        </script> -->
     </body>
 </html>

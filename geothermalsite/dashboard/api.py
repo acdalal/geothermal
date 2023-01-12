@@ -199,7 +199,7 @@ def getTempVsTimeResults(
             datapoint = {
                 "channel_id": row[0],
                 "measurement_id": row[1],
-                "datatime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
+                "datetime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
                 "data_id": row[3],
                 "temperature_c": row[4],
                 "depth_m": row[5],
