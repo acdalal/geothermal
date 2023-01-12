@@ -2,6 +2,18 @@
 
 {% block content %}
     <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
+
+    {# Query selection dropdown form #}
+    <form action="" method="post">
+        <br>
+        {# Django requires this token statement #}
+        {% csrf_token %}
+
+        {{ form.as_p }}
+
+        <input type="submit" value="Submit" class="btn btn-secondary"/>
+    </form>
+
     <button type="button" onclick="window.location.href='tempvstime'">Temperature VS Time</button>
     <button type="button" onclick="window.location.href='tempvsdepth'">Temperature VS Depth</button>
 {% endblock %}
