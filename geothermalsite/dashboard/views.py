@@ -65,9 +65,10 @@ def _convertTotempVsTimeGraphData(queryResults: list) -> list:
     graphData = list()
 
     for datapoint in queryResults:
-        graphData.append([datapoint["temperature_c"], datapoint["temperature_c"]])
+        temperature = int(datapoint["temperature_c"])
+        graphData.append([temperature, temperature])
 
-    return graphData
+    return [[[0, 0], [1, 1], [2, 2]]]
 
 
 def tempVsTime(request):
