@@ -1,8 +1,10 @@
+import time
 from django.shortcuts import render
 import dateparser
 import re
 import csv
 from django.http import HttpResponse, HttpResponseRedirect
+import datetime
 
 from .forms import (
     TempVsTimeForm,
@@ -61,14 +63,19 @@ def _getTempVsTimeFormData(cleanedData: dict) -> dict:
     }
 
 
-def _convertTotempVsTimeGraphData(queryResults: list) -> list:
+def _convertTotempVsTimeGraphData(queryResults: list, borehole: int) -> list:
     graphData = list()
 
     for datapoint in queryResults:
         temperature = int(datapoint["temperature_c"])
-        graphData.append([temperature, temperature])
+        datetimeString = datapoint["datetime_utc"]
+        dateTime = datetime.datetime.strptime(datetimeString, "%Y-%m-%d %H:%M:%S")
+        jsTime = int(time.mktime(dateTime.timetuple()))
+        options = {}
 
-    return [[[0, 0], [1, 1], [2, 2]]]
+        graphData.append([jsTime, temperature])
+
+    return [graphData]
 
 
 def tempVsTime(request):
@@ -83,7 +90,8 @@ def tempVsTime(request):
                 formData["endDateUtc"],
             )
 
-            graphData = _convertTotempVsTimeGraphData(queryResults)
+            borehole = int(formData["boreholeNumber"])
+            graphData = _convertTotempVsTimeGraphData(queryResults, borehole)
 
             return render(
                 request,
