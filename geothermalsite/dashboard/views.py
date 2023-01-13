@@ -39,6 +39,10 @@ def index(request):
         )
 
 
+def about(request):
+    return render(request, "dashboard/about.html", context=None)
+
+
 def _getQuerySelectionData(cleanedData: dict) -> dict:
     queryType = cleanedData["queryType"]
     return {"queryType": queryType}
