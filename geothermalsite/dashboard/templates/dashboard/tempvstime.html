@@ -47,11 +47,19 @@
 
                 var start = moment().subtract(29, 'days');
                 var end = moment();
+                console.log(start);
+                console.log(end);
+
 
                 function cb(start, end) {
                     $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 }
 
+                var disabledRanges = [];
+                {% for range in outageList %}
+                    disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                {% endfor %}
+                console.log(disabledRanges);
                 $('#id_dateRange').daterangepicker({
                     startDate: start,
                     endDate: end,
@@ -62,6 +70,15 @@
                     'Last 30 Days': [moment().subtract(29, 'days'), moment()],
                     'Last 3 Months': [moment().subtract(3, 'months'), moment()],
                     'Last Year': [moment().subtract(1, 'years'), moment()]
+                    },
+                    opens: 'center',
+                    isInvalidDate: function(date) {
+                        for (var i = 0; i < disabledRanges.length; i++) {
+                            if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                return true;
+                            }
+                        }
+                        return false;
                     }
                 }, cb);
 

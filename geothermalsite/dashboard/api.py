@@ -4,6 +4,14 @@ from datetime import datetime, timedelta
 from .boreholes import boreholes
 
 
+def _createEntireDataOutageQuery() -> str:
+    query = f""" SELECT id, channel_id, outage_type, start_datetime_utc, end_datetime_utc
+                 FROM measurement_outage
+                 """
+
+    return query
+
+
 def _createDataOutageQuery(startTime: str, endTime: str) -> str:
     """
     Creates a query for retrieving data outages during the selected period of time
@@ -209,7 +217,7 @@ def getTempVsTimeResults(
     return results
 
 
-def getDataOutages(startTime: str, endTime: str) -> list[tuple]:
+def getDataOutages() -> list[dict]:
     """
     Finds all data outages or errors in the given time range.
 
@@ -225,7 +233,7 @@ def getDataOutages(startTime: str, endTime: str) -> list[tuple]:
 
     """
 
-    query = _createDataOutageQuery(startTime, endTime)
+    query = _createEntireDataOutageQuery()
     results = list()
 
     with connections["geothermal"].cursor() as cursor:
@@ -233,7 +241,7 @@ def getDataOutages(startTime: str, endTime: str) -> list[tuple]:
         for row in cursor.fetchall():
             datapoint = {
                 "outage_id": row[0],
-                "channelId": row[1],
+                "channel_id": row[1],
                 "outage_type": row[2],
                 "start_time": row[3],
                 "end_time": row[4],

@@ -3,6 +3,7 @@ import dateparser
 import re
 import csv
 from django.http import HttpResponse, HttpResponseRedirect
+from datetime import datetime
 
 from .forms import (
     TempVsTimeForm,
@@ -81,7 +82,6 @@ def tempVsTime(request):
                 formData["startDateUtc"],
                 formData["endDateUtc"],
             )
-
             graphData = _convertTotempVsTimeGraphData(queryResults)
 
             return render(
@@ -107,6 +107,8 @@ def tempVsTime(request):
             )
 
     else:
+        outageList = getDataOutages()
+        truncated_outageList = _truncateDateTime(outageList)
         return render(
             request,
             "dashboard/tempvstime.html",
@@ -114,8 +116,19 @@ def tempVsTime(request):
                 "form": TempVsTimeForm(),
                 "dataStartDate": DATA_START_DATE,
                 "dataEndDate": DATA_END_DATE,
+                "outageList": truncated_outageList,
             },
         )
+
+
+def _truncateDateTime(dates):
+    truncatedDates = []
+    for i in range(len(dates)):
+        dateDict = dates[i]
+        start = dateDict.get("start_time").date()
+        end = dateDict.get("end_time").date()
+        truncatedDates.append({"startDate": start, "endDate": end})
+    return truncatedDates
 
 
 def tempVsTimeDownload(request):
