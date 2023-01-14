@@ -73,10 +73,8 @@ def _convertTotempVsTimeGraphData(queryResults: list, borehole: int) -> list:
     for datapoint in queryResults:
         temperature = int(datapoint["temperature_c"])
         datetimeString = datapoint["datetime_utc"]
-        dateTime = datetime.datetime.strptime(datetimeString, "%Y-%m-%d %H:%M:%S")
+        dateTime = datetime.strptime(datetimeString, "%Y-%m-%d %H:%M:%S")
         jsTime = int(time.mktime(dateTime.timetuple()))
-        options = {}
-
         graphData.append([jsTime, temperature])
 
     return [graphData]

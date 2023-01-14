@@ -44,7 +44,7 @@
     {% if queryData %}
 
     <script src="{% static 'main.js' %}"></script>
-    <script src="{% static 'graph.js' %}" type="module"></script>
+    <script src="{% static 'tempVsTimeGraph.js' %}" type="module"></script>
     <script>
         var series1 = {{ graphData|safe}};
     </script>
