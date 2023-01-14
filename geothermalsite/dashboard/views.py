@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import render
 import dateparser
 import re
@@ -38,6 +39,10 @@ def index(request):
         )
 
 
+def about(request):
+    return render(request, "dashboard/about.html", context=None)
+
+
 def _getQuerySelectionData(cleanedData: dict) -> dict:
     queryType = cleanedData["queryType"]
     return {"queryType": queryType}
@@ -62,13 +67,19 @@ def _getTempVsTimeFormData(cleanedData: dict) -> dict:
     }
 
 
-def _convertTotempVsTimeGraphData(queryResults: list) -> list:
+def _convertTotempVsTimeGraphData(queryResults: list, borehole: int) -> list:
     graphData = list()
 
     for datapoint in queryResults:
-        graphData.append([datapoint["temperature_c"], datapoint["temperature_c"]])
+        temperature = int(datapoint["temperature_c"])
+        datetimeString = datapoint["datetime_utc"]
+        dateTime = datetime.datetime.strptime(datetimeString, "%Y-%m-%d %H:%M:%S")
+        jsTime = int(time.mktime(dateTime.timetuple()))
+        options = {}
 
-    return graphData
+        graphData.append([jsTime, temperature])
+
+    return [graphData]
 
 
 def tempVsTime(request):
@@ -82,7 +93,9 @@ def tempVsTime(request):
                 formData["startDateUtc"],
                 formData["endDateUtc"],
             )
-            graphData = _convertTotempVsTimeGraphData(queryResults)
+
+            borehole = int(formData["boreholeNumber"])
+            graphData = _convertTotempVsTimeGraphData(queryResults, borehole)
 
             return render(
                 request,

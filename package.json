@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "flot": "^4.2.3"
+  }
+}
