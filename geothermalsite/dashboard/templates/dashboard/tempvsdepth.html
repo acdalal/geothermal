@@ -24,12 +24,30 @@
 {% block content %}
     <button type="button" onclick="window.location.href='/'">Home</button>
 
-    {% for row in queryData %}
-        <div>{{ row }}</div>
+    {% if queryData %}
+    <details>
+        <summary>See Data</summary>
+            <div>
+                {% for row in queryData %}
+                    <div>{{ row }}</div>
+                {% endfor %}
+            </div>
+    </details>
+    {% endif %}
 
-    {% endfor %}
 
-    {{ test }}
+    {% if queryData %}
+    {% load static %}
+
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'tempVsDepthGraph.js' %}" type="module"></script>
+    <script>
+        var series1 = {{ graphData|safe}};
+    </script>
+
+    <div id="graph" style="width:100%;height:500px"></div>
+    {% endif %}
+
 
 
     <form action="/tempvsdepth/" method="post">

@@ -67,17 +67,21 @@
         <script type="text/javascript">
             $(function() {
 
-                var start = moment("20190101", "YYYYMMDD")
+                var start = moment().subtract(29, 'days');
                 var end = moment();
+                console.log(start);
+                console.log(end);
+
 
                 function cb(start, end) {
-                    $('#id_dateRange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                    $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                 }
 
                 var disabledRanges = [];
                 {% for range in outageList %}
                     disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
                 {% endfor %}
+                console.log(disabledRanges);
                 $('#id_dateRange').daterangepicker({
                     startDate: start,
                     endDate: end,
