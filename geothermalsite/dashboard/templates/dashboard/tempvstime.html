@@ -83,17 +83,7 @@
                 {% endfor %}
                 console.log(disabledRanges);
                 $('#id_dateRange').daterangepicker({
-                    startDate: start,
-                    endDate: end,
-                    minDate: "{{ dataStartDate }}",
-                    maxDate: "{{ dataEndDate }}",
-                    ranges: {
-                    'Last 7 Days': [moment().subtract(6, 'days'), moment()],
-                    'Last 30 Days': [moment().subtract(29, 'days'), moment()],
-                    'Last 3 Months': [moment().subtract(3, 'months'), moment()],
-                    'Last Year': [moment().subtract(1, 'years'), moment()]
-                    },
-                    opens: 'center',
+
                     isInvalidDate: function(date) {
                         for (var i = 0; i < disabledRanges.length; i++) {
                             if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
@@ -101,7 +91,16 @@
                             }
                         }
                         return false;
-                    }
+                    },
+                    minDate: start,
+                    maxDate: end,
+                    ranges: {
+                    'Last 7 Available Days': [moment("20220904").subtract(6, 'days'), moment()],
+                    'Last 30 Available Days': [moment("20220904").subtract(29, 'days'), moment()],
+                    'Last 3 Available Months': [moment("20220904").subtract(3, 'months'), moment()],
+                    'Last Available Year': [moment("20220904").subtract(1, 'years'), moment()]
+                    },
+
                 }, cb);
 
                 cb(start, end);
