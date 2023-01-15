@@ -225,7 +225,12 @@ def tempVsDepth(request):
             return render(
                 request,
                 "dashboard/tempvsdepth.html",
-                {"queryData": queryResults, "graphData": graphData},
+                {
+                    "queryData": queryResults,
+                    "graphData": graphData,
+                    "dataStartDate": DATA_START_DATE,
+                    "dataEndDate": DATA_END_DATE,
+                },
             )
         else:
             print(userForm.errors)

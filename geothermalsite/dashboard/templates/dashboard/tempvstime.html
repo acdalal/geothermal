@@ -92,8 +92,8 @@
                         }
                         return false;
                     },
-                    minDate: start,
-                    maxDate: end,
+                    minDate: "{{ dataStartDate }}",
+                    maxDate: "{{ dataEndDate }}",
                     ranges: {
                     'Last 7 Available Days': [moment("20220904").subtract(6, 'days'), moment()],
                     'Last 30 Available Days': [moment("20220904").subtract(29, 'days'), moment()],
