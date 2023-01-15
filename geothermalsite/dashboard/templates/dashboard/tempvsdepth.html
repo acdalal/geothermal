@@ -69,4 +69,23 @@
             <button type="button">Download</button>
         </div>
     </form>
+
+    <form action="/tempvsdepth/download" method="post">
+        {% csrf_token %}
+        {{ form }}
+        {# This script enables the fancy datetime picker #}
+
+        <script type="text/javascript">
+            $(function() {
+                $('#id_timestamp').daterangepicker({
+                    singleDatePicker: true,
+                    minDate: "{{ dataStartDate }}",
+                    maxDate: "{{ dataEndDate }}",
+                });
+            });
+        </script>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
 {% endblock %}
