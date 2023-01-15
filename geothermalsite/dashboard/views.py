@@ -251,6 +251,53 @@ def tempVsDepth(request):
             },
         )
 
+def tempVsDepthDownload(request):
+    if request.method == "POST":
+        userForm = TempVsDepthForm(request.POST)
+        if userForm.is_valid():
+            formData = _getTempVsDepthFormData(userForm.cleaned_data)
+
+            queryResults = getTempVsDepthResults(
+                formData["boreholeNumber"], formData["timestampUtc"]
+            )
+
+            graphData = _convertToTempVsDepthData(
+                queryResults, formData["boreholeNumber"]
+            )
+
+            response = HttpResponse(
+                content_type="text/csv",
+                headers={
+                    "Content-Disposition": 'attachment; filename="tempVsDepthDownload.csv"'
+                },
+            )
+
+            writer = csv.writer(response)
+            writer.writerow(
+                [
+                    "channel_id",
+                    "measurement_id",
+                    "datetime_utc",
+                    "data_id",
+                    "temperature_c",
+                    "depth_m",
+                ]
+            )
+            for dictionary in queryResults:
+                writer.writerow(dictionary.values())
+
+            return response
+
+        # return back to same page in the case of invalid form data
+        else:
+            return render(
+                request, "dashboard/tempvsdepth.html", context={"form": TempVsDepthForm()}
+            )
+
+    else:
+        return render(
+            request, "dashboard/tempvstime.html", context={"form": TempVsDepthForm()}
+        )
 
 def _getQuerySelectionData(cleanedData: dict) -> dict:
     queryType = cleanedData["queryType"]
