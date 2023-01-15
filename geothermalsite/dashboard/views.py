@@ -251,6 +251,7 @@ def tempVsDepth(request):
             },
         )
 
+
 def tempVsDepthDownload(request):
     if request.method == "POST":
         userForm = TempVsDepthForm(request.POST)
@@ -291,13 +292,16 @@ def tempVsDepthDownload(request):
         # return back to same page in the case of invalid form data
         else:
             return render(
-                request, "dashboard/tempvsdepth.html", context={"form": TempVsDepthForm()}
+                request,
+                "dashboard/tempvsdepth.html",
+                context={"form": TempVsDepthForm()},
             )
 
     else:
         return render(
             request, "dashboard/tempvstime.html", context={"form": TempVsDepthForm()}
         )
+
 
 def _getQuerySelectionData(cleanedData: dict) -> dict:
     queryType = cleanedData["queryType"]
