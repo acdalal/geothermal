@@ -54,7 +54,7 @@ def _convertToTempVsTimeGraphData(queryResults: list, borehole: int) -> list:
     graphData = list()
 
     for datapoint in queryResults:
-        temperature = int(datapoint["temperature_c"])
+        temperature = float(datapoint["temperature_c"])
         datetimeString = datapoint["datetime_utc"]
         dateTime = datetime.strptime(datetimeString, "%Y-%m-%d %H:%M:%S")
         jsTime = int(time.mktime(dateTime.timetuple()))
@@ -67,7 +67,7 @@ def _convertToTempVsDepthData(queryResults: list, borehole: int) -> list:
     graphData = list()
 
     for datapoint in queryResults:
-        temperature = int(datapoint["temperature_c"])
+        temperature = float(datapoint["temperature_c"])
         depth = int(datapoint["depth_m"])
         graphData.append([depth, temperature])
 
