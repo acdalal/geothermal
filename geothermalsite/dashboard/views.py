@@ -110,6 +110,10 @@ def about(request):
     return render(request, "dashboard/about.html", context=None)
 
 
+def documentation(request):
+    return render(request, "dashboard/documentation.html", context=None)
+
+
 def tempVsTime(request):
     if request.method == "POST":
         userForm = TempVsTimeForm(request.POST)

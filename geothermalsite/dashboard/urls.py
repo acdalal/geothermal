@@ -9,4 +9,5 @@ urlpatterns = [
     path("tempvstime/download", views.tempVsTimeDownload, name="tempvstimedownload"),
     path("tempvsdepth/download", views.tempVsDepthDownload, name="tempvsdepthdownload"),
     path("about/", views.about, name="about"),
+    path("documentation/", views.documentation, name="documentation"),
 ]
