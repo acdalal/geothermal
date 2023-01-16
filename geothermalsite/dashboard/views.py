@@ -149,7 +149,7 @@ def tempVsTime(request):
 
     else:
         outageList = getDataOutages()
-        truncated_outageList = _truncateDateTime(outageList)
+        truncatedOutageList = _truncateDateTime(outageList)
         return render(
             request,
             "dashboard/tempvstime.html",
@@ -157,7 +157,7 @@ def tempVsTime(request):
                 "form": TempVsTimeForm(),
                 "dataStartDate": DATA_START_DATE,
                 "dataEndDate": DATA_END_DATE,
-                "outageList": truncated_outageList,
+                "outageList": truncatedOutageList,
             },
         )
 
@@ -246,6 +246,8 @@ def tempVsDepth(request):
             )
 
     else:
+        outageList = getDataOutages()
+        truncatedOutageList = _truncateDateTime(outageList)
         return render(
             request,
             "dashboard/tempvsdepth.html",
@@ -253,6 +255,7 @@ def tempVsDepth(request):
                 "form": TempVsDepthForm(),
                 "dataStartDate": DATA_START_DATE,
                 "dataEndDate": DATA_END_DATE,
+                "outageList": truncatedOutageList,
             },
         )
 
