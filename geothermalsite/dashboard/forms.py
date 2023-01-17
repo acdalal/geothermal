@@ -3,6 +3,19 @@ from .helper.constants import DATA_START_DATE, DATA_END_DATE
 
 
 class TempVsTimeForm(forms.Form):
+    """
+    A class used to represent a temperature vs. time form.
+
+    Attributes
+    ----------
+    boreholeNumber : django.forms.ChoiceField
+        the borehole options a user may select to query
+    dateRange : django.forms.CharField
+        the date range that is queried for
+    depth : django.forms.IntegerField
+        the integer depth a user may select to query
+    """
+
     boreholeNumber = forms.ChoiceField(
         label="Display temperature from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
@@ -18,6 +31,19 @@ class TempVsTimeForm(forms.Form):
 
 
 class TempVsTimeDownloadForm(forms.Form):
+    """
+    A class used to represent a temperature vs. time download form.
+
+    Attributes
+    ----------
+    boreholeNumber : django.forms.ChoiceField
+        the borehole options a user may select to query
+    dateRange : django.forms.CharField
+        the date range that is queried for
+    depth : django.forms.IntegerField
+        the integer depth a user may select to query
+    """
+
     boreholeNumber = forms.ChoiceField(
         label="Display temperature from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
@@ -33,6 +59,17 @@ class TempVsTimeDownloadForm(forms.Form):
 
 
 class TempVsDepthForm(forms.Form):
+    """
+    A class used to represent a temperature vs. depth form.
+
+    Attributes
+    ----------
+    boreholeNumber : django.forms.ChoiceField
+        the borehole options a user may select to query
+    timestamp : django.forms.CharField
+        the time stamp to query data at, with a minimum at the data start date
+    """
+
     boreholeNumber = forms.ChoiceField(
         label="Display temperature from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
@@ -44,6 +81,15 @@ class TempVsDepthForm(forms.Form):
 
 
 class QuerySelectionForm(forms.Form):
+    """
+    A class used to represent a query selection form.
+
+    Attributes
+    ----------
+    queryType : django.forms.ChoiceField
+        the type of query to be executed
+    """
+
     queryType = forms.ChoiceField(
         label="Select a type of query:",
         choices=[
