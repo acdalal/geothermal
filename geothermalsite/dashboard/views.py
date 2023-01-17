@@ -1,10 +1,7 @@
-import time
-from django.shortcuts import render
-import dateparser
-import re
 import csv
+
+from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
-from datetime import datetime
 
 from .forms import (
     TempVsTimeForm,
@@ -13,65 +10,13 @@ from .forms import (
     QuerySelectionForm,
 )
 from .api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
-
+from .processUserForms import (
+    getQuerySelectionData,
+    getTempVsDepthFormData,
+    getTempVsTimeFormData,
+)
+from .visualization import convertToTempVsDepthGraphData, convertToTempVsTimeGraphData
 from .constants import DATA_START_DATE, DATA_END_DATE
-
-
-def _getQuerySelectionData(cleanedData: dict) -> dict:
-    queryType = cleanedData["queryType"]
-    return {"queryType": queryType}
-
-
-def _getTempVsTimeFormData(cleanedData: dict) -> dict:
-    boreholeNumber = cleanedData["boreholeNumber"]
-    depth = cleanedData["depth"]
-
-    dateRange = cleanedData["dateRange"]
-    dateList = re.findall(r"../../....", dateRange)
-    startDate, endDate = dateList
-
-    startDateUtc = dateparser.parse(startDate).__str__()
-    endDateUtc = dateparser.parse(endDate).__str__()
-
-    return {
-        "boreholeNumber": boreholeNumber,
-        "depth": depth,
-        "startDateUtc": startDateUtc,
-        "endDateUtc": endDateUtc,
-    }
-
-
-def _getTempVsDepthFormData(cleanedData: dict) -> dict:
-    boreholeNumber = cleanedData["boreholeNumber"]
-
-    timestamp = cleanedData["timestamp"]
-    timestampUtc = dateparser.parse(timestamp).__str__()
-
-    return {"timestampUtc": timestampUtc, "boreholeNumber": boreholeNumber}
-
-
-def _convertToTempVsTimeGraphData(queryResults: list, borehole: int) -> list:
-    graphData = list()
-
-    for datapoint in queryResults:
-        temperature = float(datapoint["temperature_c"])
-        datetimeString = datapoint["datetime_utc"]
-        dateTime = datetime.strptime(datetimeString, "%Y-%m-%d %H:%M:%S")
-        jsTime = int(time.mktime(dateTime.timetuple()))
-        graphData.append([jsTime, temperature])
-
-    return [graphData]
-
-
-def _convertToTempVsDepthData(queryResults: list, borehole: int) -> list:
-    graphData = list()
-
-    for datapoint in queryResults:
-        temperature = float(datapoint["temperature_c"])
-        depth = int(datapoint["depth_m"])
-        graphData.append([depth, temperature])
-
-    return [graphData]
 
 
 def _truncateDateTime(dates):
@@ -84,26 +29,99 @@ def _truncateDateTime(dates):
     return truncatedDates
 
 
+def renderIndexPage(request):
+    """
+    A shortcut function that renders index.html and generates the query selection form
+    """
+    return render(
+        request, "dashboard/index.html", context={"form": QuerySelectionForm()}
+    )
+
+
+def renderTempVsTimePage(request, queryResults=None, borehole=None):
+    """
+    A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
+    """
+    if queryResults and borehole:
+        graphData = convertToTempVsTimeGraphData(queryResults, borehole)
+    else:
+        graphData = None
+    return render(
+        request,
+        "dashboard/tempvstime.html",
+        context={
+            "form": TempVsTimeForm(),
+            "queryData": queryResults,
+            "graphData": graphData,
+            "dataStartDate": DATA_START_DATE,
+            "dataEndDate": DATA_END_DATE,
+        },
+    )
+
+
+def renderTempVsDepthPage(request, queryResults=None, borehole=None):
+    """
+    A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
+    """
+    if queryResults and borehole:
+        graphData = convertToTempVsDepthGraphData(queryResults, borehole)
+    else:
+        graphData = None
+
+    outageList = getDataOutages()
+    truncated_outageList = _truncateDateTime(outageList)
+    return render(
+        request,
+        "dashboard/tempvstime.html",
+        context={
+            "form": TempVsDepthForm(),
+            "queryData": queryResults,
+            "graphData": graphData,
+            "dataStartDate": DATA_START_DATE,
+            "dataEndDate": DATA_END_DATE,
+            "outageList": truncated_outageList,
+        },
+    )
+
+
+def getUserQueryType(request) -> str:
+    """
+    From the front-page query selection form, extracts the user response
+    """
+    userForm = QuerySelectionForm(request.POST)
+    assert userForm.is_valid()
+
+    formData = getQuerySelectionData(userForm.cleaned_data)
+    queryType = formData["queryType"]
+    return queryType
+
+
+def getUserTempsVsTimeQuery(request) -> dict:
+    """
+    From the temperature vs time form, extracts the user response and formats it into a dictionary
+    """
+    userForm = TempVsTimeForm(request.POST)
+    assert userForm.is_valid()
+    formData = getTempVsTimeFormData(userForm.cleaned_data)
+
+    return formData
+
+
 def index(request):
     if request.method == "POST":
-        userForm = QuerySelectionForm(request.POST)
-        if userForm.is_valid():
-            formData = _getQuerySelectionData(userForm.cleaned_data)
-            queryType = formData["queryType"]
-            return HttpResponseRedirect(
-                "dashboard/{queryPath}/".format(queryPath=queryType),
-            )
+        queryType = getUserQueryType(request)
 
-        # return back to same page in the case of invalid form data
+        if queryType == "tempvstime":
+            return renderTempVsTimePage(request)
+        if queryType == "tempvsdepth":
+            return renderTempVsDepthPage(request)
         else:
-            return render(
-                request, "dashboard/index.html", context={"form": QuerySelectionForm()}
+            raise (
+                'User selected query type is invalid, should be "tempvstime" or "tempvsdepth"'
             )
 
     else:
-        return render(
-            request, "dashboard/index.html", context={"form": QuerySelectionForm()}
-        )
+        return renderIndexPage(request)
 
 
 def about(request):
@@ -112,61 +130,28 @@ def about(request):
 
 def tempVsTime(request):
     if request.method == "POST":
-        userForm = TempVsTimeForm(request.POST)
-        if userForm.is_valid():
-            formData = _getTempVsTimeFormData(userForm.cleaned_data)
-            queryResults = getTempVsTimeResults(
-                formData["boreholeNumber"],
-                formData["depth"],
-                formData["startDateUtc"],
-                formData["endDateUtc"],
-            )
+        formData = getUserTempsVsTimeQuery(request)
+        queryResults = getTempVsTimeResults(
+            formData["boreholeNumber"],
+            formData["depth"],
+            formData["startDateUtc"],
+            formData["endDateUtc"],
+        )
 
-            borehole = int(formData["boreholeNumber"])
-            graphData = _convertToTempVsTimeGraphData(queryResults, borehole)
-
-            return render(
-                request,
-                "dashboard/tempvstime.html",
-                context={
-                    "queryData": queryResults,
-                    "graphData": graphData,
-                    "dataStartDate": DATA_START_DATE,
-                    "dataEndDate": DATA_END_DATE,
-                },
-            )
-        else:
-            print(userForm.errors)
-            return render(
-                request,
-                "dashboard/tempvstime.html",
-                {
-                    "queryData": "error",
-                    "dataStartDate": DATA_START_DATE,
-                    "dataEndDate": DATA_END_DATE,
-                },
-            )
+        borehole = int(formData["boreholeNumber"])
+        return renderTempVsTimePage(request, queryResults, borehole)
 
     else:
-        outageList = getDataOutages()
-        truncated_outageList = _truncateDateTime(outageList)
-        return render(
-            request,
-            "dashboard/tempvstime.html",
-            context={
-                "form": TempVsTimeForm(),
-                "dataStartDate": DATA_START_DATE,
-                "dataEndDate": DATA_END_DATE,
-                "outageList": truncated_outageList,
-            },
-        )
+        return renderTempVsTimePage(request)
 
 
 def tempVsTimeDownload(request):
     if request.method == "POST":
         userForm = TempVsTimeDownloadForm(request.POST)
         if userForm.is_valid():
-            formData = _getTempVsTimeFormData(userForm.cleaned_data)
+            print("hiii")
+            formData = getTempVsTimeFormData(userForm.cleaned_data)
+            print(formData)
             queryResults = getTempVsTimeResults(
                 formData["boreholeNumber"],
                 formData["depth"],
@@ -213,13 +198,13 @@ def tempVsDepth(request):
     if request.method == "POST":
         userForm = TempVsDepthForm(request.POST)
         if userForm.is_valid():
-            formData = _getTempVsDepthFormData(userForm.cleaned_data)
+            formData = getTempVsDepthFormData(userForm.cleaned_data)
 
             queryResults = getTempVsDepthResults(
                 formData["boreholeNumber"], formData["timestampUtc"]
             )
 
-            graphData = _convertToTempVsDepthData(
+            graphData = convertToTempVsDepthGraphData(
                 queryResults, formData["boreholeNumber"]
             )
             return render(
@@ -261,13 +246,13 @@ def tempVsDepthDownload(request):
     if request.method == "POST":
         userForm = TempVsDepthForm(request.POST)
         if userForm.is_valid():
-            formData = _getTempVsDepthFormData(userForm.cleaned_data)
+            formData = getTempVsDepthFormData(userForm.cleaned_data)
 
             queryResults = getTempVsDepthResults(
                 formData["boreholeNumber"], formData["timestampUtc"]
             )
 
-            graphData = _convertToTempVsDepthData(
+            graphData = convertToTempVsDepthGraphData(
                 queryResults, formData["boreholeNumber"]
             )
 
