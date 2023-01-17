@@ -21,7 +21,13 @@ class TempVsTimeForm(forms.Form):
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
     )
     dateRange = forms.CharField(
-        label="during ", widget=forms.TextInput(attrs={"autocomplete": "off"})
+        label="during ",
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete": "off",
+                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+            }
+        ),
     )
 
     depth = forms.IntegerField(
@@ -49,7 +55,13 @@ class TempVsTimeDownloadForm(forms.Form):
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
     )
     dateRange = forms.CharField(
-        label="during ", widget=forms.TextInput(attrs={"autocomplete": "off"})
+        label="during ",
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete": "off",
+                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+            }
+        ),
     )
 
     depth = forms.IntegerField(

@@ -1,4 +1,3 @@
-console.log(series1)
 var options = {
     series: {
         lines: { show: true },
@@ -19,4 +18,10 @@ var options = {
         gridLines: true,
     }
 };
-console.log($.plot("#graph", series1, options));
+
+plot = $.plot("#graph", series1, options);
+console.log(plot);
+var myCanvas = plot.getCanvas();
+var image = myCanvas.toDataURL();
+image = image.replace("image/png","image/octet-stream");
+document.location.href=image;
