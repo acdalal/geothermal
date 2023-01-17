@@ -1,7 +1,10 @@
-import time
 import dateparser
 import re
-import csv
+from ..forms import (
+    TempVsTimeForm,
+    TempVsDepthForm,
+    QuerySelectionForm,
+)
 
 
 def getQuerySelectionData(cleanedData: dict) -> dict:
@@ -44,3 +47,36 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     timestampUtc = dateparser.parse(timestamp).__str__()
 
     return {"timestampUtc": timestampUtc, "boreholeNumber": boreholeNumber}
+
+
+def getUserTempsVsTimeQuery(request) -> dict:
+    """
+    From the temperature vs time form, extracts the user response and formats it into a dictionary
+    """
+    userForm = TempVsTimeForm(request.POST)
+    assert userForm.is_valid()
+    formData = getTempVsTimeFormData(userForm.cleaned_data)
+
+    return formData
+
+
+def getUserTempVsDepthQuery(request) -> dict:
+    """
+    From the temperature vs depth form, extracts the user response and formats it into a dictionary
+    """
+    userForm = TempVsDepthForm(request.POST)
+    assert userForm.is_valid()
+    formData = getTempVsDepthFormData(userForm.cleaned_data)
+    return formData
+
+
+def getUserQueryType(request) -> str:
+    """
+    From the front-page query selection form, extracts the user response
+    """
+    userForm = QuerySelectionForm(request.POST)
+    assert userForm.is_valid()
+
+    formData = getQuerySelectionData(userForm.cleaned_data)
+    queryType = formData["queryType"]
+    return queryType
