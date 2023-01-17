@@ -1,47 +1,37 @@
-from django.shortcuts import render
 import csv
-from django.http import HttpResponse, HttpResponseRedirect
 
-from .forms import (
-    TempVsTimeForm,
-    TempVsTimeDownloadForm,
-    TempVsDepthForm,
-    QuerySelectionForm,
+from django.shortcuts import render
+from django.http import HttpResponse
+
+from .helper.api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
+from .helper.processUserForms import (
+    getUserTempsVsTimeQuery,
+    getUserTempVsDepthQuery,
+    getUserQueryType,
 )
-from .api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
-
-from .constants import DATA_START_DATE, DATA_END_DATE
-
-from .viewshelpers import (
-    _getQuerySelectionData,
-    _getTempVsTimeFormData,
-    _getTempVsDepthFormData,
-    _convertToTempVsTimeGraphData,
-    _convertToTempVsDepthData,
-    _truncateDateTime,
+from .helper.constants import DATA_START_DATE, DATA_END_DATE
+from .helper.renderFunctions import (
+    renderIndexPage,
+    renderTempVsDepthPage,
+    renderTempVsTimePage,
 )
 
 
 def index(request):
     if request.method == "POST":
-        userForm = QuerySelectionForm(request.POST)
-        if userForm.is_valid():
-            formData = _getQuerySelectionData(userForm.cleaned_data)
-            queryType = formData["queryType"]
-            return HttpResponseRedirect(
-                "dashboard/{queryPath}/".format(queryPath=queryType),
-            )
+        queryType = getUserQueryType(request)
 
-        # return back to same page in the case of invalid form data
+        if queryType == "tempvstime":
+            return renderTempVsTimePage(request)
+        if queryType == "tempvsdepth":
+            return renderTempVsDepthPage(request)
         else:
-            return render(
-                request, "dashboard/index.html", context={"form": QuerySelectionForm()}
+            raise (
+                'User selected query type is invalid, should be "tempvstime" or "tempvsdepth"'
             )
 
     else:
-        return render(
-            request, "dashboard/index.html", context={"form": QuerySelectionForm()}
-        )
+        return renderIndexPage(request)
 
 
 def about(request):
@@ -54,200 +44,98 @@ def documentation(request):
 
 def tempVsTime(request):
     if request.method == "POST":
-        userForm = TempVsTimeForm(request.POST)
-        if userForm.is_valid():
-            formData = _getTempVsTimeFormData(userForm.cleaned_data)
-            queryResults = getTempVsTimeResults(
-                formData["boreholeNumber"],
-                formData["depth"],
-                formData["startDateUtc"],
-                formData["endDateUtc"],
-            )
+        formData = getUserTempsVsTimeQuery(request)
+        queryResults = getTempVsTimeResults(
+            formData["boreholeNumber"],
+            formData["depth"],
+            formData["startDateUtc"],
+            formData["endDateUtc"],
+        )
 
-            borehole = int(formData["boreholeNumber"])
-            graphData = _convertToTempVsTimeGraphData(queryResults, borehole)
-
-            return render(
-                request,
-                "dashboard/tempvstime.html",
-                context={
-                    "queryData": queryResults,
-                    "graphData": graphData,
-                    "dataStartDate": DATA_START_DATE,
-                    "dataEndDate": DATA_END_DATE,
-                },
-            )
-        else:
-            print(userForm.errors)
-            return render(
-                request,
-                "dashboard/tempvstime.html",
-                {
-                    "queryData": "error",
-                    "dataStartDate": DATA_START_DATE,
-                    "dataEndDate": DATA_END_DATE,
-                },
-            )
+        borehole = int(formData["boreholeNumber"])
+        return renderTempVsTimePage(request, queryResults, borehole)
 
     else:
-        outageList = getDataOutages()
-        truncatedOutageList = _truncateDateTime(outageList)
-        return render(
-            request,
-            "dashboard/tempvstime.html",
-            context={
-                "form": TempVsTimeForm(),
-                "dataStartDate": DATA_START_DATE,
-                "dataEndDate": DATA_END_DATE,
-                "outageList": truncatedOutageList,
-            },
-        )
+        return renderTempVsTimePage(request)
 
 
 def tempVsTimeDownload(request):
     if request.method == "POST":
-        userForm = TempVsTimeDownloadForm(request.POST)
-        if userForm.is_valid():
-            formData = _getTempVsTimeFormData(userForm.cleaned_data)
-            queryResults = getTempVsTimeResults(
-                formData["boreholeNumber"],
-                formData["depth"],
-                formData["startDateUtc"],
-                formData["endDateUtc"],
-            )
+        formData = getUserTempsVsTimeQuery(request)
+        queryResults = getTempVsTimeResults(
+            formData["boreholeNumber"],
+            formData["depth"],
+            formData["startDateUtc"],
+            formData["endDateUtc"],
+        )
 
-            response = HttpResponse(
-                content_type="text/csv",
-                headers={
-                    "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
-                },
-            )
+        response = HttpResponse(
+            content_type="text/csv",
+            headers={
+                "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
+            },
+        )
 
-            writer = csv.writer(response)
-            writer.writerow(
-                [
-                    "channel_id",
-                    "measurement_id",
-                    "datetime_utc",
-                    "data_id",
-                    "temperature_c",
-                    "depth_m",
-                ]
-            )
-            for dictionary in queryResults:
-                writer.writerow(dictionary.values())
+        writer = csv.writer(response)
+        writer.writerow(
+            [
+                "channel_id",
+                "measurement_id",
+                "datetime_utc",
+                "data_id",
+                "temperature_c",
+                "depth_m",
+            ]
+        )
+        for dictionary in queryResults:
+            writer.writerow(dictionary.values())
 
-            return response
-
-        # return back to same page in the case of invalid form data
-        else:
-            return render(
-                request, "dashboard/tempvstime.html", context={"form": TempVsTimeForm()}
-            )
+        return response
 
     else:
-        return render(
-            request, "dashboard/tempvstime.html", context={"form": TempVsTimeForm()}
-        )
+        return renderTempVsDepthPage(request)
 
 
 def tempVsDepth(request):
     if request.method == "POST":
-        userForm = TempVsDepthForm(request.POST)
-        if userForm.is_valid():
-            formData = _getTempVsDepthFormData(userForm.cleaned_data)
-
-            queryResults = getTempVsDepthResults(
-                formData["boreholeNumber"], formData["timestampUtc"]
-            )
-
-            graphData = _convertToTempVsDepthData(
-                queryResults, formData["boreholeNumber"]
-            )
-            return render(
-                request,
-                "dashboard/tempvsdepth.html",
-                {
-                    "queryData": queryResults,
-                    "graphData": graphData,
-                    "dataStartDate": DATA_START_DATE,
-                    "dataEndDate": DATA_END_DATE,
-                },
-            )
-        else:
-            print(userForm.errors)
-            return render(
-                request,
-                "dashboard/tempvsdepth.html",
-                {
-                    "queryData": "error",
-                    "form": TempVsDepthForm(),
-                    "dataStartDate": DATA_START_DATE,
-                    "dataEndDate": DATA_END_DATE,
-                },
-            )
+        formData = getUserTempVsDepthQuery(request)
+        queryResults = getTempVsDepthResults(
+            formData["boreholeNumber"], formData["timestampUtc"]
+        )
+        return renderTempVsDepthPage(request, queryResults)
 
     else:
-        outageList = getDataOutages()
-        truncatedOutageList = _truncateDateTime(outageList)
-        return render(
-            request,
-            "dashboard/tempvsdepth.html",
-            {
-                "form": TempVsDepthForm(),
-                "dataStartDate": DATA_START_DATE,
-                "dataEndDate": DATA_END_DATE,
-                "outageList": truncatedOutageList,
-            },
-        )
+        return renderTempVsDepthPage(request)
 
 
 def tempVsDepthDownload(request):
     if request.method == "POST":
-        userForm = TempVsDepthForm(request.POST)
-        if userForm.is_valid():
-            formData = _getTempVsDepthFormData(userForm.cleaned_data)
+        formData = getUserTempVsDepthQuery(request)
+        queryResults = getTempVsDepthResults(
+            formData["boreholeNumber"], formData["timestampUtc"]
+        )
+        response = HttpResponse(
+            content_type="text/csv",
+            headers={
+                "Content-Disposition": 'attachment; filename="tempVsDepthDownload.csv"'
+            },
+        )
 
-            queryResults = getTempVsDepthResults(
-                formData["boreholeNumber"], formData["timestampUtc"]
-            )
+        writer = csv.writer(response)
+        writer.writerow(
+            [
+                "channel_id",
+                "measurement_id",
+                "datetime_utc",
+                "data_id",
+                "temperature_c",
+                "depth_m",
+            ]
+        )
+        for dictionary in queryResults:
+            writer.writerow(dictionary.values())
 
-            graphData = _convertToTempVsDepthData(
-                queryResults, formData["boreholeNumber"]
-            )
-
-            response = HttpResponse(
-                content_type="text/csv",
-                headers={
-                    "Content-Disposition": 'attachment; filename="tempVsDepthDownload.csv"'
-                },
-            )
-
-            writer = csv.writer(response)
-            writer.writerow(
-                [
-                    "channel_id",
-                    "measurement_id",
-                    "datetime_utc",
-                    "data_id",
-                    "temperature_c",
-                    "depth_m",
-                ]
-            )
-            for dictionary in queryResults:
-                writer.writerow(dictionary.values())
-
-            return response
-
-        # return back to same page in the case of invalid form data
-        else:
-            return render(
-                request,
-                "dashboard/tempvsdepth.html",
-                context={"form": TempVsDepthForm()},
-            )
+        return response
 
     else:
-        return render(
-            request, "dashboard/tempvstime.html", context={"form": TempVsDepthForm()}
-        )
+        return renderTempVsDepthPage(request)
