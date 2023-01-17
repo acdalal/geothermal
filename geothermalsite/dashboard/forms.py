@@ -35,6 +35,11 @@ class TempVsTimeForm(forms.Form):
         widget=forms.NumberInput(attrs={"type": "number", "min": "0", "step": "1"}),
     )
 
+    download = forms.BooleanField(
+        label = "Download data", 
+        required = False,
+    )
+    
 
 class TempVsTimeDownloadForm(forms.Form):
     """

@@ -28,12 +28,15 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
 
     startDateUtc = dateparser.parse(startDate).__str__()
     endDateUtc = dateparser.parse(endDate).__str__()
+    
+    download = cleanedData["download"]
 
     return {
         "boreholeNumber": boreholeNumber,
         "depth": depth,
         "startDateUtc": startDateUtc,
         "endDateUtc": endDateUtc,
+        "download": download,
     }
 
 

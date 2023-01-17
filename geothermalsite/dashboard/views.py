@@ -42,23 +42,6 @@ def documentation(request):
     return render(request, "dashboard/documentation.html", context=None)
 
 
-def tempVsTime(request):
-    if request.method == "POST":
-        formData = getUserTempsVsTimeQuery(request)
-        queryResults = getTempVsTimeResults(
-            formData["boreholeNumber"],
-            formData["depth"],
-            formData["startDateUtc"],
-            formData["endDateUtc"],
-        )
-
-        borehole = int(formData["boreholeNumber"])
-        return renderTempVsTimePage(request, queryResults, borehole)
-
-    else:
-        return renderTempVsTimePage(request)
-
-
 def tempVsTimeDownload(request):
     if request.method == "POST":
         formData = getUserTempsVsTimeQuery(request)
@@ -93,7 +76,47 @@ def tempVsTimeDownload(request):
         return response
 
     else:
-        return renderTempVsDepthPage(request)
+        return False
+        #return renderTempVsDepthPage(request)
+
+def tempVsTime(request):
+    if request.method == "POST":
+        formData = getUserTempsVsTimeQuery(request)
+        queryResults = getTempVsTimeResults(
+            formData["boreholeNumber"],
+            formData["depth"],
+            formData["startDateUtc"],
+            formData["endDateUtc"],
+        )
+        if formData["download"]:
+            response = HttpResponse(
+            content_type="text/csv",
+            headers={
+                "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
+            },
+            )
+
+            writer = csv.writer(response)
+            writer.writerow(
+                [
+                    "channel_id",
+                    "measurement_id",
+                    "datetime_utc",
+                    "data_id",
+                    "temperature_c",
+                    "depth_m",
+                ]
+            )
+            for dictionary in queryResults:
+                writer.writerow(dictionary.values())
+
+            return response
+
+        borehole = int(formData["boreholeNumber"])
+        return renderTempVsTimePage(request, queryResults, borehole)
+
+    else:
+        return renderTempVsTimePage(request)
 
 
 def tempVsDepth(request):
