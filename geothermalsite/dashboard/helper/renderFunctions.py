@@ -68,7 +68,7 @@ def renderTempVsDepthPage(request, queryResults=None, borehole=None):
     # print(outageList)
     return render(
         request,
-        "dashboard/tempvstime.html",
+        "dashboard/tempvsdepth.html",
         context={
             "form": TempVsDepthForm(),
             "queryData": queryResults,
