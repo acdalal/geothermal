@@ -128,6 +128,10 @@ def about(request):
     return render(request, "dashboard/about.html", context=None)
 
 
+def documentation(request):
+    return render(request, "dashboard/documentation.html", context=None)
+
+
 def tempVsTime(request):
     if request.method == "POST":
         formData = getUserTempsVsTimeQuery(request)
@@ -231,6 +235,8 @@ def tempVsDepth(request):
             )
 
     else:
+        outageList = getDataOutages()
+        truncatedOutageList = _truncateDateTime(outageList)
         return render(
             request,
             "dashboard/tempvsdepth.html",
@@ -238,6 +244,7 @@ def tempVsDepth(request):
                 "form": TempVsDepthForm(),
                 "dataStartDate": DATA_START_DATE,
                 "dataEndDate": DATA_END_DATE,
+                "outageList": truncatedOutageList,
             },
         )
 

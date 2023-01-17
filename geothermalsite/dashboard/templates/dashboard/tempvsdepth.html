@@ -51,16 +51,30 @@
 
 
     <form action="/tempvsdepth/" method="post">
+        <br>
         {% csrf_token %}
         {{ form }}
         {# This script enables the fancy datetime picker #}
 
         <script type="text/javascript">
             $(function() {
+                var disabledRanges = [];
+                {% for range in outageList %}
+                    disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                {% endfor %}
                 $('#id_timestamp').daterangepicker({
                     singleDatePicker: true,
                     minDate: "{{ dataStartDate }}",
                     maxDate: "{{ dataEndDate }}",
+                    isInvalidDate: function(date) {
+                        for (var i = 0; i < disabledRanges.length; i++) {
+                            if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    },
+
                 });
             });
         </script>
@@ -77,6 +91,7 @@
 
         <script type="text/javascript">
             $(function() {
+                {% comment %} the id in this function must be different than the id from the function above {% endcomment %}
                 $('#id_timestamp').daterangepicker({
                     singleDatePicker: true,
                     minDate: "{{ dataStartDate }}",
