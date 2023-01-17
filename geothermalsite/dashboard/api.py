@@ -5,6 +5,13 @@ from .boreholes import boreholes
 
 
 def _createEntireDataOutageQuery() -> str:
+    """
+    Creates a query for retrieving all data outages
+
+    Returns
+    --------
+    Formatted query to be executed by the database cursor
+    """
     query = f""" SELECT id, channel_id, outage_type, start_datetime_utc, end_datetime_utc
                  FROM measurement_outage
                  """
@@ -16,7 +23,7 @@ def _createDataOutageQuery(startTime: str, endTime: str) -> str:
     """
     Creates a query for retrieving data outages during the selected period of time
 
-    Paramete
+    Parameters
     -----------
     startTime: start of the time range
     endTime: end of the time range
@@ -24,8 +31,8 @@ def _createDataOutageQuery(startTime: str, endTime: str) -> str:
     Returns
     -----------
     Formatted query to be executed by the database cursor
-
     """
+
     # We don't have this outage_type table in the database right?
     query = f""" SELECT id, channel_id, outage_type, start_datetime_utc, end_datetime_utc
                  FROM measurement_outage
@@ -52,9 +59,8 @@ def _createTempVsTimeQuery(
     Returns
     -----------
     Formatted query to be executed by the database cursor
-
-
     """
+
     currentBorehole = boreholes[borehole]
 
     channel = currentBorehole.getChannel()
@@ -88,14 +94,14 @@ def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
     Parameters
     -----------
     channel: ID of the borehole to query
-    timestamp: point in time for the query; if no measurements taken at that exact moment, the closest measurements are returned instead
+    timestamp: point in time for the query; if no measurements taken at that
+        exact moment, the closest measurements are returned instead
 
     Returns
     -----------
     Formatted query to be executed by the database cursor
-
-
     """
+
     startTime = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
     endTime = startTime + timedelta(minutes=30)
 
@@ -120,17 +126,6 @@ def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
     return query
 
 
-def _countMeasurement(request) -> list[tuple]:
-    """
-    Proof of concept query
-    """
-    query = "select COUNT(*) from measurement"
-    with connections["geothermal"].cursor() as cursor:
-        cursor.execute(query)
-        results = cursor.fetchall()
-    return results
-
-
 def getTempVsDepthResults(borehole: str, timestamp: str) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -144,10 +139,6 @@ def getTempVsDepthResults(borehole: str, timestamp: str) -> list[dict]:
     Returns
     ----------
     A dictionary with the query data (column label:data point)
-
-    Example
-    ----------
-    TODO
     """
 
     query = _createTempVsDepthQuery(borehole, timestamp)
@@ -187,10 +178,6 @@ def getTempVsTimeResults(
     Returns
     ----------
     A dictionary with the results of the query
-
-    Example
-    ----------
-    TODO
     """
 
     query = _createTempVsTimeQuery(borehole, depth, startTime, endTime)
@@ -219,18 +206,23 @@ def getTempVsTimeResults(
 
 def getDataOutages() -> list[dict]:
     """
-    Finds all data outages or errors in the given time range.
+    Finds all data outages or errors in the database.
+
+    # TODO: re-write this documentation, since this function takes no
+    #       parameters, but the below information may still be useful elsewhere
 
     Parameters
     ------------
     startTime: a timestamp for the start of the time range in UTC time format.
-    endTIme: a timestamp for the end of the time range in UTC time format. To get info on outages for only one timestamp, pass the same value for startTime and endTime.
+    endTime: a timestamp for the end of the time range in UTC time format.
+        To get info on outages for only one timestamp, pass the same value
+        for startTime and endTime.
 
     Returns
     ------------
-    A list of tuples (outageID, channelID, outageType, start_datetime_utc, end_datetime_utc) for each outage that happenned during the requested time range.
-    If no outages happenned, returns an empty list.
-
+    A list of tuples (outageID, channelID, outageType, start_datetime_utc,
+    end_datetime_utc) for each outage that happened during the requested
+    time range. If no outages happened, returns an empty list.
     """
 
     query = _createEntireDataOutageQuery()
