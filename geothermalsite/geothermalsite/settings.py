@@ -136,3 +136,36 @@ STATIC_ROOT = os.path.join(BASE_DIR, "static")
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+"""
+Logging for tracking DB queries and other program information
+Uses Django's specified logging practices:
+    https://docs.djangoproject.com/en/4.1/howto/logging/
+
+By default, the logger accepts log messages of all levels and
+processes messages from all loggers.
+"""
+LOGGING = {
+    "version": 1,  # the dictConfig format version
+    "disable_existing_loggers": False,  # retain the default loggers
+    "handlers": {
+        "file": {
+            "class": "logging.FileHandler",
+            "filename": "general.log",  # log destination
+            "formatter": "verbose",  # write log in format given by verbose formatter
+        },
+    },
+    "loggers": {
+        "": {  # '' means it will process records from all loggers
+            "level": "INFO",
+            "handlers": ["file"],
+        },
+    },
+    "formatters": {
+        "verbose": {
+            "format": "{asctime} | {levelname} | {message}",
+            "style": "{",
+        },
+    },
+}
