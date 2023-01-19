@@ -8,7 +8,8 @@ from .api import getDataOutages
 
 def truncateDateTime(dates):
     """
-    TODO
+    A function that trims the data outages from the database into YYYY-MM-DD format.
+    The timestamp is unneccesary for disabling day(s) in the daterangepicker (calendar).
     """
     truncatedDates = []
     for i in range(len(dates)):
