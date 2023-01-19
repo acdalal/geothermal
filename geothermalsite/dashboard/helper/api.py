@@ -3,7 +3,7 @@ import sys
 from django.db import connections
 from datetime import datetime, timedelta
 from .boreholes import boreholes
-from .logging import log_info_for_query
+from .logging import log_query_as_INFO
 
 
 def _createEntireDataOutageQuery() -> str:
@@ -167,7 +167,7 @@ def getTempVsDepthResults(borehole: str, timestamp: str) -> list[dict]:
             total_bytes += sys.getsizeof(row)
 
         # log the query execution as an INFO log
-        log_info_for_query(
+        log_query_as_INFO(
             query,
             query_end_time - query_start_time,
             total_bytes,
@@ -196,15 +196,16 @@ def getTempVsTimeResults(
     """
 
     query = _createTempVsTimeQuery(borehole, depth, startTime, endTime)
-    print("got the query")
     results = list()
-    startTime = time.time()
-    with connections["geothermal"].cursor() as cursor:
-        print("sending query")
 
+    with connections["geothermal"].cursor() as cursor:
+        # record query execution time
+        query_start_time = time.time()
         cursor.execute(query)
-        print("finished executing query")
-        print("RUNTIME:", (time.time() - startTime))
+        query_end_time = time.time()
+
+        # clean results and record query result size
+        total_bytes = 0
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -215,6 +216,14 @@ def getTempVsTimeResults(
                 "depth_m": row[5],
             }
             results.append(datapoint)
+            total_bytes += sys.getsizeof(row)
+
+        # log the query execution as an INFO log
+        log_query_as_INFO(
+            query,
+            query_end_time - query_start_time,
+            total_bytes,
+        )
 
     return results
 

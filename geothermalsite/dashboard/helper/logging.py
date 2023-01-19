@@ -25,8 +25,8 @@ def get_user_ip_address(request):
     return ip_address
 
 
-def log_info_for_query(query: str, execution_time: int, bytes: int):
-    """Logs information about the executed query as an INFO type
+def log_query_as_INFO(query: str, execution_time: int, bytes: int):
+    """Logs information about the executed query at INFO level
 
     Parameters
     ----------
