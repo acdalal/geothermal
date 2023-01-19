@@ -165,6 +165,7 @@ LOGGING = {
     "formatters": {
         "verbose": {
             "format": "{asctime} | {levelname} | {message}",
+            "datefmt": "%m/%d/%Y %I:%M:%S %p %Z",
             "style": "{",
         },
     },
