@@ -158,7 +158,7 @@ LOGGING = {
     },
     "loggers": {
         "": {  # '' means it will process records from all loggers
-            "level": "INFO",
+            "level": "DEBUG",
             "handlers": ["file"],
         },
     },
