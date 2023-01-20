@@ -1,10 +1,12 @@
 {% extends 'dashboard/base.html' %}
 
 {% block css %}
+
     {{ block.super }}
 
     <!--daterangepicker package files-->
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+
 {% endblock %}
 
 {% block javascript %}
@@ -12,8 +14,9 @@
 
     <!--daterangepicker package files-->
     {% load static %}
-
+    {% comment %} <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script> {% endcomment %}
     <script type="text/javascript" src="{% static 'main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'loadingWheel.js' %}"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
@@ -39,9 +42,9 @@
             </div>
     </details>
 
-    
+
     <div>
-        <script> 
+        <script>
             function downloadData() {
                 var queryData = {{queryData}}
                 response = HttpResponse(
@@ -69,11 +72,11 @@
                 return response
 
                 }
-            
+
             </script>
         <button onclick="downloadData()">Download data</button>
     </div>
-    
+
     {% endif %}
 
 
@@ -91,7 +94,7 @@
 
 
 
-    <form action="/tempvstime/" method="post">
+    <form action="/tempvstime/" method="post" id="tempvstimeform">
         <br>
         {# Django requires this token statement #}
         {% csrf_token %}
@@ -138,12 +141,16 @@
 
             });
         </script>
-
         <div>
             <input type="submit" value="Submit" />
         </div>
     </form>
+    <div id="loading-wheel-box" class="text-center mt-3" style="display:none;">
+        <div id="loading-wheel">
+            <img src="https://d31kydh6n6r5j5.cloudfront.net/wp-content/themes/standard-theme/images/spinners/c-ray-spinner-2x.gif" alt="Loading...">
+        </div>
+    </div>
 
 
-    
+
 {% endblock %}
