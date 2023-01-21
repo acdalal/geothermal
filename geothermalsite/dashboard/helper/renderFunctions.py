@@ -2,7 +2,7 @@ from django.shortcuts import render
 from ..forms import TempVsTimeForm, TempVsDepthForm, QuerySelectionForm
 
 from .constants import DATA_END_DATE, DATA_START_DATE
-from .visualization import convertToTempVsDepthGraphData, convertToTempVsTimeGraphData
+from .visualization import toChartJsTempVsTime, toChartJsTempVsDepth
 from .api import getDataOutages
 
 
@@ -34,12 +34,14 @@ def renderTempVsTimePage(request, queryResults=None, borehole=None):
     A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
     """
     if queryResults and borehole:
-        graphData = convertToTempVsTimeGraphData(queryResults, borehole)
+        graphData = toChartJsTempVsTime(queryResults, borehole)
     else:
-        graphData = None
+        graphData = dict()
 
     outageList = getDataOutages()
     truncated_outageList = truncateDateTime(outageList)
+    print(graphData)
+
     # print(outageList)
     return render(
         request,
@@ -47,7 +49,8 @@ def renderTempVsTimePage(request, queryResults=None, borehole=None):
         context={
             "form": TempVsTimeForm(),
             "queryData": queryResults,
-            "graphData": graphData,
+            "xData": graphData.get("x"),
+            "yData": graphData.get("y"),
             "dataStartDate": DATA_START_DATE,
             "dataEndDate": DATA_END_DATE,
             "outageList": truncated_outageList,
@@ -60,9 +63,9 @@ def renderTempVsDepthPage(request, queryResults=None, borehole=None):
     A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
     """
     if queryResults and borehole:
-        graphData = convertToTempVsDepthGraphData(queryResults, borehole)
+        graphData = toChartJsTempVsDepth(queryResults, borehole)
     else:
-        graphData = None
+        graphData = dict()
 
     outageList = getDataOutages()
     truncated_outageList = truncateDateTime(outageList)
@@ -73,7 +76,8 @@ def renderTempVsDepthPage(request, queryResults=None, borehole=None):
         context={
             "form": TempVsDepthForm(),
             "queryData": queryResults,
-            "graphData": graphData,
+            "xData": graphData.get("x"),
+            "yData": graphData.get("y"),
             "dataStartDate": DATA_START_DATE,
             "dataEndDate": DATA_END_DATE,
             "outageList": truncated_outageList,

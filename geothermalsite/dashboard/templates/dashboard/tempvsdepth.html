@@ -42,7 +42,8 @@
     <script src="{% static 'main.js' %}"></script>
     <script src="{% static 'tempVsDepthGraph.js' %}" type="module"></script>
     <script>
-        var series1 = {{ graphData|safe}};
+        var labels = {{ graphData["labels"]}};
+        var data = {{ graphData["temperatures"]}};
     </script>
 
     <div id="graph" style="width:100%;height:500px"></div>
@@ -91,7 +92,7 @@
 
         <script type="text/javascript">
             $(function() {
-                {% comment %} the id in this function must be different than the id from the function above {% endcomment %}
+                // the id in this function must be different than the id from the function above
                 $('#id_timestamp2').daterangepicker({
                     singleDatePicker: true,
                     minDate: "{{ dataStartDate }}",

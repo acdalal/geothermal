@@ -1,29 +1,26 @@
-var options = {
-    series: {
-        lines: { show: true },
-        points: { show: true },
-        hoverable: true,
-        clickable: true
-    },
-    xaxis: {
-        show: true,
-        mode: "time",
-        inverted: false,
-        timezone: "browser",
-        gridLines: true,
-        timeformat: "%Y-%m-%d %H:%M:%S"
-    },
-    yaxis: {
-        show: true,
-        inverted: false,
-        timezone: "browser",
-        gridLines: true,
-    }
-};
+var ctx = document.getElementById("tempvstimegraph").getContext("2d");
 
-plot = $.plot("#graph", series1, options);
-console.log(plot);
-var myCanvas = plot.getCanvas();
-var image = myCanvas.toDataURL();
-image = image.replace("image/png","image/octet-stream");
-document.location.href=image;
+var myChart = new Chart(ctx, {
+  type: 'line',
+  options: {
+    scales: {
+      xAxes: [{
+        type: 'time',
+      }]
+    },
+    legend: {
+        onClick: null
+    }
+  },
+  data: {
+    labels: labels,
+    datasets: [{
+      label: 'Temperature vs Time',
+      data: data,
+      backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: 'rgba(255, 99, 132, 1)',
+      borderWidth: 1,
+      pointRadius: 0  // this will remove the circles on data points
+    }]
+  }
+});

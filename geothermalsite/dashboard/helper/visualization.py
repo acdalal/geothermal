@@ -2,31 +2,30 @@ from datetime import datetime
 import time
 
 
-def convertToTempVsTimeGraphData(queryResults: list, borehole: int) -> list:
+def toChartJsTempVsTime(queryResults: list, borehole: int) -> dict:
     """
     Takes the database query output from temperature vs time query and modifies it to fit the format for the flot library
     """
-    graphData = list()
-
+    temperatures, labels = list(), list()
     for datapoint in queryResults:
         temperature = float(datapoint["temperature_c"])
         datetimeString = datapoint["datetime_utc"]
-        dateTime = datetime.strptime(datetimeString, "%Y-%m-%d %H:%M:%S")
-        jsTime = int(time.mktime(dateTime.timetuple()))
-        graphData.append([jsTime, temperature])
+        temperatures.append(temperature)
+        labels.append(datetimeString)
 
-    return [graphData]
+    return {"x": temperatures, "y": labels}
 
 
-def convertToTempVsDepthGraphData(queryResults: list, borehole: int) -> list:
+def toChartJsTempVsDepth(queryResults: list, borehole: int) -> dict:
     """
     Takes the database query output from temperature vs depth query and modifies it to fit the format for the flot library
     """
-    graphData = list()
+    temperatures, labels = list(), list()
 
     for datapoint in queryResults:
         temperature = float(datapoint["temperature_c"])
         depth = int(datapoint["depth_m"])
-        graphData.append([depth, temperature])
+        labels.append(depth)
+        temperatures.append(temperature)
 
-    return [graphData]
+    return {"x": temperatures, "y": labels}
