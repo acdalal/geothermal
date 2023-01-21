@@ -42,7 +42,6 @@ def renderTempVsTimePage(request, queryResults=None, borehole=None):
     truncated_outageList = truncateDateTime(outageList)
     print(graphData)
 
-    # print(outageList)
     return render(
         request,
         "dashboard/tempvstime.html",
@@ -68,8 +67,8 @@ def renderTempVsDepthPage(request, queryResults=None, borehole=None):
         graphData = dict()
 
     outageList = getDataOutages()
+    print("1", graphData)
     truncated_outageList = truncateDateTime(outageList)
-    # print(outageList)
     return render(
         request,
         "dashboard/tempvsdepth.html",

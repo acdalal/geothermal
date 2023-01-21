@@ -27,5 +27,6 @@ def toChartJsTempVsDepth(queryResults: list, borehole: int) -> dict:
         depth = int(datapoint["depth_m"])
         labels.append(depth)
         temperatures.append(temperature)
+    print("0", labels)
 
     return {"x": temperatures, "y": labels}

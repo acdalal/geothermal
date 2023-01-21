@@ -16,7 +16,7 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
     {% endblock %}
 
 {% block header %}
@@ -43,15 +43,31 @@
     <div>
         <script>
             function downloadData() {
-                var queryData = {{queryData | safe}}
-                response = HttpResponse(
+                var queryData = {{queryData | safe}};
+                var csv = '';
+                var keys = Object.keys(queryData[0])
+                keys.forEach(element => {
+                    csv += element;
+                    csv += ',\n';
+                });
+
+                queryData.forEach(row => {
+                    keys.forEach(element => {
+                        csv += row[element];
+                        csv += ',';
+                    })
+                    csv = csv.slice(0, -1) //remove the last comma
+                    csv += '\n';
+                })
+                console.log(csv)
+                var response = HttpResponse(
                     content_type="text/csv",
                     headers={
                         "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
                     },
                 )
 
-                writer = csv.writer(response)
+                var writer = csv.writer(response)
                 writer.writerow(
                     [
                         "channel_id",
@@ -81,11 +97,11 @@
 
     <script src="{% static 'tempVsTimeGraph.js' %}" type="module"></script>
     <script>
-        var labels = {{ yData | safe}};
-        var data = {{ xData | safe}};
+        var yData = {{ yData | safe}};
+        var xData = {{ xData | safe}};
     </script>
     <div class="container">
-        <canvas id="tempvstimegraph"></canvas>
+        <canvas id="ctx"></canvas>
     </div>
 
     {% endif %}
@@ -127,10 +143,10 @@
                     minDate: "{{ dataStartDate }}",
                     maxDate: "{{ dataEndDate }}",
                     ranges: {
-                    'Last 7 Available Days': [moment("20220904").subtract(6, 'days'), moment()],
-                    'Last 30 Available Days': [moment("20220904").subtract(29, 'days'), moment()],
-                    'Last 3 Available Months': [moment("20220904").subtract(3, 'months'), moment()],
-                    'Last Available Year': [moment("20220904").subtract(1, 'years'), moment()]
+                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
+                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
+                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
+                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
                     },
 
                 }, cb);
