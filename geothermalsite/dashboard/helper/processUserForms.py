@@ -49,7 +49,11 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     timestamp = cleanedData["timestamp"]
     timestampUtc = dateparser.parse(timestamp).__str__()
 
-    return {"timestampUtc": timestampUtc, "boreholeNumber": boreholeNumber}
+    download = cleanedData["download"]
+
+    return {"timestampUtc": timestampUtc, 
+            "boreholeNumber": boreholeNumber,
+            "download": download,}
 
 
 def getUserTempsVsTimeQuery(request) -> dict:

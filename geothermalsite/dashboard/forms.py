@@ -96,6 +96,11 @@ class TempVsDepthForm(forms.Form):
         widget=forms.TextInput(attrs={"autocomplete": "off", "value": DATA_START_DATE}),
     )
 
+    download = forms.BooleanField(
+        label = "Download data", 
+        required = False,
+    )
+
 
 class QuerySelectionForm(forms.Form):
     """
