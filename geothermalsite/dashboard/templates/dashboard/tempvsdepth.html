@@ -16,6 +16,8 @@
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script type="text/javascript" src="{% static 'loadingWheel.js' %}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
 {% endblock %}
 
@@ -41,11 +43,13 @@
     {% if queryData %}
     {% load static %}
 
-    <script src="{% static 'main.js' %}"></script>
     <script src="{% static 'tempVsDepthGraph.js' %}" type="module"></script>
     <script>
-        var series1 = {{ graphData|safe}};
+        var graphData = {{ graphData | safe}};
     </script>
+    <div class="container">
+        <canvas id="tempvsdepthgraph"></canvas>
+    </div>
 
     <div id="graph" style="width:100%;height:500px"></div>
     {% endif %}
@@ -93,7 +97,7 @@
 
         <script type="text/javascript">
             $(function() {
-                {% comment %} the id in this function must be different than the id from the function above {% endcomment %}
+                // the id in this function must be different than the id from the function above
                 $('#id_timestamp2').daterangepicker({
                     singleDatePicker: true,
                     minDate: "{{ dataStartDate }}",

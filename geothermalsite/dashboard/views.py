@@ -77,7 +77,7 @@ def tempVsTimeDownload(request):
 
     else:
         return False
-        #return renderTempVsDepthPage(request)
+
 
 def tempVsTime(request):
     if request.method == "POST":
@@ -90,10 +90,10 @@ def tempVsTime(request):
         )
         if formData["download"]:
             response = HttpResponse(
-            content_type="text/csv",
-            headers={
-                "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
-            },
+                content_type="text/csv",
+                headers={
+                    "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
+                },
             )
 
             writer = csv.writer(response)
@@ -125,7 +125,8 @@ def tempVsDepth(request):
         queryResults = getTempVsDepthResults(
             formData["boreholeNumber"], formData["timestampUtc"]
         )
-        return renderTempVsDepthPage(request, queryResults)
+        borehole = int(formData["boreholeNumber"])
+        return renderTempVsDepthPage(request, queryResults, borehole)
 
     else:
         return renderTempVsDepthPage(request)
