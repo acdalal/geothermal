@@ -28,7 +28,7 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
 
     startDateUtc = dateparser.parse(startDate).__str__()
     endDateUtc = dateparser.parse(endDate).__str__()
-    
+
     download = cleanedData["download"]
 
     return {
@@ -57,10 +57,11 @@ def getUserTempsVsTimeQuery(request) -> dict:
     From the temperature vs time form, extracts the user response and formats it into a dictionary
     """
     userForm = TempVsTimeForm(request.POST)
-    assert userForm.is_valid()
-    formData = getTempVsTimeFormData(userForm.cleaned_data)
-
-    return formData
+    if userForm.is_valid():
+        formData = getTempVsTimeFormData(userForm.cleaned_data)
+        return formData
+    else:
+        return {}
 
 
 def getUserTempVsDepthQuery(request) -> dict:
@@ -78,8 +79,10 @@ def getUserQueryType(request) -> str:
     From the front-page query selection form, extracts the user response
     """
     userForm = QuerySelectionForm(request.POST)
-    assert userForm.is_valid()
-
-    formData = getQuerySelectionData(userForm.cleaned_data)
-    queryType = formData["queryType"]
-    return queryType
+    if userForm.is_valid():
+        formData = getQuerySelectionData(userForm.cleaned_data)
+        queryType = formData["queryType"]
+        return queryType
+    else:
+        print(userForm.errors)
+        return ""

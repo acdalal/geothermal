@@ -11,7 +11,7 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/tempvstime/",
             data: data,
             success: function (response) {
                 // Do something with the response

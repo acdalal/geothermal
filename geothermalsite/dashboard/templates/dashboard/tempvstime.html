@@ -14,14 +14,10 @@
 
     <!--daterangepicker package files-->
     {% load static %}
-<<<<<<< HEAD
     {% comment %} <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script> {% endcomment %}
-    <script type="text/javascript" src="{% static 'main.js' %}"></script>
-    <script type="text/javascript" src="{% static 'loadingWheel.js' %}"></script>
-=======
-
->>>>>>> 8dd008701c2581c7f4f1726b0ed3361f9ffb7364
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    {% comment %} <script type="text/javascript" src="{% static 'main.js' %}"></script> {% endcomment %}
+    {% comment %} <script type="text/javascript" src="{% static 'loadingWheel.js' %}"></script> {% endcomment %}
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.3/dist/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
@@ -105,7 +101,6 @@
         <canvas id="ctx"></canvas>
     </div>
 
-    {% endif %}
 
     <script src="{% static 'tempVsTimeGraph.js' %}" type="module"></script>
     <script>
@@ -171,11 +166,16 @@
             <input type="submit" value="Submit" />
         </div>
     </form>
-    <div id="loading-wheel-box" class="text-center mt-3" style="display:none;">
+    <div id="loading-wheel-box" class="text-center mt-3">
         <div id="loading-wheel">
             <img src="https://d31kydh6n6r5j5.cloudfront.net/wp-content/themes/standard-theme/images/spinners/c-ray-spinner-2x.gif" alt="Loading...">
         </div>
     </div>
+    <script>
+        $(window).on('load', function () {
+            $('#loading-wheel').hide();
+        })
+    </script>
 
 
 

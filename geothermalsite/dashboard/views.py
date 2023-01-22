@@ -19,6 +19,7 @@ from .helper.renderFunctions import (
 
 def index(request):
     if request.method == "POST":
+        print(request)
         queryType = getUserQueryType(request)
 
         if queryType == "tempvstime":
@@ -26,9 +27,7 @@ def index(request):
         if queryType == "tempvsdepth":
             return renderTempVsDepthPage(request)
         else:
-            raise (
-                'User selected query type is invalid, should be "tempvstime" or "tempvsdepth"'
-            )
+            return renderIndexPage(request)
 
     else:
         return renderIndexPage(request)

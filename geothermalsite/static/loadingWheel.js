@@ -1,19 +1,4 @@
 
-// const spinnerBox = document.getElementById('loading-wheel');
-
-
-// $.ajax({
-//     type: 'GET',
-//     url: '/tempvstime/',
-//     success: function (response) {
-//         spinnerBox.classList.add('not-visible');
-//         console.log("response:", response)
-//     },
-//     error: function (jqXHR, textStatus, errorThrown) {
-//         console.log(errorThrown)
-//     }
-// })
-
 $(document).ready(function () {
     console.log("Please wait 1...");
 
@@ -26,11 +11,12 @@ $(document).ready(function () {
 
         $.ajax({
             type: "POST",
-            url: "",
+            url: "/tempvstime/",
             data: data,
             success: function (response) {
                 // Do something with the response
                 // ...
+
                 // Hide the loading spinner when the request is done
                 $("#loading-wheel-box").hide();
             },
