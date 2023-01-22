@@ -45,13 +45,14 @@
             var keys = Object.keys(queryData[0])
             keys.forEach(element => {
             csv += element;
-            csv += ',\n';
+            csv += ', ';
             });
+            csv += "\n";
 
             queryData.forEach(row => {
             keys.forEach(element => {
             csv += row[element];
-            csv += ',';
+            csv += ', ';
             })
             csv = csv.slice(0, -1) //remove the last comma
             csv += '\n';

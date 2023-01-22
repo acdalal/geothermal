@@ -50,14 +50,15 @@
             var csv = '';
             var keys = Object.keys(queryData[0])
             keys.forEach(element => {
-            csv += element;
-            csv += ',\n';
+                csv += element;
+                csv += ', ';
             });
+            csv += "\n";
 
             queryData.forEach(row => {
             keys.forEach(element => {
             csv += row[element];
-            csv += ',';
+            csv += ', ';
             })
             csv = csv.slice(0, -1) //remove the last comma
             csv += '\n';
@@ -69,7 +70,7 @@
             newElement.target = '_blank';  
             
             //provide the name for the CSV file to be downloaded  
-            newElement.download = 'tempVsDepthDownload.csv';  
+            newElement.download = 'tempVsTimeDownload.csv';  
             newElement.click(); 
         }
     </script>
