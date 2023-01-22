@@ -1,56 +1,6 @@
-// var ctx = document.getElementById("ctx").getContext("2d");
-// Chart.defaults.LineWithLine = Chart.defaults.line;
-// Chart.controllers.LineWithLine = Chart.controllers.line.extend({
-//    draw: function(ease) {
-//       Chart.controllers.line.prototype.draw.call(this, ease);
-
-//       if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
-//          var activePoint = this.chart.tooltip._active[0],
-//              ctx = this.chart.ctx,
-//              x = activePoint.tooltipPosition().x,
-//              topY = this.chart.legend.bottom,
-//              bottomY = this.chart.chartArea.bottom;
-
-//          // draw line
-//          ctx.save();
-//          ctx.beginPath();
-//          ctx.moveTo(x, topY);
-//          ctx.lineTo(x, bottomY);
-//          ctx.lineWidth = 2;
-//          ctx.strokeStyle = '#07C';
-//          ctx.stroke();
-//          ctx.restore();
-//       }
-//    }
-// });
-// var myChart = new Chart(ctx, {
-//   type: 'line',
-//   options: {
-//     scales: {
-//       xAxes: [{
-//         type: 'time',
-//       }]
-//     },
-//     legend: {
-//         onClick: null
-//     }
-//   },
-//   data: {
-//     labels: labels,
-//     datasets: [{
-//       label: 'Temperature vs Time',
-//       data: data,
-//       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-//       borderColor: 'rgba(255, 99, 132, 1)',
-//       borderWidth: 1,
-//       pointRadius: 0
-//     }]
-//   }
-// });
-
 const $chart = document.getElementById('ctx')
 
-const plugin = {
+const drawVerticalLine = {
     id: 'verticalLiner',
     afterInit: (chart, args, opts) => {
       chart.verticalLiner = {}
@@ -80,30 +30,68 @@ const plugin = {
     }
 }
 
+const fillChart = {
+    id: 'customCanvasBackgroundColor',
+    beforeDraw: (chart, args, options) => {
+      const {ctx} = chart;
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = options.color || '#ffffff';
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
+  };
+
 const data = {
-  labels: yData,
   datasets: [{
-    data: xData
-  }]
+    data: graphData,
+    label: "Temperature vs Time Graph"
+}]
 }
 
+var depth = "_depth_" + queryData[0]['depth_m'];
+var startDate = "_startDate_" + queryData[0]['datetime_utc'].slice(0, 11) // Cut off the timestamp
+var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice(0, 11) // Cut off the timestamp
+const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
 const options = {
-  type: 'line',
-  data,
-  options: {
-    interaction: {
-      mode: 'index',
-      intersect: false,
+    type: 'line',
+    data: data,
+    options: {
+        scales: {
+          xAxis: {
+            type: 'time',
+          }
+        },
+        legend: {
+            onClick: null
+        },
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        plugins: {
+            verticalLiner: {}
+        },
+        animation: {
+            onComplete: function(){
+                var button = document.getElementById("downloadImage");
+                window.downloadGraphImage = function(){
+                    var image = chart.toBase64Image()
+                    const a = document.createElement('a')
+                    a.href = image
+                    a.download = graphImageName
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                };
+            }
+        },
+        pointRadius: 0,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
     },
-    plugins: {
-      verticalLiner: {}
-    },
-    pointRadius: 0,
-    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    borderColor: 'rgba(255, 99, 132, 1)',
-    borderWidth: 1,
-  },
-  plugins: [plugin]
+    plugins: [drawVerticalLine, fillChart]
 }
 
-const chart = new Chart($chart, options)
+var chart = new Chart($chart, options);

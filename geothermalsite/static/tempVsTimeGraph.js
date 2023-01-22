@@ -50,7 +50,7 @@
 
 const $chart = document.getElementById('ctx')
 
-const plugin = {
+const drawVerticalLine = {
     id: 'verticalLiner',
     afterInit: (chart, args, opts) => {
       chart.verticalLiner = {}
@@ -80,27 +80,65 @@ const plugin = {
     }
 }
 
+const fillChart = {
+    id: 'customCanvasBackgroundColor',
+    beforeDraw: (chart, args, options) => {
+      const {ctx} = chart;
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = options.color || '#ffffff';
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
+    }
+  };
+
 const data = {
-  labels: ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"],
+//   labels: yData,
   datasets: [{
-    data: [12, 3, 2, 1, 8, 8, 2, 2, 3, 5, 7, 1]
-  }]
+    data: graphData,
+    label: "Temperature vs Time Graph"
+}]
 }
 
 const options = {
-  type: 'line',
-  data,
-  options: {
-    maintainAspectRatio: false,
-    interaction: {
-      mode: 'index',
-      intersect: false,
+    type: 'line',
+    data: data,
+    options: {
+        scales: {
+          xAxis: {
+            type: 'time',
+          }
+        },
+        legend: {
+            onClick: null
+        },
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        plugins: {
+            verticalLiner: {}
+        },
+        pointRadius: 0,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
     },
-    plugins: {
-      verticalLiner: {}
-    }
-  },
-  plugins: [plugin]
+    plugins: [drawVerticalLine, fillChart]
 }
 
-const chart = new Chart($chart, options)
+var chart = new Chart($chart, options);
+
+
+
+var button = document.getElementById("downloadImage")
+button.onlick = function downloadImage(){
+    var image = chart.toBase64Image()
+    const a = document.createElement('a')
+    a.href = image
+    a.download = 'my_file_name.png';
+    // a.download = url.split('/').pop()
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
+}

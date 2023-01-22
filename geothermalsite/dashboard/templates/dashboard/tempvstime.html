@@ -15,9 +15,11 @@
 
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
-    {% endblock %}
+    <script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+{% endblock %}
 
 {% block header %}
     <h1>Temperature vs. Time</h1>
@@ -86,23 +88,24 @@
 
                 }
 
-            </script>
+        </script>
+
         <button onclick="downloadData()">Download data</button>
-    </div>
-
-    {% endif %}
+        <button id="downloadImage" onclick="window.downloadGraphImage()">Download graph</button>
 
 
-    {% if queryData %}
-
-    <script src="{% static 'tempVsTimeGraph.js' %}" type="module"></script>
-    <script>
-        var yData = {{ yData | safe}};
-        var xData = {{ xData | safe}};
-    </script>
     <div class="container">
         <canvas id="ctx"></canvas>
     </div>
+
+    <script src="{% static 'tempVsTimeGraph.js' %}" type="module"></script>
+    <script>
+        var queryData = {{ queryData | safe }};
+        var graphData = {{ graphData | safe }};
+    </script>
+    </div>
+
+
 
     {% endif %}
 

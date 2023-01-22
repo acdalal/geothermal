@@ -29,6 +29,22 @@ def renderIndexPage(request):
     )
 
 
+def _getPageContext(
+    form: TempVsTimeForm or TempVsDepthForm,
+    queryData: list,
+    graphData: list,
+    outageList: list,
+) -> dict():
+    return {
+        "form": form,
+        "queryData": queryData,
+        "graphData": graphData,
+        "dataStartDate": DATA_START_DATE,
+        "dataEndDate": DATA_END_DATE,
+        "outageList": outageList,
+    }
+
+
 def renderTempVsTimePage(request, queryResults=None, borehole=None):
     """
     A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
@@ -36,24 +52,18 @@ def renderTempVsTimePage(request, queryResults=None, borehole=None):
     if queryResults and borehole:
         graphData = toChartJsTempVsTime(queryResults, borehole)
     else:
-        graphData = dict()
+        graphData = list()
 
     outageList = getDataOutages()
-    truncated_outageList = truncateDateTime(outageList)
-    print(graphData)
+    truncatedOutageList = truncateDateTime(outageList)
+    context = _getPageContext(
+        TempVsTimeForm(), queryResults, graphData, truncatedOutageList
+    )
 
     return render(
         request,
         "dashboard/tempvstime.html",
-        context={
-            "form": TempVsTimeForm(),
-            "queryData": queryResults,
-            "xData": graphData.get("x"),
-            "yData": graphData.get("y"),
-            "dataStartDate": DATA_START_DATE,
-            "dataEndDate": DATA_END_DATE,
-            "outageList": truncated_outageList,
-        },
+        context,
     )
 
 
@@ -64,21 +74,16 @@ def renderTempVsDepthPage(request, queryResults=None, borehole=None):
     if queryResults and borehole:
         graphData = toChartJsTempVsDepth(queryResults, borehole)
     else:
-        graphData = dict()
+        graphData = list()
 
     outageList = getDataOutages()
-    print("1", graphData)
-    truncated_outageList = truncateDateTime(outageList)
+    truncatedOutageList = truncateDateTime(outageList)
+    context = _getPageContext(
+        TempVsDepthForm(), queryResults, graphData, truncatedOutageList
+    )
+
     return render(
         request,
         "dashboard/tempvsdepth.html",
-        context={
-            "form": TempVsDepthForm(),
-            "queryData": queryResults,
-            "xData": graphData.get("x"),
-            "yData": graphData.get("y"),
-            "dataStartDate": DATA_START_DATE,
-            "dataEndDate": DATA_END_DATE,
-            "outageList": truncated_outageList,
-        },
+        context,
     )
