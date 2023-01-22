@@ -43,52 +43,37 @@
 
 
     <div>
-        <script>
-            function downloadData() {
-                var queryData = {{queryData | safe}};
-                var csv = '';
-                var keys = Object.keys(queryData[0])
-                keys.forEach(element => {
-                    csv += element;
-                    csv += ',\n';
-                });
+        
+    <script>
+        function downloadData() {
+            var queryData = {{queryData | safe}};
+            var csv = '';
+            var keys = Object.keys(queryData[0])
+            keys.forEach(element => {
+            csv += element;
+            csv += ',\n';
+            });
 
-                queryData.forEach(row => {
-                    keys.forEach(element => {
-                        csv += row[element];
-                        csv += ',';
-                    })
-                    csv = csv.slice(0, -1) //remove the last comma
-                    csv += '\n';
-                })
-                console.log(csv)
-                var response = HttpResponse(
-                    content_type="text/csv",
-                    headers={
-                        "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
-                    },
-                )
+            queryData.forEach(row => {
+            keys.forEach(element => {
+            csv += row[element];
+            csv += ',';
+            })
+            csv = csv.slice(0, -1) //remove the last comma
+            csv += '\n';
+            })
+            document.write(csv);  
 
-                var writer = csv.writer(response)
-                writer.writerow(
-                    [
-                        "channel_id",
-                        "measurement_id",
-                        "datetime_utc",
-                        "data_id",
-                        "temperature_c",
-                        "depth_m",
-                    ]
-                )
-                for (const dictionary in queryData){
-                    writer.writerow(dictionary.values())
-                }
-
-                return response
-
-                }
-
-        </script>
+            var newElement = document.createElement('a');  
+            newElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
+            newElement.target = '_blank';  
+            
+            //provide the name for the CSV file to be downloaded  
+            newElement.download = 'tempVsDepthDownload.csv';  
+            newElement.click(); 
+        }
+    </script>
+    
 
         <button onclick="downloadData()">Download data</button>
         <button id="downloadImage" onclick="window.downloadGraphImage()">Download graph</button>
