@@ -21,13 +21,6 @@
 
 {% endblock %}
 
-{% block header %}
-    <h1>Temperature vs. Time</h1>
-{% endblock %}
-
-
-
-
 {% block content %}
     <button type="button" onclick="window.location.href='/'">Home</button>
 
@@ -43,7 +36,7 @@
 
 
     <div>
-        
+
     <script>
         function downloadData() {
             var queryData = {{queryData | safe}};
@@ -63,18 +56,18 @@
             csv = csv.slice(0, -1) //remove the last comma
             csv += '\n';
             })
-            document.write(csv);  
+            document.write(csv);
 
-            var newElement = document.createElement('a');  
-            newElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);  
-            newElement.target = '_blank';  
-            
-            //provide the name for the CSV file to be downloaded  
-            newElement.download = 'tempVsTimeDownload.csv';  
-            newElement.click(); 
+            var newElement = document.createElement('a');
+            newElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+            newElement.target = '_blank';
+
+            //provide the name for the CSV file to be downloaded
+            newElement.download = 'tempVsTimeDownload.csv';
+            newElement.click();
         }
     </script>
-    
+
 
         <button onclick="downloadData()">Download data</button>
         <button id="downloadImage" onclick="window.downloadGraphImage()">Download graph</button>
