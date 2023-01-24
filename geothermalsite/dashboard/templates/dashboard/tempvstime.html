@@ -42,19 +42,21 @@
             var queryData = {{queryData | safe}};
             var csv = '';
             var keys = Object.keys(queryData[0])
-            keys.forEach(element => {
-                csv += element;
-                csv += ', ';
-            });
-            csv += "\n";
+            var keyArray = []
+            keys.forEach(key => {
+                keyArray.push(key)
+            })
+            let keyRow = keyArray.join(",")
+            csv += keyRow + "\n";
 
             queryData.forEach(row => {
-            keys.forEach(element => {
-            csv += row[element];
-            csv += ', ';
-            })
-            csv = csv.slice(0, -1) //remove the last comma
-            csv += '\n';
+                let rowElements = []
+                keyArray.forEach(key => {
+                    rowElements.push(row[key])
+                })
+                let csvRow = rowElements.join(",")
+                csv += csvRow
+                csv += '\n'
             })
 
             var newElement = document.createElement('a');
@@ -66,7 +68,7 @@
         }
     </script>
 
-z
+
         <button onclick="downloadData()">Download data</button>
         <button id="downloadImage" onclick="window.downloadGraphImage()">Download graph</button>
 

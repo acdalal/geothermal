@@ -74,7 +74,6 @@ const options = {
         },
         animation: {
             onComplete: function(){
-                var button = document.getElementById("downloadImage");
                 window.downloadGraphImage = function(){
                     var image = chart.toBase64Image()
                     const a = document.createElement('a')
