@@ -1,7 +1,8 @@
 {% extends 'dashboard/base.html' %}
 
 {% block content %}
-    <div>Welcome to the fully finalized Carleton Geothermal Data Dashboard</div>
+
+    {% include 'dashboard/jumbotron.html' %}
 
     {# Query selection dropdown form #}
     <form action="" method="post">
