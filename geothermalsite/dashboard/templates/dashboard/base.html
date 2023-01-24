@@ -9,16 +9,17 @@
             <!-- jQuery -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
 
-            <!-- Bootstrap -->
-            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-        {% endblock %}
+            <!-- Bootstrap 4.0.0 -->
+            <!-- Info on customizing Bootstrap CSS: https://blog.hubspot.com/website/how-to-override-bootstrap-css?hubs_content=blog.hubspot.com%2Fwebsite%2Fbootstrap-navbar&hubs_content-cta=How%20to%20Edit%2C%20Customize%2C%20and%20Override%20Bootstrap%20CSS%20to%20Suit%20Your%20Brand -->
+            <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+            {% endblock %}
 
         {% block javascript %}
             <!-- jQuery -->
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 
-            <!-- Bootstrap JavaScript -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+            <!-- Bootstrap JavaScript 4.0.0 -->
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
             <!-- XDSoft DateTimePicker -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
@@ -27,11 +28,6 @@
     </head>
     <body>
         {% include 'dashboard/navbar.html' %}
-        <br></br>
-
-        {% block header %}
-            <h1>Dashboard</h1>
-        {% endblock %}
 
         {% block content %}
 
