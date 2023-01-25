@@ -1,9 +1,11 @@
+from collections import defaultdict
 import time
 import sys
 from django.db import connections
 from datetime import datetime, timedelta
 from .boreholes import boreholes
 from .logging import log_query_as_INFO
+from .constants import HOURS, DAYS, WEEKS, MONTHS, YEARS, GROUPS
 
 
 def _createEntireDataOutageQuery() -> str:
@@ -128,6 +130,77 @@ def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
     return query
 
 
+def _createStratigraphyQuery(borehole: str, startTime: str, endTime: str) -> str:
+    """
+    Creates a query for getting temperature vs time and depth for a given borehole
+
+    Parameters
+    -----------
+    channel: ID of the borehole to query
+    startTime: start of the time range
+    endTime: end of the time range
+
+    Returns
+    -----------
+    Formatted query to be executed by the database cursor
+    """
+
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafBottom = currentBorehole.getBottom()
+
+    query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
+            temperature_c, depth_m
+            FROM dts_data AS D
+            INNER JOIN measurement AS M
+            ON M.id = measurement_id
+            INNER JOIN channel AS H
+            ON channel_id = H.id
+            INNER JOIN dts_config AS C
+            ON dts_config_id = C.id
+            WHERE channel_id IN (SELECT id FROM channel WHERE
+                                             channel_name='channel {channel}')
+            AND laf_m BETWEEN {lafStart} AND {lafBottom}
+            AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
+            ORDER BY datetime_utc;
+            """
+
+    return query
+
+
+def _organizeStratigraphyResults(
+    data: list, groupBy: str
+) -> tuple(dict[list[dict]], int):
+    totalBytes = 0
+    results = defaultdict(list)
+    for row in data:
+        date = datetime.strptime(data["datetime_utc"], "%Y-%m-%d %H:%M:%S")
+        if groupBy == DAYS:
+            group = f"{date.month}/{date.day}/{date.year}"
+        if groupBy == WEEKS:
+            group = f"Week {date.isocalendar()[1]}"
+        if groupBy == MONTHS:
+            group = f"{date.month}/xx/{date.year}"
+        if groupBy == YEARS:
+            group = f"{date.year}"
+
+        datapoint = {
+            "channel_id": row[0],
+            "measurement_id": row[1],
+            "datetime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
+            "data_id": row[3],
+            "temperature_c": row[4],
+            "depth_m": row[5],
+        }
+
+        results[group].append(datapoint)
+        totalBytes += sys.getsizeof(row)
+
+    return results
+
+
 def getTempVsDepthResults(borehole: str, timestamp: str) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -223,6 +296,58 @@ def getTempVsTimeResults(
             query,
             query_end_time - query_start_time,
             total_bytes,
+        )
+
+    return results
+
+
+def getStratigraphyResults(
+    borehole: str, startTime: str, endTime: str, groupBy: str
+) -> list[dict]:
+    """
+    Returns a list of all data points across all measurements associated with
+    the channel and depth for a given time range.
+
+    Parameters
+    ----------
+    channel: ID of the borehole (1 or 3)
+    depth: depth of temperature measurement
+    startTime: start time of the query
+    endTime: end time of the query
+
+    Returns
+    ----------
+    A dictionary with the results of the query
+    """
+    assert (groupBy in GROUPS, "Invalid grouping")
+    query = _createStratigraphyQuery(borehole, startTime, endTime)
+    results = list()
+
+    with connections["geothermal"].cursor() as cursor:
+        # record query execution time
+        query_start_time = time.time()
+        cursor.execute(query)
+        query_end_time = time.time()
+
+        # clean results and record query result size
+        totalBytes = 0
+        for row in cursor.fetchall():
+            datapoint = {
+                "channel_id": row[0],
+                "measurement_id": row[1],
+                "datetime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
+                "data_id": row[3],
+                "temperature_c": row[4],
+                "depth_m": row[5],
+            }
+            results.append(datapoint)
+            totalBytes += sys.getsizeof(datapoint)
+
+        # log the query execution as an INFO log
+        log_query_as_INFO(
+            query,
+            query_end_time - query_start_time,
+            totalBytes,
         )
 
     return results

@@ -27,3 +27,7 @@ def toChartJsTempVsDepth(queryResults: list, borehole: int) -> list:
         graphData.append({"x": depth, "y": temperature})
 
     return graphData
+
+
+def toChartJsStratigraphy(queryResults: list, borehole: int) -> list:
+    pass

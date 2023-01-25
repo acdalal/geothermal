@@ -44,8 +44,8 @@ class TempVsDepthForm(forms.Form):
     ----------
     boreholeNumber : django.forms.ChoiceField
         the borehole options a user may select to query
-    timestamp : django.forms.CharField
-        the time stamp to query data at, with a minimum at the data start date
+    dateRange : django.forms.CharField
+        the date range that is queried for
     """
 
     boreholeNumber = forms.ChoiceField(
@@ -55,6 +55,33 @@ class TempVsDepthForm(forms.Form):
     timestamp = forms.CharField(
         label="at time ",
         widget=forms.TextInput(attrs={"autocomplete": "off", "value": DATA_START_DATE}),
+    )
+
+
+class StratigraphyForm(forms.Form):
+    """
+    A class used to represent a form for a stratigraphy plot.
+
+    Attributes
+    ----------
+    boreholeNumber : django.forms.ChoiceField
+        the borehole options a user may select to query
+    timestamp : django.forms.CharField
+        the time stamp to query data at, with a minimum at the data start date
+    """
+
+    boreholeNumber = forms.ChoiceField(
+        label="Display temperature from borehole number ",
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+    )
+    dateRange = forms.CharField(
+        label="during ",
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete": "off",
+                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+            }
+        ),
     )
 
 

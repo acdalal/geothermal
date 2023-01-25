@@ -3,11 +3,16 @@ import csv
 from django.shortcuts import render
 from django.http import HttpRequest
 
-from .helper.api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
+from .helper.api import (
+    getTempVsDepthResults,
+    getTempVsTimeResults,
+    getStratigraphyResults,
+)
 from .helper.processUserForms import (
     getUserTempsVsTimeQuery,
     getUserTempVsDepthQuery,
     getUserQueryType,
+    getUserStratigraphyQuery,
 )
 from .helper.renderFunctions import (
     renderIndexPage,
@@ -62,6 +67,19 @@ def tempVsDepth(request: HttpRequest):
     if request.method == "POST":
         formData = getUserTempVsDepthQuery(request)
         queryResults = getTempVsDepthResults(
+            formData["boreholeNumber"], formData["timestampUtc"]
+        )
+        borehole = int(formData["boreholeNumber"])
+        return renderTempVsDepthPage(request, queryResults, borehole)
+
+    else:
+        return renderTempVsDepthPage(request)
+
+
+def stratigraphy(request: HttpRequest):
+    if request.method == "POST":
+        formData = getUserStratigraphyQuery(request)
+        queryResults = getStratigraphyResults(
             formData["boreholeNumber"], formData["timestampUtc"]
         )
         borehole = int(formData["boreholeNumber"])
