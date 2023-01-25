@@ -35,45 +35,6 @@ class TempVsTimeForm(forms.Form):
         widget=forms.NumberInput(attrs={"type": "number", "min": "0", "step": "1"}),
     )
 
-    download = forms.BooleanField(
-        label = "Download data", 
-        required = False,
-    )
-    
-
-class TempVsTimeDownloadForm(forms.Form):
-    """
-    A class used to represent a temperature vs. time download form.
-
-    Attributes
-    ----------
-    boreholeNumber : django.forms.ChoiceField
-        the borehole options a user may select to query
-    dateRange : django.forms.CharField
-        the date range that is queried for
-    depth : django.forms.IntegerField
-        the integer depth a user may select to query
-    """
-
-    boreholeNumber = forms.ChoiceField(
-        label="Display temperature from borehole number ",
-        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
-    )
-    dateRange = forms.CharField(
-        label="during ",
-        widget=forms.TextInput(
-            attrs={
-                "autocomplete": "off",
-                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
-            }
-        ),
-    )
-
-    depth = forms.IntegerField(
-        label="at depth:",
-        widget=forms.NumberInput(attrs={"type": "number", "min": "0", "step": "1"}),
-    )
-
 
 class TempVsDepthForm(forms.Form):
     """
@@ -94,11 +55,6 @@ class TempVsDepthForm(forms.Form):
     timestamp = forms.CharField(
         label="at time ",
         widget=forms.TextInput(attrs={"autocomplete": "off", "value": DATA_START_DATE}),
-    )
-
-    download = forms.BooleanField(
-        label = "Download data", 
-        required = False,
     )
 
 

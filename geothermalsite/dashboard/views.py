@@ -1,7 +1,7 @@
 import csv
 
 from django.shortcuts import render
-from django.http import HttpResponse, HttpRequest
+from django.http import HttpRequest
 
 from .helper.api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
 from .helper.processUserForms import (
@@ -9,7 +9,6 @@ from .helper.processUserForms import (
     getUserTempVsDepthQuery,
     getUserQueryType,
 )
-from .helper.constants import DATA_START_DATE, DATA_END_DATE
 from .helper.renderFunctions import (
     renderIndexPage,
     renderTempVsDepthPage,
