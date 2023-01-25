@@ -1,0 +1,7 @@
+.navbar .navbar-nav .nav-link, .navbar-brand {
+    color: black;
+}
+
+.navbar .navbar-nav .nav-link:hover, .navbar-brand:hover {
+    color: rgb(85, 85, 85);
+}
