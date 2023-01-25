@@ -1,53 +1,3 @@
-// var ctx = document.getElementById("ctx").getContext("2d");
-// Chart.defaults.LineWithLine = Chart.defaults.line;
-// Chart.controllers.LineWithLine = Chart.controllers.line.extend({
-//    draw: function(ease) {
-//       Chart.controllers.line.prototype.draw.call(this, ease);
-
-//       if (this.chart.tooltip._active && this.chart.tooltip._active.length) {
-//          var activePoint = this.chart.tooltip._active[0],
-//              ctx = this.chart.ctx,
-//              x = activePoint.tooltipPosition().x,
-//              topY = this.chart.legend.bottom,
-//              bottomY = this.chart.chartArea.bottom;
-
-//          // draw line
-//          ctx.save();
-//          ctx.beginPath();
-//          ctx.moveTo(x, topY);
-//          ctx.lineTo(x, bottomY);
-//          ctx.lineWidth = 2;
-//          ctx.strokeStyle = '#07C';
-//          ctx.stroke();
-//          ctx.restore();
-//       }
-//    }
-// });
-// var myChart = new Chart(ctx, {
-//   type: 'line',
-//   options: {
-//     scales: {
-//       xAxes: [{
-//         type: 'time',
-//       }]
-//     },
-//     legend: {
-//         onClick: null
-//     }
-//   },
-//   data: {
-//     labels: labels,
-//     datasets: [{
-//       label: 'Temperature vs Time',
-//       data: data,
-//       backgroundColor: 'rgba(255, 99, 132, 0.2)',
-//       borderColor: 'rgba(255, 99, 132, 1)',
-//       borderWidth: 1,
-//       pointRadius: 0
-//     }]
-//   }
-// });
-
 const $chart = document.getElementById('ctx')
 
 const drawVerticalLine = {
@@ -93,12 +43,16 @@ const fillChart = {
   };
 
 const data = {
-//   labels: yData,
   datasets: [{
     data: graphData,
     label: "Temperature vs Time Graph"
 }]
 }
+
+var depth = "_depth_" + queryData[0]['depth_m'];
+var startDate = "_startDate_" + queryData[0]['datetime_utc'].slice(0, 11) // Cut off the timestamp
+var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice(0, 11) // Cut off the timestamp
+const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
 
 const options = {
     type: 'line',
@@ -119,6 +73,19 @@ const options = {
         plugins: {
             verticalLiner: {}
         },
+        animation: {
+            onComplete: function(){
+                window.downloadGraphImage = function(){
+                    var image = chart.toBase64Image()
+                    const a = document.createElement('a')
+                    a.href = image
+                    a.download = graphImageName
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                };
+            }
+        },
         pointRadius: 0,
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
         borderColor: 'rgba(255, 99, 132, 1)',
@@ -128,17 +95,3 @@ const options = {
 }
 
 var chart = new Chart($chart, options);
-
-
-
-var button = document.getElementById("downloadImage")
-button.onlick = function downloadImage(){
-    var image = chart.toBase64Image()
-    const a = document.createElement('a')
-    a.href = image
-    a.download = 'my_file_name.png';
-    // a.download = url.split('/').pop()
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-}

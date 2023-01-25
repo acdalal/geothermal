@@ -23,7 +23,7 @@ def toChartJsTempVsDepth(queryResults: list, borehole: int) -> list:
 
     for datapoint in queryResults:
         temperature = float(datapoint["temperature_c"])
-        depth = int(datapoint["depth_m"])
+        depth = float(datapoint["depth_m"])
         graphData.append({"x": depth, "y": temperature})
 
     return graphData

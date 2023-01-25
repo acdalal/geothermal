@@ -53,6 +53,7 @@ var depth = "_depth_" + queryData[0]['depth_m'];
 var startDate = "_startDate_" + queryData[0]['datetime_utc'].slice(0, 11) // Cut off the timestamp
 var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice(0, 11) // Cut off the timestamp
 const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
+
 const options = {
     type: 'line',
     data: data,

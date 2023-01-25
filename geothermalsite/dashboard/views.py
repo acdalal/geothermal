@@ -1,7 +1,7 @@
 import csv
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpRequest
 
 from .helper.api import getTempVsDepthResults, getTempVsTimeResults, getDataOutages
 from .helper.processUserForms import (
@@ -17,7 +17,7 @@ from .helper.renderFunctions import (
 )
 
 
-def index(request):
+def index(request: HttpRequest):
     if request.method == "POST":
         queryType = getUserQueryType(request)
 
@@ -34,15 +34,15 @@ def index(request):
         return renderIndexPage(request)
 
 
-def about(request):
+def about(request: HttpRequest):
     return render(request, "dashboard/about.html", context=None)
 
 
-def documentation(request):
+def documentation(request: HttpRequest):
     return render(request, "dashboard/documentation.html", context=None)
 
 
-def tempVsTimeDownload(request):
+def tempVsTime(request: HttpRequest):
     if request.method == "POST":
         formData = getUserTempsVsTimeQuery(request)
         queryResults = getTempVsTimeResults(
@@ -51,66 +51,6 @@ def tempVsTimeDownload(request):
             formData["startDateUtc"],
             formData["endDateUtc"],
         )
-
-        response = HttpResponse(
-            content_type="text/csv",
-            headers={
-                "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
-            },
-        )
-
-        writer = csv.writer(response)
-        writer.writerow(
-            [
-                "channel_id",
-                "measurement_id",
-                "datetime_utc",
-                "data_id",
-                "temperature_c",
-                "depth_m",
-            ]
-        )
-        for dictionary in queryResults:
-            writer.writerow(dictionary.values())
-
-        return response
-
-    else:
-        return False
-
-
-def tempVsTime(request):
-    if request.method == "POST":
-        formData = getUserTempsVsTimeQuery(request)
-        queryResults = getTempVsTimeResults(
-            formData["boreholeNumber"],
-            formData["depth"],
-            formData["startDateUtc"],
-            formData["endDateUtc"],
-        )
-        if formData["download"]:
-            response = HttpResponse(
-                content_type="text/csv",
-                headers={
-                    "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
-                },
-            )
-
-            writer = csv.writer(response)
-            writer.writerow(
-                [
-                    "channel_id",
-                    "measurement_id",
-                    "datetime_utc",
-                    "data_id",
-                    "temperature_c",
-                    "depth_m",
-                ]
-            )
-            for dictionary in queryResults:
-                writer.writerow(dictionary.values())
-
-            return response
 
         borehole = int(formData["boreholeNumber"])
         return renderTempVsTimePage(request, queryResults, borehole)
@@ -119,70 +59,14 @@ def tempVsTime(request):
         return renderTempVsTimePage(request)
 
 
-def tempVsDepth(request):
+def tempVsDepth(request: HttpRequest):
     if request.method == "POST":
         formData = getUserTempVsDepthQuery(request)
         queryResults = getTempVsDepthResults(
             formData["boreholeNumber"], formData["timestampUtc"]
         )
-        if formData["download"]:
-            response = HttpResponse(
-                content_type="text/csv",
-                headers={
-                    "Content-Disposition": 'attachment; filename="tempVsTimeDownload.csv"'
-                },
-            )
-
-            writer = csv.writer(response)
-            writer.writerow(
-                [
-                    "channel_id",
-                    "measurement_id",
-                    "datetime_utc",
-                    "data_id",
-                    "temperature_c",
-                    "depth_m",
-                ]
-            )
-            for dictionary in queryResults:
-                writer.writerow(dictionary.values())
-
-            return response
         borehole = int(formData["boreholeNumber"])
         return renderTempVsDepthPage(request, queryResults, borehole)
-
-    else:
-        return renderTempVsDepthPage(request)
-
-
-def tempVsDepthDownload(request):
-    if request.method == "POST":
-        formData = getUserTempVsDepthQuery(request)
-        queryResults = getTempVsDepthResults(
-            formData["boreholeNumber"], formData["timestampUtc"]
-        )
-        response = HttpResponse(
-            content_type="text/csv",
-            headers={
-                "Content-Disposition": 'attachment; filename="tempVsDepthDownload.csv"'
-            },
-        )
-
-        writer = csv.writer(response)
-        writer.writerow(
-            [
-                "channel_id",
-                "measurement_id",
-                "datetime_utc",
-                "data_id",
-                "temperature_c",
-                "depth_m",
-            ]
-        )
-        for dictionary in queryResults:
-            writer.writerow(dictionary.values())
-
-        return response
 
     else:
         return renderTempVsDepthPage(request)

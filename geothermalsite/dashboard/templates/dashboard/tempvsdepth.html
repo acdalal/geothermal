@@ -31,57 +31,54 @@
                 {% endfor %}
             </div>
     </details>
-    {% endif %}
 
-    {% if queryData %}
     <script>
         function downloadData() {
             var queryData = {{queryData | safe}};
             var csv = '';
             var keys = Object.keys(queryData[0])
-            keys.forEach(element => {
-            csv += element;
-            csv += ', ';
-            });
-            csv += "\n";
+            var keyArray = []
+            keys.forEach(key => {
+                keyArray.push(key)
+            })
+            let keyRow = keyArray.join(",")
+            csv += keyRow + "\n";
 
             queryData.forEach(row => {
-            keys.forEach(element => {
-            csv += row[element];
-            csv += ', ';
+                let rowElements = []
+                keyArray.forEach(key => {
+                    rowElements.push(row[key])
+                })
+                let csvRow = rowElements.join(",")
+                csv += csvRow
+                csv += '\n'
             })
-            csv = csv.slice(0, -1) //remove the last comma
-            csv += '\n';
-            })
-            document.write(csv);
 
             var newElement = document.createElement('a');
             newElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-            newElement.target = '_blank';
 
             //provide the name for the CSV file to be downloaded
-            newElement.download = 'tempVsDepthDownload.csv';
+            newElement.download = 'tempVsTime.csv';
             newElement.click();
         }
     </script>
 
 
     <button onclick="downloadData()">Download data</button>
-    {% endif %}
+    <button id="downloadImage" onclick="window.downloadGraphImage()">Download graph</button>
 
 
-    {% if queryData %}
     {% load static %}
 
     <script src="{% static 'tempVsDepthGraph.js' %}" type="module"></script>
     <script>
-        var graphData = {{ graphData | safe}};
+        var queryData = {{ queryData | safe }};
+        var graphData = {{ graphData | safe }};
     </script>
     <div class="container">
-        <canvas id="tempvsdepthgraph"></canvas>
+        <canvas id="ctx"></canvas>
     </div>
 
-    <div id="graph" style="width:100%;height:500px"></div>
     {% endif %}
 
 

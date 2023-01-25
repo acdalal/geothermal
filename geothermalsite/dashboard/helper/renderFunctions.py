@@ -4,9 +4,10 @@ from ..forms import TempVsTimeForm, TempVsDepthForm, QuerySelectionForm
 from .constants import DATA_END_DATE, DATA_START_DATE
 from .visualization import toChartJsTempVsTime, toChartJsTempVsDepth
 from .api import getDataOutages
+from django.http import HttpRequest
 
 
-def truncateDateTime(dates):
+def truncateDateTime(dates: list):
     """
     A function that trims the data outages from the database into YYYY-MM-DD format.
     The timestamp is unneccesary for disabling day(s) in the daterangepicker (calendar).
@@ -20,7 +21,7 @@ def truncateDateTime(dates):
     return truncatedDates
 
 
-def renderIndexPage(request):
+def renderIndexPage(request: HttpRequest):
     """
     A shortcut function that renders index.html and generates the query selection form
     """
@@ -45,7 +46,7 @@ def _getPageContext(
     }
 
 
-def renderTempVsTimePage(request, queryResults=None, borehole=None):
+def renderTempVsTimePage(request: HttpRequest, queryResults=None, borehole=None):
     """
     A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
     """
@@ -67,7 +68,9 @@ def renderTempVsTimePage(request, queryResults=None, borehole=None):
     )
 
 
-def renderTempVsDepthPage(request, queryResults=None, borehole=None):
+def renderTempVsDepthPage(
+    request: HttpRequest, queryResults: list = None, borehole=None
+):
     """
     A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
     """
