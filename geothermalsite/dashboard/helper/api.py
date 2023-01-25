@@ -5,7 +5,7 @@ from django.db import connections
 from datetime import datetime, timedelta
 from .boreholes import boreholes
 from .logging import log_query_as_INFO
-from .constants import HOURS, DAYS, WEEKS, MONTHS, YEARS, GROUPS
+from .constants import DAYS, WEEKS, MONTHS, YEARS, GROUPS
 
 
 def _createEntireDataOutageQuery() -> str:
@@ -170,9 +170,7 @@ def _createStratigraphyQuery(borehole: str, startTime: str, endTime: str) -> str
     return query
 
 
-def _organizeStratigraphyResults(
-    data: list, groupBy: str
-) -> tuple(dict[list[dict]], int):
+def _organizeStratigraphyResults(data: list, groupBy: str) -> dict[list[dict]]:
     totalBytes = 0
     results = defaultdict(list)
     for row in data:
@@ -319,7 +317,7 @@ def getStratigraphyResults(
     ----------
     A dictionary with the results of the query
     """
-    assert (groupBy in GROUPS, "Invalid grouping")
+    assert groupBy in GROUPS, "Invalid grouping"
     query = _createStratigraphyQuery(borehole, startTime, endTime)
     results = list()
 
