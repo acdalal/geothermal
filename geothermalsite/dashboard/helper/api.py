@@ -146,8 +146,8 @@ def _createStratigraphyQuery(
                                              channel_name='channel {channel}')
             AND laf_m BETWEEN {lafStart} AND {lafBottom}
             AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
-            AND CAST(datetime_utc AS TIME) BETWEEN '{timestampStart}' AND '{timestampEnd}
-            ORDER BY depthm_m;
+            AND CAST(datetime_utc AS TIME) BETWEEN '{timestampStart}' AND '{timestampEnd}'
+            ORDER BY depth_m, datetime_utc;
             """
 
     return query
@@ -249,7 +249,6 @@ def getTempVsTimeResults(
             query_end_time - query_start_time,
             total_bytes,
         )
-
     return results
 
 

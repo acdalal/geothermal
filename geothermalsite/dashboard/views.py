@@ -90,7 +90,7 @@ def stratigraphy(request: HttpRequest):
             formData["dailyTimestamp"],
         )
         borehole = int(formData["boreholeNumber"])
-        return renderStratigraphyPage(request, queryResults, borehole)
+        return renderStratigraphyPage(request, groupBy, queryResults, borehole)
 
     else:
         return renderStratigraphyPage(request)

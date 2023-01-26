@@ -117,7 +117,6 @@ def renderStratigraphyPage(
     context = _getPageContext(
         StratigraphyForm(), queryResults, graphData, truncatedOutageList
     )
-
     return render(
         request,
         "dashboard/stratigraphy.html",

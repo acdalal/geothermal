@@ -35,9 +35,9 @@ def toChartJsStratigraphy(
     queryResults: list, borehole: int, groupBy: int
 ) -> dict[dict[list[dict]]]:
     assert groupBy in GROUPS
-    results = defaultdict(defaultdict(list))
+    results = defaultdict(lambda: defaultdict(list))
     for row in queryResults:
-        date = datetime.strptime(queryResults["datetime_utc"], "%Y-%m-%d %H:%M:%S")
+        date = datetime.strptime(row["datetime_utc"], "%Y-%m-%d %H:%M:%S")
         # if groupBy == DAYS:
         #     group = f"{date.month}/{date.day}/{date.year}"
         if groupBy != DAYS and groupBy != YEARS:
@@ -49,7 +49,9 @@ def toChartJsStratigraphy(
                 group = f"{date.year}"
 
             datapoint = {"x": row["temperature_c"], "y": row["depth_m"]}
-            currentDay = dateparser.parse(row["datetime_utc"]).date()
+            currentDay = dateparser.parse(row["datetime_utc"]).date().__str__()
             results[group][currentDay].append(datapoint)
 
-    return results
+    for group in results.keys():
+        results[group] = dict(results[group])
+    return dict(results)

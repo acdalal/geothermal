@@ -61,7 +61,6 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
     Processes the stratigraphy form data and outputs it in an easily accessible format
     """
     boreholeNumber = cleanedData["boreholeNumber"]
-    depth = cleanedData["depth"]
 
     dateRange = cleanedData["dateRange"]
     dateList = re.findall(r"../../....", dateRange)
@@ -69,13 +68,12 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
 
     dailyTimestampString = cleanedData["timeSelector"]
 
-    startDateUtc = dateparser.parse(startDate).__str__()
-    endDateUtc = dateparser.parse(endDate).__str__()
-    dailyTimestamp = dateparser.parse(dailyTimestampString).__str__()
+    startDateUtc: datetime = dateparser.parse(startDate)
+    endDateUtc: datetime = dateparser.parse(endDate)
+    dailyTimestamp: datetime = dateparser.parse(dailyTimestampString)
 
     return {
         "boreholeNumber": boreholeNumber,
-        "depth": depth,
         "startDateUtc": startDateUtc,
         "endDateUtc": endDateUtc,
         "dailyTimestamp": dailyTimestamp,

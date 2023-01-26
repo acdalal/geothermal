@@ -22,16 +22,16 @@
 {% block content %}
     <h1>Stratigraphy</h1>
     <button type="button" onclick="window.location.href='/'">Home</button>
-    
+
     {% if queryData %}
-    <!-- <details>
+    <details>
         <summary>See Data</summary>
             <div>
                 {% for row in queryData %}
                     <div>{{ row }}</div>
                 {% endfor %}
             </div>
-    </details> -->
+    </details>
 
     <script>
         function downloadData() {
@@ -83,7 +83,7 @@
     {% endif %}
 
 
-    <form action="stratigraphy/" method="post">
+    <form action="/stratigraphy/" method="post">
         <br>
         {% csrf_token %}
         {{ form }}
