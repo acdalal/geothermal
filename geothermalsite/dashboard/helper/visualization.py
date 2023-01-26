@@ -1,7 +1,7 @@
 from datetime import datetime
 import dateparser
 from collections import defaultdict
-from .constants import GROUPS, DAYS, WEEKS, MONTHS, YEARS
+from .constants import GROUPS, HOURS, DAYS, WEEKS, MONTHS, YEARS
 
 
 def toChartJsTempVsTime(queryResults: list, borehole: int) -> list:
@@ -36,11 +36,16 @@ def toChartJsStratigraphy(
 ) -> dict[dict[list[dict]]]:
     assert groupBy in GROUPS
     results = defaultdict(lambda: defaultdict(list))
+
     for row in queryResults:
         date = datetime.strptime(row["datetime_utc"], "%Y-%m-%d %H:%M:%S")
-        # if groupBy == DAYS:
-        #     group = f"{date.month}/{date.day}/{date.year}"
-        if groupBy != DAYS and groupBy != YEARS:
+
+        # The query results have multiple measurements per day, and each line on the graph is one measurement
+        if groupBy in [DAYS, HOURS]:
+            if groupBy == HOURS:
+                group = f"{date.month}/{date.day}/{date.year}:{date.hour}"
+            if groupBy == DAYS:
+                group = f"{date.month}/{date.day}/{date.year}"
             if groupBy == WEEKS:
                 group = f"Week {date.isocalendar()[1]}"
             if groupBy == MONTHS:
@@ -49,9 +54,11 @@ def toChartJsStratigraphy(
                 group = f"{date.year}"
 
             datapoint = {"x": row["temperature_c"], "y": row["depth_m"]}
-            currentDay = dateparser.parse(row["datetime_utc"]).date().__str__()
-            results[group][currentDay].append(datapoint)
+            results[group][str(date)].append(datapoint)
 
+    # convert the defaultdict to a regular dict so that it automatically converts to javascript dict
     for group in results.keys():
         results[group] = dict(results[group])
-    return dict(results)
+    results = dict(results)
+
+    return results

@@ -5,10 +5,12 @@ from datetime import datetime
 from .logging import log_query_as_INFO
 from .createQueries import (
     createEntireDataOutageQuery,
+    createStratigraphyQueryByMeasurement,
     createStratigraphyQueryByDay,
     createTempVsDepthQuery,
     createTempVsTimeQuery,
 )
+from .constants import DAYS, HOURS
 
 
 def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
@@ -110,12 +112,64 @@ def getTempVsTimeResults(
     return results
 
 
-def getStratigraphyResults(
+def getStratigraphyResultsByDay(
     borehole: str, startTime: str, endTime: str, dailyTimestamp: str
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
-    the channel and depth for a given time range.
+    the channel and depth for a given time range, returning one measurement for each day at a given timestamp
+
+    Parameters
+    ----------
+    channel: ID of the borehole (1 or 3)
+    depth: depth of temperature measurement
+    startTime: start time of the query
+    endTime: end time of the query
+    dailyTimestamp: timestamp of the measurement, doesn't need to be precise
+
+    Returns
+    ----------
+    A dictionary with the results of the query
+    """
+    query = createStratigraphyQueryByDay(borehole, startTime, endTime, dailyTimestamp)
+    results = list()
+
+    with connections["geothermal"].cursor() as cursor:
+        # record query execution time
+        query_start_time = time.time()
+        cursor.execute(query)
+        query_end_time = time.time()
+
+        # clean results and record query result size
+        totalBytes = 0
+        for row in cursor.fetchall():
+            datapoint = {
+                "channel_id": row[0],
+                "measurement_id": row[1],
+                "datetime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
+                "data_id": row[3],
+                "temperature_c": row[4],
+                "depth_m": row[5],
+            }
+            results.append(datapoint)
+            totalBytes += sys.getsizeof(datapoint)
+
+        # log the query execution as an INFO log
+        log_query_as_INFO(
+            query,
+            query_end_time - query_start_time,
+            totalBytes,
+        )
+
+    return results
+
+
+def getStratigraphyResultsByMeasurement(
+    borehole: str, startTime: str, endTime: str
+) -> list[dict]:
+    """
+    Returns a list of all data points across all measurements associated with
+    the channel and depth for a given time range, returning each measurement. Don't use it unless the requested time range is short, othewise the output is extremely big
 
     Parameters
     ----------
@@ -128,7 +182,7 @@ def getStratigraphyResults(
     ----------
     A dictionary with the results of the query
     """
-    query = createStratigraphyQueryByDay(borehole, startTime, endTime, dailyTimestamp)
+    query = createStratigraphyQueryByMeasurement(borehole, startTime, endTime)
     results = list()
 
     with connections["geothermal"].cursor() as cursor:
@@ -197,3 +251,12 @@ def getDataOutages() -> list[dict]:
             }
             results.append(datapoint)
     return results
+
+
+def getStratigraphyResults(
+    borehole: str, startTime: str, endTime: str, dailyTimestamp: str, groupBy: int
+) -> list[dict]:
+    if groupBy in [DAYS, HOURS]:
+        return getStratigraphyResultsByMeasurement(borehole, startTime, endTime)
+    else:
+        return getStratigraphyResultsByDay(borehole, startTime, endTime, dailyTimestamp)

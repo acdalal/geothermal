@@ -114,8 +114,10 @@ def createStratigraphyQueryByDay(
     Returns
     -----------
     Formatted query to be executed by the database cursor
-    TODO: retrieve the data each day only at a certain timestamp
+
+    TODO
     -------------------
+    Replace the hardcoded 30 minutes increment to the timestamp with a dynamically updated increment
 
     """
 
@@ -142,6 +144,52 @@ def createStratigraphyQueryByDay(
             AND laf_m BETWEEN {lafStart} AND {lafBottom}
             AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
             AND CAST(datetime_utc AS TIME) BETWEEN '{timestampStart}' AND '{timestampEnd}'
+            ORDER BY depth_m, datetime_utc;
+            """
+
+    return query
+
+
+def createStratigraphyQueryByMeasurement(
+    borehole: str,
+    startTime: str,
+    endTime: str,
+) -> str:
+    """
+    Creates a query for getting temperature vs time and depth for a given borehole, returning each measurement
+
+    Parameters
+    -----------
+    channel: ID of the borehole to query
+    startTime: start of the time range
+    endTime: end of the time range
+
+    Returns
+    -----------
+    Formatted query to be executed by the database cursor
+    -------------------
+
+    """
+
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafBottom = currentBorehole.getBottom()
+
+    query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
+            temperature_c, depth_m
+            FROM dts_data AS D
+            INNER JOIN measurement AS M
+            ON M.id = measurement_id
+            INNER JOIN channel AS H
+            ON channel_id = H.id
+            INNER JOIN dts_config AS C
+            ON dts_config_id = C.id
+            WHERE channel_id IN (SELECT id FROM channel WHERE
+                                             channel_name='channel {channel}')
+            AND laf_m BETWEEN {lafStart} AND {lafBottom}
+            AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
             ORDER BY depth_m, datetime_utc;
             """
 
