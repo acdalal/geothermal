@@ -18,6 +18,7 @@ from .helper.renderFunctions import (
     renderIndexPage,
     renderTempVsDepthPage,
     renderTempVsTimePage,
+    renderStratigraphyPage,
 )
 
 
@@ -86,7 +87,7 @@ def stratigraphy(request: HttpRequest):
             formData["endDateUtc"],
         )
         borehole = int(formData["boreholeNumber"])
-        return renderTempVsDepthPage(request, queryResults, borehole)
+        return renderStratigraphyPage(request, queryResults, borehole)
 
     else:
-        return renderTempVsDepthPage(request)
+        return renderStratigraphyPage(request)
