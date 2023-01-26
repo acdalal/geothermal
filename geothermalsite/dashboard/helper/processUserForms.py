@@ -30,8 +30,8 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     dateList = re.findall(r"../../....", dateRange)
     startDate, endDate = dateList
 
-    startDateUtc = dateparser.parse(startDate).__str__()
-    endDateUtc = dateparser.parse(endDate).__str__()
+    startDateUtc = dateparser.parse(startDate)
+    endDateUtc = dateparser.parse(endDate).replace(hour=23, minute=59, second=59)
 
     return {
         "boreholeNumber": boreholeNumber,
@@ -69,7 +69,7 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
     dailyTimestampString = cleanedData["timeSelector"]
 
     startDateUtc: datetime = dateparser.parse(startDate)
-    endDateUtc: datetime = dateparser.parse(endDate)
+    endDateUtc = dateparser.parse(endDate).replace(hour=23, minute=59, second=59)
     dailyTimestamp: datetime = dateparser.parse(dailyTimestampString)
 
     return {
