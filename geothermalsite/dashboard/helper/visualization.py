@@ -1,5 +1,6 @@
 from datetime import datetime
-import time
+from collections import defaultdict
+from .constants import GROUPS, DAYS, WEEKS, MONTHS, YEARS
 
 
 def toChartJsTempVsTime(queryResults: list, borehole: int) -> list:
@@ -29,5 +30,24 @@ def toChartJsTempVsDepth(queryResults: list, borehole: int) -> list:
     return graphData
 
 
-def toChartJsStratigraphy(queryResults: list, borehole: int) -> list:
-    pass
+def toChartJsStratigraphy(
+    queryResults: list, borehole: int, groupBy: int
+) -> dict[list[dict]]:
+    assert groupBy in GROUPS
+    results = defaultdict(list)
+    for row in queryResults:
+        date = datetime.strptime(queryResults["datetime_utc"], "%Y-%m-%d %H:%M:%S")
+        if groupBy == DAYS:
+            group = f"{date.month}/{date.day}/{date.year}"
+        if groupBy == WEEKS:
+            group = f"Week {date.isocalendar()[1]}"
+        if groupBy == MONTHS:
+            group = f"{date.month}/xx/{date.year}"
+        if groupBy == YEARS:
+            group = f"{date.year}"
+
+        datapoint = {"x": row["temperature_c"], "y": row["depth_m"]}
+
+        results[group].append(datapoint)
+
+    return results

@@ -79,8 +79,11 @@ def tempVsDepth(request: HttpRequest):
 def stratigraphy(request: HttpRequest):
     if request.method == "POST":
         formData = getUserStratigraphyQuery(request)
+        # start, end =
         queryResults = getStratigraphyResults(
-            formData["boreholeNumber"], formData["timestampUtc"]
+            formData["boreholeNumber"],
+            formData["startDateUtc"],
+            formData["endDateUtc"],
         )
         borehole = int(formData["boreholeNumber"])
         return renderTempVsDepthPage(request, queryResults, borehole)

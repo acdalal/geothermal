@@ -1,8 +1,17 @@
 from django.shortcuts import render
-from ..forms import TempVsTimeForm, TempVsDepthForm, QuerySelectionForm
+from ..forms import (
+    TempVsTimeForm,
+    TempVsDepthForm,
+    QuerySelectionForm,
+    StratigraphyForm,
+)
 
 from .constants import DATA_END_DATE, DATA_START_DATE
-from .visualization import toChartJsTempVsTime, toChartJsTempVsDepth
+from .visualization import (
+    toChartJsTempVsTime,
+    toChartJsTempVsDepth,
+    toChartJsStratigraphy,
+)
 from .api import getDataOutages
 from django.http import HttpRequest
 
@@ -88,5 +97,29 @@ def renderTempVsDepthPage(
     return render(
         request,
         "dashboard/tempvsdepth.html",
+        context,
+    )
+
+
+def renderStratigraphyPage(
+    request: HttpRequest, groupBy: int = None, queryResults: list = None, borehole=None
+):
+    """
+    A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
+    """
+    if queryResults and borehole and groupBy:
+        graphData = toChartJsStratigraphy(queryResults, borehole, groupBy)
+    else:
+        graphData = list()
+
+    outageList = getDataOutages()
+    truncatedOutageList = truncateDateTime(outageList)
+    context = _getPageContext(
+        StratigraphyForm(), queryResults, graphData, truncatedOutageList
+    )
+
+    return render(
+        request,
+        "dashboard/stratigraphy.html",
         context,
     )

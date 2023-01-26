@@ -1,4 +1,3 @@
-from collections import defaultdict
 import time
 import sys
 from django.db import connections
@@ -19,30 +18,6 @@ def _createEntireDataOutageQuery() -> str:
     query = f""" SELECT id, channel_id, outage_type, start_datetime_utc, end_datetime_utc
                  FROM measurement_outage
                  """
-
-    return query
-
-
-def _createDataOutageQuery(startTime: str, endTime: str) -> str:
-    """
-    Creates a query for retrieving data outages during the selected period of time
-
-    Parameters
-    -----------
-    startTime: start of the time range
-    endTime: end of the time range
-
-    Returns
-    -----------
-    Formatted query to be executed by the database cursor
-    """
-
-    # We don't have this outage_type table in the database right?
-    query = f""" SELECT id, channel_id, outage_type, start_datetime_utc, end_datetime_utc
-                 FROM measurement_outage
-                 WHERE (start_datetime_utc BETWEEN {startTime} AND {endTime}) OR
-                 (end_datetime_utc BETWEEN {startTime} AND {endTime}) OR
-                 ({startTime} >= start_datetime_utc AND {endTime} <= end_datetime_utc)"""
 
     return query
 
@@ -168,35 +143,6 @@ def _createStratigraphyQuery(borehole: str, startTime: str, endTime: str) -> str
             """
 
     return query
-
-
-def _organizeStratigraphyResults(data: list, groupBy: str) -> dict[list[dict]]:
-    totalBytes = 0
-    results = defaultdict(list)
-    for row in data:
-        date = datetime.strptime(data["datetime_utc"], "%Y-%m-%d %H:%M:%S")
-        if groupBy == DAYS:
-            group = f"{date.month}/{date.day}/{date.year}"
-        if groupBy == WEEKS:
-            group = f"Week {date.isocalendar()[1]}"
-        if groupBy == MONTHS:
-            group = f"{date.month}/xx/{date.year}"
-        if groupBy == YEARS:
-            group = f"{date.year}"
-
-        datapoint = {
-            "channel_id": row[0],
-            "measurement_id": row[1],
-            "datetime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
-            "data_id": row[3],
-            "temperature_c": row[4],
-            "depth_m": row[5],
-        }
-
-        results[group].append(datapoint)
-        totalBytes += sys.getsizeof(row)
-
-    return results
 
 
 def getTempVsDepthResults(borehole: str, timestamp: str) -> list[dict]:

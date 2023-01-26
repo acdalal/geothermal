@@ -31,14 +31,11 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     startDateUtc = dateparser.parse(startDate).__str__()
     endDateUtc = dateparser.parse(endDate).__str__()
 
-    download = cleanedData["download"]
-
     return {
         "boreholeNumber": boreholeNumber,
         "depth": depth,
         "startDateUtc": startDateUtc,
         "endDateUtc": endDateUtc,
-        "download": download,
     }
 
 
@@ -51,12 +48,9 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     timestamp = cleanedData["timestamp"]
     timestampUtc = dateparser.parse(timestamp).__str__()
 
-    download = cleanedData["download"]
-
     return {
         "timestampUtc": timestampUtc,
         "boreholeNumber": boreholeNumber,
-        "download": download,
     }
 
 
@@ -74,14 +68,11 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
     startDateUtc = dateparser.parse(startDate).__str__()
     endDateUtc = dateparser.parse(endDate).__str__()
 
-    download = cleanedData["download"]
-
     return {
         "boreholeNumber": boreholeNumber,
         "depth": depth,
         "startDateUtc": startDateUtc,
         "endDateUtc": endDateUtc,
-        "download": download,
     }
 
 
