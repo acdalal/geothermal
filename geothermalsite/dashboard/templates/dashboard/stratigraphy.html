@@ -1,0 +1,137 @@
+{% extends 'dashboard/base.html' %}
+
+{% block css %}
+    {{ block.super }}
+
+    <!--daterangepicker package files-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+
+    <!--daterangepicker package files-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+{% endblock %}
+
+{% block content %}
+    <h1>Stratigraphy</h1>
+    <button type="button" onclick="window.location.href='/'">Home</button>
+    
+    {% if queryData %}
+    <!-- <details>
+        <summary>See Data</summary>
+            <div>
+                {% for row in queryData %}
+                    <div>{{ row }}</div>
+                {% endfor %}
+            </div>
+    </details> -->
+
+    <script>
+        function downloadData() {
+            var queryData = {{queryData | safe}};
+            var csv = '';
+            var keys = Object.keys(queryData[0])
+            var keyArray = []
+            keys.forEach(key => {
+                keyArray.push(key)
+            })
+            let keyRow = keyArray.join(",")
+            csv += keyRow + "\n";
+
+            queryData.forEach(row => {
+                let rowElements = []
+                keyArray.forEach(key => {
+                    rowElements.push(row[key])
+                })
+                let csvRow = rowElements.join(",")
+                csv += csvRow
+                csv += '\n'
+            })
+
+            var newElement = document.createElement('a');
+            newElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+
+            //provide the name for the CSV file to be downloaded
+            newElement.download = 'stratigraphy.csv';
+            newElement.click();
+        }
+    </script>
+
+
+    <button onclick="downloadData()">Download data</button>
+    <button id="downloadImage" onclick="window.downloadGraphImage()">Download graph</button>
+
+
+    {% load static %}
+
+    <script src="{% static 'tempVsDepthGraph.js' %}" type="module"></script>
+    <script>
+        var queryData = {{ queryData | safe }};
+        var graphData = {{ graphData | safe }};
+    </script>
+    <div class="container">
+        <canvas id="ctx"></canvas>
+    </div>
+
+    {% endif %}
+
+
+    <form action="stratigraphy/" method="post">
+        <br>
+        {% csrf_token %}
+        {{ form }}
+        {# This script enables the fancy datetime picker #}
+
+        <script type="text/javascript">
+            $(function() {
+                var disabledRanges = [];
+                {% for range in outageList %}
+                    disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                {% endfor %}
+                $('#id_dateRange').daterangepicker({
+                    isInvalidDate: function(date) {
+                        for (var i = 0; i < disabledRanges.length; i++) {
+                            if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    },
+                    minDate: "{{ dataStartDate }}",
+                    maxDate: "{{ dataEndDate }}",
+                    ranges: {
+                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
+                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
+                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
+                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
+                    },
+
+                });
+                });
+
+                $('#id_timeSelector').daterangepicker({
+                    timePicker: true,
+                    singleDatePicker: true,
+                    timePicker24Hour: false,
+                    timePickerIncrement: 1,
+                    timePickerSeconds: false,
+                    locale: {
+                        format: 'HH:mm'
+                    }
+                }).on('show.daterangepicker', function (ev, picker) {
+                    picker.container.find(".calendar-table").hide();
+                });
+        </script>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form>
+
+{% endblock %}
