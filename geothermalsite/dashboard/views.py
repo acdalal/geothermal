@@ -13,6 +13,7 @@ from .helper.processUserForms import (
     getUserTempVsDepthQuery,
     getUserQueryType,
     getUserStratigraphyQuery,
+    getGrouping,
 )
 from .helper.renderFunctions import (
     renderIndexPage,
@@ -79,11 +80,13 @@ def tempVsDepth(request: HttpRequest):
 def stratigraphy(request: HttpRequest):
     if request.method == "POST":
         formData = getUserStratigraphyQuery(request)
-        # start, end =
+        groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
+
         queryResults = getStratigraphyResults(
             formData["boreholeNumber"],
             formData["startDateUtc"],
             formData["endDateUtc"],
+            formData["dailyTimestamp"],
         )
         borehole = int(formData["boreholeNumber"])
         return renderTempVsDepthPage(request, queryResults, borehole)

@@ -1,4 +1,5 @@
 import dateparser
+from datetime import datetime, timedelta
 import re
 from ..forms import (
     TempVsTimeForm,
@@ -7,9 +8,10 @@ from ..forms import (
     StratigraphyForm,
 )
 from django.http import HttpRequest
+from .constants import HOURS, DAYS, WEEKS, MONTHS, YEARS
 
 
-def getQuerySelectionData(cleanedData: dict) -> dict:
+def getQuerySelectionData(cleanedData: dict) -> dict[str:str]:
     """
     Gets the type of database query the user wants to perform
     """
@@ -65,14 +67,18 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
     dateList = re.findall(r"../../....", dateRange)
     startDate, endDate = dateList
 
+    dailyTimestampString = cleanedData["timeSelector"]
+
     startDateUtc = dateparser.parse(startDate).__str__()
     endDateUtc = dateparser.parse(endDate).__str__()
+    dailyTimestamp = dateparser.parse(dailyTimestampString).__str__()
 
     return {
         "boreholeNumber": boreholeNumber,
         "depth": depth,
         "startDateUtc": startDateUtc,
         "endDateUtc": endDateUtc,
+        "dailyTimestamp": dailyTimestamp,
     }
 
 
@@ -117,3 +123,17 @@ def getUserQueryType(request: HttpRequest) -> str:
     formData = getQuerySelectionData(userForm.cleaned_data)
     queryType = formData["queryType"]
     return queryType
+
+
+def getGrouping(start: datetime, end: datetime) -> int:
+    range: timedelta = end - start
+    if range <= timedelta(days=1):
+        return HOURS
+    if range <= timedelta(days=15):
+        return DAYS
+    if range <= timedelta(weeks=15):
+        return WEEKS
+    if range <= timedelta(days=450):
+        return MONTHS
+    else:
+        return YEARS

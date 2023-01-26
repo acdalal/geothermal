@@ -4,7 +4,7 @@ from django.db import connections
 from datetime import datetime, timedelta
 from .boreholes import boreholes
 from .logging import log_query_as_INFO
-from .constants import DAYS, WEEKS, MONTHS, YEARS, GROUPS
+from .constants import HOURS, DAYS, WEEKS, MONTHS, YEARS, GROUPS
 
 
 def _createEntireDataOutageQuery() -> str:
@@ -66,7 +66,7 @@ def _createTempVsTimeQuery(
     return query
 
 
-def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
+def _createTempVsDepthQuery(borehole: str, timestamp: datetime) -> str:
     """
     Creates a query for getting temperature vs depth results for fixed depth
 
@@ -80,9 +80,8 @@ def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
     -----------
     Formatted query to be executed by the database cursor
     """
-
-    startTime = datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
-    endTime = startTime + timedelta(minutes=30)
+    timestampStart = timestamp
+    timestampEnd = timestampStart + timedelta(minutes=30)
 
     currentBorehole = boreholes[borehole]
 
@@ -97,7 +96,7 @@ def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
             ON M.id = D.measurement_id
             WHERE channel_id IN (SELECT id FROM channel WHERE
                                              channel_name='channel {channel}')
-            AND datetime_utc between '{startTime}' AND '{endTime}'
+            AND datetime_utc between '{timestampStart}' AND '{timestampEnd}'
             AND laf_m BETWEEN {lafStart} AND {lafEnd}
             ORDER BY depth_m;
             """
@@ -105,7 +104,9 @@ def _createTempVsDepthQuery(borehole: str, timestamp: str) -> str:
     return query
 
 
-def _createStratigraphyQuery(borehole: str, startTime: str, endTime: str) -> str:
+def _createStratigraphyQuery(
+    borehole: str, startTime: str, endTime: str, dailyTimestamp: str
+) -> str:
     """
     Creates a query for getting temperature vs time and depth for a given borehole
 
@@ -118,6 +119,9 @@ def _createStratigraphyQuery(borehole: str, startTime: str, endTime: str) -> str
     Returns
     -----------
     Formatted query to be executed by the database cursor
+    TODO: retrieve the data each day only at a certain timestamp
+    -------------------
+
     """
 
     currentBorehole = boreholes[borehole]
@@ -125,6 +129,9 @@ def _createStratigraphyQuery(borehole: str, startTime: str, endTime: str) -> str
     channel = currentBorehole.getChannel()
     lafStart = currentBorehole.getStart()
     lafBottom = currentBorehole.getBottom()
+
+    timestampStart = dailyTimestamp
+    timestampEnd = timestampStart + timedelta(minutes=30)
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
@@ -139,13 +146,14 @@ def _createStratigraphyQuery(borehole: str, startTime: str, endTime: str) -> str
                                              channel_name='channel {channel}')
             AND laf_m BETWEEN {lafStart} AND {lafBottom}
             AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
-            ORDER BY datetime_utc;
+            AND CAST(datetime_utc AS TIME) BETWEEN '{timestampStart}' AND '{timestampEnd}
+            ORDER BY depthm_m;
             """
 
     return query
 
 
-def getTempVsDepthResults(borehole: str, timestamp: str) -> list[dict]:
+def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
     the channel during that hour.
@@ -194,7 +202,7 @@ def getTempVsDepthResults(borehole: str, timestamp: str) -> list[dict]:
 
 
 def getTempVsTimeResults(
-    borehole: str, depth: str, startTime: str, endTime: str
+    borehole: str, depth: str, startTime: datetime, endTime: datetime
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -246,7 +254,7 @@ def getTempVsTimeResults(
 
 
 def getStratigraphyResults(
-    borehole: str, startTime: str, endTime: str, groupBy: str
+    borehole: str, startTime: str, endTime: str, dailyTimestamp: str
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -263,8 +271,7 @@ def getStratigraphyResults(
     ----------
     A dictionary with the results of the query
     """
-    assert groupBy in GROUPS, "Invalid grouping"
-    query = _createStratigraphyQuery(borehole, startTime, endTime)
+    query = _createStratigraphyQuery(borehole, startTime, endTime, dailyTimestamp)
     results = list()
 
     with connections["geothermal"].cursor() as cursor:
