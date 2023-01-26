@@ -13,4 +13,20 @@
             horizontal boreholes, each of which is about 510 feet long. All three of these systems (Bald Spot, Mini-Bald Spot, Bell Field) converge in the East Energy Station, located in the basement of Anderson Hall.
             Fiber-optic cables were installed in 5 of the 134 boreholes on the Bald Spot, and the data collected by these cables is what is stored
             in the database maintained by Bruce Duffy. Every 30 minutes, data from each of the 5 boreholes is collected. </p>
+        <h2>Database Maintenance</h2>
+        <p>
+            The database is maintained by Bruce Duffy, Technical Assistant of the Physics department. <strong>Every 30 minutes, measurements from each of the 5 boreholes are collected. </strong>
+
+            The overview of the data pipeline for the geothermal system is as follows: the 5 fiber optic cables embedded in the Bald Spot boreholes converge at a switchbox in a utility tunnel north of the Chapel, which is connected to a Silixa XT-DTS unit in a network closet in the Chapel basement.
+            The XT-DTS is a ruggedized distributed temperature sensor unit, and collects data from the boreholes by sending laser pulses down the fiber optic loops.
+            It sends the data files it generates to a private PC via ethernet network, and these data files are uploaded to a Linux Virtual Machine that captures the relevant data and stores the database. Every 30 minutes, a script is invoked to upload new measurements to the database.
+            For more information about the data pipeline or database, please contact <a href="mailto:bduffy@carleton.edu">Bruce Duffy</a>.
+
+            <strong>Data outages</strong> were an important consideration for this project. We have aired on the conservative side in terms of defining outages.
+            Any period of time that produced either a lack of data or unreliable data has been deemed an outage, and the measurements from that interval of time will not be displayed.
+            See below for a full table of known outages as of January 2023.
+
+            The most recent outage from September 2022-January 2023 resulted from a hardware failure of the XT-DTS unit. For several months, there was no DTS unit taking measurements. Now that the previous unit has been replaced, data collection has resumed.
+        </p>
+
 {% endblock %}
