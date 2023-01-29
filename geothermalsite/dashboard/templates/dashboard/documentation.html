@@ -18,8 +18,19 @@
 
       <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordion">
         <div class="card-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-        </div>
+          <strong><li>What kinds of queries can I make?</li></strong>
+          <em>You can query the temperature of one or multiple boreholes with respect to depth over a period of time.</em>  <br> You can customize this range of time, or choose the most recent 7 days, 30 days, or year's worth of data.
+          You can adjust the time point of the temperature collection to be at midnight, noon, or select a daily average.
+          You can also specify the density of the measurements intervals along the boreholes to your preference.
+          <strong><li>Why are certain time ranges in the calendar grayed out?</li></strong>
+          <em>Time ranges that fall within a data outage cannot be queried.</em> <br> Try selecting a new custom date range instead, or choose the most recent available data range.
+              To learn more about data outages, please visit the Data Outages section in the Data Summary tab.
+          <strong><li>Why is there a gap in my graph?</li></strong>
+          <em>Invalid data will not appear in query visualizations.</em> <br> If you selected a time range that included a data outage, this will be reflected in the visualization that is generated.
+              The gap in the graph represents the period of time over which a data outage spanned. For more information, lease visit the Data Outages section in the Data Summary tab.
+              <strong><li>Where does this data come from?</li></strong>
+              <em>The data you are querying originates from the 5 borehole loops in the Bald Spot that are equipped with fiber optic cables.</em> <br>
+                  For a more in-depth overview of the data pipeline, visit the <a href="{% url 'about' %}">about page</a>.
       </div>
     </div>
     <div class="card">
@@ -32,7 +43,9 @@
       </div>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
-          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+          Data outages  were an important consideration for this project. We have aired on the conservative side in terms of defining outages.
+          Any period of time that produced either a lack of data or unreliable data has been deemed an outage, and the measurements from that interval of time will not be displayed.
+          See below for a full table of known outages as of January 2023.
         </div>
       </div>
     </div>
