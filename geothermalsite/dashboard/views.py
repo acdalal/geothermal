@@ -17,6 +17,7 @@ from .helper.renderFunctions import (
 
 
 def index(request: HttpRequest):
+    # will need to adjust to TempVsDepth directly if we wanna have the query here
     if request.method == "POST":
         queryType = getUserQueryType(request)
 

@@ -22,7 +22,7 @@
 {% endblock %}
 
 {% block content %}
-    <button type="button" onclick="window.location.href='/'">Home</button>
+    {% comment %} <button type="button" onclick="window.location.href='/'">Home</button> {% endcomment %}
 
     {% if queryData %}
     <details>
@@ -89,60 +89,64 @@
     {% endif %}
 
 
+    <div class="form-container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="/tempvstime/" method="post">
+                    <br>
+                    {# Django requires this token statement #}
+                    {% csrf_token %}
 
-    <form action="/tempvstime/" method="post">
-        <br>
-        {# Django requires this token statement #}
-        {% csrf_token %}
+                    {{ form }}
 
-        {{ form }}
+                    <script type="text/javascript">
+                        $(function() {
 
-        <script type="text/javascript">
-            $(function() {
-
-                var start = moment().subtract(29, 'days');
-                var end = moment();
+                            var start = moment().subtract(29, 'days');
+                            var end = moment();
 
 
-                function cb(start, end) {
-                    $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                }
-
-                var disabledRanges = [];
-                {% for range in outageList %}
-                    disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                {% endfor %}
-                $('#id_dateRange').daterangepicker({
-
-                    isInvalidDate: function(date) {
-                        for (var i = 0; i < disabledRanges.length; i++) {
-                            if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                return true;
+                            function cb(start, end) {
+                                $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                             }
-                        }
-                        return false;
-                    },
-                    minDate: "{{ dataStartDate }}",
-                    maxDate: "{{ dataEndDate }}",
-                    ranges: {
-                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
-                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
-                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
-                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
-                    },
 
-                }, cb);
+                            var disabledRanges = [];
+                            {% for range in outageList %}
+                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                            {% endfor %}
+                            $('#id_dateRange').daterangepicker({
 
-                cb(start, end);
+                                isInvalidDate: function(date) {
+                                    for (var i = 0; i < disabledRanges.length; i++) {
+                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                },
+                                minDate: "{{ dataStartDate }}",
+                                maxDate: "{{ dataEndDate }}",
+                                ranges: {
+                                'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
+                                'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
+                                'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
+                                'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
+                                },
 
-            });
-        </script>
+                            }, cb);
 
-        <div>
-            <input type="submit" value="Submit" />
+                            cb(start, end);
+
+                        });
+                    </script>
+
+                    <div>
+                        <input type="submit" value="Submit" class="btn btn-secondary form-control"/>
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
-
+    </div>
 
 
 {% endblock %}

@@ -17,22 +17,31 @@ class TempVsTimeForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display temperature from borehole number ",
+        label="Display temperature from borehole number",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+        widget=forms.Select(attrs={"class": "form-control"}),
     )
     dateRange = forms.CharField(
-        label="during ",
+        label="during",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
                 "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+                "class": "form-control",
             }
         ),
     )
 
     depth = forms.IntegerField(
         label="at depth:",
-        widget=forms.NumberInput(attrs={"type": "number", "min": "0", "step": "1"}),
+        widget=forms.NumberInput(
+            attrs={
+                "type": "number",
+                "min": "0",
+                "step": "1",
+                "class": "form-control",
+            }
+        ),
     )
 
 
@@ -51,10 +60,17 @@ class TempVsDepthForm(forms.Form):
     boreholeNumber = forms.ChoiceField(
         label="Display temperature from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+        widget=forms.Select(attrs={"class": "form-control"}),
     )
     timestamp = forms.CharField(
         label="at time ",
-        widget=forms.TextInput(attrs={"autocomplete": "off", "value": DATA_START_DATE}),
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete": "off",
+                "value": DATA_START_DATE,
+                "class": "form-control",
+            }
+        ),
     )
 
 
@@ -68,10 +84,40 @@ class QuerySelectionForm(forms.Form):
         the type of query to be executed
     """
 
+    BOREHOLE_NUMBERS = [(1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5")]
+
     queryType = forms.ChoiceField(
-        label="Select a type of query:",
+        label="Select a type of query ",
         choices=[
             ("tempvstime", "Temperature vs. Time"),
             ("tempvsdepth", "Temperature vs. Depth"),
         ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    boreholeNumbers = forms.MultipleChoiceField(
+        label="Select borehole(s) to be displayed ",
+        required=True,
+        choices=BOREHOLE_NUMBERS,
+        widget=forms.CheckboxSelectMultiple(
+            attrs={"class": "form-control form-check-inline"}
+        ),
+    )
+    measurementTimePoint = forms.ChoiceField(
+        label="Select measurement time point ",
+        choices=[
+            ("midnight", "at midnight"),
+            ("noon", "at noon"),
+            ("daily_average", "daily average"),
+        ],
+        widget=forms.Select(attrs={"class": "form-control"}),
+    )
+    dateRange = forms.CharField(
+        label="Selecte a date range",
+        widget=forms.TextInput(
+            attrs={
+                "autocomplete": "off",
+                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+                "class": "form-control",
+            }
+        ),
     )
