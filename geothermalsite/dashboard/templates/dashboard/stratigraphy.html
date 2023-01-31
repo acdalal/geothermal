@@ -20,6 +20,7 @@
 {% endblock %}
 
 {% block content %}
+    <h1>Stratigraphy</h1>
     <button type="button" onclick="window.location.href='/'">Home</button>
 
     {% if queryData %}
@@ -32,19 +33,20 @@
             </div>
     </details>
 
-    {% load static %}
 
     <script src="{ %static 'createCsv.js' %}"></script>
 
-    <button onclick="downloadData('tempvsdepth')">Download data</button>
-    <button id="downloadImage" onclick="window.downloadGraphImage('tempvsdepth')">Download graph</button>
+    <button onclick="downloadData('stratigraphy')">Download data</button>
+    <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
 
 
+    {% load static %}
 
     <script src="{% static 'tempVsDepthGraph.js' %}" type="module"></script>
     <script>
         var queryData = {{ queryData | safe }};
         var graphData = {{ graphData | safe }};
+        var groupBy = {{ groupBy | safe }}
     </script>
     <div class="container">
         <canvas id="ctx"></canvas>
@@ -53,7 +55,7 @@
     {% endif %}
 
 
-    <form action="/tempvsdepth/" method="post">
+    <form action="/stratigraphy/" method="post">
         <br>
         {% csrf_token %}
         {{ form }}
@@ -65,10 +67,7 @@
                 {% for range in outageList %}
                     disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
                 {% endfor %}
-                $('#id_timestamp').daterangepicker({
-                    singleDatePicker: true,
-                    minDate: "{{ dataStartDate }}",
-                    maxDate: "{{ dataEndDate }}",
+                $('#id_dateRange').daterangepicker({
                     isInvalidDate: function(date) {
                         for (var i = 0; i < disabledRanges.length; i++) {
                             if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
@@ -77,9 +76,30 @@
                         }
                         return false;
                     },
+                    minDate: "{{ dataStartDate }}",
+                    maxDate: "{{ dataEndDate }}",
+                    ranges: {
+                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
+                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
+                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
+                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
+                    },
 
                 });
-            });
+                });
+
+                $('#id_timeSelector').daterangepicker({
+                    timePicker: true,
+                    singleDatePicker: true,
+                    timePicker24Hour: false,
+                    timePickerIncrement: 1,
+                    timePickerSeconds: false,
+                    locale: {
+                        format: 'HH:mm'
+                    }
+                }).on('show.daterangepicker', function (ev, picker) {
+                    picker.container.find(".calendar-table").hide();
+                });
         </script>
         <div>
             <input type="submit" value="Submit">

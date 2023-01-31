@@ -94,4 +94,5 @@ const options = {
 },
 plugins: [drawVerticalLine, fillChart]
 }
+
 const chart = new Chart($chart, options)
