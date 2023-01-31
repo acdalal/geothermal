@@ -91,11 +91,10 @@
                 $('#id_timeSelector').daterangepicker({
                     timePicker: true,
                     singleDatePicker: true,
-                    timePicker24Hour: false,
                     timePickerIncrement: 1,
                     timePickerSeconds: false,
                     locale: {
-                        format: 'HH:mm'
+                        format: 'hh:mm A'
                     }
                 }).on('show.daterangepicker', function (ev, picker) {
                     picker.container.find(".calendar-table").hide();
