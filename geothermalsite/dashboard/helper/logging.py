@@ -47,7 +47,7 @@ def log_query_as_INFO(query: str, execution_time: int, bytes: int):
     oneline_query = convert_multiline_to_oneline(query)
 
     logger.info(
-        "{} | {}s | {}bytes".format(
+        "query: {} | query execution time: {}s | crude size estimate: {}bytes".format(
             oneline_query,
             execution_time,
             bytes,

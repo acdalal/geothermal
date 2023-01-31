@@ -37,8 +37,9 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
         cursor.execute(query)
         query_end_time = time.time()
 
-        # clean results and record query result size
-        total_bytes = 0
+        # clean results and crudely estimate the size of the query's result
+        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
+        csv_byte_size_estimate = 0
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -49,13 +50,14 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
                 "depth_m": row[5],
             }
             results.append(datapoint)
-            total_bytes += sys.getsizeof(row)
+
+            csv_byte_size_estimate += len(str(row))
 
         # log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            total_bytes,
+            csv_byte_size_estimate,
         )
 
     return results
@@ -89,8 +91,9 @@ def getTempVsTimeResults(
         cursor.execute(query)
         query_end_time = time.time()
 
-        # clean results and record query result size
-        total_bytes = 0
+        # clean results and crudely estimate the size of the query's result
+        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
+        csv_byte_size_estimate = 0
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -101,13 +104,14 @@ def getTempVsTimeResults(
                 "depth_m": row[5],
             }
             results.append(datapoint)
-            total_bytes += sys.getsizeof(row)
+
+            csv_byte_size_estimate += len(str(row))
 
         # log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            total_bytes,
+            csv_byte_size_estimate,
         )
     return results
 
@@ -140,8 +144,9 @@ def getStratigraphyResultsByDay(
         cursor.execute(query)
         query_end_time = time.time()
 
-        # clean results and record query result size
-        totalBytes = 0
+        # clean results and crudely estimate the size of the query's result
+        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
+        csv_byte_size_estimate = 0
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -152,13 +157,14 @@ def getStratigraphyResultsByDay(
                 "depth_m": row[5],
             }
             results.append(datapoint)
-            totalBytes += sys.getsizeof(datapoint)
+
+            csv_byte_size_estimate += len(str(row))
 
         # log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            totalBytes,
+            csv_byte_size_estimate,
         )
 
     return results
@@ -191,8 +197,9 @@ def getStratigraphyResultsByMeasurement(
         cursor.execute(query)
         query_end_time = time.time()
 
-        # clean results and record query result size
-        totalBytes = 0
+        # clean results and crudely estimate the size of the query's result
+        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
+        csv_byte_size_estimate = 0
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -203,13 +210,14 @@ def getStratigraphyResultsByMeasurement(
                 "depth_m": row[5],
             }
             results.append(datapoint)
-            totalBytes += sys.getsizeof(datapoint)
+
+            csv_byte_size_estimate += len(str(row))
 
         # log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            totalBytes,
+            csv_byte_size_estimate,
         )
 
     return results
