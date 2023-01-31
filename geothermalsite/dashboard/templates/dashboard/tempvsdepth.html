@@ -32,43 +32,14 @@
             </div>
     </details>
 
-    <script>
-        function downloadData() {
-            var queryData = {{queryData | safe}};
-            var csv = '';
-            var keys = Object.keys(queryData[0])
-            var keyArray = []
-            keys.forEach(key => {
-                keyArray.push(key)
-            })
-            let keyRow = keyArray.join(",")
-            csv += keyRow + "\n";
-
-            queryData.forEach(row => {
-                let rowElements = []
-                keyArray.forEach(key => {
-                    rowElements.push(row[key])
-                })
-                let csvRow = rowElements.join(",")
-                csv += csvRow
-                csv += '\n'
-            })
-
-            var newElement = document.createElement('a');
-            newElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-
-            //provide the name for the CSV file to be downloaded
-            newElement.download = 'tempVsTime.csv';
-            newElement.click();
-        }
-    </script>
-
-
-    <button onclick="downloadData()">Download data</button>
-    <button id="downloadImage" onclick="window.downloadGraphImage()">Download graph</button>
-
-
     {% load static %}
+
+    <script src="{ %static 'createCsv.js' %}"></script>
+
+    <button onclick="downloadData('tempvsdepth')">Download data</button>
+    <button id="downloadImage" onclick="window.downloadGraphImage('tempvsdepth')">Download graph</button>
+
+
 
     <script src="{% static 'tempVsDepthGraph.js' %}" type="module"></script>
     <script>

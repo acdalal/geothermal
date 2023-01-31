@@ -117,6 +117,7 @@ def renderStratigraphyPage(
     context = _getPageContext(
         StratigraphyForm(), queryResults, graphData, truncatedOutageList
     )
+    context["groupBy"] = groupBy
     return render(
         request,
         "dashboard/stratigraphy.html",

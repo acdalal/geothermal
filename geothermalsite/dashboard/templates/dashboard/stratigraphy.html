@@ -33,40 +33,11 @@
             </div>
     </details>
 
-    <script>
-        function downloadData() {
-            var queryData = {{queryData | safe}};
-            var csv = '';
-            var keys = Object.keys(queryData[0])
-            var keyArray = []
-            keys.forEach(key => {
-                keyArray.push(key)
-            })
-            let keyRow = keyArray.join(",")
-            csv += keyRow + "\n";
 
-            queryData.forEach(row => {
-                let rowElements = []
-                keyArray.forEach(key => {
-                    rowElements.push(row[key])
-                })
-                let csvRow = rowElements.join(",")
-                csv += csvRow
-                csv += '\n'
-            })
+    <script src="{ %static 'createCsv.js' %}"></script>
 
-            var newElement = document.createElement('a');
-            newElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
-
-            //provide the name for the CSV file to be downloaded
-            newElement.download = 'stratigraphy.csv';
-            newElement.click();
-        }
-    </script>
-
-
-    <button onclick="downloadData()">Download data</button>
-    <button id="downloadImage" onclick="window.downloadGraphImage()">Download graph</button>
+    <button onclick="downloadData('stratigraphy')">Download data</button>
+    <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
 
 
     {% load static %}
@@ -75,6 +46,7 @@
     <script>
         var queryData = {{ queryData | safe }};
         var graphData = {{ graphData | safe }};
+        var groupBy = {{ groupBy | safe }}
     </script>
     <div class="container">
         <canvas id="ctx"></canvas>
