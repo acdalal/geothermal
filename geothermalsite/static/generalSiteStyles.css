@@ -1,0 +1,21 @@
+/* This files contains custom colors and styles we choose for our website's design. */
+
+.dark-green {
+    color: #3A473B;
+}
+
+.light-green {
+    color: #839784;
+}
+
+.grey {
+    color: #E6E9EE;
+}
+
+.pink-grey {
+    color: #F0E6E7;
+}
+
+.brown {
+    color: #DFC397;
+}
