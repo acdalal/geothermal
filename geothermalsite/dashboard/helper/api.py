@@ -160,7 +160,6 @@ def getStratigraphyResultsByDay(
             query_end_time - query_start_time,
             totalBytes,
         )
-    print(len(results))
     return results
 
 

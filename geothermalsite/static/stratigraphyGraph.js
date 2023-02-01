@@ -11,19 +11,20 @@ const drawHorizontalLine = {
     },
     beforeTooltipDraw: (chart, args, options) => {
         const {draw} = chart.horizontalLiner
+
         if (!draw) return
 
         const {ctx} = chart
         const {top, bottom, left, right} = chart.chartArea
         const {tooltip} = args
-        const x = tooltip?.caretX
-        if (!x) return
+        const y = tooltip?.caretY
+        if (!y) return
 
         ctx.save()
 
         ctx.beginPath()
-        ctx.moveTo(x, left)
-        ctx.lineTo(x, right)
+        ctx.moveTo(left, y)
+        ctx.lineTo(right, y)
         ctx.stroke()
 
         ctx.restore()
@@ -46,7 +47,6 @@ const fillChart = {
 var datasets = []
 var lineData = {}
 Object.keys(graphData).forEach(group => {
-    console.log(group)
     Object.keys(graphData[group]).forEach(line => {
         lineData = {
             data: graphData[group][line],
@@ -56,7 +56,6 @@ Object.keys(graphData).forEach(group => {
         datasets.push(lineData)
     })
 })
-console.log(datasets)
 const data = {
   datasets: datasets
 }
@@ -70,6 +69,9 @@ const options = {
     type: 'line',
     data: data,
     options: {
+        animation: {
+            duration: 0
+        },
         scales: {
             x: {
                 title: {
@@ -89,8 +91,14 @@ const options = {
         legend: {
             onClick: null
         },
+        spanGaps: true,
+        elements: {
+            point: {
+                radius: 0 // default to disabled in all datasets
+            }
+        },
         interaction: {
-            mode: 'index',
+            mode: 'y',
             intersect: false,
         },
         plugins: {

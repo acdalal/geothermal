@@ -88,6 +88,12 @@ const options = {
         legend: {
             onClick: null
         },
+        spanGaps: true,
+        elements: {
+            point: {
+                radius: 0
+            }
+        },
         interaction: {
             mode: 'y',
             intersect: false,

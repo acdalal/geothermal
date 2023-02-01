@@ -130,8 +130,6 @@ def createStratigraphyQueryByDay(
     timestampStart = dailyTimestamp
     timestampEnd = timestampStart + timedelta(minutes=30)
 
-    print(f"time range is {timestampStart.time()} to {timestampEnd.time()}")
-
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM dts_data AS D
@@ -157,7 +155,6 @@ def createStratigraphyQueryByMeasurement(
     startTime: str,
     endTime: str,
 ) -> str:
-    print("why are we calling this")
     """
     Creates a query for getting temperature vs time and depth for a given borehole, returning each measurement
 

@@ -69,7 +69,6 @@ def renderTempVsTimePage(request: HttpRequest, queryResults=None, borehole=None)
     context = _getPageContext(
         TempVsTimeForm(), queryResults, graphData, truncatedOutageList
     )
-
     return render(
         request,
         "dashboard/tempvstime.html",
@@ -118,6 +117,7 @@ def renderStratigraphyPage(
         StratigraphyForm(), queryResults, graphData, truncatedOutageList
     )
     context["groupBy"] = groupBy
+
     return render(
         request,
         "dashboard/stratigraphy.html",
