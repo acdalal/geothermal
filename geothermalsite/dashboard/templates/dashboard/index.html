@@ -6,17 +6,62 @@
 
     {% include 'dashboard/querycards.html' %}
 
-    {# Query selection dropdown form #}
-    <form action="" method="post">
-        <br>
-        {# Django requires this token statement #}
-        {% csrf_token %}
+    <div class="form-container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+    {# TempVsDepth form #}
+                <form action="/tempvsdepth/" method="post">
+                    <br>
+                    {# Django requires this token statement #}
+                    {% csrf_token %}
 
-        {{ form.as_p }}
+                    {{ form.as_p }}
+                    <script type="text/javascript">
+                        $(function() {
 
-        <input type="submit" value="Submit" class="btn btn-secondary"/>
-    </form>
+                            var start = moment().subtract(29, 'days');
+                            var end = moment();
 
-    <button type="button" onclick="window.location.href='tempvstime'">Temperature VS Time</button>
-    <button type="button" onclick="window.location.href='tempvsdepth'">Temperature VS Depth</button>
+
+                            function cb(start, end) {
+                                $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                            }
+
+                            var disabledRanges = [];
+                            {% for range in outageList %}
+                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                            {% endfor %}
+                            $('#id_dateRange').daterangepicker({
+
+                                isInvalidDate: function(date) {
+                                    for (var i = 0; i < disabledRanges.length; i++) {
+                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                },
+                                minDate: "{{ dataStartDate }}",
+                                maxDate: "{{ dataEndDate }}",
+                                ranges: {
+                                'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
+                                'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
+                                'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
+                                'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
+                                },
+
+                            }, cb);
+
+                            cb(start, end);
+
+                        });
+                    </script>
+                    <div>
+                        <input type="submit" value="Submit" class="btn btn-secondary form-control"/>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

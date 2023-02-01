@@ -52,38 +52,67 @@
 
     {% endif %}
 
+    <div class="form-container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
 
-    <form action="/tempvsdepth/" method="post">
-        <br>
+                <form action="/tempvsdepth/" method="post">
+                    <br>
+                    {% csrf_token %}
+                    {{ form }}
+                    {# This script enables the fancy datetime picker #}
+
+                    <script type="text/javascript">
+                        $(function() {
+                            var disabledRanges = [];
+                            {% for range in outageList %}
+                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                            {% endfor %}
+                            $('#id_timestamp').daterangepicker({
+                                singleDatePicker: true,
+                                minDate: "{{ dataStartDate }}",
+                                maxDate: "{{ dataEndDate }}",
+                                isInvalidDate: function(date) {
+                                    for (var i = 0; i < disabledRanges.length; i++) {
+                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                },
+
+                            });
+                        });
+                    </script>
+                    <div>
+                        <input type="submit" value="Submit">
+                    </div>
+                </form>
+            </div>
+        </div>
+<<<<<<< HEAD
+    </form>
+
+=======
+    </div>
+    <!-- <form action="/tempvsdepth/download" method="post">
         {% csrf_token %}
         {{ form }}
         {# This script enables the fancy datetime picker #}
 
         <script type="text/javascript">
             $(function() {
-                var disabledRanges = [];
-                {% for range in outageList %}
-                    disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                {% endfor %}
-                $('#id_timestamp').daterangepicker({
+                // the id in this function must be different than the id from the function above
+                $('#id_timestamp2').daterangepicker({
                     singleDatePicker: true,
                     minDate: "{{ dataStartDate }}",
                     maxDate: "{{ dataEndDate }}",
-                    isInvalidDate: function(date) {
-                        for (var i = 0; i < disabledRanges.length; i++) {
-                            if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    },
-
                 });
             });
         </script>
         <div>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Download">
         </div>
-    </form>
-
+    </form> -->
+>>>>>>> frontend-design
 {% endblock %}
