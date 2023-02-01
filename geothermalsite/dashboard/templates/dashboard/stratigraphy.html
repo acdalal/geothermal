@@ -34,7 +34,8 @@
     </details>
 
 
-    <script src="{ %static 'createCsv.js' %}"></script>
+    {% load static %}
+    <script src="{% static 'createCsv.js' %}"></script>
 
     <button onclick="downloadData('stratigraphy')">Download data</button>
     <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
