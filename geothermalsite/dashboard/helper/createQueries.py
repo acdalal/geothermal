@@ -100,7 +100,7 @@ def createTempVsDepthQuery(borehole: str, timestamp: datetime) -> str:
 
 
 def createStratigraphyQueryByDay(
-    borehole: str, startTime: str, endTime: str, dailyTimestamp: str
+    borehole: str, startTime: datetime, endTime: datetime, dailyTimestamp: datetime
 ) -> str:
     """
     Creates a query for getting temperature vs time and depth for a given borehole, returning one measurement for each day
@@ -130,6 +130,8 @@ def createStratigraphyQueryByDay(
     timestampStart = dailyTimestamp
     timestampEnd = timestampStart + timedelta(minutes=30)
 
+    print(f"time range is {timestampStart.time()} to {timestampEnd.time()}")
+
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM dts_data AS D
@@ -143,7 +145,7 @@ def createStratigraphyQueryByDay(
                                              channel_name='channel {channel}')
             AND laf_m BETWEEN {lafStart} AND {lafBottom}
             AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
-            AND CAST(datetime_utc AS TIME) BETWEEN '{timestampStart}' AND '{timestampEnd}'
+            AND CAST(datetime_utc AS TIME) BETWEEN '{timestampStart.time()}' AND '{timestampEnd.time()}'
             ORDER BY depth_m, datetime_utc;
             """
 
@@ -155,6 +157,7 @@ def createStratigraphyQueryByMeasurement(
     startTime: str,
     endTime: str,
 ) -> str:
+    print("why are we calling this")
     """
     Creates a query for getting temperature vs time and depth for a given borehole, returning each measurement
 

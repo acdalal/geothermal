@@ -59,8 +59,18 @@ const options = {
     data: data,
     options: {
         scales: {
-          xAxis: {
+          x: {
             type: 'time',
+            title: {
+                display: true,
+                text: 'Date'
+            }
+          },
+          y: {
+            title: {
+                display: true,
+                text: 'Temperature, C'
+            }
           }
         },
         legend: {

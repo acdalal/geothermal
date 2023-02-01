@@ -113,7 +113,7 @@ def getTempVsTimeResults(
 
 
 def getStratigraphyResultsByDay(
-    borehole: str, startTime: str, endTime: str, dailyTimestamp: str
+    borehole: int, startTime: datetime, endTime: datetime, dailyTimestamp: datetime
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -160,7 +160,7 @@ def getStratigraphyResultsByDay(
             query_end_time - query_start_time,
             totalBytes,
         )
-
+    print(len(results))
     return results
 
 
@@ -256,7 +256,7 @@ def getDataOutages() -> list[dict]:
 def getStratigraphyResults(
     borehole: str, startTime: str, endTime: str, dailyTimestamp: str, groupBy: int
 ) -> list[dict]:
-    if groupBy in [DAYS, HOURS]:
+    if groupBy == HOURS:
         return getStratigraphyResultsByMeasurement(borehole, startTime, endTime)
     else:
         return getStratigraphyResultsByDay(borehole, startTime, endTime, dailyTimestamp)

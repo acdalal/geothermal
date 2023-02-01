@@ -1,20 +1,20 @@
 const $chart = document.getElementById('ctx')
 
-const drawVerticalLine = {
+const drawHorizontalLine = {
     id: 'verticalLiner',
     afterInit: (chart, args, opts) => {
-      chart.verticalLiner = {}
+      chart.horizontalLiner = {}
     },
     afterEvent: (chart, args, options) => {
         const {inChartArea} = args
-        chart.verticalLiner = {draw: inChartArea}
+        chart.horizontalLiner = {draw: inChartArea}
     },
     beforeTooltipDraw: (chart, args, options) => {
-        const {draw} = chart.verticalLiner
+        const {draw} = chart.horizontalLiner
         if (!draw) return
 
         const {ctx} = chart
-        const {top, bottom} = chart.chartArea
+        const {top, bottom, left, right} = chart.chartArea
         const {tooltip} = args
         const x = tooltip?.caretX
         if (!x) return
@@ -22,8 +22,8 @@ const drawVerticalLine = {
         ctx.save()
 
         ctx.beginPath()
-        ctx.moveTo(x, top)
-        ctx.lineTo(x, bottom)
+        ctx.moveTo(x, left)
+        ctx.lineTo(x, right)
         ctx.stroke()
 
         ctx.restore()
@@ -42,11 +42,23 @@ const fillChart = {
     }
   };
 
+
+var datasets = []
+var lineData = {}
+Object.keys(graphData).forEach(group => {
+    console.log(group)
+    Object.keys(graphData[group]).forEach(line => {
+        lineData = {
+            data: graphData[group][line],
+            label: group + ' ' + line,
+            axis: 'y'
+        }
+        datasets.push(lineData)
+    })
+})
+console.log(datasets)
 const data = {
-  datasets: [{
-    data: graphData,
-    label: "Temperature vs Time Graph"
-}]
+  datasets: datasets
 }
 
 var depth = "_depth_" + queryData[0]['depth_m'];
@@ -59,19 +71,20 @@ const options = {
     data: data,
     options: {
         scales: {
-          x: {
-            type: 'time',
-            title: {
-                display: true,
-                text: 'Date'
+            x: {
+                title: {
+                    display: true,
+                    text: 'Temperature, C'
+                }
+            },
+            y: {
+                type: 'linear',
+                title: {
+                    display: true,
+                    text: 'Depth below ground, ft.'
+                },
+                reverse: true
             }
-          },
-          y: {
-            title: {
-                display: true,
-                text: 'Temperature, C'
-            }
-          }
         },
         legend: {
             onClick: null
@@ -83,6 +96,8 @@ const options = {
         plugins: {
             verticalLiner: {}
         },
+        indexAxis: 'y',
+
         animation: {
             onComplete: function(){
                 window.downloadGraphImage = function(){
@@ -101,7 +116,7 @@ const options = {
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
     },
-    plugins: [drawVerticalLine, fillChart]
+    plugins: [drawHorizontalLine, fillChart]
 }
 
 var chart = new Chart($chart, options);
