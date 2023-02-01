@@ -21,7 +21,7 @@
 
 {% block content %}
     <h1>Stratigraphy</h1>
-    <button type="button" onclick="window.location.href='/'">Home</button>
+    {% comment %} <button type="button" onclick="window.location.href='/'">Home</button> {% endcomment %}
 
     {% if queryData %}
     <details>
@@ -54,55 +54,59 @@
 
     {% endif %}
 
+    <div class="form-container">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="/stratigraphy/" method="post">
+                    <br>
+                    {% csrf_token %}
+                    {{ form }}
+                    {# This script enables the fancy datetime picker #}
 
-    <form action="/stratigraphy/" method="post">
-        <br>
-        {% csrf_token %}
-        {{ form }}
-        {# This script enables the fancy datetime picker #}
+                    <script type="text/javascript">
+                        $(function() {
+                            var disabledRanges = [];
+                            {% for range in outageList %}
+                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                            {% endfor %}
+                            $('#id_dateRange').daterangepicker({
+                                isInvalidDate: function(date) {
+                                    for (var i = 0; i < disabledRanges.length; i++) {
+                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                            return true;
+                                        }
+                                    }
+                                    return false;
+                                },
+                                minDate: "{{ dataStartDate }}",
+                                maxDate: "{{ dataEndDate }}",
+                                ranges: {
+                                'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
+                                'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
+                                'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
+                                'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
+                                },
 
-        <script type="text/javascript">
-            $(function() {
-                var disabledRanges = [];
-                {% for range in outageList %}
-                    disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                {% endfor %}
-                $('#id_dateRange').daterangepicker({
-                    isInvalidDate: function(date) {
-                        for (var i = 0; i < disabledRanges.length; i++) {
-                            if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                return true;
-                            }
-                        }
-                        return false;
-                    },
-                    minDate: "{{ dataStartDate }}",
-                    maxDate: "{{ dataEndDate }}",
-                    ranges: {
-                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
-                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
-                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
-                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
-                    },
+                            });
+                            });
 
-                });
-                });
-
-                $('#id_timeSelector').daterangepicker({
-                    timePicker: true,
-                    singleDatePicker: true,
-                    timePickerIncrement: 1,
-                    timePickerSeconds: false,
-                    locale: {
-                        format: 'hh:mm A'
-                    }
-                }).on('show.daterangepicker', function (ev, picker) {
-                    picker.container.find(".calendar-table").hide();
-                });
-        </script>
-        <div>
-            <input type="submit" value="Submit">
+                            $('#id_timeSelector').daterangepicker({
+                                timePicker: true,
+                                singleDatePicker: true,
+                                timePickerIncrement: 1,
+                                timePickerSeconds: false,
+                                locale: {
+                                    format: 'hh:mm A'
+                                }
+                            }).on('show.daterangepicker', function (ev, picker) {
+                                picker.container.find(".calendar-table").hide();
+                            });
+                    </script>
+                    <div>
+                        <input type="submit" value="Submit" class="btn btn-primary">
+                    </div>
+                </form>
+            </div>
         </div>
-    </form>
-
+    </div>
 {% endblock %}
