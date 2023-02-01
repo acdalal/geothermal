@@ -11,46 +11,40 @@
   <div class="row">
     <div class="col-3">
       <div id="list-example" class="list-group">
-        <a class="list-group-item list-group-item-action" href="#list-item-1">Item 1</a>
-        <a class="list-group-item list-group-item-action" href="#list-item-2">Item2</a>
-        <a class="list-group-item list-group-item-action" href="#list-item-3">Item 3</a>
-        <a class="list-group-item list-group-item-action" href="#list-item-4">Item 4</a>
+        <a class="list-group-item list-group-item-action" href="#list-faq">FAQ</a>
+        <a class="list-group-item list-group-item-action" href="#list-data-summary">Data Summary</a>
+        <a class="list-group-item list-group-item-action" href="#list-advanced-api">Advanced API Use</a>
       </div>
     </div>
 
     <div class="col-9">
       <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
-        <h4 id="list-item-1">Item 1</h4>
+        <h4 id="list-faq">FAQ</h4>
         <p>
-          Ex consequat commodo adipisicing exercitation aute excepteur occaecat ullamco duis aliqua id magna ullamco eu.
-          Do aute ipsum ipsum ullamco cillum consectetur ut et aute consectetur labore. Fugiat laborum incididunt tempor eu consequat
-          enim dolore proident. Qui laborum do non excepteur nulla magna eiusmod consectetur in. Aliqua et aliqua officia quis et
-          incididunt voluptate non anim reprehenderit adipisicing dolore ut consequat deserunt mollit dolore. Aliquip nulla enim veniam
-          non fugiat id cupidatat nulla elit cupidatat commodo velit ut eiusmod cupidatat elit dolore.
+          <strong><li>What kinds of queries can I make?</li></strong>
+          <em>You can query the temperature of one or multiple boreholes with respect to depth over a period of time.</em>  <br> You can customize this range of time, or choose the most recent 7 days, 30 days, or year's worth of data.
+          You can adjust the time point of the temperature collection to be at midnight, noon, or select a daily average.
+          You can also specify the density of the measurements intervals along the boreholes to your preference.
+          <strong><li>Why are certain time ranges in the calendar grayed out?</li></strong>
+          <em>Time ranges that fall within a data outage cannot be queried.</em> <br> Try selecting a new custom date range instead, or choose the most recent available data range.
+              To learn more about data outages, please visit the Data Outages section in the Data Summary tab.
+          <strong><li>Why is there a gap in my graph?</li></strong>
+          <em>Invalid data will not appear in query visualizations.</em> <br> If you selected a time range that included a data outage, this will be reflected in the visualization that is generated.
+              The gap in the graph represents the period of time over which a data outage spanned. For more information, lease visit the Data Outages section in the Data Summary tab.
+              <strong><li>Where does this data come from?</li></strong>
+              <em>The data you are querying originates from the 5 borehole loops in the Bald Spot that are equipped with fiber optic cables.</em> <br>
+                  For a more in-depth overview of the data pipeline, visit the <a href="{% url 'about' %}">about page</a>.
         </p>
-        <h4 id="list-item-2">Item 2</h4>
+        <h4 id="list-data-summary">Data Summary</h4>
         <p>
-          Ex consequat commodo adipisicing exercitation aute excepteur occaecat ullamco duis aliqua id magna ullamco eu.
-          Do aute ipsum ipsum ullamco cillum consectetur ut et aute consectetur labore. Fugiat laborum incididunt tempor eu consequat
-          enim dolore proident. Qui laborum do non excepteur nulla magna eiusmod consectetur in. Aliqua et aliqua officia quis et
-          incididunt voluptate non anim reprehenderit adipisicing dolore ut consequat deserunt mollit dolore. Aliquip nulla enim veniam
-          non fugiat id cupidatat nulla elit cupidatat commodo velit ut eiusmod cupidatat elit dolore.
+          Data outages  were an important consideration for this project. We have aired on the conservative side in terms of defining outages.
+          Any period of time that produced either a lack of data or unreliable data has been deemed an outage, and the measurements from that interval of time will not be displayed.
+          See below for a full table of known outages as of January 2023.
         </p>
-        <h4 id="list-item-3">Item 3</h4>
+        <h4 id="list-advanced-api">Advanced API Use</h4>
         <p>
-          Ex consequat commodo adipisicing exercitation aute excepteur occaecat ullamco duis aliqua id magna ullamco eu.
-          Do aute ipsum ipsum ullamco cillum consectetur ut et aute consectetur labore. Fugiat laborum incididunt tempor eu consequat
-          enim dolore proident. Qui laborum do non excepteur nulla magna eiusmod consectetur in. Aliqua et aliqua officia quis et
-          incididunt voluptate non anim reprehenderit adipisicing dolore ut consequat deserunt mollit dolore. Aliquip nulla enim veniam
-          non fugiat id cupidatat nulla elit cupidatat commodo velit ut eiusmod cupidatat elit dolore.
-        </p>
-        <h4 id="list-item-4">Item 4</h4>
-        <p>
-          Ex consequat commodo adipisicing exercitation aute excepteur occaecat ullamco duis aliqua id magna ullamco eu.
-          Do aute ipsum ipsum ullamco cillum consectetur ut et aute consectetur labore. Fugiat laborum incididunt tempor eu consequat
-          enim dolore proident. Qui laborum do non excepteur nulla magna eiusmod consectetur in. Aliqua et aliqua officia quis et
-          incididunt voluptate non anim reprehenderit adipisicing dolore ut consequat deserunt mollit dolore. Aliquip nulla enim veniam
-          non fugiat id cupidatat nulla elit cupidatat commodo velit ut eiusmod cupidatat elit dolore.
+          The Geothermal Data API supports making more advanced queries, including direct PostGreSQL queries.
+          For more information on advanced API use, <a href="https://github.com/acdalal/geothermal">visit our repository on GitHub</a>.
         </p>
       </div>
     </div>
@@ -95,15 +89,9 @@
       </div>
       <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
         <div class="card-body">
-<<<<<<< HEAD
-          <strong>Data outages</strong> were an important consideration for this project. We have aired on the conservative side in terms of defining outages.
-            Any period of time that produced either a lack of data or unreliable data has been deemed an outage, and the measurements from that interval of time will not be displayed.
-            See below for a full table of known outages as of January 2023.
-=======
           Data outages  were an important consideration for this project. We have aired on the conservative side in terms of defining outages.
           Any period of time that produced either a lack of data or unreliable data has been deemed an outage, and the measurements from that interval of time will not be displayed.
           See below for a full table of known outages as of January 2023.
->>>>>>> frontend-design
         </div>
       </div>
     </div>
