@@ -89,6 +89,7 @@ class StratigraphyForm(forms.Form):
     boreholeNumber = forms.ChoiceField(
         label="Display temperature vs depth data from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+        widget=forms.Select(attrs={"class": "form-control"}),
     )
     dateRange = forms.CharField(
         label="during ",
@@ -96,11 +97,13 @@ class StratigraphyForm(forms.Form):
             attrs={
                 "autocomplete": "off",
                 "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+                "class": "form-control",
             }
         ),
     )
     timeSelector = forms.CharField(
         label="at time ",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
     )
 
 
