@@ -6,22 +6,26 @@ body {
     color: #32292F;
   }
 
-.black-coffee-background {
+.black-background {
     background-color: #32292F;
 }
 
-.pink-lavendar-background {
+.pink-background {
     background-color: #CFA5B4;
 }
 
-.windsor-tan-background {
-    background-color: #99582A;
+.brown-background {
+    background-color: #A3693F;
+}
+
+.dark-cream-background {
+    background-color: #F3E3B1;
 }
 
 .cream-background {
-    background-color: #FFFDD0;
+    background-color: #faf3dd;
 }
 
-.russian-green-background {
+.green-background {
     background-color: #648767;
 }
