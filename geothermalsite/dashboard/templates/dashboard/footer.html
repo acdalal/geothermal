@@ -1,4 +1,8 @@
-<footer class="bg-info text-center text-lg-start">
+{% load static %}
+<link rel="stylesheet" href="{% static 'generalSiteStyles.css' %}">
+
+<!-- Included inline styling to override navbar's !important-flaged background color CSS -->
+<footer class="bg-info text-center text-lg-start" style="background-color:#faf3dd!important;">
     {% comment %} took out "fixed-bottom" {% endcomment %}
     <!-- Grid container -->
     <div class="container p-4">
@@ -54,7 +58,7 @@
     <!-- Grid container -->
 
     <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    <div class="text-center p-3 cream-background">
       © 2020 Copyright:
       <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
     </div>
