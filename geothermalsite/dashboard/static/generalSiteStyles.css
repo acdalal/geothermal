@@ -3,25 +3,25 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
     font-size: 14px;
-    color: black;
+    color: #32292F;
   }
 
-.dark-green-background {
-    background-color: #3A473B;
+.black-coffee-background {
+    background-color: #32292F;
 }
 
-.light-green-background {
-    background-color: #839784;
+.pink-lavendar-background {
+    background-color: #CFA5B4;
 }
 
-.grey-background {
-    background-color: #E6E9EE;
+.windsor-tan-background {
+    background-color: #99582A;
 }
 
-.pink-grey-background {
-    background-color: #F0E6E7;
+.cream-background {
+    background-color: #FFFDD0;
 }
 
-.brown-background {
-    background-color: #DFC397;
+.russian-green-background {
+    background-color: #648767;
 }
