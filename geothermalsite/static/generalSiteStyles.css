@@ -1,21 +1,42 @@
 /* This files contains custom colors and styles we choose for our website's design. */
 
-.dark-green {
-    color: #3A473B;
+/* Define variables for our custom color palette */
+:root {
+    --custom-black: #32292F;
+    --custom-cream: #faf3dd;
+    --custom-brown: #A3693F;
+    --custom-green: #648767;
+    --custom-pink: #CFA5B4;
+    --custom-dark-cream: #F3E3B1;
 }
 
-.light-green {
-    color: #839784;
+body {
+    font-size: 16px;
+    font-family: "Montserrat";
+    color: var(--custom-black);
+    background-color: var(--custom-cream);
 }
 
-.grey {
-    color: #E6E9EE;
+.black-background {
+    background-color: var(--custom-black);
 }
 
-.pink-grey {
-    color: #F0E6E7;
+.pink-background {
+    background-color: var(--custom-pink);
 }
 
-.brown {
-    color: #DFC397;
+.brown-background {
+    background-color: var(--custom-brown);
+}
+
+.dark-cream-background {
+    background-color: var(--custom-dark-cream);
+}
+
+.cream-background {
+    background-color: var(--custom-cream);
+}
+
+.green-background {
+    background-color: var(--custom-green);
 }

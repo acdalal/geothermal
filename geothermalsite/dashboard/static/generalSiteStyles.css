@@ -1,5 +1,6 @@
 /* This files contains custom colors and styles we choose for our website's design. */
 
+/* Define variables for our custom color palette */
 :root {
     --custom-black: #32292F;
     --custom-cream: #faf3dd;
@@ -10,7 +11,7 @@
 }
 
 body {
-    font-size: 24px;
+    font-size: 16px;
     font-family: "Montserrat";
     color: var(--custom-black);
     background-color: var(--custom-cream);
