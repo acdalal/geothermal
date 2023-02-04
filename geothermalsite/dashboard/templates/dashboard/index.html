@@ -1,38 +1,47 @@
 {% extends 'dashboard/base.html' %}
 
+{% block css %}
+    {{ block.super }}
+
+    <!--daterangepicker package files-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+{% endblock %}
+
+{% block javascript %}
+    {{ block.super }}
+
+    <!--daterangepicker package files-->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+
+{% endblock %}
+
 {% block content %}
 
     {% include 'dashboard/jumbotron.html' %}
 
     {% include 'dashboard/querycards.html' %}
 
+    {% load static %}
     <div class="form-container">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-    {# TempVsDepth form #}
-                <form action="/tempvsdepth/" method="post">
+                <form action="/stratigraphy/" method="post">
                     <br>
-                    {# Django requires this token statement #}
                     {% csrf_token %}
+                    {{ form }}
+                    {# This script enables the fancy datetime picker #}
 
-                    {{ form.as_p }}
                     <script type="text/javascript">
                         $(function() {
-
-                            var start = moment().subtract(29, 'days');
-                            var end = moment();
-
-
-                            function cb(start, end) {
-                                $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                            }
-
                             var disabledRanges = [];
                             {% for range in outageList %}
                                 disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
                             {% endfor %}
                             $('#id_dateRange').daterangepicker({
-
                                 isInvalidDate: function(date) {
                                     for (var i = 0; i < disabledRanges.length; i++) {
                                         if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
@@ -50,14 +59,30 @@
                                 'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
                                 },
 
-                            }, cb);
+                            });
+                            });
 
-                            cb(start, end);
-
+                            $('#id_timeSelector').daterangepicker({
+                                timePicker: true,
+                                singleDatePicker: true,
+                                timePickerIncrement: 1,
+                                timePickerSeconds: false,
+                                locale: {
+                                    format: 'hh:mm A'
+                                }
+                            }).on('show.daterangepicker', function (ev, picker) {
+                                picker.container.find(".calendar-table").hide();
+                            });
+                    </script>
+                    <script>
+                        $(document).ready(function() {
+                            $("button").click(function() {
+                                $(document).scrollTop($(document).height());
+                            });
                         });
                     </script>
                     <div>
-                        <input type="submit" value="Submit" class="btn btn-secondary form-control"/>
+                        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
                     </div>
                 </form>
             </div>
