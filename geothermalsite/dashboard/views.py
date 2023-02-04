@@ -7,6 +7,7 @@ from .helper.api import (
     getTempVsDepthResults,
     getTempVsTimeResults,
     getStratigraphyResults,
+    getDataOutages,
 )
 from .helper.processUserForms import (
     getUserTempsVsTimeQuery,
