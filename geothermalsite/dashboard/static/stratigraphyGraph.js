@@ -55,9 +55,16 @@ const colors = ['rgba(255, 230, 25, 75)', 'rgba(255, 60, 180, 75)', 'rgba(255, 0
 Object.keys(graphData).forEach(group => {
 
     Object.keys(graphData[group]).forEach(line => {
+        let label = group
+        if (groups.includes(group)) {
+            label += line
+        }
+        else {
+            groups.push(group)
+        }
         let lineData = {
             data: graphData[group][line],
-            label: group,
+            label: label,
             axis: 'y',
             borderColor: colors[groupNumber]
         }
@@ -70,6 +77,7 @@ Object.keys(graphData).forEach(group => {
 const data = {
   datasets: datasets
 }
+console.log(data)
 
 var depth = "_depth_" + queryData[0]['depth_m'];
 var startDate = "_startDate_" + queryData[0]['datetime_utc'].slice(0, 11) // Cut off the timestamp
@@ -113,13 +121,12 @@ const options = {
                 labels: {
                     filter: function(legendItem, data) {
                         let group = legendItem.text
-                        console.log(groups)
-                        if (!(groups.includes(group))) {
-                            groups.push(group)
-                            return false
+                        // console.log(group, groups)
+                        if (groups.includes(group)) {
+                            return true
                         }
                         else {
-                            return true
+                            return false
                         }
                     }
                 }
