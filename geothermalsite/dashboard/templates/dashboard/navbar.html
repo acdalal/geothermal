@@ -1,11 +1,10 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'navbar.css' %}">
 
-<nav class="navbar navbar-expand-lg bg-body-tertiary">
+<!-- Bootstrap 4 Navbar: https://getbootstrap.com/docs/4.0/components/navbar/ -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary cream-background">
     <div class="container-fluid">
-      <a class="navbar-brand" href="{% url 'index' %}">
-        <img class="logo" src="{% static 'Carleton-Closed-C-Ray-Wordmark-Left-Blue.png' %}" width="125" height="22">
-      </a>
+      <a class="navbar-brand mb-0 h1" href="{% url 'index' %}">Carleton Geothermal Dashboard</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -18,6 +17,12 @@
             <a class="nav-link" href="{% url 'documentation' %}">Documentation</a>
           </li>
         </ul>
+
+        <div class="ml-auto">
+          <a href="https://www.carleton.edu/" alt="Carleton College Blue Logo">
+            <img class="logo" src="{% static 'Carleton-Closed-C-Ray-Wordmark-Left-Blue.png' %}" width="125" height="22">
+          </a>
+        </div>
       </div>
     </div>
   </nav>

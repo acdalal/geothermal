@@ -1,13 +1,16 @@
-<footer class="bg-info text-center text-lg-start">
-    {% comment %} took out "fixed-bottom" {% endcomment %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'generalSiteStyles.css' %}">
+
+<!-- Included inline styling to override navbar's !important-flaged background color CSS -->
+<footer class="bg-info text-left text-lg-start" style="background-color:#faf3dd!important;">
+    <hr>
     <!-- Grid container -->
     <div class="container p-4">
       <!--Grid row-->
       <div class="row">
         <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-            <h5 class="text-uppercase">Summary</h5>
-
+        <div class="col">
+            <h5 class="text-uppercase">The Project</h5>
             <p>
                 Welcome to the Carleton Geothermal Dashboard! This project was created by the Computer Science Geothermal
                 Comps Team in 2022-23 to enable Carleton community members to access the College's geothermal database.
@@ -16,17 +19,20 @@
         <!--Grid column-->
 
         <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase">Links</h5>
+        <div class="col">
+          <h5 class="text-uppercase">Dashboard Links</h5>
 
           <ul class="list-unstyled mb-0">
             <li>
               <a href="{% url 'index' %}" class="text-dark">Dashboard</a>
+              <a href="{% url 'index' %}" class="text-dark">Dashboard</a>
             </li>
             <li>
               <a href="{% url 'about' %}" class="text-dark">About</a>
+              <a href="{% url 'about' %}" class="text-dark">About</a>
             </li>
             <li>
+              <a href="{% url 'documentation' %}" class="text-dark">Documentation</a>
               <a href="{% url 'documentation' %}" class="text-dark">Documentation</a>
             </li>
           </ul>
@@ -34,17 +40,30 @@
         <!--Grid column-->
 
         <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-          <h5 class="text-uppercase mb-0">Carleton Links</h5>
+        <div class="col">
+          <h5 class="text-uppercase">Carleton Links</h5>
 
-          <ul class="list-unstyled">
+          <ul class="list-unstyled mb-0">
             <li>
-              <a href="{% url 'index' %}" class="text-dark">Home</a>
+              <a href="https://www.carleton.edu/" class="text-dark">Home</a>
             </li>
             <li>
-              <a href="{% url 'index' %}" class="text-dark">Geothermal</a>
+              <a href="https://www.carleton.edu/geothermal/" class="text-dark">Utility Master Plan</a>
             </li>
           </ul>
+        </div>
+        <!--Grid column-->
+
+        <!--Grid column-->
+        <div class="col">
+          <h5 class="text-uppercase">Source Code</h5>
+
+          <ul class="list-unstyled mb-0">
+            <li>
+              <a href="https://github.com/acdalal/geothermal" class="text-dark">GitHub</a>
+            </li>
+          </ul>
+
         </div>
         <!--Grid column-->
 
@@ -53,10 +72,10 @@
     </div>
     <!-- Grid container -->
 
-    <!-- Copyright -->
-    <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
+    <!-- Copyright
+    <div class="text-center p-3 cream-background">
       © 2020 Copyright:
       <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
     </div>
-    <!-- Copyright -->
+    Copyright -->
 </footer>
