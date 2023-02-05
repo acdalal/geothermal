@@ -6,69 +6,62 @@
 
 <div class="container">
   <div class="row">
-    <div class="col-3">
-      <div id="scrollspy-list" class="list-group">
-        <a class="list-group-item list-group-item-action" href="#list-faq">
-          FAQ
-        </a>
-        <a
-          class="list-group-item list-group-item-action"
-          href="#list-data-summary"
-          >Data Summary</a
-        >
-        <a
-          class="list-group-item list-group-item-action"
-          href="#list-advanced-api"
-          >Advanced API Use</a
-        >
-      </div>
+    <!-- Left-hand navbar for page contents -->
+    <div class="col-3 navbar-col">
+      <ul class="nav nav-pills nav-stacked">
+        <li class="nav-item">
+          <a class="nav-link active" href="#faq-section">FAQ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#data-summary-section">Data Summary</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link active" href="#advanced-api-section">Advanced API</a>
+        </li>
+      </ul>
     </div>
+    <!-- end navbar for page contents -->
 
+    <!-- Right-hand page contents -->
     <div class="col-9">
-      <div
-        data-spy="scroll"
-        data-target="#scrollspy-list"
-        data-offset="0"
-        class="scrollspy-example"
-      >
-        <!-- FAQ as a Bootstrap 4 accordion-->
-        <h4 id="list-faq">FAQ</h4>
-        <div id="accordion">
-          <div class="card">
-            <div class="card-header" id="headingOne">
-              <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseOne"
-                  aria-expanded="false"
-                  aria-controls="collapseOne"
-                >
-                  What kinds of queries can I make?
-                </button>
-              </h5>
-            </div>
-            <div
-              id="collapseOne"
-              class="collapse"
-              aria-labelledby="headingOne"
-              data-parent="#accordion"
-            >
-              <div class="card-body">
-                <strong
-                  >You can query the temperature of one or multiple boreholes
-                  with respect to depth over a period of time.</strong
-                >
-                <br /> <br />
-                You can customize this range of time, or choose the most recent
-                7 days, 30 days, or year's worth of data. You can adjust the
-                time point of the temperature collection to be at midnight,
-                noon, or select a daily average. You can also specify the
-                density of the measurements intervals along the boreholes to
-                your preference.
-              </div>
+      <!-- FAQ as a Bootstrap 4 accordion-->
+      <h4 id="faq-section">FAQ</h4>
+      <div id="accordion">
+        <div class="card">
+          <div class="card-header" id="headingOne">
+            <h5 class="mb-0">
+              <button
+                class="btn btn-link collapsed"
+                data-toggle="collapse"
+                data-target="#collapseOne"
+                aria-expanded="false"
+                aria-controls="collapseOne"
+              >
+                What kinds of queries can I make?
+              </button>
+            </h5>
+          </div>
+          <div
+            id="collapseOne"
+            class="collapse"
+            aria-labelledby="headingOne"
+            data-parent="#accordion"
+          >
+            <div class="card-body">
+              <strong
+                >You can query the temperature of one or multiple boreholes
+                with respect to depth over a period of time.</strong
+              >
+              <br /> <br />
+              You can customize this range of time, or choose the most recent
+              7 days, 30 days, or year's worth of data. You can adjust the
+              time point of the temperature collection to be at midnight,
+              noon, or select a daily average. You can also specify the
+              density of the measurements intervals along the boreholes to
+              your preference.
             </div>
           </div>
+        </div>
 
           <div class="card">
             <div class="card-header" id="headingTwo">
@@ -172,29 +165,29 @@
         <br />
         <!-- end FAQ accordion -->
 
-        <!-- Data summary section -->
-        <h4 id="list-data-summary">Data Summary</h4>
-        <p>
-          Data outages were an important consideration for this project. We have
-          aired on the conservative side in terms of defining outages. Any
-          period of time that produced either a lack of data or unreliable data
-          has been deemed an outage, and the measurements from that interval of
-          time will not be displayed. See below for a full table of known
-          outages as of January 2023.
-        </p>
+      <!-- Data summary section -->
+      <h4 id="data-summary-section">Data Summary</h4>
+      <p>
+        Data outages were an important consideration for this project. We have
+        aired on the conservative side in terms of defining outages. Any
+        period of time that produced either a lack of data or unreliable data
+        has been deemed an outage, and the measurements from that interval of
+        time will not be displayed. See below for a full table of known
+        outages as of January 2023.
+      </p>
 
-        <!-- Advanced API section -->
-        <h4 id="list-advanced-api">Advanced API Use</h4>
-        <p>
-          The Geothermal Data API supports making more advanced queries,
-          including direct PostGreSQL queries. For more information on advanced
-          API use,
-          <a href="https://github.com/acdalal/geothermal"
-            >visit our repository on GitHub</a
-          >
-        </p>
-      </div>
+      <!-- Advanced API section -->
+      <h4 id="advanced-api-section">Advanced API Use</h4>
+      <p>
+        The Geothermal Data API supports making more advanced queries,
+        including direct PostGreSQL queries. For more information on advanced
+        API use,
+        <a href="https://github.com/acdalal/geothermal"
+          >visit our repository on GitHub</a
+        >
+      </p>
     </div>
+    <!-- end right-hand page contents -->
   </div>
 </div>
 {% endblock %}
