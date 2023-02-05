@@ -67,7 +67,14 @@ const options = {
         intersect: false,
     },
     plugins: {
-        verticalLiner: {}
+        verticalLiner: {},
+        legend: {
+          display: true,
+          onClick: function(event, legendItem, legend) {
+            console.log('why')
+            return
+          }
+        }
     },
     scales: {
       x: {

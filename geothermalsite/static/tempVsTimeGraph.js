@@ -81,7 +81,14 @@ const options = {
             intersect: false,
         },
         plugins: {
-            verticalLiner: {}
+            verticalLiner: {},
+            legend: {
+              display: false,
+              onClick: function(event, legendItem, legend) {
+                console.log('why')
+                return
+              }
+            }
         },
         animation: {
             onComplete: function(){
