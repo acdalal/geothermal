@@ -1,73 +1,54 @@
 {% extends 'dashboard/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'documentation.css' %}">
 
 {% block header %}
     <h1>Documentation</h1>
 {% endblock %}
 
 {% block content %}
-  <!-- Bootstrap accordion component -->
-  <div class="accordion" id="accordionExample">
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingOne">
-        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-          Using the Dashboard
-        </button>
-      </h2>
-      <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <div id="list-example" class="list-group">
+        <a class="list-group-item list-group-item-action" href="#list-faq">FAQ</a>
+        <a class="list-group-item list-group-item-action" href="#list-data-summary">Data Summary</a>
+        <a class="list-group-item list-group-item-action" href="#list-advanced-api">Advanced API Use</a>
       </div>
     </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingTwo">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-          Data Summary
-        </button>
-      </h2>
-      <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingThree">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-          Advanced API Use
-        </button>
-      </h2>
-      <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          The Geothermal Data API supports making more advanced queries, including direct PostGreSQL queries. For more information on advanced API use, <a href="https://github.com/acdalal/geothermal">visit our repository on GitHub</a>.
-        </div>
-      </div>
-    </div>
-    <div class="accordion-item">
-      <h2 class="accordion-header" id="headingFour">
-        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
-          Database Maintenance
-        </button>
-      </h2>
-      <div id="collapseFour" class="accordion-collapse collapse" aria-labelledby="headingFour" data-bs-parent="#accordionExample">
-        <div class="accordion-body">
-          The database is maintained by Bruce Duffy, Technical Assistant of the Physics department. <strong>Every 30 minutes, measurements from each of the 5 boreholes are collected. </strong>
-        <div>
-        <div class="accordion-body">
-          The overview of the data pipeline for the geothermal system is as follows: the 5 fiber optic cables embedded in the Bald Spot boreholes converge at a switchbox in a utility tunnel north of the Chapel, which is connected to a Silixa XT-DTS unit in a network closet in the Chapel basement.
-          The XT-DTS is a ruggedized distributed temperature sensor unit, and collects data from the boreholes by sending laser pulses down the fiber optic loops.
-          It sends the data files it generates to a private PC via ethernet network, and these data files are uploaded to a Linux Virtual Machine that captures the relevant data and stores the database. Every 30 minutes, a script is invoked to upload new measurements to the database.
-          For more information about the data pipeline or database, please contact <a href="mailto:bduffy@carleton.edu">Bruce Duffy</a>.
-        </div>
-        <div class="accordion-body">
-          <strong>Data outages</strong> were an important consideration for this project. We have aired on the conservative side in terms of defining outages.
+
+    <div class="col-9">
+      <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+        <h4 id="list-faq">FAQ</h4>
+        <p>
+          <strong><li>What kinds of queries can I make?</li></strong>
+          <em>You can query the temperature of one or multiple boreholes with respect to depth over a period of time.</em>  <br> You can customize this range of time, or choose the most recent 7 days, 30 days, or year's worth of data.
+          You can adjust the time point of the temperature collection to be at midnight, noon, or select a daily average.
+          You can also specify the density of the measurements intervals along the boreholes to your preference.
+          <strong><li>Why are certain time ranges in the calendar grayed out?</li></strong>
+          <em>Time ranges that fall within a data outage cannot be queried.</em> <br> Try selecting a new custom date range instead, or choose the most recent available data range.
+              To learn more about data outages, please visit the Data Outages section in the Data Summary tab.
+          <strong><li>Why is there a gap in my graph?</li></strong>
+          <em>Invalid data will not appear in query visualizations.</em> <br> If you selected a time range that included a data outage, this will be reflected in the visualization that is generated.
+              The gap in the graph represents the period of time over which a data outage spanned. For more information, lease visit the Data Outages section in the Data Summary tab.
+              <strong><li>Where does this data come from?</li></strong>
+              <em>The data you are querying originates from the 5 borehole loops in the Bald Spot that are equipped with fiber optic cables.</em> <br>
+                  For a more in-depth overview of the data pipeline, visit the <a href="{% url 'about' %}">about page</a>.
+        </p>
+        <h4 id="list-data-summary">Data Summary</h4>
+        <p>
+          Data outages  were an important consideration for this project. We have aired on the conservative side in terms of defining outages.
           Any period of time that produced either a lack of data or unreliable data has been deemed an outage, and the measurements from that interval of time will not be displayed.
           See below for a full table of known outages as of January 2023.
-        </div>
-        <div class="accordion-body">
-          The most recent outage from September 2022-January 2023 resulted from a hardware failure of the XT-DTS unit. For several months, there was no DTS unit taking measurements. Now that the previous unit has been replaced, data collection has resumed.
-        </div>
+        </p>
+        <h4 id="list-advanced-api">Advanced API Use</h4>
+        <p>
+          The Geothermal Data API supports making more advanced queries, including direct PostGreSQL queries.
+          For more information on advanced API use, <a href="https://github.com/acdalal/geothermal">visit our repository on GitHub</a>.
+        </p>
       </div>
     </div>
   </div>
+</div>
+
 {% endblock %}

@@ -1,5 +1,6 @@
 const $chart = document.getElementById('ctx')
 
+<<<<<<< HEAD
 const drawHorizontalLine = {
     id: 'verticalLiner',
     afterInit: (chart, args, opts) => {
@@ -19,16 +20,44 @@ const drawHorizontalLine = {
         const {tooltip} = args
         const y = tooltip?.caretY
         if (!y) return
+=======
+const drawVerticalLine = {
+    id: 'verticalLiner',
+    afterInit: (chart, args, opts) => {
+      chart.verticalLiner = {}
+    },
+    afterEvent: (chart, args, options) => {
+        const {inChartArea} = args
+        chart.verticalLiner = {draw: inChartArea}
+    },
+    beforeTooltipDraw: (chart, args, options) => {
+        const {draw} = chart.verticalLiner
+        if (!draw) return
+
+        const {ctx} = chart
+        const {top, bottom} = chart.chartArea
+        const {tooltip} = args
+        const x = tooltip?.caretX
+        if (!x) return
+>>>>>>> 270e3623b955065fc42e2b14d575f066b7bb98eb
 
         ctx.save()
 
         ctx.beginPath()
+<<<<<<< HEAD
         ctx.moveTo(left, y)
         ctx.lineTo(right, y)
         ctx.stroke()
 
         ctx.restore()
         return false
+=======
+        ctx.moveTo(x, top)
+        ctx.lineTo(x, bottom)
+        ctx.stroke()
+
+        ctx.restore()
+>>>>>>> 270e3623b955065fc42e2b14d575f066b7bb98eb
     }
 }
 
@@ -44,6 +73,7 @@ const fillChart = {
     }
   };
 
+<<<<<<< HEAD
 
 var datasets = []
 var groups = []
@@ -69,6 +99,13 @@ Object.keys(graphData).forEach(group => {
 
 const data = {
   datasets: datasets
+=======
+const data = {
+  datasets: [{
+    data: graphData,
+    label: "Temperature vs Depth Graph",
+}]
+>>>>>>> 270e3623b955065fc42e2b14d575f066b7bb98eb
 }
 
 var depth = "_depth_" + queryData[0]['depth_m'];
@@ -77,6 +114,7 @@ var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice
 const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
 
 const options = {
+<<<<<<< HEAD
     type: 'line',
     data: data,
     options: {
@@ -149,3 +187,46 @@ const options = {
 }
 
 var chart = new Chart($chart, options);
+=======
+  type: 'line',
+  data,
+  options: {
+    indexAxis: 'y',
+    label: "Temperature vs Depth Graph",
+    legend: {
+        onClick: null
+    },
+    interaction: {
+        mode: 'index',
+        intersect: false,
+    },
+    plugins: {
+        verticalLiner: {}
+    },
+    scales: {
+      x: {
+        type: 'linear'
+      }
+    },
+    animation: {
+        onComplete: function(){
+            window.downloadGraphImage = function(){
+                var image = chart.toBase64Image()
+                const a = document.createElement('a')
+                a.href = image
+                a.download = graphImageName
+                document.body.appendChild(a)
+                a.click()
+                document.body.removeChild(a)
+            };
+        }
+    },
+    pointRadius: 0,
+    backgroundColor: 'rgba(255, 99, 132, 0.2)',
+    borderColor: 'rgba(255, 99, 132, 1)',
+    borderWidth: 1,
+},
+plugins: [drawVerticalLine, fillChart]
+}
+const chart = new Chart($chart, options)
+>>>>>>> 270e3623b955065fc42e2b14d575f066b7bb98eb

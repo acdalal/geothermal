@@ -3,8 +3,14 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-        <title>Carleton Geothermal Data</title>
+        <title>Geothermal Dashboard</title>
 
+        <!-- Include custom images, css, and js in the static directory -->
+        {% load static %}
+        <!-- Include the Carleton logo as the favicon image of the website's browser tab -->
+        <link rel="icon" type="image/c-logo" href="static/Carleton_Simplified C-Ray_Blue.png">
+
+        <!-- Block to contain all CSS files, which can be overwritten/extended in child templates -->
         {% block css %}
             <!-- jQuery -->
             <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css" integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
@@ -12,13 +18,17 @@
             <!-- Bootstrap 4.0.0 -->
             <!-- Info on customizing Bootstrap CSS: https://blog.hubspot.com/website/how-to-override-bootstrap-css?hubs_content=blog.hubspot.com%2Fwebsite%2Fbootstrap-navbar&hubs_content-cta=How%20to%20Edit%2C%20Customize%2C%20and%20Override%20Bootstrap%20CSS%20to%20Suit%20Your%20Brand -->
             <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-            {% endblock %}
 
+            <!-- Custom site styles -->
+            <link rel="stylesheet" href="{% static 'generalSiteStyles.css' %}"/>
+        {% endblock %}
+
+        <!-- Block to contain all JS files, which can be overwritten/extended in child templates -->
         {% block javascript %}
             <!-- jQuery -->
             <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
             <!-- Bootstrap JavaScript 4.0.0 -->
-            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
             <!-- XDSoft DateTimePicker -->
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js" integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
         {% endblock %}
@@ -27,8 +37,12 @@
     <body>
         {% include 'dashboard/navbar.html' %}
 
+        <!-- Block to contain all page content, which can be overwritten/extended in child templates -->
         {% block content %}
-
         {% endblock %}
+
+        {% include 'dashboard/back_to_top_button.html' %}
+
+        {% include 'dashboard/footer.html' %}
     </body>
 </html>

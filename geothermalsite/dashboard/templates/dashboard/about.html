@@ -1,8 +1,66 @@
 {% extends 'dashboard/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'about.css' %}">
 
-<title>About</title>
+
+
+{% block header %}
+    <h1>About</h1>
+{% endblock %}
 
 {% block content %}
+<div class="container">
+  <div class="row">
+    <div class="col-3">
+      <div id="list-example" class="list-group">
+        <a class="list-group-item list-group-item-action" href="#list-about-us">About Us</a>
+        <a class="list-group-item list-group-item-action" href="#list-about-project">About the Project</a>
+        <a class="list-group-item list-group-item-action" href="#list-about-geothermal">About the Geothermal Wells</a>
+        <a class="list-group-item list-group-item-action" href="#list-about-data">About the Data Pipeline</a>
+      </div>
+    </div>
+
+    <div class="col-9">
+      <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+        <h4 id="list-about-us">About Us</h4>
+        <p>
+          We are the 2022-2023 Geothermal comps team!
+        </p>
+        <h4 id="list-about-project">About the Project</h4>
+        <p>
+            Our task was to build an interface that interacts with and displays the geothermal data for the broader Carleton community.
+            To learn more about the background of the project, visit <a href="https://www.cs.carleton.edu/cs_comps/2223/geo/index.php">this page</a> on the computer science department website.
+        </p>
+        <h4 id="about-geothermal">About the Geothermal Wells</h4>
+        <p>
+            Carleton's Geothermal Well system is part of <a href="https://www.carleton.edu/geothermal/">Carleton's utility master plan</a>, which includes a goal of being carbon-free in 2050.
+            The data on this website pertains to the geothermal well system that was spearheaded by the Carleton Aquifer Research Lab (CARL). The Geothermal system at Carleton consists of three interconnected borefields.
+            These are located on the Bald Spot, the Mini-Bald Spot, and Bell Field. The Bald Spot is the largest system
+            and it has 134 vertical boreholes that each run about 525 feet deep. The Mini-Bald Spot has 77
+            vertical boreholes, each of which is about 520 feet deep. Bell Field has 47 “double-stacked”
+            horizontal boreholes, each of which is about 510 feet long. All three of these systems (Bald Spot, Mini-Bald Spot, Bell Field) converge in the East Energy Station, located in the basement of Anderson Hall.
+            Fiber-optic cables were installed in 5 of the 134 boreholes on the Bald Spot, and the data collected by these cables is what is stored
+            in the database.
+        </p>
+        <h4 id="about-data">About the Data Pipeline</h4>
+        <p>
+            The database is maintained by Bruce Duffy, Technical Assistant of the Physics department. <strong>Every 30 minutes, measurements from each of the 5 boreholes are collected. </strong>
+
+            The overview of the data pipeline for the geothermal system is as follows: the 5 fiber optic cables embedded in the Bald Spot boreholes converge at a switchbox in a utility tunnel north of the Chapel, which is connected to a Silixa XT-DTS unit in a network closet in the Chapel basement.
+            The XT-DTS is a ruggedized distributed temperature sensor unit, and collects data from the boreholes by sending laser pulses down the fiber optic loops.
+            It sends the data files it generates to a private PC via ethernet network, and these data files are uploaded to a Linux Virtual Machine that captures the relevant data and stores the database. Every 30 minutes, a script is invoked to upload new measurements to the database.
+            For more information about the data pipeline or database, please contact <a href="mailto:bduffy@carleton.edu">Bruce Duffy</a>.
+
+            The most recent outage from September 2022-January 2023 resulted from a hardware failure of the XT-DTS unit.
+            For several months, there was no DTS unit taking measurements. Now that the previous unit has been replaced, data collection has resumed.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
+<!--
         <h1>About Us</h1>
             <p>We are the 2022-23 Geothermal Comps Team, advised by Prof. Amy Csizmar Dalal. Our task was to build an interface that interacts with and displays the geothermal data for the broader Carleton community. To learn more about the background of the project, visit <a href="https://www.cs.carleton.edu/cs_comps/2223/geo/index.php">this page</a> on the computer science department website. </p>
         <h2>About the Geothermal Wells</h2>
@@ -13,4 +71,15 @@
             horizontal boreholes, each of which is about 510 feet long. All three of these systems (Bald Spot, Mini-Bald Spot, Bell Field) converge in the East Energy Station, located in the basement of Anderson Hall.
             Fiber-optic cables were installed in 5 of the 134 boreholes on the Bald Spot, and the data collected by these cables is what is stored
             in the database maintained by Bruce Duffy. Every 30 minutes, data from each of the 5 boreholes is collected. </p>
-{% endblock %}
+        <h2>About the Data Pipeline</h2>
+        <p>
+            The database is maintained by Bruce Duffy, Technical Assistant of the Physics department. <strong>Every 30 minutes, measurements from each of the 5 boreholes are collected. </strong>
+
+            The overview of the data pipeline for the geothermal system is as follows: the 5 fiber optic cables embedded in the Bald Spot boreholes converge at a switchbox in a utility tunnel north of the Chapel, which is connected to a Silixa XT-DTS unit in a network closet in the Chapel basement.
+            The XT-DTS is a ruggedized distributed temperature sensor unit, and collects data from the boreholes by sending laser pulses down the fiber optic loops.
+            It sends the data files it generates to a private PC via ethernet network, and these data files are uploaded to a Linux Virtual Machine that captures the relevant data and stores the database. Every 30 minutes, a script is invoked to upload new measurements to the database.
+            For more information about the data pipeline or database, please contact <a href="mailto:bduffy@carleton.edu">Bruce Duffy</a>.
+
+            The most recent outage from September 2022-January 2023 resulted from a hardware failure of the XT-DTS unit. For several months, there was no DTS unit taking measurements. Now that the previous unit has been replaced, data collection has resumed.
+        </p>
+--->
