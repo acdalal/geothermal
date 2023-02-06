@@ -12,8 +12,6 @@
 
     <!--daterangepicker package files-->
     <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
@@ -90,24 +88,6 @@
                 </form>
             </div>
         </div>
-    </div>
-    <!-- <form action="/tempvsdepth/download" method="post">
-        {% csrf_token %}
-        {{ form }}
-        {# This script enables the fancy datetime picker #}
+    </form>
 
-        <script type="text/javascript">
-            $(function() {
-                // the id in this function must be different than the id from the function above
-                $('#id_timestamp2').daterangepicker({
-                    singleDatePicker: true,
-                    minDate: "{{ dataStartDate }}",
-                    maxDate: "{{ dataEndDate }}",
-                });
-            });
-        </script>
-        <div>
-            <input type="submit" value="Download">
-        </div>
-    </form> -->
 {% endblock %}

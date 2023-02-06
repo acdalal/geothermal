@@ -175,7 +175,8 @@ def getStratigraphyResultsByMeasurement(
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
-    the channel and depth for a given time range, returning each measurement. Don't use it unless the requested time range is short, othewise the output is extremely big
+    the channel and depth for a given time range, returning each measurement.
+    Don't use it unless the requested time range is short, othewise the output is extremely big
 
     Parameters
     ----------
@@ -264,7 +265,7 @@ def getDataOutages() -> list[dict]:
 def getStratigraphyResults(
     borehole: str, startTime: str, endTime: str, dailyTimestamp: str, groupBy: int
 ) -> list[dict]:
-    if groupBy in [DAYS, HOURS]:
+    if groupBy == HOURS:
         return getStratigraphyResultsByMeasurement(borehole, startTime, endTime)
     else:
         return getStratigraphyResultsByDay(borehole, startTime, endTime, dailyTimestamp)

@@ -69,7 +69,6 @@ def renderTempVsTimePage(request: HttpRequest, queryResults=None, borehole=None)
     context = _getPageContext(
         TempVsTimeForm(), queryResults, graphData, truncatedOutageList
     )
-
     return render(
         request,
         "dashboard/tempvstime.html",
@@ -107,7 +106,7 @@ def renderStratigraphyPage(
     """
     A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
     """
-    if queryResults and borehole and groupBy:
+    if queryResults and borehole:
         graphData = toChartJsStratigraphy(queryResults, borehole, groupBy)
     else:
         graphData = list()

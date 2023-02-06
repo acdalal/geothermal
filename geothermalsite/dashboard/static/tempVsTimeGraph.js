@@ -59,8 +59,18 @@ const options = {
     data: data,
     options: {
         scales: {
-          xAxis: {
+          x: {
             type: 'time',
+            title: {
+                display: true,
+                text: 'Date'
+            }
+          },
+          y: {
+            title: {
+                display: true,
+                text: 'Temperature, C'
+            }
           }
         },
         legend: {
@@ -71,7 +81,13 @@ const options = {
             intersect: false,
         },
         plugins: {
-            verticalLiner: {}
+            verticalLiner: {},
+            legend: {
+              display: true,
+              onClick: function(event, legendItem, legend) {
+                return
+              }
+            }
         },
         animation: {
             onComplete: function(){
