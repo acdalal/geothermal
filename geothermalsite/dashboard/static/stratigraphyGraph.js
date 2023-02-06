@@ -12,13 +12,13 @@ const drawHorizontalLine = {
     beforeTooltipDraw: (chart, args, options) => {
         const {draw} = chart.horizontalLiner
 
-        if (!draw) return
+        if (!draw) return false
 
         const {ctx} = chart
         const {top, bottom, left, right} = chart.chartArea
         const {tooltip} = args
         const y = tooltip?.caretY
-        if (!y) return
+        if (!y) return false
 
         ctx.save()
 

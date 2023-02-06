@@ -83,9 +83,8 @@ const options = {
         plugins: {
             verticalLiner: {},
             legend: {
-              display: false,
+              display: true,
               onClick: function(event, legendItem, legend) {
-                console.log('why')
                 return
               }
             }

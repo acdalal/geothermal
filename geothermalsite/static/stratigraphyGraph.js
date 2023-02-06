@@ -120,6 +120,9 @@ const options = {
         },
         plugins: {
             verticalLiner: {},
+            tooltip: {
+              enabled: false // <-- this option disables tooltips
+            },
             legend: {
                 display: true,
                 labels: {
