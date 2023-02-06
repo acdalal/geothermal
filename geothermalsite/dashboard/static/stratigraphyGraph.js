@@ -51,8 +51,12 @@ var datasetIndex = 0
 var groupNumber = 0
 var datasetIndicesForEachWeek = {}
 
-// 15 colors to dynamically assign to datasets, taken from https://sashamaps.net/docs/resources/20-colors/
-const colors = ['rgba(255, 230, 25, 75)', 'rgba(255, 60, 180, 75)', 'rgba(255, 0, 130, 200)', 'rgba(255, 245, 130, 48)', 'rgba(255, 145, 30, 180)', 'rgba(255, 70, 240, 240)', 'rgba(255, 240, 50, 230)', 'rgba(255, 210, 245, 60)', 'rgba(255, 220, 190, 255)', 'rgba(255, 170, 110, 40)', 'rgba(255, 128, 0, 0)', 'rgba(255, 128, 128, 0)', 'rgba(255, 255, 215, 180)', 'rgba(255, 0, 0, 128)', 'rgba(255, 0, 0, 0)']
+const colors = ["rgb(108, 113, 15)", "rgb(242, 137, 219)", "rgb(22, 110, 109)", "rgb(175, 217, 203)",
+                "rgb(71, 29, 242)", "rgb(20, 199, 97)", "rgb(223, 106, 138)", "rgb(241, 206, 178)",
+                "rgb(241, 0, 35)", "rgb(6, 56, 41)", "rgb(250, 100, 91)", "rgb(187, 118, 30)",
+                "rgb(51, 77, 161)", "rgb(168, 98, 94)", "rgb(102, 60, 151)", "rgb(43, 239, 57)",
+                "rgb(254, 108, 176)", "rgb(239, 186, 217)", "rgb(194, 48, 145)", "rgb(216, 247, 136)",
+                "rgb(145, 195, 247)", "rgb(185, 82, 187)", "rgb(156, 0, 132)", "rgb(186, 165, 35)"]
 
 Object.keys(graphData).forEach(group => {
     datasetIndicesForEachWeek[group] = []
@@ -72,10 +76,13 @@ Object.keys(graphData).forEach(group => {
             data: graphData[group][line],
             label: label,
             axis: 'y',
-            borderColor: colors[groupNumber]
+            borderColor: colors[groupNumber],
+            backgroundColor: colors[groupNumber]
         }
         datasets.push(lineData)
     })
+    console.log(group, colors[groupNumber])
+
     groupNumber += 1
 })
 

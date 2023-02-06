@@ -12,13 +12,13 @@ const drawHorizontalLine = {
     beforeTooltipDraw: (chart, args, options) => {
         const {draw} = chart.horizontalLiner
 
-        if (!draw) return
+        if (!draw) return false
 
         const {ctx} = chart
         const {top, bottom, left, right} = chart.chartArea
         const {tooltip} = args
         const y = tooltip?.caretY
-        if (!y) return
+        if (!y) return false
 
         ctx.save()
 
@@ -52,7 +52,8 @@ var groupNumber = 0
 var datasetIndicesForEachWeek = {}
 
 // 15 colors to dynamically assign to datasets, taken from https://sashamaps.net/docs/resources/20-colors/
-const colors = ['rgba(255, 230, 25, 75)', 'rgba(255, 60, 180, 75)', 'rgba(255, 0, 130, 200)', 'rgba(255, 245, 130, 48)', 'rgba(255, 145, 30, 180)', 'rgba(255, 70, 240, 240)', 'rgba(255, 240, 50, 230)', 'rgba(255, 210, 245, 60)', 'rgba(255, 220, 190, 255)', 'rgba(255, 170, 110, 40)', 'rgba(255, 128, 0, 0)', 'rgba(255, 128, 128, 0)', 'rgba(255, 255, 215, 180)', 'rgba(255, 0, 0, 128)', 'rgba(255, 0, 0, 0)']
+// const colors = ['rgba(255, 230, 25, 75)', 'rgba(255, 60, 180, 75)', 'rgba(255, 0, 130, 200)', 'rgba(255, 245, 130, 48)', 'rgba(255, 145, 30, 180)', 'rgba(255, 70, 240, 240)', 'rgba(255, 240, 50, 230)', 'rgba(255, 210, 245, 60)', 'rgba(255, 220, 190, 255)', 'rgba(255, 170, 110, 40)', 'rgba(255, 128, 0, 0)', 'rgba(255, 128, 128, 0)', 'rgba(255, 255, 215, 180)', 'rgba(255, 0, 0, 128)', 'rgba(255, 0, 0, 0)']
+const colors = ["rgba(255,0,0,1)", "rgba(0,255,0,1)", "rgba(0,0,255,1)", "rgba(255,128,0,1)", "rgba(255,0,128,1)", "rgba(0,255,128,1)", "rgba(128,255,0,1)", "rgba(0,128,255,1)", "rgba(128,0,255,1)", "rgba(255,0,255,1)", "rgba(255,255,0,1)", "rgba(0,255,255,1)", "rgba(255,128,128,1)", "rgba(128,255,128,1)", "rgba(128,128,255,1)", "rgba(0,0,128,1)", "rgba(128,0,0,1)", "rgba(0,128,0,1)", "rgba(192,192,192,1)", "rgba(128,128,128,1)", "rgba(64,64,64,1)", "rgba(255,165,0,1)", "rgba(173,255,47,1)", "rgba(255,20,147,1)"]
 
 Object.keys(graphData).forEach(group => {
     datasetIndicesForEachWeek[group] = []
@@ -76,6 +77,8 @@ Object.keys(graphData).forEach(group => {
         }
         datasets.push(lineData)
     })
+    // console.log(groupNumber, colors[groupNumber])
+
     groupNumber += 1
 })
 
@@ -120,9 +123,6 @@ const options = {
         },
         plugins: {
             verticalLiner: {},
-            tooltip: {
-              enabled: false // <-- this option disables tooltips
-            },
             legend: {
                 display: true,
                 labels: {
