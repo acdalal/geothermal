@@ -68,7 +68,9 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
 
     dailyTimestampString = cleanedData["timeSelector"]
 
-    startDateUtc: datetime = dateparser.parse(startDate)
+    startDateUtc: datetime = dateparser.parse(startDate).replace(
+        hour=0, minute=0, second=0
+    )
     endDateUtc = dateparser.parse(endDate).replace(hour=23, minute=59, second=59)
     dailyTimestamp: datetime = dateparser.parse(dailyTimestampString)
 

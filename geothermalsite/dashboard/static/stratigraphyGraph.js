@@ -1,6 +1,5 @@
 
 const $chart = document.getElementById('ctx')
-// const colors = ["#2a4a2d", "#DFC397", "#F0E6E7","#E6E9EE","#839784"]
 
 const drawHorizontalLine = {
     id: 'verticalLiner',
@@ -14,13 +13,13 @@ const drawHorizontalLine = {
     beforeTooltipDraw: (chart, args, options) => {
         const {draw} = chart.horizontalLiner
 
-        if (!draw) return
+        if (!draw) return false
 
         const {ctx} = chart
         const {top, bottom, left, right} = chart.chartArea
         const {tooltip} = args
         const y = tooltip?.caretY
-        if (!y) return
+        if (!y) return false
 
         ctx.save()
 
@@ -30,6 +29,7 @@ const drawHorizontalLine = {
         ctx.stroke()
 
         ctx.restore()
+        return false
     }
 }
 
@@ -47,26 +47,53 @@ const fillChart = {
 
 
 var datasets = []
-var lineData = {}
-var count = 200
+var groups = []
+var datasetIndex = 0
+var groupNumber = 0
+var datasetIndicesForEachWeek = {}
+
+// const colors = ["rgb(108, 113, 15)", "rgb(242, 137, 219)", "rgb(22, 110, 109)", "rgb(175, 217, 203)",
+//                 "rgb(71, 29, 242)", "rgb(20, 199, 97)", "rgb(223, 106, 138)", "rgb(241, 206, 178)",
+//                 "rgb(241, 0, 35)", "rgb(6, 56, 41)", "rgb(250, 100, 91)", "rgb(187, 118, 30)",
+//                 "rgb(51, 77, 161)", "rgb(168, 98, 94)", "rgb(102, 60, 151)", "rgb(43, 239, 57)",
+//                 "rgb(254, 108, 176)", "rgb(239, 186, 217)", "rgb(194, 48, 145)", "rgb(216, 247, 136)",
+//                 "rgb(145, 195, 247)", "rgb(185, 82, 187)", "rgb(156, 0, 132)", "rgb(186, 165, 35)"]
+
+var blue = 200
 var green = 50
-var difference = 200 / (Object.keys(graphData).length)
+var diff = 200 / (Object.keys(graphData).length)
 Object.keys(graphData).forEach(group => {
+    datasetIndicesForEachWeek[group] = []
+
     Object.keys(graphData[group]).forEach(line => {
-        lineData = {
-            data: graphData[group][line],
-            label: group,
-            axis: 'y',
-            backgroundColor: "rgb(10,"+green+","+count+")",
-            borderColor: "rgb(10,"+green+","+count+")"
+        datasetIndicesForEachWeek[group].push(datasetIndex)
+        datasetIndex += 1
+
+        let label = group
+        if (groups.includes(group)) {
+            label += line
         }
-        
+        else {
+            groups.push(group)
+        }
+        let lineData = {
+            data: graphData[group][line],
+            label: label,
+            axis: 'y',
+            //borderColor: colors[groupNumber],
+            borderColor: "rgb(10,"+green+","+blue+")",
+            //backgroundColor: colors[groupNumber]
+            backgroundColor: "rgb(10,"+green+","+blue+")"
+        }
         datasets.push(lineData)
     })
-    count = count - difference
-    green = green + difference
-    console.log("diff " + difference)
+    //console.log(group, colors[groupNumber])
+    green += diff
+    blue -=diff
+
+    groupNumber += 1
 })
+
 const data = {
   datasets: datasets
 }
@@ -96,9 +123,6 @@ const options = {
                 reverse: true
             }
         },
-        legend: {
-            onClick: null
-        },
         spanGaps: true,
         elements: {
             point: {
@@ -110,10 +134,34 @@ const options = {
             intersect: false,
         },
         plugins: {
-            verticalLiner: {}
+            verticalLiner: {},
+            legend: {
+                display: true,
+                labels: {
+                    filter: function(legendItem, data) {
+                        let group = legendItem.text
+                        // console.log(group, groups)
+                        if (groups.includes(group)) {
+                            return true
+                        }
+                        else {
+                            return false
+                        }
+                    }
+                },
+                onClick: function(event, legendItem, legend) {
+                    let group = legendItem.text
+                    let chart = legend.chart
+                    legendItem.hidden = true
+                    datasetIndicesForEachWeek[group].forEach(index => {
+                        let meta = chart.getDatasetMeta(index)
+                        meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null
+                    })
+                    chart.update()
+                }
+            }
         },
         indexAxis: 'y',
-
         animation: {
             onComplete: function(){
                 window.downloadGraphImage = function(){
@@ -125,7 +173,8 @@ const options = {
                     a.click()
                     document.body.removeChild(a)
                 };
-            }
+            },
+            duration: 0
         },
         pointRadius: 0,
         backgroundColor: 'rgba(255, 99, 132, 0.2)',

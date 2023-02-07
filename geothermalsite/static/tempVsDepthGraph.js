@@ -71,7 +71,6 @@ const options = {
         legend: {
           display: true,
           onClick: function(event, legendItem, legend) {
-            console.log('why')
             return
           }
         }

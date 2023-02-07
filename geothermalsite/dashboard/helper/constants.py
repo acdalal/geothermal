@@ -6,4 +6,19 @@ DAYS = 1  # each color is a day
 WEEKS = 2  # each color is a week
 MONTHS = 4  # each color is a month
 YEARS = 5  # each color is a year
-GROUPS = [DAYS, WEEKS, MONTHS, YEARS]
+GROUPS = [HOURS, DAYS, WEEKS, MONTHS, YEARS]
+
+MONTH_SHORTHAND = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "Jun",
+    "Jul",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec",
+]
