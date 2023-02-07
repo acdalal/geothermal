@@ -131,7 +131,7 @@ def getGrouping(start: datetime, end: datetime) -> int:
         return HOURS
     if range <= timedelta(days=15):
         return DAYS
-    if range <= timedelta(weeks=15):
+    if range <= timedelta(weeks=10):
         return WEEKS
     if range <= timedelta(days=450):
         return MONTHS

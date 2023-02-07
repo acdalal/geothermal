@@ -101,6 +101,22 @@
                 }).on('show.daterangepicker', function (ev, picker) {
                     picker.container.find(".calendar-table").hide();
                 });
+            
+                $("#id_dateRange").change( 
+                    function(){
+                        var dateStr = $("#id_dateRange").val();
+                        
+                        let dates = dateStr.split( " - " );
+                        let start = new Date( dates[0] );
+                        let end   = new Date( dates[1] );
+                        var hourDiff = Math.abs(end - start) / 36e5
+                        console.log(hourDiff)
+                        if (hourDiff < 24){
+                            $('#id_timeSelector').hide();
+                        } else{
+                            $('#id_timeSelector').show();
+                        }
+                })
         </script>
         <div>
             <input type="submit" value="Submit">
