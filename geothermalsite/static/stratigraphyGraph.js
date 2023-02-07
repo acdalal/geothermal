@@ -1,5 +1,6 @@
-const $chart = document.getElementById('ctx')
 
+const $chart = document.getElementById('ctx')
+const colors = ["#DFC397", "#F0E6E7","#E6E9EE","#839784","#3A473B"]
 const drawHorizontalLine = {
     id: 'verticalLiner',
     afterInit: (chart, args, opts) => {
@@ -28,7 +29,6 @@ const drawHorizontalLine = {
         ctx.stroke()
 
         ctx.restore()
-        return false
     }
 }
 
@@ -46,39 +46,21 @@ const fillChart = {
 
 
 var datasets = []
-var groups = []
-var datasetIndex = 0
-var groupNumber = 0
-var datasetIndicesForEachWeek = {}
-
-// 15 colors to dynamically assign to datasets, taken from https://sashamaps.net/docs/resources/20-colors/
-const colors = ['rgba(255, 230, 25, 75)', 'rgba(255, 60, 180, 75)', 'rgba(255, 0, 130, 200)', 'rgba(255, 245, 130, 48)', 'rgba(255, 145, 30, 180)', 'rgba(255, 70, 240, 240)', 'rgba(255, 240, 50, 230)', 'rgba(255, 210, 245, 60)', 'rgba(255, 220, 190, 255)', 'rgba(255, 170, 110, 40)', 'rgba(255, 128, 0, 0)', 'rgba(255, 128, 128, 0)', 'rgba(255, 255, 215, 180)', 'rgba(255, 0, 0, 128)', 'rgba(255, 0, 0, 0)']
-
+var lineData = {}
+var count = 0
 Object.keys(graphData).forEach(group => {
-    datasetIndicesForEachWeek[group] = []
-
     Object.keys(graphData[group]).forEach(line => {
-        datasetIndicesForEachWeek[group].push(datasetIndex)
-        datasetIndex += 1
-
-        let label = group
-        if (groups.includes(group)) {
-            label += line
-        }
-        else {
-            groups.push(group)
-        }
-        let lineData = {
+        lineData = {
             data: graphData[group][line],
-            label: label,
+            label: group,
             axis: 'y',
-            borderColor: colors[groupNumber]
+            backgroundColor: colors[count%5],
+            borderColor: colors[count%5]
         }
+        count += 1
         datasets.push(lineData)
     })
-    groupNumber += 1
 })
-
 const data = {
   datasets: datasets
 }
@@ -108,6 +90,9 @@ const options = {
                 reverse: true
             }
         },
+        legend: {
+            onClick: null
+        },
         spanGaps: true,
         elements: {
             point: {
@@ -119,34 +104,10 @@ const options = {
             intersect: false,
         },
         plugins: {
-            verticalLiner: {},
-            legend: {
-                display: true,
-                labels: {
-                    filter: function(legendItem, data) {
-                        let group = legendItem.text
-                        // console.log(group, groups)
-                        if (groups.includes(group)) {
-                            return true
-                        }
-                        else {
-                            return false
-                        }
-                    }
-                },
-                onClick: function(event, legendItem, legend) {
-                    let group = legendItem.text
-                    let chart = legend.chart
-                    legendItem.hidden = true
-                    datasetIndicesForEachWeek[group].forEach(index => {
-                        let meta = chart.getDatasetMeta(index)
-                        meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null
-                    })
-                    chart.update()
-                }
-            }
+            verticalLiner: {}
         },
         indexAxis: 'y',
+
         animation: {
             onComplete: function(){
                 window.downloadGraphImage = function(){
@@ -158,8 +119,7 @@ const options = {
                     a.click()
                     document.body.removeChild(a)
                 };
-            },
-            duration: 0
+            }
         },
         pointRadius: 0,
         backgroundColor: 'rgba(255, 99, 132, 0.2)',
