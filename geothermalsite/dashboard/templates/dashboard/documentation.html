@@ -8,7 +8,7 @@
   <div class="row">
     <!-- Left-hand navbar for page contents -->
     <div class="col-3 navbar-col">
-      <ul class="nav nav-pills nav-stacked">
+      <ul class="nav nav-tabs">
         <li class="nav-item">
           <a class="nav-link active" href="#faq-section">FAQ</a>
         </li>
@@ -123,7 +123,7 @@
                 If you selected a time range that included a data outage, this
                 will be reflected in the visualization that is generated. The
                 gap in the graph represents the period of time over which a data
-                outage spanned. For more information, lease visit the Data
+                outage spanned. For more information, please visit the Data
                 Outages section in the Data Summary tab.
               </div>
             </div>
@@ -174,6 +174,28 @@
         has been deemed an outage, and the measurements from that interval of
         time will not be displayed. See below for a full table of known
         outages as of January 2023.
+        <table class ="table table-sm table-striped">
+          <thead class="thead-dark">
+              <tr>
+                  <th scope ="col">Outage ID</th>
+                  <th scope ="col">Channel ID</th>
+                  <th scope ="col">Outage Type</th>
+                  <th scope ="col">Start Time</th>
+                  <th scope ="col">End Time</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for item in outage %}
+              <tr>
+                <td>{{ item.outage_id }}</td>
+                <td>{{ item.channel_id }}</td>
+                <td>{{ item.outage_type }}</td>
+                <td>{{ item.start_time }}</td>
+                <td>{{ item.end_time }}</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
       </p>
 
       <!-- Advanced API section -->

@@ -7,6 +7,7 @@ from .helper.api import (
     getTempVsDepthResults,
     getTempVsTimeResults,
     getStratigraphyResults,
+    getDataOutages,
 )
 from .helper.processUserForms import (
     getUserTempsVsTimeQuery,
@@ -46,7 +47,9 @@ def about(request: HttpRequest):
 
 
 def documentation(request: HttpRequest):
-    return render(request, "dashboard/documentation.html", context=None)
+    outageData = getDataOutages()
+    outageDict = {"outage": outageData}
+    return render(request, "dashboard/documentation.html", context=outageDict)
 
 
 def tempVsTime(request: HttpRequest):
