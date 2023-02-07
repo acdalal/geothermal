@@ -35,7 +35,7 @@
 
 
     {% load static %}
-    <script src="{% static 'createCsv.js' %}"></script>
+    <script src="{% static 'js/createCsv.js' %}"></script>
 
     <button onclick="downloadData('stratigraphy')">Download data</button>
     <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
@@ -43,7 +43,7 @@
 
     {% load static %}
 
-    <script src="{% static 'stratigraphyGraph.js' %}" type="module"></script>
+    <script src="{% static 'js/stratigraphyGraph.js' %}" type="module"></script>
     <script>
         var queryData = {{ queryData | safe }};
         var graphData = {{ graphData | safe }};

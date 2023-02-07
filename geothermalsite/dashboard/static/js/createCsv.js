@@ -22,6 +22,6 @@ function downloadData(fileName) {
     newElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
 
     //provide the name for the CSV file to be downloaded
-    newElement.download = name + '.csv';
+    newElement.download = fileName + '.csv';
     newElement.click();
 }

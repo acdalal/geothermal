@@ -32,14 +32,14 @@
 
     {% load static %}
 
-    <script src="{ %static 'createCsv.js' %}"></script>
+    <script src="{ %static 'js/createCsv.js' %}"></script>
 
     <button onclick="downloadData('tempvsdepth')">Download data</button>
     <button id="downloadImage" onclick="window.downloadGraphImage('tempvsdepth')">Download graph</button>
 
 
 
-    <script src="{% static 'tempVsDepthGraph.js' %}" type="module"></script>
+    <script src="{% static 'js/tempVsDepthGraph.js' %}" type="module"></script>
     <script>
         var queryData = {{ queryData | safe }};
         var graphData = {{ graphData | safe }};
