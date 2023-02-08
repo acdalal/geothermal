@@ -53,7 +53,7 @@ def createTempVsTimeQuery() -> str:
     return query
 
 
-def createTempVsDepthQuery(borehole: str, timestamp: datetime) -> str:
+def createTempVsDepthQuery() -> str:
     """
     Creates a query for getting temperature vs depth results for fixed depth
 
@@ -67,14 +67,7 @@ def createTempVsDepthQuery(borehole: str, timestamp: datetime) -> str:
     -----------
     Formatted query to be executed by the database cursor
     """
-    timestampStart = timestamp
-    timestampEnd = timestampStart + timedelta(minutes=30)
-
-    currentBorehole = boreholes[borehole]
-
-    channel = currentBorehole.getChannel()
-    lafStart = currentBorehole.getStart()
-    lafEnd = currentBorehole.getBottom()
+    
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
@@ -82,9 +75,9 @@ def createTempVsDepthQuery(borehole: str, timestamp: datetime) -> str:
             INNER JOIN dts_data AS D
             ON M.id = D.measurement_id
             WHERE channel_id IN (SELECT id FROM channel WHERE
-                                             channel_name='channel {channel}')
-            AND datetime_utc between '{timestampStart}' AND '{timestampEnd}'
-            AND laf_m BETWEEN {lafStart} AND {lafEnd}
+                                             channel_name='channel %s')
+            AND datetime_utc between %s AND %s
+            AND laf_m BETWEEN %s AND %s
             ORDER BY depth_m;
             """
 
