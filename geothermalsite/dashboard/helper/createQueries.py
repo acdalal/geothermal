@@ -17,9 +17,7 @@ def createEntireDataOutageQuery() -> str:
     return query
 
 
-def createTempVsTimeQuery(
-    borehole: str, depth: str, startTime: str, endTime: str
-) -> str:
+def createTempVsTimeQuery() -> str:
     """
     Creates a query for getting temperature vs time results for fixed depth
 
@@ -35,12 +33,6 @@ def createTempVsTimeQuery(
     Formatted query to be executed by the database cursor
     """
 
-    currentBorehole = boreholes[borehole]
-
-    channel = currentBorehole.getChannel()
-    lafStart = currentBorehole.getStart()
-    lafBottom = currentBorehole.getBottom()
-
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM dts_data AS D
@@ -51,10 +43,10 @@ def createTempVsTimeQuery(
             INNER JOIN dts_config AS C
             ON dts_config_id = C.id
             WHERE channel_id IN (SELECT id FROM channel WHERE
-                                             channel_name='channel {channel}')
-            AND ABS(depth_m-{depth}) < step_increment_m/2
-            AND laf_m BETWEEN {lafStart} AND {lafBottom}
-            AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
+                                             channel_name='channel %s')
+            AND ABS(depth_m-%s) < step_increment_m/2
+            AND laf_m BETWEEN %s AND %s
+            AND datetime_utc BETWEEN %s AND %s
             ORDER BY datetime_utc;
             """
 
