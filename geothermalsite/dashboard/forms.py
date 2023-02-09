@@ -107,36 +107,6 @@ class StratigraphyForm(forms.Form):
     )
 
 
-class StratigraphyForm(forms.Form):
-    """
-    A class used to represent a form for a stratigraphy plot.
-
-    Attributes
-    ----------
-    boreholeNumber : django.forms.ChoiceField
-        the borehole options a user may select to query
-    timestamp : django.forms.CharField
-        the time stamp to query data at, with a minimum at the data start date
-    """
-
-    boreholeNumber = forms.ChoiceField(
-        label="Display temperature vs depth data from borehole number ",
-        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
-    )
-    dateRange = forms.CharField(
-        label="during ",
-        widget=forms.TextInput(
-            attrs={
-                "autocomplete": "off",
-                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
-            }
-        ),
-    )
-    timeSelector = forms.CharField(
-        label="at time ",
-    )
-
-
 class QuerySelectionForm(forms.Form):
     """
     A class used to represent a query selection form.
@@ -147,35 +117,50 @@ class QuerySelectionForm(forms.Form):
         the type of query to be executed
     """
 
-    BOREHOLE_NUMBERS = [(1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5")]
+    # BOREHOLE_NUMBERS = [(1, "1"), (2, "2"), (3, "3"), (4, "4"), (5, "5")]
 
-    queryType = forms.ChoiceField(
-        label="Select a type of query ",
-        choices=[
-            ("tempvstime", "Temperature vs. Time"),
-            ("tempvsdepth", "Temperature vs. Depth"),
-        ],
-        widget=forms.Select(attrs={"class": "form-control"}),
-    )
-    boreholeNumbers = forms.MultipleChoiceField(
-        label="Select borehole(s) to be displayed ",
-        required=True,
-        choices=BOREHOLE_NUMBERS,
-        widget=forms.CheckboxSelectMultiple(
-            attrs={"class": "form-control form-check-inline"}
-        ),
-    )
-    measurementTimePoint = forms.ChoiceField(
-        label="Select measurement time point ",
-        choices=[
-            ("midnight", "at midnight"),
-            ("noon", "at noon"),
-            ("daily_average", "daily average"),
-        ],
+    # queryType = forms.ChoiceField(
+    #     label="Select a type of query ",
+    #     choices=[
+    #         ("tempvstime", "Temperature vs. Time"),
+    #         ("tempvsdepth", "Temperature vs. Depth"),
+    #     ],
+    #     widget=forms.Select(attrs={"class": "form-control"}),
+    # )
+    # boreholeNumbers = forms.MultipleChoiceField(
+    #     label="Select borehole(s) to be displayed ",
+    #     required=True,
+    #     choices=BOREHOLE_NUMBERS,
+    #     widget=forms.CheckboxSelectMultiple(
+    #         attrs={"class": "form-control form-check-inline"}
+    #     ),
+    # )
+    # measurementTimePoint = forms.ChoiceField(
+    #     label="Select measurement time point ",
+    #     choices=[
+    #         ("midnight", "at midnight"),
+    #         ("noon", "at noon"),
+    #         ("daily_average", "daily average"),
+    #     ],
+    #     widget=forms.Select(attrs={"class": "form-control"}),
+    # )
+    # dateRange = forms.CharField(
+    #     label="Selecte a date range",
+    #     widget=forms.TextInput(
+    #         attrs={
+    #             "autocomplete": "off",
+    #             "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+    #             "class": "form-control",
+    #         }
+    #     ),
+    # )
+    boreholeNumber = forms.ChoiceField(
+        label="Display temperature vs depth data from borehole number ",
+        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
     dateRange = forms.CharField(
-        label="Selecte a date range",
+        label="during ",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
@@ -183,4 +168,8 @@ class QuerySelectionForm(forms.Form):
                 "class": "form-control",
             }
         ),
+    )
+    timeSelector = forms.CharField(
+        label="at time ",
+        widget=forms.TextInput(attrs={"class": "form-control"}),
     )
