@@ -85,7 +85,7 @@ Object.keys(graphData).forEach(group => {
             //backgroundColor: colors[groupNumber]
             backgroundColor: "rgb(10,"+green+","+blue+")"
         }
-        
+
         datasets.push(lineData)
     })
     //console.log(group, colors[groupNumber])
@@ -108,6 +108,8 @@ const options = {
     type: 'line',
     data: data,
     options: {
+        maintainAspectRatio: false,
+        responsive: true,
         scales: {
             x: {
                 title: {

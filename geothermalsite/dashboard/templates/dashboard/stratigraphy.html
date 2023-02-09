@@ -104,15 +104,31 @@
 
     {% load static %}
 
+
+
     <script src="{% static 'js/stratigraphyGraph.js' %}" type="module"></script>
     <script>
         var queryData = {{ queryData | safe }};
         var graphData = {{ graphData | safe }};
         var groupBy = {{ groupBy | safe }}
     </script>
-    <div class="container">
-        <canvas id="ctx"></canvas>
-    </div>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <!--Insert image of Bald Spot stratigraphy to the left of the visualization-->
+                    <img src="{% static 'img/stratigraphy.png' %}" height="100%" alt="A vertical diagram of the Bald Spot's stratigraphy"/>
+                </div>
+                <div class="col-10">
+                    <!--The wrapper controls the size of both the graph and image, but we want the image to scale along with the height of the graph-->
+                    <!--Can change the height of the canvas itself, the wrapper or the image with varying results...-->
+                    <div id="canvasWrapper" style="position: relative; height: relative;">
+                        <canvas id="ctx"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
     <!-- Buttons for downloading the data as a CSV and the graph as an image -->
     <script src="{% static 'js/createCsv.js' %}"></script>
