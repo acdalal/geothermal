@@ -21,40 +21,6 @@
 
 {% block content %}
     <h1>Stratigraphy</h1>
-    <button type="button" onclick="window.location.href='/'">Home</button>
-
-    {% if queryData %}
-    <details>
-        <summary>See Data</summary>
-            <div>
-                {% for row in queryData %}
-                    <div>{{ row }}</div>
-                {% endfor %}
-            </div>
-    </details>
-
-
-    {% load static %}
-    <script src="{% static 'js/createCsv.js' %}"></script>
-
-    <button onclick="downloadData('stratigraphy')">Download data</button>
-    <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
-
-
-    {% load static %}
-
-    <script src="{% static 'js/stratigraphyGraph.js' %}" type="module"></script>
-    <script>
-        var queryData = {{ queryData | safe }};
-        var graphData = {{ graphData | safe }};
-        var groupBy = {{ groupBy | safe }}
-    </script>
-    <div class="container">
-        <canvas id="ctx"></canvas>
-    </div>
-
-    {% endif %}
-
 
     <form action="/stratigraphy/" method="post">
         <br>
@@ -102,10 +68,10 @@
                     picker.container.find(".calendar-table").hide();
                 });
 
-                $("#id_dateRange").change( 
+                $("#id_dateRange").change(
                     function(){
                         var dateStr = $("#id_dateRange").val();
-                        
+
                         let dates = dateStr.split( " - " );
                         let start = new Date( dates[0] );
                         let end   = new Date( dates[1] );
@@ -122,5 +88,37 @@
             <input type="submit" value="Submit">
         </div>
     </form>
+
+    {% if queryData %}
+
+    <!-- Creates a dropdown to see each row of the data. Commented out since it cluttered the site.
+    <details>
+        <summary>See Data</summary>
+            <div>
+                {% for row in queryData %}
+                    <div>{{ row }}</div>
+                {% endfor %}
+            </div>
+    </details>
+    -->
+
+    {% load static %}
+
+    <script src="{% static 'js/stratigraphyGraph.js' %}" type="module"></script>
+    <script>
+        var queryData = {{ queryData | safe }};
+        var graphData = {{ graphData | safe }};
+        var groupBy = {{ groupBy | safe }}
+    </script>
+    <div class="container">
+        <canvas id="ctx"></canvas>
+    </div>
+
+    <!-- Buttons for downloading the data as a CSV and the graph as an image -->
+    <script src="{% static 'js/createCsv.js' %}"></script>
+    <button onclick="downloadData('stratigraphy')">Download data</button>
+    <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
+
+    {% endif %}
 
 {% endblock %}
