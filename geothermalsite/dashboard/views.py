@@ -26,20 +26,36 @@ from .helper.renderFunctions import (
 
 def index(request: HttpRequest):
     # will need to adjust to TempVsDepth directly if we wanna have the query here
-    if request.method == "POST":
-        queryType = getUserQueryType(request)
+    # if request.method == "POST":
+    #     queryType = getUserQueryType(request)
 
-        if queryType == "tempvstime":
-            return renderTempVsTimePage(request)
-        if queryType == "tempvsdepth":
-            return renderTempVsDepthPage(request)
-        else:
-            raise (
-                'User selected query type is invalid, should be "tempvstime" or "tempvsdepth"'
-            )
+    #     if queryType == "tempvstime":
+    #         return renderTempVsTimePage(request)
+    #     if queryType == "tempvsdepth":
+    #         return renderTempVsDepthPage(request)
+    #     else:
+    #         raise (
+    #             'User selected query type is invalid, should be "tempvstime" or "tempvsdepth"'
+    #         )
+
+    # else:
+    #     return renderIndexPage(request)
+    if request.method == "POST":
+        formData = getUserStratigraphyQuery(request)
+        groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
+
+        queryResults = getStratigraphyResults(
+            formData["boreholeNumber"],
+            formData["startDateUtc"],
+            formData["endDateUtc"],
+            formData["dailyTimestamp"],
+            groupBy,
+        )
+        borehole = int(formData["boreholeNumber"])
+        return renderStratigraphyPage(request, groupBy, queryResults, borehole)
 
     else:
-        return renderIndexPage(request)
+        return renderStratigraphyPage(request)
 
 
 def about(request: HttpRequest):
