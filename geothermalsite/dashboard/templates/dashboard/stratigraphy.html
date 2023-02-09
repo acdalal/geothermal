@@ -20,9 +20,14 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Stratigraphy</h1>
-    <button type="button" onclick="window.location.href='/'">Home</button>
+    {% comment %} <h1>Stratigraphy</h1>
+    <button type="button" onclick="window.location.href='/'">Home</button> {% endcomment %}
+    <div class ="part-hide">
+        {% include 'dashboard/jumbotron.html' %}
+        {% include 'dashboard/formtabs.html' %}
 
+        {% comment %} {% include 'dashboard/querycards.html' %} {% endcomment %}
+    </div>
     {% if queryData %}
     <details>
         <summary>See Data</summary>
@@ -56,7 +61,7 @@
     {% endif %}
 
 
-    <form action="/stratigraphy/" method="post">
+    {% comment %} <form action="/stratigraphy/" method="post">
         <br>
         {% csrf_token %}
         {{ form }}
@@ -102,10 +107,10 @@
                     picker.container.find(".calendar-table").hide();
                 });
 
-                $("#id_dateRange").change( 
+                $("#id_dateRange").change(
                     function(){
                         var dateStr = $("#id_dateRange").val();
-                        
+
                         let dates = dateStr.split( " - " );
                         let start = new Date( dates[0] );
                         let end   = new Date( dates[1] );
@@ -121,6 +126,6 @@
         <div>
             <input type="submit" value="Submit">
         </div>
-    </form>
+    </form> {% endcomment %}
 
 {% endblock %}

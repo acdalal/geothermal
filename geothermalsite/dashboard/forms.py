@@ -154,6 +154,7 @@ class QuerySelectionForm(forms.Form):
     #         }
     #     ),
     # )
+
     boreholeNumber = forms.ChoiceField(
         label="Display temperature vs depth data from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
