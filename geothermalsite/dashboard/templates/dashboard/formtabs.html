@@ -1,103 +1,36 @@
-
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
+<script src="{% static 'js/selectTab.js' %}"></script>
+
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
-        <a class="nav-link active" id="TemperatureProfile-tab" data-toggle="tab" href="#TemperatureProfile" role="tab" aria-controls="TemperatureProfile" aria-selected="true">Temperature Profile</a>
-      </li>
-    <li class="nav-item">
-      <a class="nav-link" id="TempVsTime-tab" data-toggle="tab" href="#TempVsTime" role="tab" onclick="console.log('hi')" aria-controls="TempVsTime" aria-selected="false">TempVsTime</a>
+        <a class="nav-link active" data-toggle="tab" href="#" onclick="selectTab('TemperatureProfile')">Temperature Profile</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
+      <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverTime')">TempVsTime</a>
     </li>
-  </ul>
-  <div class="tab-content" id="myTabContent">
-    <div class="form-container tab-pane fade show active" id="TemperatureProfile" role="tabpanel" aria-labelledby="TemperatureProfile-tab">
+</ul>
+
+<div class="tab-content" id="myTabContent">
+    <div class="form-container tab-pane fade show active" id="TemperatureProfile">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <form action="/stratigraphy/" method="post">
-                    <br>
-                    {% csrf_token %}
-                    {{ form }}
-                    {% load static %}
-
-                    <div>
-                        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
+                hi
             </div>
         </div>
     </div>
-    {% comment %} <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">...</div> {% endcomment %}
-    <div class="form-container tab-pane fade" id="TempOverTime" role="tabpanel" aria-labelledby="TempOverTime-tab"><div class="form-container">
+
+    <div class="form-container tab-pane fade" id="TempOverTime">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                <form action="/tempvstime/" method="post">
-                    <br>
-                    {# Django requires this token statement #}
-                    {% csrf_token %}
-
-                    {{ form }}
-
-
-
-                    <div>
-                        <input type="submit" value="Submit" />
-                    </div>
-                </form>
+               hello
             </div>
         </div>
     </div>
-</div>
-    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+
 </div>
 
-
-<select name="querySelection" id="querySelection">
-    <option value="TemperatureProfile">Temperature Profile</option>
-    <option value="TempVsTime">Temp vs Time</option>
-</select>
-    <div class="form-container" id="TemperatureProfile">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <form action="/stratigraphy/" method="post">
-                    <br>
-                    {% csrf_token %}
-                    {{ form }}
-                    {% load static %}
-
-                    {# This script enables the fancy datetime picker #}
-
-
-                    <div>
-                        <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="form-container" id="TempOverTime">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                <form action="/tempvstime/" method="post">
-                    <br>
-                    {# Django requires this token statement #}
-                    {% csrf_token %}
-
-                    {{ form }}
-
-
-
-                    <div>
-                        <input type="submit" value="Submit" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
 {% load static %}
 <script>
