@@ -62,7 +62,7 @@ class TempVsDepthForm(forms.Form):
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
-    timestamp = forms.CharField(
+    dateRange = forms.CharField(
         label="at time ",
         widget=forms.TextInput(
             attrs={

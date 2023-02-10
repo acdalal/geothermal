@@ -47,7 +47,7 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     """
     boreholeNumber = cleanedData["boreholeNumber"]
 
-    timestamp = cleanedData["timestamp"]
+    timestamp = cleanedData["dateRange"]
     timestampUtc = dateparser.parse(timestamp).__str__()
 
     return {

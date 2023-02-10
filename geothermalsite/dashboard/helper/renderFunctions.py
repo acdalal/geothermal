@@ -24,8 +24,8 @@ def truncateDateTime(dates: list):
     truncatedDates = []
     for i in range(len(dates)):
         dateDict = dates[i]
-        start = dateDict.get("start_time").date()
-        end = dateDict.get("end_time").date()
+        start = dateDict.get("start_time").date().__str__()
+        end = dateDict.get("end_time").date().__str__()
         truncatedDates.append({"startDate": start, "endDate": end})
     return truncatedDates
 

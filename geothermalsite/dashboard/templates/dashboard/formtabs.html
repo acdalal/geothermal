@@ -1,16 +1,13 @@
 
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
- <!-- Bootstrap JavaScript 4.0.0 -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" crossorigin="anonymous"></script>
-
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
     <li class="nav-item">
         <a class="nav-link active" id="TemperatureProfile-tab" data-toggle="tab" href="#TemperatureProfile" role="tab" aria-controls="TemperatureProfile" aria-selected="true">Temperature Profile</a>
       </li>
     <li class="nav-item">
-      <a class="nav-link" id="TempVsTime-tab" data-toggle="tab" href="#TempVsTime" role="tab" aria-controls="TempVsTime" aria-selected="false">TempVsTime</a>
+      <a class="nav-link" id="TempVsTime-tab" data-toggle="tab" href="#TempVsTime" role="tab" onclick="console.log('hi')" aria-controls="TempVsTime" aria-selected="false">TempVsTime</a>
     </li>
     <li class="nav-item">
       <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Contact</a>
@@ -25,53 +22,6 @@
                     {% csrf_token %}
                     {{ form }}
                     {% load static %}
-
-                    {# This script enables the fancy datetime picker #}
-                    <script>
-                        $(function () {
-                            var disabledRanges = [];
-                            {% for range in outageList %}
-                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                            {% endfor %}
-
-                            $('#id_dateRange').daterangepicker({
-                                isInvalidDate: function (date) {
-                                    for (var i = 0; i < disabledRanges.length; i++) {
-                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                },
-                                minDate: "{{ dataStartDate }}",
-                                maxDate: "{{ dataEndDate }}",
-                                ranges: {
-                                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
-                                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
-                                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
-                                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
-                                },
-
-                            });
-                        });
-
-                        $('#id_timeSelector').daterangepicker({
-                            timePicker: true,
-                            singleDatePicker: true,
-                            timePickerIncrement: 1,
-                            timePickerSeconds: false,
-                            locale: {
-                                format: 'hh:mm A'
-                            }
-                        }).on('show.daterangepicker', function (ev, picker) {
-                            picker.container.find(".calendar-table").hide();
-                        });
-                        $(document).ready(function () {
-                            $("button").click(function () {
-                                $(document).scrollTop($(document).height());
-                            });
-                        });
-                    </script>
 
                     <div>
                         <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
@@ -91,46 +41,7 @@
 
                     {{ form }}
 
-                    <script type="text/javascript">
-                        $(function() {
 
-                            var start = moment().subtract(29, 'days');
-                            var end = moment();
-
-
-                            function cb(start, end) {
-                                $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                            }
-
-                            var disabledRanges = [];
-                            {% for range in outageList %}
-                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                            {% endfor %}
-                            $('#id_dateRange').daterangepicker({
-
-                                isInvalidDate: function(date) {
-                                    for (var i = 0; i < disabledRanges.length; i++) {
-                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                },
-                                minDate: "{{ dataStartDate }}",
-                                maxDate: "{{ dataEndDate }}",
-                                ranges: {
-                                'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
-                                'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
-                                'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
-                                'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
-                                },
-
-                            }, cb);
-
-                            cb(start, end);
-
-                        });
-                    </script>
 
                     <div>
                         <input type="submit" value="Submit" />
@@ -158,51 +69,7 @@
                     {% load static %}
 
                     {# This script enables the fancy datetime picker #}
-                    <script>
-                        $(function () {
-                            var disabledRanges = [];
-                            {% for range in outageList %}
-                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                            {% endfor %}
 
-                            $('#id_dateRange').daterangepicker({
-                                isInvalidDate: function (date) {
-                                    for (var i = 0; i < disabledRanges.length; i++) {
-                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                },
-                                minDate: "{{ dataStartDate }}",
-                                maxDate: "{{ dataEndDate }}",
-                                ranges: {
-                                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
-                                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
-                                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
-                                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
-                                },
-
-                            });
-                        });
-
-                        $('#id_timeSelector').daterangepicker({
-                            timePicker: true,
-                            singleDatePicker: true,
-                            timePickerIncrement: 1,
-                            timePickerSeconds: false,
-                            locale: {
-                                format: 'hh:mm A'
-                            }
-                        }).on('show.daterangepicker', function (ev, picker) {
-                            picker.container.find(".calendar-table").hide();
-                        });
-                        $(document).ready(function () {
-                            $("button").click(function () {
-                                $(document).scrollTop($(document).height());
-                            });
-                        });
-                    </script>
 
                     <div>
                         <button type="submit" value="Submit" class="btn btn-primary">Submit</button>
@@ -222,46 +89,7 @@
 
                     {{ form }}
 
-                    <script type="text/javascript">
-                        $(function() {
 
-                            var start = moment().subtract(29, 'days');
-                            var end = moment();
-
-
-                            function cb(start, end) {
-                                $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                            }
-
-                            var disabledRanges = [];
-                            {% for range in outageList %}
-                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                            {% endfor %}
-                            $('#id_dateRange').daterangepicker({
-
-                                isInvalidDate: function(date) {
-                                    for (var i = 0; i < disabledRanges.length; i++) {
-                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                },
-                                minDate: "{{ dataStartDate }}",
-                                maxDate: "{{ dataEndDate }}",
-                                ranges: {
-                                'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
-                                'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
-                                'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
-                                'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
-                                },
-
-                            }, cb);
-
-                            cb(start, end);
-
-                        });
-                    </script>
 
                     <div>
                         <input type="submit" value="Submit" />
@@ -270,3 +98,18 @@
             </div>
         </div>
     </div>
+
+{% load static %}
+<script>
+    var outageList = {{ outageList | safe }}
+    var dataStartDate = {{ dataStartDate | safe}}
+    var dataEndDate = {{ dataEndDate | safe}}
+</script>
+
+{% if queryData %}
+<script>
+    var queryData = {{ queryData | safe }}
+    var graphData = {{ graphData | safe }}
+</script>
+{% endif %}
+<script src="{% static 'js/dateRangePicker.js' %}"></script>
