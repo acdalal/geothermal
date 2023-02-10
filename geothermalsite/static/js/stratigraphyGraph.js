@@ -51,12 +51,16 @@ var datasetIndex = 0
 var groupNumber = 0
 var datasetIndicesForEachWeek = {}
 
-const colors = ["rgb(108, 113, 15)", "rgb(242, 137, 219)", "rgb(22, 110, 109)", "rgb(175, 217, 203)",
-                "rgb(71, 29, 242)", "rgb(20, 199, 97)", "rgb(223, 106, 138)", "rgb(241, 206, 178)",
-                "rgb(241, 0, 35)", "rgb(6, 56, 41)", "rgb(250, 100, 91)", "rgb(187, 118, 30)",
-                "rgb(51, 77, 161)", "rgb(168, 98, 94)", "rgb(102, 60, 151)", "rgb(43, 239, 57)",
-                "rgb(254, 108, 176)", "rgb(239, 186, 217)", "rgb(194, 48, 145)", "rgb(216, 247, 136)",
-                "rgb(145, 195, 247)", "rgb(185, 82, 187)", "rgb(156, 0, 132)", "rgb(186, 165, 35)"]
+// const colors = ["rgb(108, 113, 15)", "rgb(242, 137, 219)", "rgb(22, 110, 109)", "rgb(175, 217, 203)",
+//                 "rgb(71, 29, 242)", "rgb(20, 199, 97)", "rgb(223, 106, 138)", "rgb(241, 206, 178)",
+//                 "rgb(241, 0, 35)", "rgb(6, 56, 41)", "rgb(250, 100, 91)", "rgb(187, 118, 30)",
+//                 "rgb(51, 77, 161)", "rgb(168, 98, 94)", "rgb(102, 60, 151)", "rgb(43, 239, 57)",
+//                 "rgb(254, 108, 176)", "rgb(239, 186, 217)", "rgb(194, 48, 145)", "rgb(216, 247, 136)",
+//                 "rgb(145, 195, 247)", "rgb(185, 82, 187)", "rgb(156, 0, 132)", "rgb(186, 165, 35)"]
+
+var blue = 256
+var green = 0
+var diff = 200 / (Object.keys(graphData).length)
 
 Object.keys(graphData).forEach(group => {
     datasetIndicesForEachWeek[group] = []
@@ -76,12 +80,17 @@ Object.keys(graphData).forEach(group => {
             data: graphData[group][line],
             label: label,
             axis: 'y',
-            borderColor: colors[groupNumber],
-            backgroundColor: colors[groupNumber]
+            //borderColor: colors[groupNumber],
+            borderColor: "rgb(10,"+green+","+blue+")",
+            //backgroundColor: colors[groupNumber]
+            backgroundColor: "rgb(10,"+green+","+blue+")"
         }
+
         datasets.push(lineData)
     })
-    console.log(group, colors[groupNumber])
+    //console.log(group, colors[groupNumber])
+    green += diff
+    blue -= diff
 
     groupNumber += 1
 })
@@ -110,7 +119,7 @@ const options = {
                 type: 'linear',
                 title: {
                     display: true,
-                    text: 'Depth below ground, ft.'
+                    text: 'Depth below ground, m.'
                 },
                 reverse: true
             }

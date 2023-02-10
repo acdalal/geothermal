@@ -25,21 +25,6 @@ from .helper.renderFunctions import (
 
 
 def index(request: HttpRequest):
-    # will need to adjust to TempVsDepth directly if we wanna have the query here
-    # if request.method == "POST":
-    #     queryType = getUserQueryType(request)
-
-    #     if queryType == "tempvstime":
-    #         return renderTempVsTimePage(request)
-    #     if queryType == "tempvsdepth":
-    #         return renderTempVsDepthPage(request)
-    #     else:
-    #         raise (
-    #             'User selected query type is invalid, should be "tempvstime" or "tempvsdepth"'
-    #         )
-
-    # else:
-    #     return renderIndexPage(request)
     if request.method == "POST":
         formData = getUserStratigraphyQuery(request)
         groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
@@ -55,7 +40,7 @@ def index(request: HttpRequest):
         return renderStratigraphyPage(request, groupBy, queryResults, borehole)
 
     else:
-        return renderStratigraphyPage(request)
+        return renderIndexPage(request)
 
 
 def about(request: HttpRequest):

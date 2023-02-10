@@ -34,9 +34,13 @@ def renderIndexPage(request: HttpRequest):
     """
     A shortcut function that renders index.html and generates the query selection form
     """
-    return render(
-        request, "dashboard/index.html", context={"form": QuerySelectionForm()}
-    )
+    context = {
+        "temperatureProfileForm": StratigraphyForm(),
+        "tempOverTimeForm": TempVsTimeForm(),
+        "tempOverDepthForm": TempVsDepthForm(),
+        "hi": 55555,
+    }
+    return render(request, "dashboard/index.html", context=context)
 
 
 def _getPageContext(

@@ -1,6 +1,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
 <script src="{% static 'js/selectTab.js' %}"></script>
+<script src="{% static 'js/dateRangePicker.js' %}"></script>
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -10,13 +11,17 @@
     <li class="nav-item">
       <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverTime')">TempVsTime</a>
     </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverDepth')">TempVsDepth</a>
+    </li>
 </ul>
 
 <div class="tab-content" id="myTabContent">
     <div class="form-container tab-pane fade show active" id="TemperatureProfile">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-                hi
+                {% csrf_token %}
+                {{ temperatureProfileForm }}
             </div>
         </div>
     </div>
@@ -24,10 +29,22 @@
     <div class="form-container tab-pane fade" id="TempOverTime">
         <div class="row">
             <div class="col-md-8 offset-md-2">
-               hello
+                {% csrf_token %}
+                {{ tempOverTimeForm }}
             </div>
         </div>
     </div>
+
+    <div class="form-container tab-pane fade" id="TempOverDepth">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                {% csrf_token %}
+                {{ tempOverDepthForm }}
+            </div>
+        </div>
+    </div>
+
+    <input type="submit" value="Submit" />
 
 </div>
 
@@ -45,4 +62,3 @@
     var graphData = {{ graphData | safe }}
 </script>
 {% endif %}
-<script src="{% static 'js/dateRangePicker.js' %}"></script>
