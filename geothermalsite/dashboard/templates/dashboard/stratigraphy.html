@@ -20,74 +20,100 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Stratigraphy</h1>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/stratigraphy.css' %}">
 
-    <form action="/stratigraphy/" method="post">
-        <br>
-        {% csrf_token %}
-        {{ form }}
-        {# This script enables the fancy datetime picker #}
+    <div id="formWrapper" style="text-align:center;">
+        {# Header and information about the query #}
+        <h1>Stratigraphy</h1>
+        <p>
+            <em>
+                Stratigraphy plots visualize temperature data with the depths and corresponding stratigraphic
+                layers on the y-axis.
+            </em>
+        </p>
 
-        <script type="text/javascript">
-            $(function() {
-                var disabledRanges = [];
-                {% for range in outageList %}
-                    disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                {% endfor %}
-                $('#id_dateRange').daterangepicker({
-                    isInvalidDate: function(date) {
-                        for (var i = 0; i < disabledRanges.length; i++) {
-                            if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                return true;
+        <details>
+            <summary>more info</summary>
+                <div class="list-parent">
+                    <ul>
+                        <li>Stratigraphy plots are fun..... </li>
+                        <li>One thing that's important to know is that .....</li>
+                        <li>One thing that's important...</li>
+                    </ul>
+                </div>
+        </details>
+
+
+        <form action="/stratigraphy/" method="post">
+            <br>
+            {% csrf_token %}
+            {{ form }}
+
+            {# This script enables the fancy datetime picker #}
+            <script type="text/javascript">
+                $(function() {
+                    var disabledRanges = [];
+                    {% for range in outageList %}
+                        disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                    {% endfor %}
+                    $('#id_dateRange').daterangepicker({
+                        isInvalidDate: function(date) {
+                            for (var i = 0; i < disabledRanges.length; i++) {
+                                if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                    return true;
+                                }
                             }
+                            return false;
+                        },
+                        minDate: "{{ dataStartDate }}",
+                        maxDate: "{{ dataEndDate }}",
+                        ranges: {
+                        'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
+                        'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
+                        'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
+                        'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
+                        },
+
+                    });
+                    });
+
+                    $('#id_timeSelector').daterangepicker({
+                        timePicker: true,
+                        singleDatePicker: true,
+                        timePicker24Hour: false,
+                        timePickerIncrement: 1,
+                        timePickerSeconds: false,
+                        locale: {
+                            format: 'hh:mm A'
                         }
-                        return false;
-                    },
-                    minDate: "{{ dataStartDate }}",
-                    maxDate: "{{ dataEndDate }}",
-                    ranges: {
-                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
-                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
-                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
-                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
-                    },
+                    }).on('show.daterangepicker', function (ev, picker) {
+                        picker.container.find(".calendar-table").hide();
+                    });
 
-                });
-                });
+                    $("#id_dateRange").change(
+                        function(){
+                            var dateStr = $("#id_dateRange").val();
 
-                $('#id_timeSelector').daterangepicker({
-                    timePicker: true,
-                    singleDatePicker: true,
-                    timePicker24Hour: false,
-                    timePickerIncrement: 1,
-                    timePickerSeconds: false,
-                    locale: {
-                        format: 'hh:mm A'
-                    }
-                }).on('show.daterangepicker', function (ev, picker) {
-                    picker.container.find(".calendar-table").hide();
-                });
+                            let dates = dateStr.split( " - " );
+                            let start = new Date( dates[0] );
+                            let end   = new Date( dates[1] );
+                            var hourDiff = Math.abs(end - start) / 36e5
+                            console.log(hourDiff)
+                            if (hourDiff < 24){
+                                $('#id_timeSelector').hide();
+                            } else{
+                                $('#id_timeSelector').show();
+                            }
+                    })
+            </script>
 
-                $("#id_dateRange").change(
-                    function(){
-                        var dateStr = $("#id_dateRange").val();
-
-                        let dates = dateStr.split( " - " );
-                        let start = new Date( dates[0] );
-                        let end   = new Date( dates[1] );
-                        var hourDiff = Math.abs(end - start) / 36e5
-                        console.log(hourDiff)
-                        if (hourDiff < 24){
-                            $('#id_timeSelector').hide();
-                        } else{
-                            $('#id_timeSelector').show();
-                        }
-                })
-        </script>
-        <div>
-            <input type="submit" value="Submit">
-        </div>
-    </form>
+            {# Button to submit the form #}
+            <div>
+                <input type="submit" value="Submit">
+            </div>
+        </form>
+    </div>
 
     {% if queryData %}
 
@@ -101,8 +127,6 @@
             </div>
     </details>
     -->
-
-    {% load static %}
 
     <script src="{% static 'js/stratigraphyGraph.js' %}" type="module"></script>
     <script>
