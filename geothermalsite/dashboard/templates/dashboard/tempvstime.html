@@ -25,15 +25,6 @@
     <button type="button" onclick="window.location.href='/'">Home</button>
 
     {% if queryData %}
-    <details>
-        <summary>See Data</summary>
-            <div>
-                {% for row in queryData %}
-                    <div>{{ row | safe}}</div>
-                {% endfor %}
-            </div>
-    </details>
-
 
     <div>
 
@@ -42,7 +33,7 @@
     <script src="{% static 'js/createCsv.js' %}"></script>
 
     <button onclick="downloadData('tempvstime')">Download data</button>
-    <button id="downloadImage" onclick="window.downloadGraphImage(\"tempvstime\")">Download graph</button>
+    <button id="downloadImage" onclick="window.downloadGraphImage('tempvstime')">Download graph</button>
 
 
     <div class="container">

@@ -1,5 +1,9 @@
 const $chart = document.getElementById('ctx')
 
+var queryData = {{ queryData | safe }};
+var graphData = {{ graphData | safe }};
+var groupBy = {{ groupBy | safe }}
+
 const drawHorizontalLine = {
     id: 'verticalLiner',
     afterInit: (chart, args, opts) => {

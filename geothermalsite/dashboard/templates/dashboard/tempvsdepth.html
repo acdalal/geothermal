@@ -21,14 +21,6 @@
     <button type="button" onclick="window.location.href='/'">Home</button>
 
     {% if queryData %}
-    <details>
-        <summary>See Data</summary>
-            <div>
-                {% for row in queryData %}
-                    <div>{{ row }}</div>
-                {% endfor %}
-            </div>
-    </details>
 
     {% load static %}
 
