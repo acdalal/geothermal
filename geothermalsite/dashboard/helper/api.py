@@ -1,7 +1,8 @@
 import time
 import sys
+from .boreholes import boreholes
 from django.db import connections
-from datetime import datetime
+from datetime import timedelta, datetime
 from .logging import log_query_as_INFO
 from .createQueries import (
     createEntireDataOutageQuery,
@@ -11,56 +12,6 @@ from .createQueries import (
     createTempVsTimeQuery,
 )
 from .constants import DAYS, HOURS
-
-
-def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
-    """
-    Returns a list of all data points across all measurements associated with
-    the channel during that hour.
-
-    Parameters
-    ----------
-    channel: ID of the borehole (1 or 3)
-    timestamp: start time of the query
-
-    Returns
-    ----------
-    A dictionary with the query data (column label:data point)
-    """
-
-    query = createTempVsDepthQuery(borehole, timestamp)
-    results = list()
-
-    with connections["geothermal"].cursor() as cursor:
-        # record query execution time
-        query_start_time = time.time()
-        cursor.execute(query)
-        query_end_time = time.time()
-
-        # clean results and crudely estimate the size of the query's result
-        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
-        csv_byte_size_estimate = 0
-        for row in cursor.fetchall():
-            datapoint = {
-                "channel_id": row[0],
-                "measurement_id": row[1],
-                "datetime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
-                "data_id": row[3],
-                "temperature_c": row[4],
-                "depth_m": row[5],
-            }
-            results.append(datapoint)
-
-            csv_byte_size_estimate += len(str(row))
-
-        # log the query execution as an INFO log
-        log_query_as_INFO(
-            query,
-            query_end_time - query_start_time,
-            csv_byte_size_estimate,
-        )
-
-    return results
 
 
 def getTempVsTimeResults(
@@ -82,13 +33,19 @@ def getTempVsTimeResults(
     A dictionary with the results of the query
     """
 
-    query = createTempVsTimeQuery(borehole, depth, startTime, endTime)
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafBottom = currentBorehole.getBottom()
+
+    query = createTempVsTimeQuery()
     results = list()
 
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
-        cursor.execute(query)
+        cursor.execute(query, (channel, depth, lafStart, lafBottom, startTime, endTime))
         query_end_time = time.time()
 
         # clean results and crudely estimate the size of the query's result
@@ -113,6 +70,66 @@ def getTempVsTimeResults(
             query_end_time - query_start_time,
             csv_byte_size_estimate,
         )
+    return results
+
+def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
+    """
+    Returns a list of all data points across all measurements associated with
+    the channel during that hour.
+
+    Parameters
+    ----------
+    channel: ID of the borehole (1 or 3)
+    timestamp: start time of the query
+
+    Returns
+    ----------
+    A dictionary with the query data (column label:data point)
+    """
+
+    timestampStart = datetime.strptime(timestamp, f"%Y-%m-%d %H:%M:%S")
+    timestampEnd = timestampStart + timedelta(minutes=30)
+
+    timestampEndStr = timestampEnd.strftime(f"%Y-%m-%d %H:%M:%S")
+
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafEnd = currentBorehole.getBottom()
+    
+    query = createTempVsDepthQuery()
+    results = list()
+
+    with connections["geothermal"].cursor() as cursor:
+        # record query execution time
+        query_start_time = time.time()
+        cursor.execute(query, (channel, timestamp, timestampEndStr, lafStart, lafEnd))
+        query_end_time = time.time()
+
+        # clean results and crudely estimate the size of the query's result
+        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
+        csv_byte_size_estimate = 0
+        for row in cursor.fetchall():
+            datapoint = {
+                "channel_id": row[0],
+                "measurement_id": row[1],
+                "datetime_utc": row[2].strftime(f"%Y-%m-%d %H:%M:%S"),
+                "data_id": row[3],
+                "temperature_c": row[4],
+                "depth_m": row[5],
+            }
+            results.append(datapoint)
+
+            csv_byte_size_estimate += len(str(row))
+
+        # log the query execution as an INFO log
+        log_query_as_INFO(
+            query,
+            query_end_time - query_start_time,
+            csv_byte_size_estimate,
+        )
+
     return results
 
 
