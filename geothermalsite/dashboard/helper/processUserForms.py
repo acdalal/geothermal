@@ -82,7 +82,7 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
     }
 
 
-def getUserTempsVsTimeQuery(request: HttpRequest) -> dict:
+def getUserTempVsTimeQuery(request: HttpRequest) -> dict:
     """
     From the temperature vs time form, extracts the user response and formats it into a dictionary
     """

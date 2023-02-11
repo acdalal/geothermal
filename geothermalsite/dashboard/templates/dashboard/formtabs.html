@@ -21,6 +21,7 @@
             <div class="col-md-8 offset-md-2">
                 {% csrf_token %}
                 {{ temperatureProfileForm }}
+                <input type="submit" value="Submit" name="temperature-profile"/>
             </div>
         </div>
     </div>
@@ -30,6 +31,7 @@
             <div class="col-md-8 offset-md-2">
                 {% csrf_token %}
                 {{ tempOverTimeForm }}
+                <input type="submit" value="Submit" name="temperature-time"/>
             </div>
         </div>
     </div>
@@ -39,11 +41,11 @@
             <div class="col-md-8 offset-md-2">
                 {% csrf_token %}
                 {{ tempOverDepthForm }}
+                <input type="submit" value="Submit" name="temperature-depth"/>
             </div>
         </div>
     </div>
 
-    <input type="submit" value="Submit" />
 
 </div>
 
