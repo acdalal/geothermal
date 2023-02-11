@@ -64,7 +64,6 @@ def createTempVsDepthQuery() -> str:
     Formatted query to be executed by the database cursor
     """
     
-
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM measurement AS M
@@ -136,8 +135,6 @@ def createStratigraphyQueryByMeasurement() -> str:
     -------------------
 
     """
-
-    
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
