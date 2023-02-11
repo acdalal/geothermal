@@ -79,14 +79,14 @@
 
 
                             function cb(start, end) {
-                                $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
+                                $('#id_tempVsTimeDateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
                             }
 
                             var disabledRanges = [];
                             {% for range in outageList %}
                                 disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
                             {% endfor %}
-                            $('#id_dateRange').daterangepicker({
+                            $('#id_tempVsTimeDateRange').daterangepicker({
 
                                 isInvalidDate: function(date) {
                                     for (var i = 0; i < disabledRanges.length; i++) {
