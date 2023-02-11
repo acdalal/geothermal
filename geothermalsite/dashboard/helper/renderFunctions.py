@@ -122,8 +122,3 @@ def renderStratigraphyPage(
         "dashboard/stratigraphy.html",
         context,
     )
-
-def renderRawQueryPage(
-    request: HttpRequest, queryResults: list = None
-):
-    return None

@@ -9,4 +9,5 @@ urlpatterns = [
     path("stratigraphy/", views.stratigraphy, name="stratigraphy"),
     path("about/", views.about, name="about"),
     path("documentation/", views.documentation, name="documentation"),
+    path("customquery/", views.customQuery, name="customquery"),
 ]
