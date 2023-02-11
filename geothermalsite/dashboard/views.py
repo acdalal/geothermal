@@ -26,6 +26,7 @@ from .helper.renderFunctions import (
 
 def index(request: HttpRequest):
     if request.method == "POST":
+        print(request.POST)
         formData = getUserStratigraphyQuery(request)
         groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
 

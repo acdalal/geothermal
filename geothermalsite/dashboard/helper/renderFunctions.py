@@ -34,11 +34,15 @@ def renderIndexPage(request: HttpRequest):
     """
     A shortcut function that renders index.html and generates the query selection form
     """
+    outageList = getDataOutages()
+    truncatedOutageList = truncateDateTime(outageList)
     context = {
         "temperatureProfileForm": StratigraphyForm(),
         "tempOverTimeForm": TempVsTimeForm(),
         "tempOverDepthForm": TempVsDepthForm(),
-        "hi": 55555,
+        "dataStartDate": DATA_START_DATE,
+        "dataEndDate": DATA_END_DATE,
+        "outageList": truncatedOutageList,
     }
     return render(request, "dashboard/index.html", context=context)
 

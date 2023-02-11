@@ -1,7 +1,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
 <script src="{% static 'js/selectTab.js' %}"></script>
-<script src="{% static 'js/dateRangePicker.js' %}"></script>
 
 
 <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -49,12 +48,14 @@
 </div>
 
 
-{% load static %}
 <script>
     var outageList = {{ outageList | safe }}
     var dataStartDate = {{ dataStartDate | safe}}
     var dataEndDate = {{ dataEndDate | safe}}
 </script>
+
+{% load static %}
+<script src="{% static 'js/dateRangePicker.js' %}"></script>
 
 {% if queryData %}
 <script>
