@@ -1,63 +1,11 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
-<script src="{% static 'js/selectTab.js' %}"></script>
-
-
-<ul class="nav nav-tabs" id="myTab" role="tablist">
-    <li class="nav-item">
-        <a class="nav-link active" data-toggle="tab" href="#" onclick="selectTab('TemperatureProfile')">Temperature Profile</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverTime')">TempVsTime</a>
-    </li>
-    <li class="nav-item">
-      <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverDepth')">TempVsDepth</a>
-    </li>
-</ul>
-
-<div class="tab-content" id="myTabContent">
-    <div class="form-container tab-pane fade show active" id="TemperatureProfile">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                {% csrf_token %}
-                {{ temperatureProfileForm }}
-                <input type="submit" value="Submit" name="temperature-profile"/>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-container tab-pane fade" id="TempOverTime">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                {% csrf_token %}
-                {{ tempOverTimeForm }}
-                <input type="submit" value="Submit" name="temperature-time"/>
-            </div>
-        </div>
-    </div>
-
-    <div class="form-container tab-pane fade" id="TempOverDepth">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-                {% csrf_token %}
-                {{ tempOverDepthForm }}
-                <input type="submit" value="Submit" name="temperature-depth"/>
-            </div>
-        </div>
-    </div>
-
-
-</div>
-
 
 <script>
     var outageList = {{ outageList | safe }}
-    var dataStartDate = {{ dataStartDate | safe}}
-    var dataEndDate = {{ dataEndDate | safe}}
+    var dataStartDate = "{{ dataStartDate }}"
+    var dataEndDate = "{{ dataEndDate }}"
 </script>
 
-{% load static %}
-<script src="{% static 'js/dateRangePicker.js' %}"></script>
 
 {% if queryData %}
 <script>
@@ -65,3 +13,60 @@
     var graphData = {{ graphData | safe }}
 </script>
 {% endif %}
+
+
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#" onclick="selectTab('TemperatureProfile')">Temperature Profile</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverTime')">Temperature Vs Time</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverDepth')">Temperature Vs Depth</a>
+    </li>
+</ul>
+
+<script src="{% static 'js/selectTab.js' %}"></script>
+
+<div class="tab-content" id="myTabContent">
+    <div class="form-container tab-pane fade show active" id="TemperatureProfile">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="/" method="post">
+                    {% csrf_token %}
+                    {{ temperatureProfileForm }}
+                    <input type="submit" value="Submit" name="temperature-profile"/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-container tab-pane fade" id="TempOverTime">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="/" method="post">
+                    {% csrf_token %}
+                    {{ tempOverTimeForm }}
+                    <input type="submit" value="Submit" name="temperature-time"/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="form-container tab-pane fade" id="TempOverDepth">
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form action="/" method="post">
+                    {% csrf_token %}
+                    {{ tempOverDepthForm }}
+                    <input type="submit" value="Submit" name="temperature-depth"/>
+                </form>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="{% static 'js/dateRangePicker.js' %}"></script>
