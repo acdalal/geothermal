@@ -152,13 +152,22 @@ def getStratigraphyResultsByDay(
     ----------
     A dictionary with the results of the query
     """
-    query = createStratigraphyQueryByDay(borehole, startTime, endTime, dailyTimestamp)
+    query = createStratigraphyQueryByDay()
     results = list()
+
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafBottom = currentBorehole.getBottom()
+
+    timestampStart = dailyTimestamp
+    timestampEnd = timestampStart + timedelta(minutes=30)
 
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
-        cursor.execute(query)
+        cursor.execute(query, (channel, lafStart, lafBottom, startTime, endTime, timestampStart.time(), timestampEnd.time()))
         query_end_time = time.time()
 
         # clean results and crudely estimate the size of the query's result
@@ -209,10 +218,16 @@ def getStratigraphyResultsByMeasurement(
     query = createStratigraphyQueryByMeasurement(borehole, startTime, endTime)
     results = list()
 
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafBottom = currentBorehole.getBottom()
+
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
-        cursor.execute(query)
+        cursor.execute(query, (channel, lafStart, lafBottom, startTime, endTime))
         query_end_time = time.time()
 
         # clean results and crudely estimate the size of the query's result
