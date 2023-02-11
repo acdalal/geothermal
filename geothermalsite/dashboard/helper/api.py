@@ -301,3 +301,17 @@ def getStratigraphyResults(
         return getStratigraphyResultsByMeasurement(borehole, startTime, endTime)
     else:
         return getStratigraphyResultsByDay(borehole, startTime, endTime, dailyTimestamp)
+
+def getRawQueryResults(
+    query: str
+) -> list[dict]:
+    results = list()
+
+    ### SANITIZE QUERY HERE ####
+
+    with connections["geothermal"].cursor() as cursor:
+        cursor.execute(query)
+        columns = [col[0] for col in cursor.description]
+        for row in cursor.fetchall():
+            results.append(dict(columns, row))
+    return results

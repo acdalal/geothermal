@@ -137,3 +137,6 @@ def getGrouping(start: datetime, end: datetime) -> int:
         return MONTHS
     else:
         return YEARS
+
+def getUserRawQuery(request: HttpRequest) -> dict:
+    return None  
