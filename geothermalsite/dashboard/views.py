@@ -113,6 +113,7 @@ def customQuery(request: HttpRequest):
                 for row in queryResults
             ]
         }
+        print("THIS IS THE DATA:", context)
         return renderRawQueryPage(request, context)
     else:
         return renderRawQueryPage(request)
