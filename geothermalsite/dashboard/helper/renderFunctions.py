@@ -1,16 +1,12 @@
 from django.shortcuts import render
-from ..forms import (
-    TempVsTimeForm,
-    TempVsDepthForm,
-    StratigraphyForm,
-)
+from ..forms import TempVsTimeForm, TempVsDepthForm, TemperatureProfileForm
 from datetime import datetime
 
 from .constants import DATA_END_DATE, DATA_START_DATE
 from .visualization import (
     toChartJsTempVsTime,
     toChartJsTempVsDepth,
-    toChartJsStratigraphy,
+    toChartJsTempProfile,
 )
 from .api import getDataOutages
 from django.http import HttpRequest
@@ -36,7 +32,7 @@ def renderIndexPage(request: HttpRequest):
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
     context = {
-        "temperatureProfileForm": StratigraphyForm(),
+        "temperatureProfileForm": TemperatureProfileForm(),
         "tempOverTimeForm": TempVsTimeForm(),
         "tempOverDepthForm": TempVsDepthForm(),
         "dataStartDate": DATA_START_DATE,
@@ -114,7 +110,7 @@ def renderTempProfilePage(
     TODO
     """
     if queryResults and borehole:
-        graphData = toChartJsStratigraphy(queryResults, borehole, groupBy)
+        graphData = toChartJsTempProfile(queryResults, borehole, groupBy)
     else:
         graphData = list()
 

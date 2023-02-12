@@ -63,7 +63,7 @@ def createTempVsDepthQuery() -> str:
     -----------
     Formatted query to be executed by the database cursor
     """
-    
+
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM measurement AS M
@@ -79,7 +79,7 @@ def createTempVsDepthQuery() -> str:
     return query
 
 
-def createStratigraphyQueryByDay() -> str:
+def createTempProfileQueryByDay() -> str:
     """
     Creates a query for getting temperature vs time and depth for a given borehole, returning one measurement for each day
 
@@ -119,7 +119,7 @@ def createStratigraphyQueryByDay() -> str:
     return query
 
 
-def createStratigraphyQueryByMeasurement() -> str:
+def createTempProfileQueryByMeasurement() -> str:
     """
     Creates a query for getting temperature vs time and depth for a given borehole, returning each measurement
 

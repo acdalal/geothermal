@@ -82,9 +82,9 @@ class TempVsDepthForm(forms.Form):
     )
 
 
-class StratigraphyForm(forms.Form):
+class TemperatureProfileForm(forms.Form):
     """
-    A class used to represent a form for a stratigraphy plot.
+    A class used to represent a form for a temperature profile plot.
 
     Attributes
     ----------

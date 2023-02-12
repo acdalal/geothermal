@@ -1,7 +1,12 @@
 import dateparser
 from datetime import datetime, timedelta
 import re
-from ..forms import TempVsTimeForm, TempVsDepthForm, StratigraphyForm, RawQueryForm
+from ..forms import (
+    TempVsTimeForm,
+    TempVsDepthForm,
+    TemperatureProfileForm,
+    RawQueryForm,
+)
 from django.http import HttpRequest
 from .constants import HOURS, DAYS, WEEKS, MONTHS, YEARS
 
@@ -51,9 +56,9 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     }
 
 
-def getStratigraphyFormData(cleanedData: dict) -> dict:
+def getTempProfileFormData(cleanedData: dict) -> dict:
     """
-    Processes the stratigraphy form data and outputs it in an easily accessible format
+    Processes the temperature profile form data and outputs it in an easily accessible format
     """
     boreholeNumber = cleanedData["boreholeNumber"]
 
@@ -98,13 +103,13 @@ def getUserTempVsDepthQuery(request: HttpRequest) -> dict:
     return formData
 
 
-def getUserStratigraphyQuery(request: HttpRequest) -> dict:
+def getUserTempProfileQuery(request: HttpRequest) -> dict:
     """
-    From the stratigraphy graph form, extracts the user response and formats it into a dictionary
+    From the temperature profile graph form, extracts the user response and formats it into a dictionary
     """
-    userForm = StratigraphyForm(request.POST)
+    userForm = TemperatureProfileForm(request.POST)
     assert userForm.is_valid()
-    formData = getStratigraphyFormData(userForm.cleaned_data)
+    formData = getTempProfileFormData(userForm.cleaned_data)
     return formData
 
 
