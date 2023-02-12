@@ -185,5 +185,5 @@ class QuerySelectionForm(forms.Form):
         ),
     )
 
-class rawQueryForm(forms.Form):
+class RawQueryForm(forms.Form):
     rawQuery = forms.CharField(widget=forms.Textarea)

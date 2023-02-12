@@ -6,6 +6,7 @@ from ..forms import (
     TempVsDepthForm,
     QuerySelectionForm,
     StratigraphyForm,
+    RawQueryForm
 )
 from django.http import HttpRequest
 from .constants import HOURS, DAYS, WEEKS, MONTHS, YEARS
@@ -137,3 +138,11 @@ def getGrouping(start: datetime, end: datetime) -> int:
         return MONTHS
     else:
         return YEARS
+
+def getUserRawQuery(request: HttpRequest) -> str:
+
+    userForm = RawQueryForm(request.POST)
+    assert userForm.is_valis()
+
+    formData = userForm.cleaned_data
+    return formData
