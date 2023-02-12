@@ -109,3 +109,7 @@ class StratigraphyForm(forms.Form):
         label="at time ",
         widget=forms.TextInput(attrs={"class": "form-control", "value": "12:00 AM"}),
     )
+
+
+class RawQueryForm(forms.Form):
+    rawQuery = forms.CharField(widget=forms.Textarea)

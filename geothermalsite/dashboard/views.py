@@ -8,18 +8,21 @@ from .helper.api import (
     getTempVsTimeResults,
     getStratigraphyResults,
     getDataOutages,
+    getRawQueryResults,
 )
 from .helper.processUserForms import (
     getUserTempVsTimeQuery,
     getUserTempVsDepthQuery,
     getUserStratigraphyQuery,
     getGrouping,
+    getUserRawQuery,
 )
 from .helper.renderFunctions import (
     renderIndexPage,
     renderTempVsDepthPage,
     renderTempVsTimePage,
     renderStratigraphyPage,
+    renderRawQueryPage,
 )
 
 
@@ -117,3 +120,20 @@ def stratigraphy(request: HttpRequest):
 
     else:
         return renderStratigraphyPage(request)
+
+
+def customQuery(request: HttpRequest):
+    if request.method == "POST":
+        formData = getUserRawQuery(request)
+        queryResults = getRawQueryResults(formData)
+        print("THIS IS THE QUERY RESULTS", queryResults)
+        context = {
+            "queryResults": [
+                {key: value for key, value in zip(queryResults[0].keys(), row)}
+                for row in queryResults
+            ]
+        }
+        print("THIS IS THE DATA:", context)
+        return renderRawQueryPage(request, context)
+    else:
+        return renderRawQueryPage(request)
