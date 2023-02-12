@@ -107,6 +107,7 @@ def customQuery(request: HttpRequest):
     if request.method == 'POST':
         formData = getUserRawQuery(request)
         queryResults = getRawQueryResults(formData)
+        print("THIS IS THE QUERY RESULTS", queryResults)
         context = {
             'queryResults': [
                 {key: value for key, value in zip(queryResults[0].keys(), row)}
