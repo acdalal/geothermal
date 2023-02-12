@@ -293,7 +293,6 @@ def getDataOutages() -> list[dict]:
             results.append(datapoint)
     return results
 
-
 def getStratigraphyResults(
     borehole: str, startTime: str, endTime: str, dailyTimestamp: str, groupBy: int
 ) -> list[dict]:
@@ -303,15 +302,18 @@ def getStratigraphyResults(
         return getStratigraphyResultsByDay(borehole, startTime, endTime, dailyTimestamp)
 
 def getRawQueryResults(
-    query: str
+    formData: dict[str, str]
 ) -> list[dict]:
     results = list()
+
+    query = formData['rawQuery']
 
     ### SANITIZE QUERY HERE ####
 
     with connections["geothermal"].cursor() as cursor:
+        print("QUERY", query)
         cursor.execute(query)
         columns = [col[0] for col in cursor.description]
         for row in cursor.fetchall():
-            results.append(dict(columns, row))
+            results.append(dict(zip(columns, row)))
     return results

@@ -126,4 +126,4 @@ def renderStratigraphyPage(
 def renderRawQueryPage(
     request: HttpRequest, queryResults: list = None
 ):
-    return render(request, 'dashboard/customquery.html')
+    return render(request, 'dashboard/customquery.html', {'queryResults': queryResults})

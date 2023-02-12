@@ -104,11 +104,17 @@ def stratigraphy(request: HttpRequest):
         return renderStratigraphyPage(request)
 
 def customQuery(request: HttpRequest):
-    if request == 'POST':
+    if request.method == 'POST':
+        print("IN POST")
         formData = getUserRawQuery(request)
-
         queryResults = getRawQueryResults(formData)
-        return renderRawQueryPage(queryResults)
+        context = {
+            'queryResults': [
+                {key: value for key, value in zip(queryResults[0].keys(), row)}
+                for row in queryResults
+            ]
+        }
+        return renderRawQueryPage(request, context)
     else:
         return renderRawQueryPage(request)
         
