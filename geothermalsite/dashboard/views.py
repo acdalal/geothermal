@@ -12,7 +12,6 @@ from .helper.api import (
 from .helper.processUserForms import (
     getUserTempVsTimeQuery,
     getUserTempVsDepthQuery,
-    getUserQueryType,
     getUserStratigraphyQuery,
     getGrouping,
 )

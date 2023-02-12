@@ -10,15 +10,13 @@
         var outageList = {{ outageList | safe }}
         var dataStartDate = "{{ dataStartDate }}"
         var dataEndDate = "{{ dataEndDate }}"
-    </script>
 
 
     {% if queryData %}
-    <script>
         var queryData = {{ queryData | safe }}
         var graphData = {{ graphData | safe }}
-    </script>
     {% endif %}
+    </script>
 
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -43,7 +41,7 @@
                         <br>
                         {% csrf_token %}
                         {{ temperatureProfileForm }}
-                        <input type="submit" value="Submit" name="temperature-profile"/>
+                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-profile"/>
                     </form>
                 </div>
             </div>
@@ -56,7 +54,7 @@
                         <br>
                         {% csrf_token %}
                         {{ tempOverTimeForm }}
-                        <input type="submit" value="Submit" name="temperature-time"/>
+                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-time"/>
                     </form>
                 </div>
             </div>
@@ -69,7 +67,7 @@
                         <br>
                         {% csrf_token %}
                         {{ tempOverDepthForm }}
-                        <input type="submit" value="Submit" name="temperature-depth"/>
+                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-depth"/>
                     </form>
                 </div>
             </div>

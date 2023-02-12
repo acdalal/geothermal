@@ -2,52 +2,6 @@ from django import forms
 from .helper.constants import DATA_START_DATE, DATA_END_DATE
 
 
-# class CombinedForm(forms.Form):
-#     boreholeNumber = forms.ChoiceField(
-#         label="Display temperature from borehole number",
-#         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
-#         widget=forms.Select(attrs={"class": "form-control"}),
-#     )
-#     dateRange = forms.CharField(
-#         label="during",
-#         widget=forms.TextInput(
-#             attrs={
-#                 "autocomplete": "off",
-#                 "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
-#                 "class": "form-control",
-#             }
-#         ),
-#     )
-
-#     depth = forms.IntegerField(
-#         label="at depth:",
-#         widget=forms.NumberInput(
-#             attrs={
-#                 "type": "number",
-#                 "min": "0",
-#                 "step": "1",
-#                 "class": "form-control",
-#             }
-#         ),
-#     )
-
-#     timeSelector = forms.CharField(
-#         label="at time ",
-#         widget=forms.TextInput(attrs={"class": "form-control"}),
-#     )
-
-#     timeStamp = forms.CharField(
-#         label="at time ",
-#         widget=forms.TextInput(
-#             attrs={
-#                 "autocomplete": "off",
-#                 "value": DATA_START_DATE,
-#                 "class": "form-control",
-#             }
-#         ),
-#     )
-
-
 class TempVsTimeForm(forms.Form):
     """
     A class used to represent a temperature vs. time form.
@@ -62,7 +16,7 @@ class TempVsTimeForm(forms.Form):
         the integer depth a user may select to query
     """
 
-    tempVsTimeBoreholeNumber = forms.ChoiceField(
+    boreholeNumber = forms.ChoiceField(
         label="Display temperature from borehole number",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
@@ -104,7 +58,7 @@ class TempVsDepthForm(forms.Form):
         the date range that is queried for
     """
 
-    tempVsDepthBoreholeNumber = forms.ChoiceField(
+    boreholeNumber = forms.ChoiceField(
         label="Display temperature from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
@@ -134,7 +88,7 @@ class StratigraphyForm(forms.Form):
         the time stamp to query data at, with a minimum at the data start date
     """
 
-    temperatureProfileBoreholeNumber = forms.ChoiceField(
+    boreholeNumber = forms.ChoiceField(
         label="Display temperature vs depth data from borehole number ",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
@@ -153,36 +107,5 @@ class StratigraphyForm(forms.Form):
 
     temperatureProfileTimeSelector = forms.CharField(
         label="at time ",
-        widget=forms.TextInput(attrs={"class": "form-control"}),
-    )
-
-
-class QuerySelectionForm(forms.Form):
-    """
-    A class used to represent a query selection form.
-
-    Attributes
-    ----------
-    queryType : django.forms.ChoiceField
-        the type of query to be executed
-    """
-
-    boreholeNumber = forms.ChoiceField(
-        label="Display temperature vs depth data from borehole number ",
-        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
-        widget=forms.Select(attrs={"class": "form-control"}),
-    )
-    dateRange = forms.CharField(
-        label="during ",
-        widget=forms.TextInput(
-            attrs={
-                "autocomplete": "off",
-                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
-                "class": "form-control",
-            }
-        ),
-    )
-    timeSelector = forms.CharField(
-        label="at time ",
-        widget=forms.TextInput(attrs={"class": "form-control"}),
+        widget=forms.TextInput(attrs={"class": "form-control", "value": "12:00 AM"}),
     )

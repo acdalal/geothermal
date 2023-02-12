@@ -4,7 +4,6 @@ import re
 from ..forms import (
     TempVsTimeForm,
     TempVsDepthForm,
-    QuerySelectionForm,
     StratigraphyForm,
 )
 from django.http import HttpRequest
@@ -23,10 +22,10 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     """
     Processes the temperature vs time form data and outputs it in an easily accessible format
     """
-    boreholeNumber = cleanedData["boreholeNumber"]
-    depth = cleanedData["depth"]
+    boreholeNumber = cleanedData.get("boreholeNumber")
+    depth = cleanedData.get("tempVsTimeDepth")
 
-    dateRange = cleanedData["dateRange"]
+    dateRange = cleanedData.get("tempVsTimeDateRange")
     dateList = re.findall(r"../../....", dateRange)
     startDate, endDate = dateList
 
@@ -45,9 +44,9 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     """
     Processes the temperature vs depth form data and outputs it in an easily accessible format
     """
-    boreholeNumber = cleanedData["boreholeNumber"]
+    boreholeNumber = cleanedData.get("boreholeNumber")
 
-    timestamp = cleanedData["dateRange"]
+    timestamp = cleanedData.get("tempVsDepthDateRange")
     timestampUtc = dateparser.parse(timestamp).__str__()
 
     return {
@@ -62,11 +61,11 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
     """
     boreholeNumber = cleanedData["boreholeNumber"]
 
-    dateRange = cleanedData["dateRange"]
+    dateRange = cleanedData["temperatureProfileDateRange"]
     dateList = re.findall(r"../../....", dateRange)
     startDate, endDate = dateList
 
-    dailyTimestampString = cleanedData["timeSelector"]
+    dailyTimestampString = cleanedData.get("temperatureProfileTimeSelector")
 
     startDateUtc: datetime = dateparser.parse(startDate).replace(
         hour=0, minute=0, second=0
@@ -111,18 +110,6 @@ def getUserStratigraphyQuery(request: HttpRequest) -> dict:
     assert userForm.is_valid()
     formData = getStratigraphyFormData(userForm.cleaned_data)
     return formData
-
-
-def getUserQueryType(request: HttpRequest) -> str:
-    """
-    From the front-page query selection form, extracts the user response
-    """
-    userForm = QuerySelectionForm(request.POST)
-    assert userForm.is_valid()
-
-    formData = getQuerySelectionData(userForm.cleaned_data)
-    queryType = formData["queryType"]
-    return queryType
 
 
 def getGrouping(start: datetime, end: datetime) -> int:
