@@ -130,7 +130,7 @@
     </details>
     -->
 
-    <script src="{% static 'js/stratigraphyGraph.js' %}" type="module"></script>
+    <script src="{% static 'js/graphs/stratigraphyGraph.js' %}" type="module"></script>
     <script>
         var queryData = {{ queryData | safe }};
         var graphData = {{ graphData | safe }};
@@ -141,7 +141,7 @@
     </div>
 
     <!-- Buttons for downloading the data as a CSV and the graph as an image -->
-    <script src="{% static 'js/createCsv.js' %}"></script>
+    <script src="{% static 'js/utils/createCsv.js' %}"></script>
     <button onclick="downloadData('stratigraphy')">Download data</button>
     <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
 

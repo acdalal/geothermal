@@ -39,7 +39,7 @@
 
     {% load static %}
 
-    <script src="{% static 'js/createCsv.js' %}"></script>
+    <script src="{% static 'js/utils/createCsv.js' %}"></script>
 
     <button onclick="downloadData('tempvstime')">Download data</button>
     <button id="downloadImage" onclick="window.downloadGraphImage(\"tempvstime\")">Download graph</button>
@@ -49,7 +49,7 @@
         <canvas id="ctx"></canvas>
     </div>
 
-    <script src="{% static 'js/tempVsTimeGraph.js' %}" type="module"></script>
+    <script src="{% static 'js/graphs/tempVsTimeGraph.js' %}" type="module"></script>
     <script>
         var queryData = {{ queryData | safe }};
         var graphData = {{ graphData | safe }};
