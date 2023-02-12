@@ -4,64 +4,82 @@
 
     {% include 'dashboard/jumbotron.html' %}
 
-    {% include 'dashboard/querycards.html' %}
+    {% load static %}
 
-    <div class="form-container">
-        <div class="row">
-            <div class="col-md-8 offset-md-2">
-    {# TempVsDepth form #}
-                <form action="/tempvsdepth/" method="post">
-                    <br>
-                    {# Django requires this token statement #}
-                    {% csrf_token %}
-
-                    {{ form }}
-                    <script type="text/javascript">
-                        $(function() {
-
-                            var start = moment().subtract(29, 'days');
-                            var end = moment();
+    <script>
+        var outageList = {{ outageList | safe }}
+        var dataStartDate = "{{ dataStartDate }}"
+        var dataEndDate = "{{ dataEndDate }}"
 
 
-                            function cb(start, end) {
-                                $('#id_dateRange').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'));
-                            }
+    {% if queryData %}
+        var queryData = {{ queryData | safe }}
+        var graphData = {{ graphData | safe }}
+    {% endif %}
+    </script>
 
-                            var disabledRanges = [];
-                            {% for range in outageList %}
-                                disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
-                            {% endfor %}
-                            $('#id_dateRange').daterangepicker({
 
-                                isInvalidDate: function(date) {
-                                    for (var i = 0; i < disabledRanges.length; i++) {
-                                        if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
-                                            return true;
-                                        }
-                                    }
-                                    return false;
-                                },
-                                minDate: "{{ dataStartDate }}",
-                                maxDate: "{{ dataEndDate }}",
-                                ranges: {
-                                'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
-                                'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
-                                'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
-                                'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
-                                },
+    <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#" onclick="selectTab('TemperatureProfile')">Temperature Profile</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverTime')">Temperature Vs Time</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverDepth')">Temperature Vs Depth</a>
+        </li>
+    </ul>
 
-                            }, cb);
+    <script src="{% static 'js/selectTab.js' %}"></script>
 
-                            cb(start, end);
-
-                        });
-                    </script>
-                    <div>
-                        <input type="submit" value="Submit" class="btn btn-secondary form-control"/>
-                    </div>
-                </form>
+    <div class="tab-content" id="myTabContent">
+        <div class="form-container tab-pane fade show active" id="TemperatureProfile">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form action="/" method="post">
+                        <br>
+                        {% csrf_token %}
+                        {{ temperatureProfileForm }}
+                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-profile"/>
+                    </form>
+                </div>
             </div>
         </div>
+
+        <div class="form-container tab-pane fade" id="TempOverTime">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form action="/" method="post">
+                        <br>
+                        {% csrf_token %}
+                        {{ tempOverTimeForm }}
+                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-time"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <div class="form-container tab-pane fade" id="TempOverDepth">
+            <div class="row">
+                <div class="col-md-8 offset-md-2">
+                    <form action="/" method="post">
+                        <br>
+                        {% csrf_token %}
+                        {{ tempOverDepthForm }}
+                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-depth"/>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+
     </div>
+
+
+    <script src="{% static 'js/dateRangePicker.js' %}"></script>
+
+
+
 
 {% endblock %}

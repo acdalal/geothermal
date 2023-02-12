@@ -11,9 +11,8 @@ from .helper.api import (
     getRawQueryResults,
 )
 from .helper.processUserForms import (
-    getUserTempsVsTimeQuery,
+    getUserTempVsTimeQuery,
     getUserTempVsDepthQuery,
-    getUserQueryType,
     getUserStratigraphyQuery,
     getGrouping,
     getUserRawQuery,
@@ -28,19 +27,40 @@ from .helper.renderFunctions import (
 
 
 def index(request: HttpRequest):
-    # will need to adjust to TempVsDepth directly if we wanna have the query here
     if request.method == "POST":
-        queryType = getUserQueryType(request)
-
-        if queryType == "tempvstime":
-            return renderTempVsTimePage(request)
-        if queryType == "tempvsdepth":
-            return renderTempVsDepthPage(request)
-        else:
-            raise (
-                'User selected query type is invalid, should be "tempvstime" or "tempvsdepth"'
+        if "temperature-profile" in request.POST:
+            formData = getUserStratigraphyQuery(request)
+            groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
+            borehole = int(borehole)
+            queryResults = getStratigraphyResults(
+                borehole,
+                formData["startDateUtc"],
+                formData["endDateUtc"],
+                formData["dailyTimestamp"],
+                groupBy,
             )
+            return renderStratigraphyPage(request, groupBy, queryResults, borehole)
 
+        elif "temperature-time" in request.POST:
+            formData = getUserTempVsTimeQuery(request)
+            borehole = int(borehole)
+            queryResults = getTempVsTimeResults(
+                borehole,
+                formData["depth"],
+                formData["startDateUtc"],
+                formData["endDateUtc"],
+            )
+            return renderTempVsTimePage(request, groupBy, queryResults, borehole)
+
+        if "temperature-depth" in request.POST:
+            formData = getUserTempVsDepthQuery(request)
+            groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
+            borehole = int(borehole)
+            queryResults = getTempVsDepthResults(
+                borehole,
+                formData["timestampUtc"],
+            )
+            return renderStratigraphyPage(request, groupBy, queryResults, borehole)
     else:
         return renderIndexPage(request)
 
@@ -57,15 +77,15 @@ def documentation(request: HttpRequest):
 
 def tempVsTime(request: HttpRequest):
     if request.method == "POST":
-        formData = getUserTempsVsTimeQuery(request)
+        formData = getUserTempVsTimeQuery(request)
         queryResults = getTempVsTimeResults(
-            formData["boreholeNumber"],
+            borehole,
             formData["depth"],
             formData["startDateUtc"],
             formData["endDateUtc"],
         )
 
-        borehole = int(formData["boreholeNumber"])
+        borehole = int(borehole)
         return renderTempVsTimePage(request, queryResults, borehole)
 
     else:
@@ -75,10 +95,8 @@ def tempVsTime(request: HttpRequest):
 def tempVsDepth(request: HttpRequest):
     if request.method == "POST":
         formData = getUserTempVsDepthQuery(request)
-        queryResults = getTempVsDepthResults(
-            formData["boreholeNumber"], formData["timestampUtc"]
-        )
-        borehole = int(formData["boreholeNumber"])
+        queryResults = getTempVsDepthResults(borehole, formData["timestampUtc"])
+        borehole = int(borehole)
         return renderTempVsDepthPage(request, queryResults, borehole)
 
     else:
@@ -91,25 +109,26 @@ def stratigraphy(request: HttpRequest):
         groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
 
         queryResults = getStratigraphyResults(
-            formData["boreholeNumber"],
+            borehole,
             formData["startDateUtc"],
             formData["endDateUtc"],
             formData["dailyTimestamp"],
             groupBy,
         )
-        borehole = int(formData["boreholeNumber"])
+        borehole = int(borehole)
         return renderStratigraphyPage(request, groupBy, queryResults, borehole)
 
     else:
         return renderStratigraphyPage(request)
 
+
 def customQuery(request: HttpRequest):
-    if request.method == 'POST':
+    if request.method == "POST":
         formData = getUserRawQuery(request)
         queryResults = getRawQueryResults(formData)
         print("THIS IS THE QUERY RESULTS", queryResults)
         context = {
-            'queryResults': [
+            "queryResults": [
                 {key: value for key, value in zip(queryResults[0].keys(), row)}
                 for row in queryResults
             ]
@@ -118,4 +137,3 @@ def customQuery(request: HttpRequest):
         return renderRawQueryPage(request, context)
     else:
         return renderRawQueryPage(request)
-        

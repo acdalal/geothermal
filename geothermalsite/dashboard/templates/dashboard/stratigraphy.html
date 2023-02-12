@@ -115,6 +115,8 @@
         </form>
     </div>
 
+        {% comment %} {% include 'dashboard/querycards.html' %} {% endcomment %}
+    </div>
     {% if queryData %}
 
     <!-- Creates a dropdown to see each row of the data. Commented out since it cluttered the site.
@@ -144,5 +146,73 @@
     <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
 
     {% endif %}
+
+
+    {% comment %} <form action="/stratigraphy/" method="post">
+        <br>
+        {% csrf_token %}
+        {{ form }}
+        {# This script enables the fancy datetime picker #}
+
+        <script type="text/javascript">
+            $(function() {
+                var disabledRanges = [];
+                {% for range in outageList %}
+                    disabledRanges.push({ start: '{{ range.startDate }}', end: '{{ range.endDate }}' });
+                {% endfor %}
+                $('#id_dateRange').daterangepicker({
+                    isInvalidDate: function(date) {
+                        for (var i = 0; i < disabledRanges.length; i++) {
+                            if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    },
+                    minDate: "{{ dataStartDate }}",
+                    maxDate: "{{ dataEndDate }}",
+                    ranges: {
+                    'Last 7 Available Days': [moment("{{ dataEndDate }}").subtract(6, 'days'), moment()],
+                    'Last 30 Available Days': [moment("{{ dataEndDate }}").subtract(29, 'days'), moment()],
+                    'Last 3 Available Months': [moment("{{ dataEndDate }}").subtract(3, 'months'), moment()],
+                    'Last Available Year': [moment("{{ dataEndDate }}").subtract(1, 'years'), moment()]
+                    },
+
+                });
+                });
+
+                $('#id_timeSelector').daterangepicker({
+                    timePicker: true,
+                    singleDatePicker: true,
+                    timePicker24Hour: false,
+                    timePickerIncrement: 1,
+                    timePickerSeconds: false,
+                    locale: {
+                        format: 'hh:mm A'
+                    }
+                }).on('show.daterangepicker', function (ev, picker) {
+                    picker.container.find(".calendar-table").hide();
+                });
+
+                $("#id_dateRange").change(
+                    function(){
+                        var dateStr = $("#id_dateRange").val();
+
+                        let dates = dateStr.split( " - " );
+                        let start = new Date( dates[0] );
+                        let end   = new Date( dates[1] );
+                        var hourDiff = Math.abs(end - start) / 36e5
+                        console.log(hourDiff)
+                        if (hourDiff < 24){
+                            $('#id_timeSelector').hide();
+                        } else{
+                            $('#id_timeSelector').show();
+                        }
+                })
+        </script>
+        <div>
+            <input type="submit" value="Submit">
+        </div>
+    </form> {% endcomment %}
 
 {% endblock %}

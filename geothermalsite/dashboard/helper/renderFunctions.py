@@ -2,7 +2,6 @@ from django.shortcuts import render
 from ..forms import (
     TempVsTimeForm,
     TempVsDepthForm,
-    QuerySelectionForm,
     StratigraphyForm,
 )
 
@@ -24,8 +23,8 @@ def truncateDateTime(dates: list):
     truncatedDates = []
     for i in range(len(dates)):
         dateDict = dates[i]
-        start = dateDict.get("start_time").date()
-        end = dateDict.get("end_time").date()
+        start = dateDict.get("start_time").date().__str__()
+        end = dateDict.get("end_time").date().__str__()
         truncatedDates.append({"startDate": start, "endDate": end})
     return truncatedDates
 
@@ -34,9 +33,17 @@ def renderIndexPage(request: HttpRequest):
     """
     A shortcut function that renders index.html and generates the query selection form
     """
-    return render(
-        request, "dashboard/index.html", context={"form": QuerySelectionForm()}
-    )
+    outageList = getDataOutages()
+    truncatedOutageList = truncateDateTime(outageList)
+    context = {
+        "temperatureProfileForm": StratigraphyForm(),
+        "tempOverTimeForm": TempVsTimeForm(),
+        "tempOverDepthForm": TempVsDepthForm(),
+        "dataStartDate": DATA_START_DATE,
+        "dataEndDate": DATA_END_DATE,
+        "outageList": truncatedOutageList,
+    }
+    return render(request, "dashboard/index.html", context=context)
 
 
 def _getPageContext(
@@ -123,7 +130,6 @@ def renderStratigraphyPage(
         context,
     )
 
-def renderRawQueryPage(
-    request: HttpRequest, queryResults: list = None
-):
-    return render(request, 'dashboard/customquery.html', {'queryResults': queryResults})
+
+def renderRawQueryPage(request: HttpRequest, queryResults: list = None):
+    return render(request, "dashboard/customquery.html", {"queryResults": queryResults})
