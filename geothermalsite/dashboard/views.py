@@ -31,7 +31,7 @@ def index(request: HttpRequest):
         if "temperature-profile" in request.POST:
             formData = getUserStratigraphyQuery(request)
             groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
-            borehole = int(borehole)
+            borehole = formData["boreholeNumber"]
             queryResults = getStratigraphyResults(
                 borehole,
                 formData["startDateUtc"],
@@ -39,28 +39,28 @@ def index(request: HttpRequest):
                 formData["dailyTimestamp"],
                 groupBy,
             )
-            return renderStratigraphyPage(request, groupBy, queryResults, borehole)
+            return renderStratigraphyPage(request, groupBy, queryResults, int(borehole))
 
         elif "temperature-time" in request.POST:
             formData = getUserTempVsTimeQuery(request)
-            borehole = int(borehole)
+            borehole = formData["boreholeNumber"]
             queryResults = getTempVsTimeResults(
                 borehole,
                 formData["depth"],
                 formData["startDateUtc"],
                 formData["endDateUtc"],
             )
-            return renderTempVsTimePage(request, groupBy, queryResults, borehole)
+            return renderTempVsTimePage(request, groupBy, queryResults, int(borehole))
 
         if "temperature-depth" in request.POST:
             formData = getUserTempVsDepthQuery(request)
             groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
-            borehole = int(borehole)
+            borehole = formData["boreholeNumber"]
             queryResults = getTempVsDepthResults(
                 borehole,
                 formData["timestampUtc"],
             )
-            return renderStratigraphyPage(request, groupBy, queryResults, borehole)
+            return renderStratigraphyPage(request, groupBy, queryResults, int(borehole))
     else:
         return renderIndexPage(request)
 
