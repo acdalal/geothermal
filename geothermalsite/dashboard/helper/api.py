@@ -311,7 +311,6 @@ def getRawQueryResults(
     ### SANITIZE QUERY HERE ####
 
     with connections["geothermal"].cursor() as cursor:
-        print("QUERY", query)
         cursor.execute(query)
         columns = [col[0] for col in cursor.description]
         for row in cursor.fetchall():

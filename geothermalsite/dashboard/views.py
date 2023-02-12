@@ -105,7 +105,6 @@ def stratigraphy(request: HttpRequest):
 
 def customQuery(request: HttpRequest):
     if request.method == 'POST':
-        print("IN POST")
         formData = getUserRawQuery(request)
         queryResults = getRawQueryResults(formData)
         context = {

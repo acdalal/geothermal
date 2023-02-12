@@ -142,13 +142,7 @@ def getGrouping(start: datetime, end: datetime) -> int:
 def getUserRawQuery(request: HttpRequest) -> str:
 
     userForm = RawQueryForm(request.POST)
-    if userForm.is_valid():
-        print("FORM IS VALID")
-    else:
-        print("FORM IS NOT VLAID")
-        print(userForm.errors)
+    assert userForm.is_valid()
 
     formData = userForm.cleaned_data
-    print("FORM DATA", formData)
-    print("USER FORM", userForm.errors)
     return formData
