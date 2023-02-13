@@ -31,14 +31,7 @@ def renderIndexPage(request: HttpRequest):
     """
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
-    context = {
-        "temperatureProfileForm": TemperatureProfileForm(),
-        "tempOverTimeForm": TempVsTimeForm(),
-        "tempOverDepthForm": TempVsDepthForm(),
-        "dataStartDate": DATA_START_DATE,
-        "dataEndDate": DATA_END_DATE,
-        "outageList": truncatedOutageList,
-    }
+    context = _getPageContext(None, None, truncatedOutageList, None)
     return render(request, "dashboard/index.html", context=context)
 
 
@@ -49,6 +42,9 @@ def _getPageContext(
     type: str,
 ) -> dict():
     return {
+        "temperatureProfileForm": TemperatureProfileForm(),
+        "tempOverTimeForm": TempVsTimeForm(),
+        "tempOverDepthForm": TempVsDepthForm(),
         "queryData": queryData,
         "graphData": graphData,
         "dataStartDate": DATA_START_DATE,

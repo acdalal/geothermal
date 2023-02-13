@@ -50,17 +50,16 @@ def index(request: HttpRequest):
                 formData["startDateUtc"],
                 formData["endDateUtc"],
             )
-            return renderTempVsTimePage(request, groupBy, queryResults, int(borehole))
+            return renderTempVsTimePage(request, queryResults, int(borehole))
 
         if "temperature-depth" in request.POST:
             formData = getUserTempVsDepthQuery(request)
-            groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
             borehole = formData["boreholeNumber"]
             queryResults = getTempVsDepthResults(
                 borehole,
                 formData["timestampUtc"],
             )
-            return renderTempProfilePage(request, groupBy, queryResults, int(borehole))
+            return renderTempVsDepthPage(request, queryResults, int(borehole))
     else:
         return renderIndexPage(request)
 

@@ -21,20 +21,20 @@
 
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item">
-            <a class="nav-link active" data-toggle="tab" href="#" onclick="selectTab('TemperatureProfile')">Temperature Profile</a>
+            <a class="nav-link active" data-toggle="tab" href="#" id="tempprofile-button" onclick="selectTab('tempprofile')">Temperature Profile</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverTime')">Temperature Vs Time</a>
+            <a class="nav-link" data-toggle="tab" href="#" id="tempvstime-button" onclick="selectTab('tempvstime')">Temperature Vs Time</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" data-toggle="tab" href="#" onclick="selectTab('TempOverDepth')">Temperature Vs Depth</a>
+            <a class="nav-link" data-toggle="tab" href="#" id="tempvsdepth-button" onclick="selectTab('tempvsdepth')">Temperature Vs Depth</a>
         </li>
     </ul>
 
     <script src="{% static 'js/utils/selectTab.js' %}"></script>
 
     <div class="tab-content" id="myTabContent">
-        <div class="form-container tab-pane fade show active" id="TemperatureProfile">
+        <div class="form-container tab-pane fade show active" id="tempprofile">
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
@@ -47,7 +47,7 @@
             </div>
         </div>
 
-        <div class="form-container tab-pane fade" id="TempOverTime">
+        <div class="form-container tab-pane fade" id="tempvstime">
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
@@ -60,7 +60,7 @@
             </div>
         </div>
 
-        <div class="form-container tab-pane fade" id="TempOverDepth">
+        <div class="form-container tab-pane fade" id="tempvsdepth">
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
@@ -78,6 +78,22 @@
 
 
     <script src="{% static 'js/utils/dateRangePicker.js' %}"></script>
+
+    {% if type %}
+        <script>$("#{{ type }}-button").click()</script>
+    {% endif %}
+
+    {% if type == "tempprofile" %}
+        {% include 'dashboard/tempprofile.html' %}
+    {% endif %}
+
+    {% if type == "tempvstime" %}
+        {% include 'dashboard/tempvstime.html' %}
+    {% endif %}
+
+    {% if type == "tempvsdepth" %}
+        {% include 'dashboard/tempvsdepth.html' %}
+    {% endif %}
 
 
 
