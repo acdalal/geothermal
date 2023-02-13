@@ -123,5 +123,6 @@ def renderTempProfilePage(
     )
 
 
-def renderRawQueryPage(request: HttpRequest, queryResults: list = None):
-    return render(request, "dashboard/customquery.html", {"queryResults": queryResults})
+def renderRawQueryPage(request: HttpRequest, context, form, queryResults: list = None):
+    context.update({"queryResults": queryResults, "form": form})
+    return render(request, "dashboard/customquery.html", context)

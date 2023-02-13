@@ -25,6 +25,8 @@ from .helper.renderFunctions import (
     renderRawQueryPage,
 )
 
+from .forms import RawQueryForm
+
 
 def index(request: HttpRequest):
     if request.method == "POST":
@@ -122,6 +124,9 @@ def tempProfile(request: HttpRequest):
 
 
 def customQuery(request: HttpRequest):
+    form = RawQueryForm(request.POST or None)
+    previousQuery = ""
+
     if request.method == "POST":
         formData = getUserRawQuery(request)
         queryResults = getRawQueryResults(formData)
@@ -130,9 +135,16 @@ def customQuery(request: HttpRequest):
             "queryResults": [
                 {key: value for key, value in zip(queryResults[0].keys(), row)}
                 for row in queryResults
-            ]
+            ],
+            "form": form,
+            "rawQuery": formData["rawQuery"],
         }
+
         print("THIS IS THE DATA:", context)
-        return renderRawQueryPage(request, context)
+        return renderRawQueryPage(request, context, formData, queryResults=queryResults)
     else:
-        return renderRawQueryPage(request)
+        previousQuery = request.GET.get("query", "")
+        form = RawQueryForm(initial={"rawQuery": previousQuery})
+
+        context = {"form": form}
+        return renderRawQueryPage(request, context, form)
