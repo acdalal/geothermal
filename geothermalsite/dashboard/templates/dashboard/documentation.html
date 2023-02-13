@@ -203,15 +203,22 @@
           </tbody>
       </table>
       </p>
-
+      <details>
+        <summary><em>Learn about outage types</em></summary>
+        <ul>
+          <li> <em>Time slip</em> outages resulted from a time drift of the internal clock of the private PC the DTS unit is connected to. All data measurements taken during this time drift period have been discounted as a time slip outage.</li>
+          <li>The <em>fiber failure</em> outage from July 2019-October 2020 was the result of an undetected comprimised fiber optic cable in one of the channels.</li>
+          <li>The <em>hardware failure</em> outage was caused by a malfunction in the DTS unit. This outage lasted from September 2022 until the DTS unit was repaired and restored to the Chapel basement in January 2023.</li>
+        </ul>
+    </details>
+    <br>
       <!-- Advanced API section -->
       <h4 id="advanced-api-section">Advanced API Use</h4>
       <p>
         The Geothermal Data API supports making more advanced queries,
-        including direct PostGreSQL queries. For more information on advanced
-        API use,
-        <u><a href="https://github.com/acdalal/geothermal"
-          >visit our repository on GitHub</a></u>
+        including direct PostGreSQL queries. To query the database directly, visit the <u><a href="{% url 'customquery' %}">custom query page</a></u>.
+        To view our API, visit
+        <u><a href="https://github.com/acdalal/geothermal"> our repository on GitHub</a></u>.
       </p>
     </div>
     <!-- end right-hand page contents -->
