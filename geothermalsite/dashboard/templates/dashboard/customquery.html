@@ -1,0 +1,21 @@
+{% extends 'dashboard/base.html' %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/about.css' %}">
+  
+
+{% block content %}
+    <h1>Advanced API: Custom Query</h1>
+    <form method="post" id="custom-query-form">
+    {% csrf_token %}
+    <p>If you're looking to be able to access the database with a bit more freedom than the predefined queries provided, 
+        that option is provided here. You will need to know some SQL to get started, here's a good resource if you've never
+        used SQL before *INSERT LINK*. </p>
+
+    <p> INSERT SCHEMA FOR THE DB</p>
+    <label for="query">Enter A Custom Query:</label>
+    <br>
+    <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em; width: 80ch;">{% if form.initial %}{{ form.initial.rawQuery }}{% else %}{{ rawQuery }}{% endif %}</textarea>
+    <br>
+    <button type="submit">Submit</button>
+    </form>
+{% endblock %}

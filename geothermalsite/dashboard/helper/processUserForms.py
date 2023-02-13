@@ -4,8 +4,8 @@ import re
 from ..forms import (
     TempVsTimeForm,
     TempVsDepthForm,
-    QuerySelectionForm,
-    StratigraphyForm,
+    TemperatureProfileForm,
+    RawQueryForm,
 )
 from django.http import HttpRequest
 from .constants import HOURS, DAYS, WEEKS, MONTHS, YEARS
@@ -23,10 +23,10 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     """
     Processes the temperature vs time form data and outputs it in an easily accessible format
     """
-    boreholeNumber = cleanedData["boreholeNumber"]
-    depth = cleanedData["depth"]
+    boreholeNumber = cleanedData.get("boreholeNumber")
+    depth = cleanedData.get("tempVsTimeDepth")
 
-    dateRange = cleanedData["dateRange"]
+    dateRange = cleanedData.get("tempVsTimeDateRange")
     dateList = re.findall(r"../../....", dateRange)
     startDate, endDate = dateList
 
@@ -45,9 +45,9 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     """
     Processes the temperature vs depth form data and outputs it in an easily accessible format
     """
-    boreholeNumber = cleanedData["boreholeNumber"]
+    boreholeNumber = cleanedData.get("boreholeNumber")
 
-    timestamp = cleanedData["timestamp"]
+    timestamp = cleanedData.get("tempVsDepthTimestamp")
     timestampUtc = dateparser.parse(timestamp).__str__()
 
     return {
@@ -56,17 +56,17 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     }
 
 
-def getStratigraphyFormData(cleanedData: dict) -> dict:
+def getTempProfileFormData(cleanedData: dict) -> dict:
     """
-    Processes the stratigraphy form data and outputs it in an easily accessible format
+    Processes the temperature profile form data and outputs it in an easily accessible format
     """
     boreholeNumber = cleanedData["boreholeNumber"]
 
-    dateRange = cleanedData["dateRange"]
+    dateRange = cleanedData["temperatureProfileDateRange"]
     dateList = re.findall(r"../../....", dateRange)
     startDate, endDate = dateList
 
-    dailyTimestampString = cleanedData["timeSelector"]
+    dailyTimestampString = cleanedData.get("temperatureProfileTimeSelector")
 
     startDateUtc: datetime = dateparser.parse(startDate).replace(
         hour=0, minute=0, second=0
@@ -82,7 +82,7 @@ def getStratigraphyFormData(cleanedData: dict) -> dict:
     }
 
 
-def getUserTempsVsTimeQuery(request: HttpRequest) -> dict:
+def getUserTempVsTimeQuery(request: HttpRequest) -> dict:
     """
     From the temperature vs time form, extracts the user response and formats it into a dictionary
     """
@@ -103,26 +103,14 @@ def getUserTempVsDepthQuery(request: HttpRequest) -> dict:
     return formData
 
 
-def getUserStratigraphyQuery(request: HttpRequest) -> dict:
+def getUserTempProfileQuery(request: HttpRequest) -> dict:
     """
-    From the stratigraphy graph form, extracts the user response and formats it into a dictionary
+    From the temperature profile graph form, extracts the user response and formats it into a dictionary
     """
-    userForm = StratigraphyForm(request.POST)
+    userForm = TemperatureProfileForm(request.POST)
     assert userForm.is_valid()
-    formData = getStratigraphyFormData(userForm.cleaned_data)
+    formData = getTempProfileFormData(userForm.cleaned_data)
     return formData
-
-
-def getUserQueryType(request: HttpRequest) -> str:
-    """
-    From the front-page query selection form, extracts the user response
-    """
-    userForm = QuerySelectionForm(request.POST)
-    assert userForm.is_valid()
-
-    formData = getQuerySelectionData(userForm.cleaned_data)
-    queryType = formData["queryType"]
-    return queryType
 
 
 def getGrouping(start: datetime, end: datetime) -> int:
@@ -137,3 +125,13 @@ def getGrouping(start: datetime, end: datetime) -> int:
         return MONTHS
     else:
         return YEARS
+
+
+def getUserRawQuery(request: HttpRequest) -> str:
+
+    userForm = RawQueryForm(request.POST)
+    assert userForm.is_valid()
+
+    formData = userForm.cleaned_data
+    print("THIS IS THE QUERY:", formData)
+    return formData

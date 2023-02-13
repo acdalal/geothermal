@@ -1,7 +1,3 @@
-from .boreholes import boreholes
-from datetime import timedelta, datetime
-
-
 def createEntireDataOutageQuery() -> str:
     """
     Creates a query for retrieving all data outages
@@ -67,7 +63,6 @@ def createTempVsDepthQuery() -> str:
     -----------
     Formatted query to be executed by the database cursor
     """
-    
 
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
@@ -84,9 +79,7 @@ def createTempVsDepthQuery() -> str:
     return query
 
 
-def createStratigraphyQueryByDay(
-    borehole: str, startTime: datetime, endTime: datetime, dailyTimestamp: datetime
-) -> str:
+def createTempProfileQueryByDay() -> str:
     """
     Creates a query for getting temperature vs time and depth for a given borehole, returning one measurement for each day
 
@@ -106,15 +99,6 @@ def createStratigraphyQueryByDay(
 
     """
 
-    currentBorehole = boreholes[borehole]
-
-    channel = currentBorehole.getChannel()
-    lafStart = currentBorehole.getStart()
-    lafBottom = currentBorehole.getBottom()
-
-    timestampStart = dailyTimestamp
-    timestampEnd = timestampStart + timedelta(minutes=30)
-
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM dts_data AS D
@@ -125,21 +109,17 @@ def createStratigraphyQueryByDay(
             INNER JOIN dts_config AS C
             ON dts_config_id = C.id
             WHERE channel_id IN (SELECT id FROM channel WHERE
-                                             channel_name='channel {channel}')
-            AND laf_m BETWEEN {lafStart} AND {lafBottom}
-            AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
-            AND CAST(datetime_utc AS TIME) BETWEEN '{timestampStart.time()}' AND '{timestampEnd.time()}'
+                                             channel_name='channel %s')
+            AND laf_m BETWEEN %s AND %s
+            AND datetime_utc BETWEEN %s AND %s
+            AND CAST(datetime_utc AS TIME) BETWEEN %s AND %s
             ORDER BY depth_m, datetime_utc;
             """
 
     return query
 
 
-def createStratigraphyQueryByMeasurement(
-    borehole: str,
-    startTime: str,
-    endTime: str,
-) -> str:
+def createTempProfileQueryByMeasurement() -> str:
     """
     Creates a query for getting temperature vs time and depth for a given borehole, returning each measurement
 
@@ -156,12 +136,6 @@ def createStratigraphyQueryByMeasurement(
 
     """
 
-    currentBorehole = boreholes[borehole]
-
-    channel = currentBorehole.getChannel()
-    lafStart = currentBorehole.getStart()
-    lafBottom = currentBorehole.getBottom()
-
     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
             temperature_c, depth_m
             FROM dts_data AS D
@@ -172,9 +146,9 @@ def createStratigraphyQueryByMeasurement(
             INNER JOIN dts_config AS C
             ON dts_config_id = C.id
             WHERE channel_id IN (SELECT id FROM channel WHERE
-                                             channel_name='channel {channel}')
-            AND laf_m BETWEEN {lafStart} AND {lafBottom}
-            AND datetime_utc BETWEEN '{startTime}' AND '{endTime}'
+                                             channel_name='channel %s')
+            AND laf_m BETWEEN %s AND %s
+            AND datetime_utc BETWEEN %s AND %s
             ORDER BY depth_m, datetime_utc;
             """
 

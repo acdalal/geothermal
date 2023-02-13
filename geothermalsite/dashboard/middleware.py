@@ -27,10 +27,8 @@ class IPLogMiddleware(MiddlewareMixin):
         # logs user's IP address when these functions in views.py are executed
         db_query_views = [
             "tempVsTime",
-            "tempVsTimeDownload",
             "tempVsDepth",
-            "tempVsDepthDownload",
-            "stratigraphy",
+            "tempProfile",
         ]
 
         if view_func.__name__ in db_query_views:

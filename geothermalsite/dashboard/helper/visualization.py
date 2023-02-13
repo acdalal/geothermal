@@ -31,7 +31,7 @@ def toChartJsTempVsDepth(queryResults: list, borehole: int) -> list:
     return graphData
 
 
-def toChartJsStratigraphy(
+def toChartJsTempProfile(
     queryResults: list, borehole: int, groupBy: int
 ) -> dict[dict[list[dict]]]:
     assert groupBy in GROUPS
@@ -49,11 +49,11 @@ def toChartJsStratigraphy(
             results[group][str(date)].append(datapoint)
         else:
             if groupBy == DAYS:
-                group = f"{MONTH_SHORTHAND[date.month]} {date.day}, {date.year}"
+                group = f"{MONTH_SHORTHAND[date.month-1]} {date.day}, {date.year}"
             if groupBy == WEEKS:
                 group = f"Week {date.isocalendar()[1]}, {date.year}"
             if groupBy == MONTHS:
-                group = f"{MONTH_SHORTHAND[date.month]}, {date.year}"
+                group = f"{MONTH_SHORTHAND[date.month-1]}, {date.year}"
             if groupBy == YEARS:
                 group = f"{date.year}"
 

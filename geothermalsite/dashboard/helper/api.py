@@ -6,8 +6,8 @@ from datetime import timedelta, datetime
 from .logging import log_query_as_INFO
 from .createQueries import (
     createEntireDataOutageQuery,
-    createStratigraphyQueryByMeasurement,
-    createStratigraphyQueryByDay,
+    createTempProfileQueryByDay,
+    createTempProfileQueryByMeasurement,
     createTempVsDepthQuery,
     createTempVsTimeQuery,
 )
@@ -72,6 +72,7 @@ def getTempVsTimeResults(
         )
     return results
 
+
 def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -97,7 +98,7 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
     channel = currentBorehole.getChannel()
     lafStart = currentBorehole.getStart()
     lafEnd = currentBorehole.getBottom()
-    
+
     query = createTempVsDepthQuery()
     results = list()
 
@@ -133,7 +134,7 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
     return results
 
 
-def getStratigraphyResultsByDay(
+def getTempProfileResultsByDay(
     borehole: str, startTime: str, endTime: str, dailyTimestamp: str
 ) -> list[dict]:
     """
@@ -152,13 +153,33 @@ def getStratigraphyResultsByDay(
     ----------
     A dictionary with the results of the query
     """
-    query = createStratigraphyQueryByDay(borehole, startTime, endTime, dailyTimestamp)
+    query = createTempProfileQueryByDay()
     results = list()
+
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafBottom = currentBorehole.getBottom()
+
+    timestampStart = dailyTimestamp
+    timestampEnd = timestampStart + timedelta(minutes=30)
 
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
-        cursor.execute(query)
+        cursor.execute(
+            query,
+            (
+                channel,
+                lafStart,
+                lafBottom,
+                startTime,
+                endTime,
+                timestampStart.time(),
+                timestampEnd.time(),
+            ),
+        )
         query_end_time = time.time()
 
         # clean results and crudely estimate the size of the query's result
@@ -187,7 +208,7 @@ def getStratigraphyResultsByDay(
     return results
 
 
-def getStratigraphyResultsByMeasurement(
+def getTempProfileResultsByMeasurement(
     borehole: str, startTime: str, endTime: str
 ) -> list[dict]:
     """
@@ -206,13 +227,19 @@ def getStratigraphyResultsByMeasurement(
     ----------
     A dictionary with the results of the query
     """
-    query = createStratigraphyQueryByMeasurement(borehole, startTime, endTime)
+    query = createTempProfileQueryByMeasurement(borehole, startTime, endTime)
     results = list()
+
+    currentBorehole = boreholes[borehole]
+
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafBottom = currentBorehole.getBottom()
 
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
-        cursor.execute(query)
+        cursor.execute(query, (channel, lafStart, lafBottom, startTime, endTime))
         query_end_time = time.time()
 
         # clean results and crudely estimate the size of the query's result
@@ -279,10 +306,25 @@ def getDataOutages() -> list[dict]:
     return results
 
 
-def getStratigraphyResults(
+def getTempProfileResults(
     borehole: str, startTime: str, endTime: str, dailyTimestamp: str, groupBy: int
 ) -> list[dict]:
     if groupBy == HOURS:
-        return getStratigraphyResultsByMeasurement(borehole, startTime, endTime)
+        return getTempProfileResultsByMeasurement(borehole, startTime, endTime)
     else:
-        return getStratigraphyResultsByDay(borehole, startTime, endTime, dailyTimestamp)
+        return getTempProfileResultsByDay(borehole, startTime, endTime, dailyTimestamp)
+
+
+def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
+    results = list()
+
+    query = formData["rawQuery"]
+
+    ### SANITIZE QUERY HERE ####
+
+    with connections["geothermal"].cursor() as cursor:
+        cursor.execute(query)
+        columns = [col[0] for col in cursor.description]
+        for row in cursor.fetchall():
+            results.append(dict(zip(columns, row)))
+    return results
