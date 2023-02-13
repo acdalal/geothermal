@@ -316,3 +316,4 @@ def getRawQueryResults(
         for row in cursor.fetchall():
             results.append(dict(zip(columns, row)))
     return results
+    
