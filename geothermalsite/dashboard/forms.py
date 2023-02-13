@@ -1,5 +1,10 @@
 from django import forms
-from .helper.constants import DATA_START_DATE, DATA_END_DATE
+from .helper.constants import (
+    DATA_START_DATE,
+    DATA_END_DATE,
+    MONTH_BEFORE_END,
+    STARTING_DEPTH,
+)
 
 
 class TempVsTimeForm(forms.Form):
@@ -27,7 +32,7 @@ class TempVsTimeForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
-                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+                "value": f"{MONTH_BEFORE_END} - {DATA_END_DATE}",
                 "class": "form-control",
             }
         ),
@@ -41,6 +46,7 @@ class TempVsTimeForm(forms.Form):
                 "min": "0",
                 "step": "1",
                 "class": "form-control",
+                "value": f"{STARTING_DEPTH}",
             }
         ),
     )
@@ -69,16 +75,16 @@ class TempVsDepthForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
-                "value": DATA_START_DATE,
+                "value": DATA_END_DATE,
                 "class": "form-control",
             }
         ),
     )
 
 
-class StratigraphyForm(forms.Form):
+class TemperatureProfileForm(forms.Form):
     """
-    A class used to represent a form for a stratigraphy plot.
+    A class used to represent a form for a temperature profile plot.
 
     Attributes
     ----------
@@ -99,7 +105,7 @@ class StratigraphyForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
-                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+                "value": f"{MONTH_BEFORE_END} - {DATA_END_DATE}",
                 "class": "form-control",
             }
         ),

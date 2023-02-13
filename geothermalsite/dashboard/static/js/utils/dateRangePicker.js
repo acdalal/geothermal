@@ -58,5 +58,5 @@ ids.forEach(id => {
 })
 
 
-$('#id_temperatureProfileTimeSelector').value = "12:00 AM"
-$('#id_tempVsDepthTimestamp').value = dataEndDate
+$('#id_temperatureProfileTimeSelector').value = "12:00 AM";
+$('#id_tempVsDepthTimestamp').value = dataEndDate;

@@ -31,7 +31,7 @@ def toChartJsTempVsDepth(queryResults: list, borehole: int) -> list:
     return graphData
 
 
-def toChartJsStratigraphy(
+def toChartJsTempProfile(
     queryResults: list, borehole: int, groupBy: int
 ) -> dict[dict[list[dict]]]:
     assert groupBy in GROUPS
