@@ -30,6 +30,9 @@
     </details>
 </div>
 
+<button onclick="downloadData('stratigraphy')">Download data</button>
+<button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
+
 <!-- Graph code and canvas for housing the graph -->
 <script src="{% static 'js/graphs/stratigraphyGraph.js' %}" type="module"></script>
 <div class="container">
@@ -38,5 +41,3 @@
 
 <!-- Buttons for downloading the data as a CSV and the graph as an image -->
 <script src="{% static 'js/utils/createCsv.js' %}"></script>
-<button onclick="downloadData('stratigraphy')">Download data</button>
-<button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
