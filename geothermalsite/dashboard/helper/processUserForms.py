@@ -132,5 +132,4 @@ def getUserRawQuery(request: HttpRequest) -> str:
     assert userForm.is_valid()
 
     formData = userForm.cleaned_data
-    # print("THIS IS THE QUERY:", formData)
     return formData
