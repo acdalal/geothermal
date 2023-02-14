@@ -45,7 +45,7 @@ const fillChart = {
 const data = {
   datasets: [{
     data: graphData,
-    label: "Temperature vs Depth Graph"
+    label: "Temperature vs Time Graph"
 }]
 }
 
@@ -55,60 +55,59 @@ var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice
 const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
 
 const options = {
-  type: 'line',
-  data,
-  options: {
-    label: "Temperature vs Depth Graph",
-    legend: {
-        onClick: null
-    },
-    interaction: {
-        mode: 'index',
-        intersect: false,
-    },
-    plugins: {
-        verticalLiner: {},
-        legend: {
-          display: true,
-          onClick: function(event, legendItem, legend) {
-            return
+    type: 'line',
+    data: data,
+    options: {
+        scales: {
+          x: {
+            type: 'time',
+            title: {
+                display: true,
+                text: 'Date'
+            }
+          },
+          y: {
+            title: {
+                display: true,
+                text: 'Temperature, C'
+            }
           }
-        }
+        },
+        legend: {
+            onClick: null
+        },
+        interaction: {
+            mode: 'index',
+            intersect: false,
+        },
+        plugins: {
+            verticalLiner: {},
+            legend: {
+              display: true,
+              onClick: function(event, legendItem, legend) {
+                return
+              }
+            }
+        },
+        animation: {
+            onComplete: function(){
+                window.downloadGraphImage = function(){
+                    var image = chart.toBase64Image()
+                    const a = document.createElement('a')
+                    a.href = image
+                    a.download = graphImageName
+                    document.body.appendChild(a)
+                    a.click()
+                    document.body.removeChild(a)
+                };
+            }
+        },
+        pointRadius: 0,
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1,
     },
-    scales: {
-      x: {
-        type: 'linear',
-        title: {
-            display: true,
-            text: 'Depth below ground, ft.'
-        }
-      },
-      y: {
-        title: {
-            display: true,
-            text: 'Temperature, C'
-        }
-      }
-    },
-    animation: {
-        onComplete: function(){
-            window.downloadGraphImage = function(){
-                var image = chart.toBase64Image()
-                const a = document.createElement('a')
-                a.href = image
-                a.download = graphImageName
-                document.body.appendChild(a)
-                a.click()
-                document.body.removeChild(a)
-            };
-        }
-    },
-    pointRadius: 0,
-    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-    borderColor: 'rgba(255, 99, 132, 1)',
-    borderWidth: 1,
-},
-plugins: [drawVerticalLine, fillChart]
+    plugins: [drawVerticalLine, fillChart]
 }
 
-const chart = new Chart($chart, options)
+var chart = new Chart($chart, options);

@@ -6,62 +6,62 @@ from django.http import HttpRequest
 from .helper.api import (
     getTempVsDepthResults,
     getTempVsTimeResults,
-    getStratigraphyResults,
+    getTempProfileResults,
     getDataOutages,
     getRawQueryResults,
 )
 from .helper.processUserForms import (
     getUserTempVsTimeQuery,
     getUserTempVsDepthQuery,
-    getUserStratigraphyQuery,
     getGrouping,
     getUserRawQuery,
+    getUserTempProfileQuery,
 )
 from .helper.renderFunctions import (
     renderIndexPage,
     renderTempVsDepthPage,
     renderTempVsTimePage,
-    renderStratigraphyPage,
+    renderTempProfilePage,
     renderRawQueryPage,
 )
 
 from .forms import RawQueryForm
 
+
 def index(request: HttpRequest):
     if request.method == "POST":
         if "temperature-profile" in request.POST:
-            formData = getUserStratigraphyQuery(request)
+            formData = getUserTempProfileQuery(request)
             groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
-            borehole = int(borehole)
-            queryResults = getStratigraphyResults(
+            borehole = formData["boreholeNumber"]
+            queryResults = getTempProfileResults(
                 borehole,
                 formData["startDateUtc"],
                 formData["endDateUtc"],
                 formData["dailyTimestamp"],
                 groupBy,
             )
-            return renderStratigraphyPage(request, groupBy, queryResults, borehole)
+            return renderTempProfilePage(request, groupBy, queryResults, int(borehole))
 
         elif "temperature-time" in request.POST:
             formData = getUserTempVsTimeQuery(request)
-            borehole = int(borehole)
+            borehole = formData["boreholeNumber"]
             queryResults = getTempVsTimeResults(
                 borehole,
                 formData["depth"],
                 formData["startDateUtc"],
                 formData["endDateUtc"],
             )
-            return renderTempVsTimePage(request, groupBy, queryResults, borehole)
+            return renderTempVsTimePage(request, queryResults, int(borehole))
 
         if "temperature-depth" in request.POST:
             formData = getUserTempVsDepthQuery(request)
-            groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
-            borehole = int(borehole)
+            borehole = formData["boreholeNumber"]
             queryResults = getTempVsDepthResults(
                 borehole,
                 formData["timestampUtc"],
             )
-            return renderStratigraphyPage(request, groupBy, queryResults, borehole)
+            return renderTempVsDepthPage(request, queryResults, int(borehole))
     else:
         return renderIndexPage(request)
 
@@ -104,12 +104,12 @@ def tempVsDepth(request: HttpRequest):
         return renderTempVsDepthPage(request)
 
 
-def stratigraphy(request: HttpRequest):
+def tempProfile(request: HttpRequest):
     if request.method == "POST":
-        formData = getUserStratigraphyQuery(request)
+        formData = getUserTempProfileQuery(request)
         groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
 
-        queryResults = getStratigraphyResults(
+        queryResults = getTempProfileResults(
             borehole,
             formData["startDateUtc"],
             formData["endDateUtc"],
@@ -117,15 +117,15 @@ def stratigraphy(request: HttpRequest):
             groupBy,
         )
         borehole = int(borehole)
-        return renderStratigraphyPage(request, groupBy, queryResults, borehole)
+        return renderTempProfilePage(request, groupBy, queryResults, borehole)
 
     else:
-        return renderStratigraphyPage(request)
+        return renderTempProfilePage(request)
 
 
 def customQuery(request: HttpRequest):
     form = RawQueryForm(request.POST or None)
-    previousQuery = ''
+    previousQuery = ""
 
     if request.method == "POST":
         formData = getUserRawQuery(request)
@@ -137,15 +137,14 @@ def customQuery(request: HttpRequest):
                 for row in queryResults
             ],
             "form": form,
-            "rawQuery":formData['rawQuery']
-
+            "rawQuery": formData["rawQuery"],
         }
 
         print("THIS IS THE DATA:", context)
         return renderRawQueryPage(request, context, formData, queryResults=queryResults)
     else:
-        previousQuery = request.GET.get('query', '')
-        form = RawQueryForm(initial={'rawQuery': previousQuery})
-        
-        context = {'form': form}
+        previousQuery = request.GET.get("query", "")
+        form = RawQueryForm(initial={"rawQuery": previousQuery})
+
+        context = {"form": form}
         return renderRawQueryPage(request, context, form)

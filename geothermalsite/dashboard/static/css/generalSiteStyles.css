@@ -40,3 +40,34 @@ body {
 .green-background {
     background-color: var(--custom-green);
 }
+
+form {
+    margin-bottom: 20px;
+  }
+
+.left {
+    float: left;
+}
+
+.right {
+    float: left;
+}
+
+.spacer
+{
+    width: 100%;
+    height: 95px;
+}
+
+label {
+    margin-bottom: 10px;
+}
+
+
+#myTabContent {
+    margin-top: 10px;
+}
+
+.submit-button {
+    margin-top: 10px;
+}

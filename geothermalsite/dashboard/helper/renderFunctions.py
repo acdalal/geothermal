@@ -1,30 +1,26 @@
 from django.shortcuts import render
-from ..forms import (
-    TempVsTimeForm,
-    TempVsDepthForm,
-    StratigraphyForm,
-)
+from ..forms import TempVsTimeForm, TempVsDepthForm, TemperatureProfileForm
+from datetime import datetime
 
 from .constants import DATA_END_DATE, DATA_START_DATE
 from .visualization import (
     toChartJsTempVsTime,
     toChartJsTempVsDepth,
-    toChartJsStratigraphy,
+    toChartJsTempProfile,
 )
 from .api import getDataOutages
 from django.http import HttpRequest
 
 
-def truncateDateTime(dates: list):
+def truncateDateTime(dates: list[dict[str, datetime]]):
     """
     A function that trims the data outages from the database into YYYY-MM-DD format.
     The timestamp is unneccesary for disabling day(s) in the daterangepicker (calendar).
     """
     truncatedDates = []
-    for i in range(len(dates)):
-        dateDict = dates[i]
-        start = dateDict.get("start_time").date().__str__()
-        end = dateDict.get("end_time").date().__str__()
+    for date in dates:
+        start = date.get("start_time").date().__str__()
+        end = date.get("end_time").date().__str__()
         truncatedDates.append({"startDate": start, "endDate": end})
     return truncatedDates
 
@@ -35,36 +31,32 @@ def renderIndexPage(request: HttpRequest):
     """
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
-    context = {
-        "temperatureProfileForm": StratigraphyForm(),
-        "tempOverTimeForm": TempVsTimeForm(),
-        "tempOverDepthForm": TempVsDepthForm(),
-        "dataStartDate": DATA_START_DATE,
-        "dataEndDate": DATA_END_DATE,
-        "outageList": truncatedOutageList,
-    }
+    context = _getPageContext(None, None, truncatedOutageList, None)
     return render(request, "dashboard/index.html", context=context)
 
 
 def _getPageContext(
-    form: TempVsTimeForm or TempVsDepthForm,
     queryData: list,
     graphData: list,
     outageList: list,
+    type: str,
 ) -> dict():
     return {
-        "form": form,
+        "temperatureProfileForm": TemperatureProfileForm(),
+        "tempOverTimeForm": TempVsTimeForm(),
+        "tempOverDepthForm": TempVsDepthForm(),
         "queryData": queryData,
         "graphData": graphData,
         "dataStartDate": DATA_START_DATE,
         "dataEndDate": DATA_END_DATE,
         "outageList": outageList,
+        "type": type,
     }
 
 
 def renderTempVsTimePage(request: HttpRequest, queryResults=None, borehole=None):
     """
-    A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
+    TODO
     """
     if queryResults and borehole:
         graphData = toChartJsTempVsTime(queryResults, borehole)
@@ -74,11 +66,11 @@ def renderTempVsTimePage(request: HttpRequest, queryResults=None, borehole=None)
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
     context = _getPageContext(
-        TempVsTimeForm(), queryResults, graphData, truncatedOutageList
+        queryResults, graphData, truncatedOutageList, "tempvstime"
     )
     return render(
         request,
-        "dashboard/tempvstime.html",
+        "dashboard/index.html",
         context,
     )
 
@@ -87,7 +79,7 @@ def renderTempVsDepthPage(
     request: HttpRequest, queryResults: list = None, borehole=None
 ):
     """
-    A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
+    TODO
     """
     if queryResults and borehole:
         graphData = toChartJsTempVsDepth(queryResults, borehole)
@@ -97,40 +89,40 @@ def renderTempVsDepthPage(
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
     context = _getPageContext(
-        TempVsDepthForm(), queryResults, graphData, truncatedOutageList
+        queryResults, graphData, truncatedOutageList, "tempvsdepth"
     )
 
     return render(
         request,
-        "dashboard/tempvsdepth.html",
+        "dashboard/index.html",
         context,
     )
 
 
-def renderStratigraphyPage(
+def renderTempProfilePage(
     request: HttpRequest, groupBy: int = None, queryResults: list = None, borehole=None
 ):
     """
-    A shortcut function that renders tempvstime.html, generates the respective form, and displays query results if available
+    TODO
     """
     if queryResults and borehole:
-        graphData = toChartJsStratigraphy(queryResults, borehole, groupBy)
+        graphData = toChartJsTempProfile(queryResults, borehole, groupBy)
     else:
         graphData = list()
 
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
     context = _getPageContext(
-        StratigraphyForm(), queryResults, graphData, truncatedOutageList
+        queryResults, graphData, truncatedOutageList, "tempprofile"
     )
     context["groupBy"] = groupBy
     return render(
         request,
-        "dashboard/stratigraphy.html",
+        "dashboard/index.html",
         context,
     )
 
 
 def renderRawQueryPage(request: HttpRequest, context, form, queryResults: list = None):
-    context.update({'queryResults': queryResults, 'form':form})
+    context.update({"queryResults": queryResults, "form": form})
     return render(request, "dashboard/customquery.html", context)

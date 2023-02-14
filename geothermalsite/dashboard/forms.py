@@ -1,5 +1,10 @@
 from django import forms
-from .helper.constants import DATA_START_DATE, DATA_END_DATE
+from .helper.constants import (
+    DATA_START_DATE,
+    DATA_END_DATE,
+    MONTH_BEFORE_END,
+    STARTING_DEPTH,
+)
 
 
 class TempVsTimeForm(forms.Form):
@@ -17,7 +22,7 @@ class TempVsTimeForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display temperature from borehole number",
+        label="Display data from borehole number",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
@@ -27,20 +32,32 @@ class TempVsTimeForm(forms.Form):
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
-                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+                "value": f"{MONTH_BEFORE_END} - {DATA_END_DATE}",
                 "class": "form-control",
             }
         ),
     )
 
     tempVsTimeDepth = forms.IntegerField(
-        label="at depth:",
+        label="at depth",
         widget=forms.NumberInput(
             attrs={
                 "type": "number",
                 "min": "0",
                 "step": "1",
                 "class": "form-control",
+                "value": f"{STARTING_DEPTH}",
+            }
+        ),
+    )
+
+    tempVsTimeUnits = forms.ChoiceField(
+        label="use units",
+        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        widget=forms.RadioSelect(
+            attrs={
+                "class": "form-control",
+                "value": "Metric",
             }
         ),
     )
@@ -59,26 +76,37 @@ class TempVsDepthForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display temperature from borehole number ",
+        label="Display data from borehole number",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     tempVsDepthTimestamp = forms.CharField(
-        label="at time ",
+        label="at time",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
-                "value": DATA_START_DATE,
+                "value": DATA_END_DATE,
                 "class": "form-control",
             }
         ),
     )
 
+    tempVsDepthUnits = forms.ChoiceField(
+        label="use units",
+        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        widget=forms.RadioSelect(
+            attrs={
+                "class": "form-control",
+                "value": "Metric",
+            }
+        ),
+    )
 
-class StratigraphyForm(forms.Form):
+
+class TemperatureProfileForm(forms.Form):
     """
-    A class used to represent a form for a stratigraphy plot.
+    A class used to represent a form for a temperature profile plot.
 
     Attributes
     ----------
@@ -89,25 +117,36 @@ class StratigraphyForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display temperature vs depth data from borehole number ",
+        label="Display data from borehole number",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     temperatureProfileDateRange = forms.CharField(
-        label="during ",
+        label="during",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
-                "value": f"{DATA_START_DATE} - {DATA_END_DATE}",
+                "value": f"{MONTH_BEFORE_END} - {DATA_END_DATE}",
                 "class": "form-control",
             }
         ),
     )
 
     temperatureProfileTimeSelector = forms.CharField(
-        label="at time ",
+        label="at time",
         widget=forms.TextInput(attrs={"class": "form-control", "value": "12:00 AM"}),
+    )
+
+    tempProfileUnits = forms.ChoiceField(
+        label="use units",
+        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        widget=forms.RadioSelect(
+            attrs={
+                "class": "form-control",
+                "value": "Metric",
+            }
+        ),
     )
 
 
