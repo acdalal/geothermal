@@ -48,9 +48,7 @@ def getTempVsTimeResults(
         cursor.execute(query, (channel, depth, lafStart, lafBottom, startTime, endTime))
         query_end_time = time.time()
 
-        # clean results and crudely estimate the size of the query's result
-        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
-        csv_byte_size_estimate = 0
+        # clean results
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -62,13 +60,11 @@ def getTempVsTimeResults(
             }
             results.append(datapoint)
 
-            csv_byte_size_estimate += len(str(row))
-
         # log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            csv_byte_size_estimate,
+            len(results),
         )
     return results
 
@@ -108,9 +104,7 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
         cursor.execute(query, (channel, timestamp, timestampEndStr, lafStart, lafEnd))
         query_end_time = time.time()
 
-        # clean results and crudely estimate the size of the query's result
-        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
-        csv_byte_size_estimate = 0
+        # clean results
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -122,13 +116,11 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime) -> list[dict]:
             }
             results.append(datapoint)
 
-            csv_byte_size_estimate += len(str(row))
-
         # log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            csv_byte_size_estimate,
+            len(results),
         )
 
     return results
@@ -182,9 +174,7 @@ def getTempProfileResultsByDay(
         )
         query_end_time = time.time()
 
-        # clean results and crudely estimate the size of the query's result
-        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
-        csv_byte_size_estimate = 0
+        # clean results
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -196,13 +186,11 @@ def getTempProfileResultsByDay(
             }
             results.append(datapoint)
 
-            csv_byte_size_estimate += len(str(row))
-
         # log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            csv_byte_size_estimate,
+            len(results),
         )
 
     return results
@@ -242,9 +230,7 @@ def getTempProfileResultsByMeasurement(
         cursor.execute(query, (channel, lafStart, lafBottom, startTime, endTime))
         query_end_time = time.time()
 
-        # clean results and crudely estimate the size of the query's result
-        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
-        csv_byte_size_estimate = 0
+        # clean results
         for row in cursor.fetchall():
             datapoint = {
                 "channel_id": row[0],
@@ -256,13 +242,11 @@ def getTempProfileResultsByMeasurement(
             }
             results.append(datapoint)
 
-            csv_byte_size_estimate += len(str(row))
-
         # log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            csv_byte_size_estimate,
+            len(results),
         )
 
     return results
@@ -323,8 +307,20 @@ def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
     ### SANITIZE QUERY HERE ####
 
     with connections["geothermal"].cursor() as cursor:
+        # record query execution time
+        query_start_time = time.time()
         cursor.execute(query)
+        query_end_time = time.time()
+
         columns = [col[0] for col in cursor.description]
         for row in cursor.fetchall():
             results.append(dict(zip(columns, row)))
+
+        # log the query execution as an INFO log
+        log_query_as_INFO(
+            query,
+            query_end_time - query_start_time,
+            len(results),
+        )
+
     return results
