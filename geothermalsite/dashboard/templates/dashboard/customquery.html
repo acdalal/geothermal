@@ -4,6 +4,7 @@
 
 
 {% block content %}
+<body style="margin:20px;">
     <h1>Advanced API: Custom Query</h1>
     <form method="post" id="custom-query-form">
     {% csrf_token %}
@@ -21,7 +22,7 @@
         {% endif %}
     </textarea>
     <br>
-    <button type="submit" >Submit</button>
+    <button class="btn btn-secondary form-control" type="submit" style="width: 80ch;">Submit</button>
     </form>
 
     {% if queryResults %}
@@ -37,6 +38,7 @@
         <script>
             var queryData = {{ queryResults | safe }};
         </script>
-        <button onclick="downloadData('geothermal')">Download data</button>
+        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="width: 80ch;">Download data</button>
     {% endif %}
 {% endblock %}
+</body>
