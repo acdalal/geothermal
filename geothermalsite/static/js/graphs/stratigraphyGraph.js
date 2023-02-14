@@ -116,7 +116,7 @@ const options = {
                 type: 'linear',
                 title: {
                     display: true,
-                    text: 'Depth below ground, m.'
+                    text: 'Depth below ground, m'
                 },
                 reverse: true
             }
