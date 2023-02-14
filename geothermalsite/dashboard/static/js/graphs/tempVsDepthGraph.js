@@ -80,7 +80,7 @@ const options = {
         type: 'linear',
         title: {
             display: true,
-            text: 'Depth below ground, ft.'
+            text: 'Depth below ground, m.'
         }
       },
       y: {

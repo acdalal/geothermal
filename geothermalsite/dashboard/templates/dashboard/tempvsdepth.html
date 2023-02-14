@@ -1,18 +1,17 @@
+{% load static %}
+
 <!--daterangepicker package files-->
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
-
-
-{% load static %}
-
-<script src="{% static 'js/utils/createCsv.js' %}"></script>
-
-<button onclick="downloadData('tempvsdepth')">Download data</button>
-<button id="downloadImage" onclick="window.downloadGraphImage('tempvsdepth')">Download graph</button>
-
+<!-- Graph code and canvas for housing the graph -->
 <script src="{% static 'js/graphs/tempVsDepthGraph.js' %}" type="module"></script>
 <div class="container">
     <canvas id="ctx"></canvas>
 </div>
+
+<!-- Buttons for downloading the data as a CSV and the graph as an image -->
+<script src="{% static 'js/utils/createCsv.js' %}"></script>
+<button onclick="downloadData('tempvsdepth')">Download data</button>
+<button id="downloadImage" onclick="window.downloadGraphImage('tempvsdepth')">Download graph</button>
