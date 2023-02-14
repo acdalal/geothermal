@@ -51,10 +51,11 @@ var datasetIndex = 0
 var groupNumber = 0
 var datasetIndicesForEachWeek = {}
 
-
-var blue = 256
-var green = 0
-var diff = 200 / (Object.keys(graphData).length)
+let numGroups = Object.keys(graphData).length
+var blue = 0
+var green = 256
+var red = 0
+var diff = 512 / numGroups
 
 Object.keys(graphData).forEach(group => {
     datasetIndicesForEachWeek[group] = []
@@ -74,18 +75,20 @@ Object.keys(graphData).forEach(group => {
             data: graphData[group][line],
             label: label,
             axis: 'y',
-            //borderColor: colors[groupNumber],
-            borderColor: "rgb(10,"+green+","+blue+")",
-            //backgroundColor: colors[groupNumber]
-            backgroundColor: "rgb(10,"+green+","+blue+")"
+            borderColor: "rgb("+red+","+green+","+blue+")",
+            backgroundColor: "rgb("+red+","+green+","+blue+")",
         }
 
         datasets.push(lineData)
     })
-    //console.log(group, colors[groupNumber])
-    green += diff
-    blue -= diff
-
+    if (groupNumber <= numGroups / 2){
+        green -= diff
+        blue += diff
+    }
+    else {
+        blue -= diff
+        red += diff
+    }
     groupNumber += 1
 })
 
