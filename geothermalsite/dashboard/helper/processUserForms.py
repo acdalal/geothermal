@@ -126,12 +126,11 @@ def getGrouping(start: datetime, end: datetime) -> int:
     else:
         return YEARS
 
-
 def getUserRawQuery(request: HttpRequest) -> str:
 
     userForm = RawQueryForm(request.POST)
     assert userForm.is_valid()
 
     formData = userForm.cleaned_data
-    print("THIS IS THE QUERY:", formData)
+    # print("THIS IS THE QUERY:", formData)
     return formData
