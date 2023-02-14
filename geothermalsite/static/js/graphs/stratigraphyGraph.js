@@ -81,7 +81,7 @@ Object.keys(graphData).forEach(group => {
 
         datasets.push(lineData)
     })
-    if (groupNumber <= numGroups / 2){
+    if (groupNumber <= (numGroups / 2) - 1){
         green -= diff
         blue += diff
     }
@@ -116,7 +116,7 @@ const options = {
                 type: 'linear',
                 title: {
                     display: true,
-                    text: 'Depth below ground, m'
+                    text: 'Depth below ground, m.'
                 },
                 reverse: true
             }
