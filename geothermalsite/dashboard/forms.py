@@ -97,7 +97,7 @@ class TempVsDepthForm(forms.Form):
         choices=[("metric", "Metric"), ("imperial", "Imperial")],
         widget=forms.RadioSelect(
             attrs={
-                "class": "form-control form-check-inline form-row",
+                "class": "form-control form-check-inline",
                 "value": "Metric",
             }
         ),
@@ -143,7 +143,7 @@ class TemperatureProfileForm(forms.Form):
         choices=[("metric", "Metric"), ("imperial", "Imperial")],
         widget=forms.RadioSelect(
             attrs={
-                "class": "form-control form-check-inline form-row",
+                "class": "form-control form-check-inline",
                 "value": "Metric",
             }
         ),
