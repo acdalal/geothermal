@@ -18,8 +18,8 @@
     {% endif %}
     </script>
 
-
-    <ul class="nav nav-tabs" id="myTab" role="tablist">
+<div class="col-md-5 mx-auto">
+    <ul class="nav nav-tabs" id="myTab">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#" id="tempprofile-button" onclick="selectTab('tempprofile')">Temperature Profile</a>
         </li>
@@ -30,7 +30,6 @@
             <a class="nav-link" data-toggle="tab" href="#" id="tempvsdepth-button" onclick="selectTab('tempvsdepth')">Temperature Vs Depth</a>
         </li>
     </ul>
-
     <script src="{% static 'js/utils/selectTab.js' %}"></script>
 
     <div class="tab-content" id="myTabContent">
@@ -38,10 +37,22 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
-                        <br>
                         {% csrf_token %}
-                        {{ temperatureProfileForm }}
-                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-profile"/>
+                        <div class="left">
+                            {{ temperatureProfileForm.boreholeNumber.label }}
+                            {{ temperatureProfileForm.boreholeNumber }}
+
+                            {{ temperatureProfileForm.temperatureProfileDateRange.label }}
+                            {{ temperatureProfileForm.temperatureProfileDateRange }}
+
+                            {{ temperatureProfileForm.temperatureProfileTimeSelector.label }}
+                            {{ temperatureProfileForm.temperatureProfileTimeSelector }}
+                        </div>
+                        <div class="right">
+                            {{ temperatureProfileForm.tempProfileUnits.label }}
+                            {{ temperatureProfileForm.tempProfileUnits }}
+                        </div>
+                        <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-profile"/>
                     </form>
                 </div>
             </div>
@@ -51,10 +62,23 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
-                        <br>
                         {% csrf_token %}
-                        {{ tempOverTimeForm }}
-                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-time"/>
+
+                        <div class="left">
+                            {{ tempOverTimeForm.boreholeNumber.label }}
+                            {{ tempOverTimeForm.boreholeNumber }}
+
+                            {{ tempOverTimeForm.tempVsTimeDateRange.label }}
+                            {{ tempOverTimeForm.tempVsTimeDateRange }}
+
+                            {{ tempOverTimeForm.tempVsTimeDepth.label }}
+                            {{ tempOverTimeForm.tempVsTimeDepth }}
+                        </div>
+                        <div class="right">
+                            {{ tempOverTimeForm.tempVsTimeUnits.label }}
+                            {{ tempOverTimeForm.tempVsTimeUnits }}
+                        </div>
+                        <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
                     </form>
                 </div>
             </div>
@@ -64,10 +88,20 @@
             <div class="row">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
-                        <br>
                         {% csrf_token %}
-                        {{ tempOverDepthForm }}
-                        <input class="btn btn-secondary form-control" type="submit" value="Submit" name="temperature-depth"/>
+
+                        <div class="left">
+                            {{ tempOverDepthForm.boreholeNumber.label }}
+                            {{ tempOverDepthForm.boreholeNumber }}
+
+                            {{ tempOverDepthForm.tempVsDepthTimestamp.label }}
+                            {{ tempOverDepthForm.tempVsDepthTimestamp }}
+                        </div>
+                        <div class="right">
+                            {{ tempOverDepthForm.tempVsDepthUnits.label }}
+                            {{ tempOverDepthForm.tempVsDepthUnits}}
+                        </div>
+                        <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-depth"/>
                     </form>
                 </div>
             </div>
@@ -76,6 +110,7 @@
 
     </div>
 
+</div>
 
     <script src="{% static 'js/utils/dateRangePicker.js' %}"></script>
 

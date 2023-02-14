@@ -41,4 +41,26 @@ body {
     background-color: var(--custom-green);
 }
 
+form {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
 
+.left {
+    display: flex;
+    float: left;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.right {
+    display: flex;
+    float: left;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+label {
+    margin-bottom: 10px;
+}

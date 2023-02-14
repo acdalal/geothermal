@@ -22,7 +22,7 @@ class TempVsTimeForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display temperature from borehole number",
+        label="Display data from borehole number",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
@@ -39,7 +39,7 @@ class TempVsTimeForm(forms.Form):
     )
 
     tempVsTimeDepth = forms.IntegerField(
-        label="at depth:",
+        label="at depth",
         widget=forms.NumberInput(
             attrs={
                 "type": "number",
@@ -47,6 +47,17 @@ class TempVsTimeForm(forms.Form):
                 "step": "1",
                 "class": "form-control",
                 "value": f"{STARTING_DEPTH}",
+            }
+        ),
+    )
+
+    tempVsTimeUnits = forms.ChoiceField(
+        label="use units",
+        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        widget=forms.RadioSelect(
+            attrs={
+                "class": "form-control",
+                "value": "Metric",
             }
         ),
     )
@@ -65,18 +76,29 @@ class TempVsDepthForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display temperature from borehole number ",
+        label="Display data from borehole number",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     tempVsDepthTimestamp = forms.CharField(
-        label="at time ",
+        label="at time",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
                 "value": DATA_END_DATE,
                 "class": "form-control",
+            }
+        ),
+    )
+
+    tempVsDepthUnits = forms.ChoiceField(
+        label="use units",
+        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        widget=forms.RadioSelect(
+            attrs={
+                "class": "form-control",
+                "value": "Metric",
             }
         ),
     )
@@ -95,13 +117,13 @@ class TemperatureProfileForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display temperature vs depth data from borehole number ",
+        label="Display data from borehole number",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     temperatureProfileDateRange = forms.CharField(
-        label="during ",
+        label="during",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
@@ -112,8 +134,19 @@ class TemperatureProfileForm(forms.Form):
     )
 
     temperatureProfileTimeSelector = forms.CharField(
-        label="at time ",
+        label="at time",
         widget=forms.TextInput(attrs={"class": "form-control", "value": "12:00 AM"}),
+    )
+
+    tempProfileUnits = forms.ChoiceField(
+        label="use units",
+        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        widget=forms.RadioSelect(
+            attrs={
+                "class": "form-control",
+                "value": "Metric",
+            }
+        ),
     )
 
 
