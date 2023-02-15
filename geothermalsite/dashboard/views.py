@@ -23,6 +23,7 @@ from .helper.renderFunctions import (
     renderTempVsTimePage,
     renderTempProfilePage,
     renderRawQueryPage,
+    renderRawQueryError,
 )
 
 from .forms import RawQueryForm
@@ -129,19 +130,27 @@ def customQuery(request: HttpRequest):
 
     if request.method == "POST":
         formData = getUserRawQuery(request)
-        queryResults = getRawQueryResults(formData)
-        print("THIS IS THE QUERY RESULTS", queryResults)
-        context = {
-            "queryResults": [
-                {key: value for key, value in zip(queryResults[0].keys(), row)}
-                for row in queryResults
-            ],
-            "form": form,
-            "rawQuery": formData["rawQuery"],
-        }
+        if formData != TypeError:
+            queryResults = getRawQueryResults(formData)
+            if queryResults != SyntaxError:
+                print("THIS IS THE QUERY RESULTS", queryResults)
+                context = {
+                    "queryResults": [
+                        {key: value for key, value in zip(queryResults[0].keys(), row)}
+                        for row in queryResults
+                    ],
+                    "form": form,
+                    "rawQuery": formData["rawQuery"],
+                }
 
-        print("THIS IS THE DATA:", context)
-        return renderRawQueryPage(request, context, formData, queryResults=queryResults)
+                print("THIS IS THE DATA:", context)
+                return renderRawQueryPage(request, context, formData, queryResults=queryResults)
+            else:
+                context = {"errorMessage":"Error connecting to the database"}
+                return renderRawQueryError(request, context)
+        else:
+            context = {"errorMessage":"ERROR: Please enter a query before submitting"}
+            return renderRawQueryError(request, context)
     else:
         previousQuery = request.GET.get("query", "")
         form = RawQueryForm(initial={"rawQuery": previousQuery})
