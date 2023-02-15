@@ -1,12 +1,12 @@
 {% extends 'dashboard/base.html' %}
+
+{% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/about.css' %}">
 
+<h1 class="header">About</h1>
 
-{% block content %}
-<h1 class="header" style="padding-left: 5%;">About</h1>
-
-<div class="container-fluid" style="padding-left: 5%;">
+<div class="container-fluid">
   <div class="row">
     <div class="col-2 navbar-col">
       <div id="list-example" class="list-group">
@@ -17,7 +17,7 @@
       </div>
     </div>
 
-    <div class="col-9">
+    <div class="col-10">
       <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
         <h4 id="list-about-us">About Us</h4>
         <p>
