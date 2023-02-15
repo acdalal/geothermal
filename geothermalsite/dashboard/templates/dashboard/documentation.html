@@ -1,15 +1,16 @@
-{% extends 'dashboard/base.html' %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/documentation.css' %}">
+{% extends 'dashboard/base.html' %}
 
 {% block content %}
-<h1 class="header" style="padding-left: 5%;" id="documentation-header">Documentation</h1>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/documentation.css' %}">
 
-<div class="container-fluid" style="padding-left: 5%; padding-right: 5%;">
+<h1 class="header">Documentation</h1>
+
+<div class="container-fluid">
   <div class="row">
     <!-- Left-hand navbar for page contents -->
     <div class="col-2 navbar-col">
-
-      <div id="list-example" class="list-group" style="position:fixed;">
+      <div id="page-section-list" class="list-group">
         <a class="list-group-item list-group-item-action" href="#faq-section">FAQ</a>
         <a class="list-group-item list-group-item-action" href="#data-summary-section">Data Summary</a>
         <a class="list-group-item list-group-item-action" href="#advanced-api-section">Advanced API</a>
@@ -18,8 +19,8 @@
     <!-- end navbar for page contents -->
 
     <!-- Right-hand page contents -->
-    <div class="col-10">
-      <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example">
+    <div class="col-10" id="page-contents">
+      <div data-spy="scroll" data-target="#page-section-list" data-offset="0" class="scrollspy-example">
         <!-- FAQ as a Bootstrap 4 accordion-->
         <h4 id="faq-section">FAQ</h4>
         <div id="accordion">

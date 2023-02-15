@@ -1,12 +1,16 @@
-
-.scrollspy-example {
-    position: relative;
+.list-group-item.active {
+    background-color:#648767;
 }
 
-#documentation-header {
-    color: red;
+.header {
+    padding-left: 5%;
 }
 
-.navbar .nav-item .active {
-    color:#648767!important;
+.container-fluid {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.list-group {
+    position: fixed;
 }
