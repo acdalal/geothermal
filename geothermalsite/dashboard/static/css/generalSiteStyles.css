@@ -8,13 +8,10 @@
     --custom-green: #648767;
     --custom-pink: #CFA5B4;
     --custom-dark-cream: #F3E3B1;
-}
 
-body {
-    font-size: 16px;
-    font-family: "Montserrat";
-    color: var(--custom-black);
-    background-color: var(--custom-cream);
+    /* change the colors here to change these colors of the whole site */
+    --primary-background-color: var(--custom-cream) ;
+    --primary-text-color: var(--custom-black);
 }
 
 .black-background {
@@ -41,9 +38,21 @@ body {
     background-color: var(--custom-green);
 }
 
+/* HTML tag styles */
+body {
+    font-size: 16px;
+    font-family: "Montserrat";
+    color: var(--primary-text-color);
+    background-color: var(--primary-background-color);
+}
+
 form {
     margin-bottom: 20px;
-  }
+}
+
+label {
+    margin-bottom: 10px;
+}
 
 .left {
     float: left;
@@ -59,15 +68,20 @@ form {
     height: 95px;
 }
 
-label {
-    margin-bottom: 10px;
-}
-
-
 #myTabContent {
     margin-top: 10px;
 }
 
 .submit-button {
     margin-top: 10px;
+}
+
+/* Jumbotron  and footer styles are minimal,
+so put them here rather than dedicated css files */
+.jumbotron {
+    background-color: var(--primary-background-color);
+}
+
+#main-footer {
+    background-color: var(--primary-background-color) !important;
 }
