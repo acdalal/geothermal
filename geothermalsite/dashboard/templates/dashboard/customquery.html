@@ -9,8 +9,8 @@
     <form method="post" id="custom-query-form">
     {% csrf_token %}
     <p>If you're looking to be able to access the database with a bit more freedom than the predefined queries provided,
-        that option is provided here. You will need to know some SQL to get started, here's a good resource if you've never
-        used SQL before *INSERT LINK*. </p>
+        that option is provided here. You will need to know some SQL to get started, <u><a class="link" href="https://www.sqltutorial.org/" target="_blank">here's a good resource</a></u> if you've never
+        used SQL before.</p>
 
     <p> INSERT SCHEMA FOR THE DB</p>
     <label for="query">Enter A Custom Query:</label>
@@ -31,8 +31,8 @@
         })
     </script>
 
-    
-    
+
+
     {% if errorMessage %}
         <div>
             {{errorMessage}}
@@ -41,7 +41,7 @@
         <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
             Launch demo modal
         </button> -->
-  
+
   <!-- Modal -->
         <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
