@@ -1,5 +1,6 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
+<link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
 <footer class="bg-info text-center text-lg-start" id="main-footer">
     <hr>
@@ -13,13 +14,13 @@
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="{% url 'index' %}" class="text-dark">Dashboard</a>
+              <a id="footer-link" href="{% url 'index' %}">Dashboard</a>
             </li>
             <li>
-              <a href="{% url 'about' %}" class="text-dark">About</a>
+              <a id="footer-link" href="{% url 'about' %}">About</a>
             </li>
             <li>
-              <a href="{% url 'documentation' %}" class="text-dark">Documentation</a>
+              <a id="footer-link" href="{% url 'documentation' %}">Documentation</a>
             </li>
           </ul>
         </div>
@@ -31,10 +32,10 @@
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="https://www.carleton.edu/" class="text-dark">Home</a>
+              <a id="footer-link" href="https://www.carleton.edu/">Home</a>
             </li>
             <li>
-              <a href="https://www.carleton.edu/geothermal/" class="text-dark">Utility Master Plan</a>
+              <a id="footer-link" href="https://www.carleton.edu/geothermal/">Utility Master Plan</a>
             </li>
           </ul>
         </div>
@@ -46,10 +47,10 @@
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="https://github.com/acdalal/geothermal" class="text-dark">Source Code</a>
+              <a id="footer-link" href="https://github.com/acdalal/geothermal">Source Code</a>
             </li>
             <li>
-              <a href="{% url 'customquery' %}" class="text-dark">Custom Query</a>
+              <a id="footer-link" href="{% url 'customquery' %}">Custom Query</a>
             </li>
           </ul>
 
