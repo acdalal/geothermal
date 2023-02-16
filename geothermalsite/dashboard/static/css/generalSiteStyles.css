@@ -19,8 +19,10 @@ variables defined here as well.
     --custom-dark-cream: #F3E3B1;
 
     /* change the colors here to change these colors of the whole site */
-    --primary-background-color: var(--custom-cream) ;
-    --primary-text-color: var(--custom-black);
+    --primary-background-color: var(--custom-black);
+
+    --primary-text-color: var(--custom-cream);
+    --secondary-text-color: var(--custom-dark-cream); /* text color on hover */
 }
 
 .black-background {
