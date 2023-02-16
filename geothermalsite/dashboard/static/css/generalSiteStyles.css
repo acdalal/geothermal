@@ -76,6 +76,11 @@ label {
     margin-top: 10px;
 }
 
+/* Change all hyperlinks to custom green color*/
+.link {
+    color: 648767;
+}
+
 /* Jumbotron  and footer styles are minimal,
 so put them here rather than dedicated css files */
 .jumbotron {

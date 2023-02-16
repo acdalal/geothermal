@@ -6,3 +6,8 @@ ul {
 	display: inline-block;
 	text-align: left;
 }
+
+/* custom link color; should change to parent file later*/
+#outage-link {
+	color: #648767;
+}
