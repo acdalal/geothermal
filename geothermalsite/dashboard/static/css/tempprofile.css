@@ -6,3 +6,7 @@ div.centered-left-list-parent {
 	display: inline-block;
 	text-align: left;
 }
+
+#viewer {
+	position: relative;
+}
