@@ -19,10 +19,19 @@ variables defined here as well.
     --custom-dark-cream: #F3E3B1;
 
     /* change the colors here to change these colors of the whole site */
+    /* background colors */
     --primary-background-color: var(--custom-black);
 
+    /* text colors */
     --primary-text-color: var(--custom-cream);
     --secondary-text-color: var(--custom-dark-cream); /* text color on hover */
+
+    /* button colors */
+    --primary-button-color: var(--custom-green);
+
+    /* link colors */
+    --primary-link-color: var(--custom-green);
+    --secondary-link-color: white;
 }
 
 .black-background {
@@ -87,9 +96,13 @@ label {
     margin-top: 10px;
 }
 
-/* Change all hyperlinks to custom green color*/
-.link {
-    color: 648767;
+/* links */
+.link, .btn-link {
+    color: var(--primary-link-color);
+}
+
+.link:hover, .btn-link:hover {
+    color: var(--secondary-link-color);
 }
 
 /* Jumbotron  and footer styles are minimal,
