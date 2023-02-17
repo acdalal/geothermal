@@ -1,13 +1,13 @@
 {% load static %}
 
+<link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
+<link rel="stylesheet" href="{% static 'css/tempprofile.css' %}">
 <script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
-
-<link rel="stylesheet" href="{% static 'css/tempprofile.css' %}">
 
 <div id="formWrapper" style="text-align:center;">
     {# Header and information about the query #}
@@ -35,7 +35,7 @@
 <!-- Graph code and canvas for housing the graph -->
 <script src="{% static 'js/graphs/stratigraphyGraph.js' %}" type="module"></script>
 <div class="container">
-    <div id="viewer">
+    <div class="viewer">
     {# the height attribute of the canvas defines how tall the graph displays on the page #}
     <canvas id="ctx" height="300"></canvas>
     <!-- Buttons for downloading the data as a CSV and the graph as an image -->
