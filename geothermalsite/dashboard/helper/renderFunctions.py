@@ -31,7 +31,13 @@ def renderIndexPage(request: HttpRequest):
     """
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
-    context = _getPageContext(None, None, truncatedOutageList, None)
+    context = _getPageContext(
+        queryData=None,
+        graphData=None,
+        outageList=truncatedOutageList,
+        type=None,
+        units=None,
+    )
     return render(request, "dashboard/index.html", context=context)
 
 
@@ -40,6 +46,7 @@ def _getPageContext(
     graphData: list,
     outageList: list,
     type: str,
+    units: str,
 ) -> dict():
     return {
         "temperatureProfileForm": TemperatureProfileForm(),
@@ -51,22 +58,29 @@ def _getPageContext(
         "dataEndDate": DATA_END_DATE,
         "outageList": outageList,
         "type": type,
+        "units": units,
     }
 
 
-def renderTempVsTimePage(request: HttpRequest, queryResults=None, borehole=None):
+def renderTempVsTimePage(
+    request: HttpRequest, units: int, queryResults=None, borehole=None
+):
     """
     TODO
     """
     if queryResults and borehole:
-        graphData = toChartJsTempVsTime(queryResults, borehole)
+        graphData = toChartJsTempVsTime(queryResults, units)
     else:
         graphData = list()
 
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
     context = _getPageContext(
-        queryResults, graphData, truncatedOutageList, "tempvstime"
+        queryData=queryResults,
+        graphData=graphData,
+        outageList=truncatedOutageList,
+        type="tempvstime",
+        units=units,
     )
     return render(
         request,
@@ -76,20 +90,24 @@ def renderTempVsTimePage(request: HttpRequest, queryResults=None, borehole=None)
 
 
 def renderTempVsDepthPage(
-    request: HttpRequest, queryResults: list = None, borehole=None
+    request: HttpRequest, units: int, queryResults: list = None, borehole=None
 ):
     """
     TODO
     """
     if queryResults and borehole:
-        graphData = toChartJsTempVsDepth(queryResults, borehole)
+        graphData = toChartJsTempVsDepth(queryResults, units)
     else:
         graphData = list()
 
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
     context = _getPageContext(
-        queryResults, graphData, truncatedOutageList, "tempvsdepth"
+        queryData=queryResults,
+        graphData=graphData,
+        outageList=truncatedOutageList,
+        type="tempvsdepth",
+        units=units,
     )
 
     return render(
@@ -100,20 +118,28 @@ def renderTempVsDepthPage(
 
 
 def renderTempProfilePage(
-    request: HttpRequest, groupBy: int = None, queryResults: list = None, borehole=None
+    request: HttpRequest,
+    units: int,
+    groupBy: int = None,
+    queryResults: list = None,
+    borehole=None,
 ):
     """
     TODO
     """
     if queryResults and borehole:
-        graphData = toChartJsTempProfile(queryResults, borehole, groupBy)
+        graphData = toChartJsTempProfile(queryResults, groupBy, units)
     else:
         graphData = list()
 
     outageList = getDataOutages()
     truncatedOutageList = truncateDateTime(outageList)
     context = _getPageContext(
-        queryResults, graphData, truncatedOutageList, "tempprofile"
+        queryData=queryResults,
+        graphData=graphData,
+        outageList=truncatedOutageList,
+        type="tempprofile",
+        units=units,
     )
     context["groupBy"] = groupBy
     return render(

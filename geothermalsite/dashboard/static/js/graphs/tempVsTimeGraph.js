@@ -54,6 +54,16 @@ var startDate = "_startDate_" + queryData[0]['datetime_utc'].slice(0, 11) // Cut
 var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice(0, 11) // Cut off the timestamp
 const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
 
+const xLabel = 'Date'
+var yLabel = 'Temperature'
+
+if (units == 0){
+  yLabel += ', C'
+}
+else {
+  yLabel += ', F'
+}
+
 const options = {
     type: 'line',
     data: data,
@@ -63,13 +73,13 @@ const options = {
             type: 'time',
             title: {
                 display: true,
-                text: 'Date'
+                text: xLabel
             }
           },
           y: {
             title: {
                 display: true,
-                text: 'Temperature, C'
+                text: yLabel
             }
           }
         },

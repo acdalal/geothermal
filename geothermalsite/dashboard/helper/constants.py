@@ -6,8 +6,11 @@ DATA_END_DATE = "09/04/2022"
 MONTH_BEFORE_END = (
     datetime.strptime(DATA_END_DATE, "%m/%d/%Y") - timedelta(days=30)
 ).strftime("%m/%d/%Y")
-print(MONTH_BEFORE_END)
+
 STARTING_DEPTH = 10
+
+METRIC = 0
+IMPERIAL = 1
 
 HOURS = 0  # each line is a measurement
 DAYS = 1  # each color is a day
