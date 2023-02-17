@@ -93,7 +93,6 @@ def customQuery(request: HttpRequest):
         if formData != TypeError:
             queryResults = getRawQueryResults(formData)
             if queryResults != SyntaxError:
-                print("THIS IS THE QUERY RESULTS", queryResults)
                 context = {
                     "queryResults": [
                         {key: value for key, value in zip(queryResults[0].keys(), row)}
@@ -103,7 +102,6 @@ def customQuery(request: HttpRequest):
                     "rawQuery": formData["rawQuery"],
                 }
 
-                print("THIS IS THE DATA:", context)
                 return renderRawQueryPage(
                     request, context, formData, queryResults=queryResults
                 )

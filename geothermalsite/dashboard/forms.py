@@ -57,7 +57,7 @@ class TempVsTimeForm(forms.Form):
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
             attrs={
-                "class": "form-control form-check-inline form-row",
+                "class": "form-control form-check-inline",
                 "value": "Metric",
             }
         ),

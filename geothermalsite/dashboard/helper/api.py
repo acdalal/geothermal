@@ -213,7 +213,6 @@ def getTempProfileResultsByDay(
             query_end_time - query_start_time,
             len(results),
         )
-    print(results)
     return results
 
 
