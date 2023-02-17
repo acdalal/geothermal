@@ -2,14 +2,14 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
 
-<div class="jumbotron cream-background">
+<div class="jumbotron">
     <h1 class="display-4">Welcome to GeoDE!</h1>
     <p class="lead">A Carleton Geothermal Data Explorer developed by the Geothermal CS Comps Team, 2022-23</p>
     <hr class="my-4">
     <h2 class="text-muted">Disclaimers</h2>
     <p>One of the difficulties (and joys!) of working with Carleton's Geothermal data is its size and complexity. Here are a few things to know:</p>
     <ul>
-        <li>This database contains many outages, so certain searches will contain gaps. <u><a href="{% url 'documentation' %}">Find out more about data outages.</a></u></li>
+        <li>This database contains many outages, so certain searches will contain gaps. <u><a class="link" href="{% url 'documentation' %}">Find out more about data outages.</a></u></li>
         <li>This database is big, so searching for data over longer periods of time will, well, take longer! Some may take a matter of seconds, others minutes. Please be patient!</li>
         <li>This is an ongoing project, so there are many features we hope are implemented in the future.</li>
     </ul>

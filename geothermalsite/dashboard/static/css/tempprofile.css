@@ -1,8 +1,12 @@
-div.list-parent {
+div.centered-left-list-parent {
 	text-align: center;
 }
 
-ul {
+.centered-left-list {
 	display: inline-block;
 	text-align: left;
+}
+
+#viewer {
+	position: relative;
 }

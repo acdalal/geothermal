@@ -1,12 +1,22 @@
+@import "generalSiteStyles.css";
 
-.scrollspy-example {
-    position: relative;
+.list-group-item.active {
+    background-color: var(--custom-green);
 }
 
-#documentation-header {
-    color: red;
+.header {
+    padding-left: 5%;
 }
 
-.navbar .nav-item .active {
-    color:#648767!important;
+#documentation-container {
+    padding-left: 5%;
+    padding-right: 5%;
+}
+
+.list-group {
+    position: fixed;
+}
+
+.card-header {
+    background-color: var(--primary-button-color);
 }

@@ -25,7 +25,7 @@ def get_user_ip_address(request):
     return ip_address
 
 
-def log_query_as_INFO(query: str, execution_time: int, bytes: int):
+def log_query_as_INFO(query: str, execution_time: int, number_of_records_returned: int):
     """Logs information about the executed query at INFO level
 
     Parameters
@@ -34,8 +34,8 @@ def log_query_as_INFO(query: str, execution_time: int, bytes: int):
         the PostgreSQL query that was executed
     execution_time : int
         the time it took to execute the query
-    bytes : int
-        the sum of the byte sizes of every entry in cursor.fetchall()
+    number_of_records_returned : int
+        the number of records returned from the database
 
     Returns
     -------
@@ -47,9 +47,9 @@ def log_query_as_INFO(query: str, execution_time: int, bytes: int):
     oneline_query = convert_multiline_to_oneline(query)
 
     logger.info(
-        "query: {} | query execution time: {}s | crude size estimate: {}bytes".format(
+        "query: {} | query execution time: {}s | number of records returned: {}".format(
             oneline_query,
             execution_time,
-            bytes,
+            number_of_records_returned,
         )
     )

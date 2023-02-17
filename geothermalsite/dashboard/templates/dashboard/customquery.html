@@ -4,13 +4,13 @@
 
 
 {% block content %}
-<body style="margin:20px;">
+<body>
     <h1>Advanced API: Custom Query</h1>
     <form method="post" id="custom-query-form">
     {% csrf_token %}
     <p>If you're looking to be able to access the database with a bit more freedom than the predefined queries provided,
-        that option is provided here. You will need to know some SQL to get started, here's a good resource if you've never
-        used SQL before *INSERT LINK*. </p>
+        that option is provided here. You will need to know some SQL to get started, <u><a class="link" href="https://www.sqltutorial.org/" target="_blank">here's a good resource</a></u> if you've never
+        used SQL before.</p>
 
     <p> INSERT SCHEMA FOR THE DB</p>
     <label for="query">Enter A Custom Query:</label>
@@ -22,9 +22,48 @@
         {% endif %}
     </textarea>
     <br>
-    <button class="btn btn-secondary form-control" type="submit" style="width: 80ch;">Submit</button>
+    <button class="btn btn-secondary form-control" data-toggle="modal" data-target="#exampleModal" type="submit" style="width: 80ch;">Submit</button>
     </form>
 
+    <script>
+        $('#exampleModal').on('shown.bs.modal', function () {
+            $('#myInput').trigger('focus')
+        })
+    </script>
+
+
+
+    {% if errorMessage %}
+        <div>
+            {{errorMessage}}
+        </div>
+        <!-- Button trigger modal -->
+        <!-- <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Launch demo modal
+        </button> -->
+
+  <!-- Modal -->
+        <!-- <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                </div>
+                <div class="modal-body">
+                ...
+                </div>
+                <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+            </div>
+        </div> -->
+
+        {% endif %}
     {% if queryResults %}
         <details>
             <summary>Preview Data</summary>
@@ -38,7 +77,8 @@
         <script>
             var queryData = {{ queryResults | safe }};
         </script>
-        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="width: 80ch;">Download data</button>
+        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="width: 80ch;">Download data </button>
     {% endif %}
+
 {% endblock %}
 </body>

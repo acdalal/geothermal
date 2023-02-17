@@ -1,0 +1,13 @@
+@import "generalSiteStyles.css";
+
+a, h5 {
+    color: var(--primary-text-color);
+}
+
+a:hover {
+    color: var(--secondary-text-color);
+}
+
+#main-footer {
+    background-color: var(--primary-background-color) !important;
+}

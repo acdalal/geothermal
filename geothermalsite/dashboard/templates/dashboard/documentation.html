@@ -1,227 +1,225 @@
-{% extends 'dashboard/base.html' %} {% load static %}
-<link rel="stylesheet" href="{% static 'css/documentation.css' %}">
+{% extends 'dashboard/base.html' %}
 
 {% block content %}
-<h1 class="header" style="padding-left: 5%;" id="documentation-header">Documentation</h1>
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/documentation.css' %}">
 
-<div class="container-fluid" style="padding-left: 5%;">
+<h1 class="header">Documentation</h1>
+
+<div class="container-fluid" id="documentation-container">
   <div class="row">
     <!-- Left-hand navbar for page contents -->
     <div class="col-2 navbar-col">
-      <div id="list-example" class="list-group">
+      <div id="page-section-list" class="list-group">
         <a class="list-group-item list-group-item-action" href="#faq-section">FAQ</a>
         <a class="list-group-item list-group-item-action" href="#data-summary-section">Data Summary</a>
         <a class="list-group-item list-group-item-action" href="#advanced-api-section">Advanced API</a>
       </div>
-      <!-- <ul class="nav nav-tabs">
-        <li class="nav-item">
-          <a class="nav-link active" href="#faq-section">FAQ</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="#data-summary-section">Data Summary</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link active" href="#advanced-api-section">Advanced API</a>
-        </li>
-      </ul>> -->
     </div>
     <!-- end navbar for page contents -->
 
     <!-- Right-hand page contents -->
-    <div class="col-9">
-      <div data-spy="scroll" data-target="#list-example" data-offset="0" class="scrollspy-example"></div>
-      <!-- FAQ as a Bootstrap 4 accordion-->
-      <h4 id="faq-section">FAQ</h4>
-      <div id="accordion">
-        <div class="card">
-          <div class="card-header" id="headingOne">
-            <h5 class="mb-0">
-              <button
-                class="btn btn-link collapsed"
-                data-toggle="collapse"
-                data-target="#collapseOne"
-                aria-expanded="false"
-                aria-controls="collapseOne"
-              >
-                What kinds of queries can I make?
-              </button>
-            </h5>
-          </div>
-          <div
-            id="collapseOne"
-            class="collapse"
-            aria-labelledby="headingOne"
-            data-parent="#accordion"
-          >
-            <div class="card-body">
-              <strong
-                >You can query the temperature of one or multiple boreholes
-                with respect to depth over a period of time.</strong
-              >
-              <br /> <br />
-              You can customize this range of time, or choose the most recent
-              7 days, 30 days, or year's worth of data. You can adjust the
-              time point of the temperature collection to be at midnight,
-              noon, or select a daily average. You can also specify the
-              density of the measurements intervals along the boreholes to
-              your preference.
-            </div>
-          </div>
-        </div>
-
+    <div class="col-10" id="page-contents">
+      <div data-spy="scroll" data-target="#page-section-list" data-offset="0" class="scrollspy-example">
+        <!-- FAQ as a Bootstrap 4 accordion-->
+        <h4 id="faq-section">FAQ</h4>
+        <div id="accordion">
           <div class="card">
-            <div class="card-header" id="headingTwo">
+            <div class="card-header" id="headingOne">
               <h5 class="mb-0">
                 <button
                   class="btn btn-link collapsed"
                   data-toggle="collapse"
-                  data-target="#collapseTwo"
+                  data-target="#collapseOne"
                   aria-expanded="false"
-                  aria-controls="collapseTwo"
+                  aria-controls="collapseOne"
                 >
-                  Why are certain time ranges in the calendar grayed out?
+                  What kinds of queries can I make?
                 </button>
               </h5>
             </div>
             <div
-              id="collapseTwo"
+              id="collapseOne"
               class="collapse"
-              aria-labelledby="headingTwo"
+              aria-labelledby="headingOne"
               data-parent="#accordion"
             >
               <div class="card-body">
                 <strong
-                  >Time ranges that fall within a data outage cannot be
-                  queried.</strong
+                  >You can query the temperature of one or multiple boreholes
+                  with respect to depth over a period of time.</strong
                 >
                 <br /> <br />
-                Try selecting a new custom date range instead, or choose the
-                most recent available data range. To learn more about data
-                outages, please visit the Data Outages section in the Data
-                Summary tab.
+                You can customize this range of time, or choose the most recent
+                7 days, 30 days, or year's worth of data. You can adjust the
+                time point of the temperature collection to be at midnight,
+                noon, or select a daily average. You can also specify the
+                density of the measurements intervals along the boreholes to
+                your preference.
               </div>
             </div>
           </div>
 
-          <div class="card">
-            <div class="card-header" id="headingThree">
-              <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseThree"
-                  aria-expanded="false"
-                  aria-controls="collapseThree"
-                >
-                  Why is there a gap in my graph?
-                </button>
-              </h5>
+            <div class="card">
+              <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    data-toggle="collapse"
+                    data-target="#collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="collapseTwo"
+                  >
+                    Why are certain time ranges in the calendar grayed out?
+                  </button>
+                </h5>
+              </div>
+              <div
+                id="collapseTwo"
+                class="collapse"
+                aria-labelledby="headingTwo"
+                data-parent="#accordion"
+              >
+                <div class="card-body">
+                  <strong
+                    >Time ranges that fall within a data outage cannot be
+                    queried.</strong
+                  >
+                  <br /> <br />
+                  Try selecting a new custom date range instead, or choose the
+                  most recent available data range. To learn more about data
+                  outages, please visit the Data Outages section in the Data
+                  Summary tab.
+                </div>
+              </div>
             </div>
-            <div
-              id="collapseThree"
-              class="collapse"
-              aria-labelledby="headingThree"
-              data-parent="#accordion"
-            >
-              <div class="card-body">
-                <strong>Invalid data will not appear in query visualizations.</strong>
-                <br /> <br />
-                If you selected a time range that included a data outage, this
-                will be reflected in the visualization that is generated. The
-                gap in the graph represents the period of time over which a data
-                outage spanned. For more information, please visit the Data
-                Outages section in the Data Summary tab.
+
+            <div class="card">
+              <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    data-toggle="collapse"
+                    data-target="#collapseThree"
+                    aria-expanded="false"
+                    aria-controls="collapseThree"
+                  >
+                    Why is there a gap in my graph?
+                  </button>
+                </h5>
+              </div>
+              <div
+                id="collapseThree"
+                class="collapse"
+                aria-labelledby="headingThree"
+                data-parent="#accordion"
+              >
+                <div class="card-body">
+                  <strong>Invalid data will not appear in query visualizations.</strong>
+                  <br /> <br />
+                  If you selected a time range that included a data outage, this
+                  will be reflected in the visualization that is generated. The
+                  gap in the graph represents the period of time over which a data
+                  outage spanned. For more information, please visit the Data
+                  Outages section in the Data Summary tab.
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    data-toggle="collapse"
+                    data-target="#collapseFour"
+                    aria-expanded="false"
+                    aria-controls="collapseFour"
+                  >
+                    Where does this data come from?
+                  </button>
+                </h5>
+              </div>
+              <div
+                id="collapseFour"
+                class="collapse"
+                aria-labelledby="headingFour"
+                data-parent="#accordion"
+              >
+                <div class="card-body">
+                  <strong
+                    >The data you are querying originates from the 5 borehole
+                    loops in the Bald Spot that are equipped with fiber optic
+                    cables.</strong
+                  >
+                  <br /> <br />
+                  For a more in-depth overview of the data pipeline, visit the
+                  <u><a class="link" href="{% url 'about' %}">about page</a></u>.
+                </div>
               </div>
             </div>
           </div>
+          <br />
+          <!-- end FAQ accordion -->
 
-          <div class="card">
-            <div class="card-header" id="headingFour">
-              <h5 class="mb-0">
-                <button
-                  class="btn btn-link collapsed"
-                  data-toggle="collapse"
-                  data-target="#collapseFour"
-                  aria-expanded="false"
-                  aria-controls="collapseFour"
-                >
-                  Where does this data come from?
-                </button>
-              </h5>
-            </div>
-            <div
-              id="collapseFour"
-              class="collapse"
-              aria-labelledby="headingFour"
-              data-parent="#accordion"
-            >
-              <div class="card-body">
-                <strong
-                  >The data you are querying originates from the 5 borehole
-                  loops in the Bald Spot that are equipped with fiber optic
-                  cables.</strong
-                >
-                <br /> <br />
-                For a more in-depth overview of the data pipeline, visit the
-                <a href="{% url 'about' %}">about page</a>.
-              </div>
-            </div>
-          </div>
-        </div>
-        <br />
-        <!-- end FAQ accordion -->
+        <!-- Data summary section -->
+        <h4 id="data-summary-section">Data Summary</h4>
+        <p>
+          Data outages were an important consideration for this project. We have
+          aired on the conservative side in terms of defining outages. Any
+          period of time that produced either a lack of data or unreliable data
+          has been deemed an outage, and the measurements from that interval of
+          time will not be displayed. See below for a full table of known
+          outages as of January 2023.
+          <table class ="table table-sm table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th scope ="col">Outage ID</th>
+                    <th scope ="col">Channel ID</th>
+                    <th scope ="col">Outage Type</th>
+                    <th scope ="col">Start Time</th>
+                    <th scope ="col">End Time</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in outage %}
+                <tr>
+                  <td>{{ item.outage_id }}</td>
+                  <td>{{ item.channel_id }}</td>
+                  <td>{{ item.outage_type }}</td>
+                  <td>{{ item.start_time }}</td>
+                  <td>{{ item.end_time }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </p>
+        <details>
+          <summary><em>Learn about outage types</em></summary>
+          <ul>
+            <li> <em>Time slip</em> outages resulted from a time drift of the internal clock of the private PC the DTS unit is connected to. All data measurements taken during this time drift period have been discounted as a time slip outage.</li>
+            <li>The <em>fiber failure</em> outage from July 2019-October 2020 was the result of an undetected comprimised fiber optic cable in one of the channels.</li>
+            <li>The <em>hardware failure</em> outage was caused by a malfunction in the DTS unit. This outage lasted from September 2022 until the DTS unit was repaired and restored to the Chapel basement in January 2023.</li>
+          </ul>
+        </details>
+        <br>
+        <!-- Advanced API section -->
+        <h4 id="advanced-api-section">Advanced API Use</h4>
+        <p>
+          The Geothermal Data API supports making more advanced queries,
+          including direct PostGreSQL queries. To query the database directly, visit the <u><a class="link" href="{% url 'customquery' %}">custom query page</a></u>.
+          To view our API, visit
+          <u><a class="link" href="https://github.com/acdalal/geothermal" target="_blank"> our repository on GitHub</a></u>.
+        </p>
+      </div>
+      <!-- end scrollspy -->
 
-      <!-- Data summary section -->
-      <h4 id="data-summary-section">Data Summary</h4>
-      <p>
-        Data outages were an important consideration for this project. We have
-        aired on the conservative side in terms of defining outages. Any
-        period of time that produced either a lack of data or unreliable data
-        has been deemed an outage, and the measurements from that interval of
-        time will not be displayed. See below for a full table of known
-        outages as of January 2023.
-        <table class ="table table-sm table-striped">
-          <thead class="thead-dark">
-              <tr>
-                  <th scope ="col">Outage ID</th>
-                  <th scope ="col">Channel ID</th>
-                  <th scope ="col">Outage Type</th>
-                  <th scope ="col">Start Time</th>
-                  <th scope ="col">End Time</th>
-              </tr>
-          </thead>
-          <tbody>
-              {% for item in outage %}
-              <tr>
-                <td>{{ item.outage_id }}</td>
-                <td>{{ item.channel_id }}</td>
-                <td>{{ item.outage_type }}</td>
-                <td>{{ item.start_time }}</td>
-                <td>{{ item.end_time }}</td>
-              </tr>
-              {% endfor %}
-          </tbody>
-      </table>
-      </p>
-      <details>
-        <summary><em>Learn about outage types</em></summary>
-        <ul>
-          <li> <em>Time slip</em> outages resulted from a time drift of the internal clock of the private PC the DTS unit is connected to. All data measurements taken during this time drift period have been discounted as a time slip outage.</li>
-          <li>The <em>fiber failure</em> outage from July 2019-October 2020 was the result of an undetected comprimised fiber optic cable in one of the channels.</li>
-          <li>The <em>hardware failure</em> outage was caused by a malfunction in the DTS unit. This outage lasted from September 2022 until the DTS unit was repaired and restored to the Chapel basement in January 2023.</li>
-        </ul>
-    </details>
-    <br>
-      <!-- Advanced API section -->
-      <h4 id="advanced-api-section">Advanced API Use</h4>
-      <p>
-        The Geothermal Data API supports making more advanced queries,
-        including direct PostGreSQL queries. To query the database directly, visit the <u><a href="{% url 'customquery' %}">custom query page</a></u>.
-        To view our API, visit
-        <u><a href="https://github.com/acdalal/geothermal"> our repository on GitHub</a></u>.
-      </p>
     </div>
     <!-- end right-hand page contents -->
+
   </div>
+  <!-- end row -->
+
 </div>
+<!-- end container -->
 {% endblock %}

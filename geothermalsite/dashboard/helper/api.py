@@ -100,7 +100,7 @@ def getTempVsTimeResults(
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            byteSizeEstimate,
+            len(results),
         )
     return results
 
@@ -148,7 +148,7 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime, units: int) -> lis
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            byteSizeEstimate,
+            len(results),
         )
 
     return results
@@ -211,7 +211,7 @@ def getTempProfileResultsByDay(
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            byteSizeEstimate,
+            len(results),
         )
     print(results)
     return results
@@ -259,7 +259,7 @@ def getTempProfileResultsByMeasurement(
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            byteSizeEstimate,
+            len(results),
         )
 
     return results
@@ -269,21 +269,10 @@ def getDataOutages() -> list[dict]:
     """
     Finds all data outages or errors in the database.
 
-    # TODO: re-write this documentation, since this function takes no
-    #       parameters, but the below information may still be useful elsewhere
-
-    Parameters
-    ------------
-    startTime: a timestamp for the start of the time range in UTC time format.
-    endTime: a timestamp for the end of the time range in UTC time format.
-        To get info on outages for only one timestamp, pass the same value
-        for startTime and endTime.
-
     Returns
     ------------
-    A list of tuples (outageID, channelID, outageType, start_datetime_utc,
-    end_datetime_utc) for each outage that happened during the requested
-    time range. If no outages happened, returns an empty list.
+    A list of dictionaries, one for each outage that has been
+    recorded in the history of the database.
     """
 
     query = createEntireDataOutageQuery()
@@ -327,8 +316,24 @@ def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
     ### SANITIZE QUERY HERE ####
 
     with connections["geothermal"].cursor() as cursor:
-        cursor.execute(query)
-        columns = [col[0] for col in cursor.description]
-        for row in cursor.fetchall():
-            results.append(dict(zip(columns, row)))
+        # record query execution time
+        query_start_time = time.time()
+        try:
+            cursor.execute(query)
+            query_end_time = time.time()
+
+            columns = [col[0] for col in cursor.description]
+            for row in cursor.fetchall():
+                results.append(dict(zip(columns, row)))
+
+            # log the query execution as an INFO log
+            log_query_as_INFO(
+                query,
+                # query_end_time - query_start_time,
+                len(results),
+            )
+
+        except:
+            results = SyntaxError
+
     return results

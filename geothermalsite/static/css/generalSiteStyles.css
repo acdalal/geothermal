@@ -1,4 +1,13 @@
-/* This files contains custom colors and styles we chose for our website's design. */
+/* This files contains custom colors and styles for the website.
+
+In particular, changing --primary-background-color and --primary-text-color
+will change those respective attributes for the entire site.
+
+Some elements that have minimal custom styling, such as the jumbotron on
+the main page, have styling in this file as well. Other elements
+that have their own css files may import this file to access the
+variables defined here as well.
+*/
 
 /* Define variables for our custom color palette */
 :root {
@@ -8,13 +17,21 @@
     --custom-green: #648767;
     --custom-pink: #CFA5B4;
     --custom-dark-cream: #F3E3B1;
-}
 
-body {
-    font-size: 16px;
-    font-family: "Montserrat";
-    color: var(--custom-black);
-    background-color: var(--custom-cream);
+    /* change the colors here to change these colors of the whole site */
+    /* background colors */
+    --primary-background-color: var(--custom-black);
+
+    /* text colors */
+    --primary-text-color: var(--custom-cream);
+    --secondary-text-color: var(--custom-dark-cream); /* text color on hover */
+
+    /* button colors */
+    --primary-button-color: var(--custom-green);
+
+    /* link colors */
+    --primary-link-color: var(--custom-green);
+    --secondary-link-color: white;
 }
 
 .black-background {
@@ -41,6 +58,7 @@ body {
     background-color: var(--custom-green);
 }
 
+<<<<<<< HEAD
 form {
     margin-bottom: 20px;
   }
@@ -57,12 +75,40 @@ form {
 {
     width: 100%;
     height: 95px;
+=======
+/* HTML tag styles */
+body {
+    font-size: 16px;
+    font-family: "Montserrat";
+    color: var(--primary-text-color);
+    background-color: var(--primary-background-color);
+}
+
+form {
+    margin-bottom: 20px;
+>>>>>>> f739d043378077fc3b144839244b53c136748021
 }
 
 label {
     margin-bottom: 10px;
 }
 
+<<<<<<< HEAD
+=======
+.left {
+    float: left;
+}
+
+.right {
+    float: left;
+}
+
+.spacer
+{
+    width: 100%;
+    height: 95px;
+}
+>>>>>>> f739d043378077fc3b144839244b53c136748021
 
 #myTabContent {
     margin-top: 10px;
@@ -71,3 +117,21 @@ label {
 .submit-button {
     margin-top: 10px;
 }
+<<<<<<< HEAD
+=======
+
+/* links */
+.link, .btn-link {
+    color: var(--primary-link-color);
+}
+
+.link:hover, .btn-link:hover {
+    color: var(--secondary-link-color);
+}
+
+/* Jumbotron  and footer styles are minimal,
+so put them here rather than dedicated css files */
+.jumbotron {
+    background-color: var(--primary-background-color);
+}
+>>>>>>> f739d043378077fc3b144839244b53c136748021

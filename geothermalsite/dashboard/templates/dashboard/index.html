@@ -19,8 +19,8 @@
     {% endif %}
     </script>
 
-<div class="col-md-5 mx-auto">
-    <ul class="nav nav-tabs" id="myTab">
+<div class="col-md-6 mx-auto">
+    <ul class="nav nav-tabs justify-content-around" id="myTab">
         <li class="nav-item">
             <a class="nav-link active" data-toggle="tab" href="#" id="tempprofile-button" onclick="selectTab('tempprofile')">Temperature Profile</a>
         </li>
@@ -35,7 +35,7 @@
 
     <div class="tab-content" id="myTabContent">
         <div class="form-container tab-pane fade show active" id="tempprofile">
-            <div class="row">
+            <div class="row justify-content-around">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
                         {% csrf_token %}
@@ -57,7 +57,7 @@
         </div>
 
         <div class="form-container tab-pane fade" id="tempvstime">
-            <div class="row">
+            <div class="row justify-content-around">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
                         {% csrf_token %}
@@ -79,7 +79,7 @@
         </div>
 
         <div class="form-container tab-pane fade" id="tempvsdepth">
-            <div class="row">
+            <div class="row justify-content-around">
                 <div class="col-md-8 offset-md-2">
                     <form action="/" method="post">
                         {% csrf_token %}
