@@ -22,13 +22,13 @@ class TempVsTimeForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display data from borehole number",
+        label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     tempVsTimeDateRange = forms.CharField(
-        label="during",
+        label="Date range",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
@@ -39,7 +39,7 @@ class TempVsTimeForm(forms.Form):
     )
 
     tempVsTimeDepth = forms.IntegerField(
-        label="at depth",
+        label="Depth",
         widget=forms.NumberInput(
             attrs={
                 "type": "number",
@@ -52,7 +52,7 @@ class TempVsTimeForm(forms.Form):
     )
 
     tempVsTimeUnits = forms.ChoiceField(
-        label="use units",
+        label="Units",
         choices=[(0, "Metric"), (1, "Imperial")],
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
@@ -77,13 +77,13 @@ class TempVsDepthForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display data from borehole number",
+        label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     tempVsDepthTimestamp = forms.CharField(
-        label="at time",
+        label="Time",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
@@ -94,7 +94,7 @@ class TempVsDepthForm(forms.Form):
     )
 
     tempVsDepthUnits = forms.ChoiceField(
-        label="use units",
+        label="Units",
         choices=[(0, "Metric"), (1, "Imperial")],
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
@@ -119,13 +119,13 @@ class TemperatureProfileForm(forms.Form):
     """
 
     boreholeNumber = forms.ChoiceField(
-        label="Display data from borehole number",
+        label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(attrs={"class": "form-control"}),
     )
 
     temperatureProfileDateRange = forms.CharField(
-        label="during",
+        label="Date range",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
@@ -136,12 +136,12 @@ class TemperatureProfileForm(forms.Form):
     )
 
     temperatureProfileTimeSelector = forms.CharField(
-        label="at time",
+        label="Time",
         widget=forms.TextInput(attrs={"class": "form-control", "value": "12:00 AM"}),
     )
 
     tempProfileUnits = forms.ChoiceField(
-        label="use units",
+        label="Units",
         choices=[(0, "Metric"), (1, "Imperial")],
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
