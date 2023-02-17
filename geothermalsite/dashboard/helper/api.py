@@ -256,21 +256,10 @@ def getDataOutages() -> list[dict]:
     """
     Finds all data outages or errors in the database.
 
-    # TODO: re-write this documentation, since this function takes no
-    #       parameters, but the below information may still be useful elsewhere
-
-    Parameters
-    ------------
-    startTime: a timestamp for the start of the time range in UTC time format.
-    endTime: a timestamp for the end of the time range in UTC time format.
-        To get info on outages for only one timestamp, pass the same value
-        for startTime and endTime.
-
     Returns
     ------------
-    A list of tuples (outageID, channelID, outageType, start_datetime_utc,
-    end_datetime_utc) for each outage that happened during the requested
-    time range. If no outages happened, returns an empty list.
+    A list of dictionaries, one for each outage that has been
+    recorded in the history of the database.
     """
 
     query = createEntireDataOutageQuery()
@@ -316,7 +305,7 @@ def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
             columns = [col[0] for col in cursor.description]
             for row in cursor.fetchall():
                 results.append(dict(zip(columns, row)))
-            
+
             # log the query execution as an INFO log
             log_query_as_INFO(
                 query,
@@ -326,8 +315,5 @@ def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
 
         except:
             results = SyntaxError
-
-
-        
 
     return results
