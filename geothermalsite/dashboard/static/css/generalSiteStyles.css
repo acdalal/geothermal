@@ -96,6 +96,11 @@ label {
     margin-top: 10px;
 }
 
+/* left align all download buttons of queries with the graph*/
+.viewer {
+    position: relative;
+}
+
 /* links */
 .link, .btn-link {
     color: var(--primary-link-color);

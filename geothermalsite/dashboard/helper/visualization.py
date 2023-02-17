@@ -1,48 +1,66 @@
 from datetime import datetime
 import dateparser
 from collections import defaultdict
-from .constants import GROUPS, HOURS, DAYS, WEEKS, MONTHS, YEARS, MONTH_SHORTHAND
+from .constants import (
+    GROUPS,
+    HOURS,
+    DAYS,
+    WEEKS,
+    MONTHS,
+    YEARS,
+    MONTH_SHORTHAND,
+    METRIC,
+)
 
 
-def toChartJsTempVsTime(queryResults: list, borehole: int) -> list:
+def toChartJsTempVsTime(queryResults: list, units: str) -> list:
     """
     Takes the database query output from temperature vs time query and modifies it to fit the format for the flot library
     """
     graphData = list()
     for datapoint in queryResults:
-        temperature = float(datapoint["temperature_c"])
+        if units == METRIC:
+            temperature = float(datapoint["temperature_c"])
+        else:
+            temperature = float(datapoint["temperature_f"])
+
         datetimeString = datapoint["datetime_utc"]
         graphData.append({"x": datetimeString, "y": temperature})
 
     return graphData
 
 
-def toChartJsTempVsDepth(queryResults: list, borehole: int) -> list:
+def toChartJsTempVsDepth(queryResults: list, units: str) -> list:
     """
     Takes the database query output from temperature vs depth query and modifies it to fit the format for the flot library
     """
     graphData = list()
 
     for datapoint in queryResults:
-        temperature = float(datapoint["temperature_c"])
-        depth = float(datapoint["depth_m"])
+        if units == METRIC:
+            temperature = float(datapoint["temperature_c"])
+            depth = float(datapoint["depth_m"])
+        else:
+            temperature = float(datapoint["temperature_f"])
+            depth = float(datapoint["depth_ft"])
+
         graphData.append({"x": depth, "y": temperature})
 
     return graphData
 
 
 def toChartJsTempProfile(
-    queryResults: list, borehole: int, groupBy: int
+    queryResults: list, groupBy: int, units: str
 ) -> dict[dict[list[dict]]]:
     assert groupBy in GROUPS
     results = defaultdict(lambda: defaultdict(list))
 
     for row in queryResults:
         date = datetime.strptime(row["datetime_utc"], "%Y-%m-%d %H:%M:%S")
-
-        # The query results have multiple measurements per day, and each line on the graph is one measurement
-        # if groupBy in [DAYS, HOURS]:
-        datapoint = {"x": row["temperature_c"], "y": row["depth_m"]}
+        if units == METRIC:
+            datapoint = {"x": row["temperature_c"], "y": row["depth_m"]}
+        else:
+            datapoint = {"x": row["temperature_f"], "y": row["depth_ft"]}
 
         if groupBy == HOURS:
             group = f"{date.hour}:00:00"
@@ -58,6 +76,7 @@ def toChartJsTempProfile(
                 group = f"{date.year}"
 
             results[group][str(date.date())].append(datapoint)
+
     # convert the defaultdict to a regular dict so that it automatically converts to javascript dict
     for group in results.keys():
         results[group] = dict(results[group])

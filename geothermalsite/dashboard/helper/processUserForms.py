@@ -33,11 +33,14 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     startDateUtc = dateparser.parse(startDate)
     endDateUtc = dateparser.parse(endDate).replace(hour=23, minute=59, second=59)
 
+    units = int(cleanedData.get("tempVsTimeUnits"))
+
     return {
         "boreholeNumber": boreholeNumber,
         "depth": depth,
         "startDateUtc": startDateUtc,
         "endDateUtc": endDateUtc,
+        "units": units,
     }
 
 
@@ -50,9 +53,12 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     timestamp = cleanedData.get("tempVsDepthTimestamp")
     timestampUtc = dateparser.parse(timestamp).__str__()
 
+    units = int(cleanedData.get("tempVsDepthUnits"))
+
     return {
         "timestampUtc": timestampUtc,
         "boreholeNumber": boreholeNumber,
+        "units": units,
     }
 
 
@@ -74,11 +80,14 @@ def getTempProfileFormData(cleanedData: dict) -> dict:
     endDateUtc = dateparser.parse(endDate).replace(hour=23, minute=59, second=59)
     dailyTimestamp: datetime = dateparser.parse(dailyTimestampString)
 
+    units = int(cleanedData.get("tempProfileUnits"))
+
     return {
         "boreholeNumber": boreholeNumber,
         "startDateUtc": startDateUtc,
         "endDateUtc": endDateUtc,
         "dailyTimestamp": dailyTimestamp,
+        "units": units,
     }
 
 
@@ -125,6 +134,7 @@ def getGrouping(start: datetime, end: datetime) -> int:
         return MONTHS
     else:
         return YEARS
+
 
 def getUserRawQuery(request: HttpRequest) -> str:
 

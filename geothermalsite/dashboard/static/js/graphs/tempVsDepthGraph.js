@@ -54,6 +54,18 @@ var startDate = "_startDate_" + queryData[0]['datetime_utc'].slice(0, 11) // Cut
 var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice(0, 11) // Cut off the timestamp
 const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
 
+var xLabel = 'Depth below ground'
+var yLabel = 'Temperature'
+
+if (units == 0){
+  xLabel += ', m'
+  yLabel += ', C'
+}
+else {
+  xLabel += ', ft'
+  yLabel += ', F'
+}
+
 const options = {
   type: 'line',
   data,
@@ -80,13 +92,13 @@ const options = {
         type: 'linear',
         title: {
             display: true,
-            text: 'Depth below ground, m.'
+            text: xLabel
         }
       },
       y: {
         title: {
             display: true,
-            text: 'Temperature, C'
+            text: yLabel
         }
       }
     },

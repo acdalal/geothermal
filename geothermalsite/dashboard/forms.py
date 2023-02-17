@@ -53,10 +53,11 @@ class TempVsTimeForm(forms.Form):
 
     tempVsTimeUnits = forms.ChoiceField(
         label="use units",
-        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        choices=[(0, "Metric"), (1, "Imperial")],
+        initial=(0, "Metric"),
         widget=forms.RadioSelect(
             attrs={
-                "class": "form-control form-check-inline form-row",
+                "class": "form-control form-check-inline",
                 "value": "Metric",
             }
         ),
@@ -94,7 +95,8 @@ class TempVsDepthForm(forms.Form):
 
     tempVsDepthUnits = forms.ChoiceField(
         label="use units",
-        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        choices=[(0, "Metric"), (1, "Imperial")],
+        initial=(0, "Metric"),
         widget=forms.RadioSelect(
             attrs={
                 "class": "form-control form-check-inline",
@@ -140,7 +142,8 @@ class TemperatureProfileForm(forms.Form):
 
     tempProfileUnits = forms.ChoiceField(
         label="use units",
-        choices=[("metric", "Metric"), ("imperial", "Imperial")],
+        choices=[(0, "Metric"), (1, "Imperial")],
+        initial=(0, "Metric"),
         widget=forms.RadioSelect(
             attrs={
                 "class": "form-control form-check-inline",

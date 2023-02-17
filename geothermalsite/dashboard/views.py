@@ -41,8 +41,11 @@ def index(request: HttpRequest):
                 formData["endDateUtc"],
                 formData["dailyTimestamp"],
                 groupBy,
+                formData["units"],
             )
-            return renderTempProfilePage(request, groupBy, queryResults, int(borehole))
+            return renderTempProfilePage(
+                request, formData["units"], groupBy, queryResults, int(borehole)
+            )
 
         elif "temperature-time" in request.POST:
             formData = getUserTempVsTimeQuery(request)
@@ -52,17 +55,21 @@ def index(request: HttpRequest):
                 formData["depth"],
                 formData["startDateUtc"],
                 formData["endDateUtc"],
+                formData["units"],
             )
-            return renderTempVsTimePage(request, queryResults, int(borehole))
+            return renderTempVsTimePage(
+                request, formData["units"], queryResults, int(borehole)
+            )
 
         if "temperature-depth" in request.POST:
             formData = getUserTempVsDepthQuery(request)
             borehole = formData["boreholeNumber"]
             queryResults = getTempVsDepthResults(
-                borehole,
-                formData["timestampUtc"],
+                borehole, formData["timestampUtc"], formData["units"]
             )
-            return renderTempVsDepthPage(request, queryResults, int(borehole))
+            return renderTempVsDepthPage(
+                request, formData["units"], queryResults, int(borehole)
+            )
     else:
         return renderIndexPage(request)
 
@@ -77,53 +84,6 @@ def documentation(request: HttpRequest):
     return render(request, "dashboard/documentation.html", context=outageDict)
 
 
-def tempVsTime(request: HttpRequest):
-    if request.method == "POST":
-        formData = getUserTempVsTimeQuery(request)
-        queryResults = getTempVsTimeResults(
-            borehole,
-            formData["depth"],
-            formData["startDateUtc"],
-            formData["endDateUtc"],
-        )
-
-        borehole = int(borehole)
-        return renderTempVsTimePage(request, queryResults, borehole)
-
-    else:
-        return renderTempVsTimePage(request)
-
-
-def tempVsDepth(request: HttpRequest):
-    if request.method == "POST":
-        formData = getUserTempVsDepthQuery(request)
-        queryResults = getTempVsDepthResults(borehole, formData["timestampUtc"])
-        borehole = int(borehole)
-        return renderTempVsDepthPage(request, queryResults, borehole)
-
-    else:
-        return renderTempVsDepthPage(request)
-
-
-def tempProfile(request: HttpRequest):
-    if request.method == "POST":
-        formData = getUserTempProfileQuery(request)
-        groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
-
-        queryResults = getTempProfileResults(
-            borehole,
-            formData["startDateUtc"],
-            formData["endDateUtc"],
-            formData["dailyTimestamp"],
-            groupBy,
-        )
-        borehole = int(borehole)
-        return renderTempProfilePage(request, groupBy, queryResults, borehole)
-
-    else:
-        return renderTempProfilePage(request)
-
-
 def customQuery(request: HttpRequest):
     form = RawQueryForm(request.POST or None)
     previousQuery = ""
@@ -133,7 +93,6 @@ def customQuery(request: HttpRequest):
         if formData != TypeError:
             queryResults = getRawQueryResults(formData)
             if queryResults != SyntaxError:
-                print("THIS IS THE QUERY RESULTS", queryResults)
                 context = {
                     "queryResults": [
                         {key: value for key, value in zip(queryResults[0].keys(), row)}
@@ -143,13 +102,14 @@ def customQuery(request: HttpRequest):
                     "rawQuery": formData["rawQuery"],
                 }
 
-                print("THIS IS THE DATA:", context)
-                return renderRawQueryPage(request, context, formData, queryResults=queryResults)
+                return renderRawQueryPage(
+                    request, context, formData, queryResults=queryResults
+                )
             else:
-                context = {"errorMessage":"Error connecting to the database"}
+                context = {"errorMessage": "Error connecting to the database"}
                 return renderRawQueryError(request, context)
         else:
-            context = {"errorMessage":"ERROR: Please enter a query before submitting"}
+            context = {"errorMessage": "ERROR: Please enter a query before submitting"}
             return renderRawQueryError(request, context)
     else:
         previousQuery = request.GET.get("query", "")
