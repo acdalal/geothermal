@@ -20,3 +20,15 @@
 .card-header {
     background-color: var(--primary-button-color);
 }
+
+#custom-btn-one, #custom-btn-two, #custom-btn-three, #custom-btn-four {
+    color: white;
+}
+
+#collapseOne, #collapseTwo, #collapseThree, #collapseFour {
+    color: var(--custom-black);
+}
+
+#accordion .link:hover {
+    color: var(--custom-black);
+}

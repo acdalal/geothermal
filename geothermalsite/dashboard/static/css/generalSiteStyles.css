@@ -2,11 +2,6 @@
 
 In particular, changing --primary-background-color and --primary-text-color
 will change those respective attributes for the entire site.
-
-Some elements that have minimal custom styling, such as the jumbotron on
-the main page, have styling in this file as well. Other elements
-that have their own css files may import this file to access the
-variables defined here as well.
 */
 
 /* Define variables for our custom color palette */
