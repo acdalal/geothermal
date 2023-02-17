@@ -1,5 +1,7 @@
+@import "generalSiteStyles.css";
+
 .list-group-item.active {
-    background-color:#648767;
+    background-color: var(--custom-green);
 }
 
 .header {
@@ -13,4 +15,8 @@
 
 .list-group {
     position: fixed;
+}
+
+.card-header {
+    background-color: var(--primary-button-color);
 }
