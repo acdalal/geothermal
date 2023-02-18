@@ -175,8 +175,9 @@
           has been deemed an outage, and the measurements from that interval of
           time will not be displayed. See below for a full table of known
           outages as of January 2023.
-          <table class ="table table-sm table-striped">
-            <thead class="thead-dark">
+          <table class="table table-sm">
+              <!-- inline styling of table head for now -->
+              <thead style="background: var(--custom-green);">
                 <tr>
                     <th scope ="col">Outage ID</th>
                     <th scope ="col">Channel ID</th>
@@ -184,7 +185,7 @@
                     <th scope ="col">Start Time</th>
                     <th scope ="col">End Time</th>
                 </tr>
-            </thead>
+              </thead>
             <tbody>
                 {% for item in outage %}
                 <tr>
