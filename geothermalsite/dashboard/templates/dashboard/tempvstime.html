@@ -15,7 +15,7 @@
     <canvas id="ctx"></canvas>
     <!-- Buttons for downloading the data as a CSV and the graph as an image -->
     <script src="{% static 'js/utils/createCsv.js' %}"></script>
-    <button onclick="downloadData('tempvstime')">Download data</button>
-    <button id="downloadImage" onclick="window.downloadGraphImage('tempvstime')">Download graph</button>
+    <button class="btn btn-secondary submit-button" onclick="downloadData('temp_vs_time')">Download data</button>
+    <button class="btn btn-secondary submit-button"id="downloadImage" onclick="window.downloadGraphImage('temp_vs_time')">Download graph</button>
     </div>
 </div>

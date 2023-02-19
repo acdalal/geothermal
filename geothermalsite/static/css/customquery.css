@@ -6,3 +6,8 @@
     max-width: 80ch !important;
     margin: 0 auto;
 }
+#custom-query-container {
+    padding-left: 5%;
+    padding-right: 5%;
+    margin-left: 5%;
+}

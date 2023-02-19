@@ -40,7 +40,7 @@
     <canvas id="ctx" height="300"></canvas>
     <!-- Buttons for downloading the data as a CSV and the graph as an image -->
     <script src="{% static 'js/utils/createCsv.js' %}"></script>
-    <button onclick="downloadData('stratigraphy')">Download data</button>
-    <button id="downloadImage" onclick="window.downloadGraphImage('stratigraphy')">Download graph</button>
+    <button class="btn btn-secondary submit-button" onclick="downloadData('temperature_profile')">Download data</button>
+    <button class="btn btn-secondary submit-button" id="downloadImage" onclick="window.downloadGraphImage('temperature_profile')">Download graph</button>
     </div>
 </div>

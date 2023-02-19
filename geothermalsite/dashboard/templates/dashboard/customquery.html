@@ -5,6 +5,7 @@
 
 {% block content %}
 <body>
+<div class="custom-query-container" id="custom-query-container" style="margin-left: 5%; margin-right: 5%">
     <h1>Advanced API: Custom Query</h1>
     <form method="post" id="custom-query-form">
         {% csrf_token %}
@@ -37,7 +38,7 @@
             $('#myInput').trigger('focus')
         })
     </script>
-    
+
     {% if queryResults %}
         <details>
             <summary>Preview Data</summary>
@@ -55,4 +56,5 @@
     {% endif %}
 
 {% endblock %}
+</div>
 </body>
