@@ -147,4 +147,4 @@ def getUserRawQuery(request: HttpRequest) -> str:
         formData = userForm.cleaned_data
         return formData
     else:
-        return TypeError
+         return ''

@@ -1,0 +1,8 @@
+.header {
+    padding-left: 5%;
+}
+
+.alert {
+    max-width: 80ch !important;
+    margin: 0 auto;
+}
