@@ -308,27 +308,29 @@ def getTempProfileResults(
 
 
 def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
-    results = list()
-
+    results = list()    
     query = formData["rawQuery"]
 
     ### SANITIZE QUERY HERE ####
 
-    with connections["geothermal"].cursor() as cursor:
-        # record query execution time
-        query_start_time = time.time()
-        cursor.execute(query)
-        query_end_time = time.time()
+    try:
+        with connections["geothermal"].cursor() as cursor:
+            # record query execution time
+            query_start_time = time.time()
+            cursor.execute(query)
+            query_end_time = time.time()
 
-        columns = [col[0] for col in cursor.description]
-        for row in cursor.fetchall():
-            results.append(dict(zip(columns, row)))
+            columns = [col[0] for col in cursor.description]
+            for row in cursor.fetchall():
+                results.append(dict(zip(columns, row)))
 
-        # log the query execution as an INFO log
-        log_query_as_INFO(
-            query,
-            query_end_time - query_start_time,
-            len(results),
-        )
+            # log the query execution as an INFO log
+            log_query_as_INFO(
+                query,
+                query_end_time - query_start_time,
+                len(results),
+            )
 
-    return results
+        return results
+    except Exception as e:
+        raise Exception("Database error: " + str(e))

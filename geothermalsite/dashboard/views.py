@@ -23,7 +23,6 @@ from .helper.renderFunctions import (
     renderTempVsTimePage,
     renderTempProfilePage,
     renderRawQueryPage,
-    renderRawQueryError,
 )
 
 from .forms import RawQueryForm
@@ -120,7 +119,9 @@ def customQuery(request: HttpRequest):
         except Exception as e:
             print("IN EXCEPT")
             errorMessage = str(e)
-            form = RawQueryForm(request.POST)
+            
+            print("ERROR MESSAGE IN EXCEPT", errorMessage)
+            print("FROM IN EXCEPT", form)
             context = {
                 "form": form,
                 "errorMessage": errorMessage
@@ -144,3 +145,8 @@ def customQuery(request: HttpRequest):
         #     form = RawQueryForm(initial={"rawQuery": initial_query})
         #     context = {"form": form}
         #     return renderRawQueryPage(request, context, form)
+
+
+# form = RawQueryForm(request.POST)
+#             formData = getUserRawQuery(request)
+#             errorMessage = getRawQueryResults(formData)
