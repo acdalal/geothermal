@@ -1,36 +1,5 @@
 const $chart = document.getElementById('ctx')
 
-const drawHorizontalLine = {
-    id: 'verticalLiner',
-    afterInit: (chart, args, opts) => {
-      chart.horizontalLiner = {}
-    },
-    afterEvent: (chart, args, options) => {
-        const {inChartArea} = args
-        chart.horizontalLiner = {draw: inChartArea}
-    },
-    beforeTooltipDraw: (chart, args, options) => {
-        const {draw} = chart.horizontalLiner
-
-        if (!draw) return false
-
-        const {ctx} = chart
-        const {top, bottom, left, right} = chart.chartArea
-        const {tooltip} = args
-        const y = tooltip?.caretY
-        if (!y) return false
-
-        ctx.save()
-
-        ctx.beginPath()
-        ctx.moveTo(left, y)
-        ctx.lineTo(right, y)
-        ctx.stroke()
-
-        ctx.restore()
-        return false
-    }
-}
 
 const fillChart = {
     id: 'customCanvasBackgroundColor',
@@ -66,7 +35,7 @@ Object.keys(graphData).forEach(group => {
 
         let label = group
         if (groups.includes(group)) {
-            label += line
+            label += " "
         }
         else {
             groups.push(group)
@@ -140,7 +109,7 @@ const options = {
             }
         },
         interaction: {
-            mode: 'y',
+            mode: 'nearest',
             intersect: false,
         },
         plugins: {
@@ -150,7 +119,7 @@ const options = {
                 labels: {
                     filter: function(legendItem, data) {
                         let group = legendItem.text
-                        // console.log(group, groups)
+
                         if (groups.includes(group)) {
                             return true
                         }
@@ -191,7 +160,7 @@ const options = {
         borderColor: 'rgba(255, 99, 132, 1)',
         borderWidth: 1,
     },
-    plugins: [drawHorizontalLine, fillChart]
+    plugins: [fillChart]
 }
 
 var chart = new Chart($chart, options);

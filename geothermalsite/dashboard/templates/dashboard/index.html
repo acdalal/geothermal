@@ -39,17 +39,7 @@
                 <div class="col-md-8">
                     <form action="/" method="post">
                         {% csrf_token %}
-                        {{ temperatureProfileForm.boreholeNumber.label }}
-                        {{ temperatureProfileForm.boreholeNumber }}
-
-                        {{ temperatureProfileForm.temperatureProfileDateRange.label }}
-                        {{ temperatureProfileForm.temperatureProfileDateRange }}
-
-                        {{ temperatureProfileForm.temperatureProfileTimeSelector.label }}
-                        {{ temperatureProfileForm.temperatureProfileTimeSelector }}
-
-                        {{ temperatureProfileForm.tempProfileUnits.label }}
-                        {{ temperatureProfileForm.tempProfileUnits }}
+                        {{ temperatureProfileForm }}
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-profile"/>
                     </form>
                 </div>
@@ -61,17 +51,7 @@
                 <div class="col-md-8">
                     <form action="/" method="post">
                         {% csrf_token %}
-                        {{ tempOverTimeForm.boreholeNumber.label }}
-                        {{ tempOverTimeForm.boreholeNumber }}
-
-                        {{ tempOverTimeForm.tempVsTimeDateRange.label }}
-                        {{ tempOverTimeForm.tempVsTimeDateRange }}
-
-                        {{ tempOverTimeForm.tempVsTimeDepth.label }}
-                        {{ tempOverTimeForm.tempVsTimeDepth }}
-
-                        {{ tempOverTimeForm.tempVsTimeUnits.label }}
-                        {{ tempOverTimeForm.tempVsTimeUnits }}
+                        {{ tempOverTimeForm }}
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
                     </form>
                 </div>
@@ -83,15 +63,7 @@
                 <div class="col-md-8">
                     <form action="/" method="post">
                         {% csrf_token %}
-
-                        {{ tempOverDepthForm.boreholeNumber.label }}
-                        {{ tempOverDepthForm.boreholeNumber }}
-
-                        {{ tempOverDepthForm.tempVsDepthTimestamp.label }}
-                        {{ tempOverDepthForm.tempVsDepthTimestamp }}
-
-                        {{ tempOverDepthForm.tempVsDepthUnits.label }}
-                        {{ tempOverDepthForm.tempVsDepthUnits}}
+                        {{ tempOverDepthForm }}
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-depth"/>
                     </form>
                 </div>
