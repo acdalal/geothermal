@@ -1,13 +1,14 @@
 {% extends 'dashboard/base.html' %}
-{% load static %}
 
-
+{% block header %}
+Advanced API: Custom Query
+{% endblock %}
 
 {% block content %}
+{% load static %}
 <link rel="stylesheet" href="{% static 'css/customquery.css' %}">
 <body>
 <div class="custom-query-container" id="custom-query-container" style="margin-left: 5%; margin-right: 5%">
-    <h1>Advanced API: Custom Query</h1>
     <form method="post" id="custom-query-form">
         {% csrf_token %}
         <p>If you're looking to be able to access the database with a bit more freedom than the predefined queries provided,
@@ -61,12 +62,12 @@
                     </div>
                 </details>
             {% endif %}
-        
+
         <script src="{% static 'js/utils/createCsv.js' %}"></script>
         <script>
             var queryData = {{ queryResults | safe }};
         </script>
-        
+
     {% endif %}
 
 {% endblock %}

@@ -1,10 +1,12 @@
 {% extends 'dashboard/base.html' %}
 
+{% block header %}
+  About
+{% endblock %}
+
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/about.css' %}">
-
-<h1 class="header">About</h1>
 
 <div class="container-fluid" id="about-container">
   <div class="row">

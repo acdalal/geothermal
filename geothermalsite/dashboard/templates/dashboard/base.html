@@ -49,9 +49,17 @@
     <body>
         {% include 'dashboard/navbar.html' %}
 
+        <!-- Block to contain the header of each page, with no header by default. -->
+        <h1 class="header" id="page-header">
+            {% block header %}
+            {% endblock %}
+        </h1>
+
         <!-- Block to contain all page content, which can be overwritten/extended in child templates -->
-        {% block content %}
-        {% endblock %}
+        <div id="content-block">
+            {% block content %}
+            {% endblock %}
+        </div>
 
         {% include 'dashboard/backToTopButton.html' %}
 

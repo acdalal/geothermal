@@ -4,15 +4,6 @@
     background-color: var(--custom-green);
 }
 
-.header {
-    padding-left: 5%;
-}
-
-#documentation-container {
-    padding-left: 5%;
-    padding-right: 5%;
-}
-
 .list-group {
     position: fixed;
 }

@@ -4,7 +4,7 @@ In particular, changing --primary-background-color and --primary-text-color
 will change those respective attributes for the entire site.
 */
 
-/* Define variables for our custom color palette */
+/* Custom color palette ---------------------------------------------------- */
 :root {
     --custom-black: #32292F;
     --custom-cream: #faf3dd;
@@ -53,7 +53,7 @@ will change those respective attributes for the entire site.
     background-color: var(--custom-green);
 }
 
-/* HTML tag styles */
+/* HTML tag styles --------------------------------------------------------- */
 body {
     font-size: 16px;
     font-family: "Montserrat";
@@ -69,6 +69,35 @@ label {
     margin-bottom: 10px;
 }
 
+/* Override-able blocks defined in base.html ------------------------------- */
+#content-block {
+    margin-left: 5%;
+    margin-right: 10%;
+}
+
+#page-header {
+    margin-left: 5%;
+    margin-right: 5%;
+    margin-bottom: 2%;
+}
+
+/* links ------------------------------------------------------------------- */
+.link, .btn-link {
+    color: var(--primary-link-color);
+}
+
+.link:hover, .btn-link:hover {
+    color: var(--secondary-link-color);
+}
+
+/* Jumbotron --------------------------------------------------------------- */
+.jumbotron {
+    background-color: var(--primary-background-color);
+    padding: 1rem 2rem;
+}
+
+/* Other classes ----------------------------------------------------------- */
+
 .left {
     float: left;
 }
@@ -83,30 +112,16 @@ label {
     height: 95px;
 }
 
-#myTabContent {
-    margin-top: 10px;
-}
-
 .submit-button {
     margin-top: 10px;
 }
 
-/* left align all download buttons of queries with the graph*/
+/* left align all download buttons of queries with the graph */
 .viewer {
     position: relative;
 }
 
-/* links */
-.link, .btn-link {
-    color: var(--primary-link-color);
-}
-
-.link:hover, .btn-link:hover {
-    color: var(--secondary-link-color);
-}
-
-/* Jumbotron  and footer styles are minimal,
-so put them here rather than dedicated css files */
-.jumbotron {
-    background-color: var(--primary-background-color);
+/* Other IDs --------------------------------------------------------------- */
+#myTabContent {
+    margin-top: 10px;
 }
