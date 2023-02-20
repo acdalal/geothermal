@@ -42,14 +42,23 @@
     </script>
 
     {% if queryResults %}
-        <details>
-            <summary>Preview Data</summary>
-                <div>
-                    {% for row in queryResults %}
-                        <div>{{ row }}</div>
-                    {% endfor %}
-                </div>
-        </details>
+        <p>Query Results:</p>
+            <div>
+                {% for row in queryResults|slice:":10" %}
+                    <div>{{ row }}</div>
+                {% endfor %}
+            </div>
+            {% if queryResults|length > 10 %}
+                <details>
+                    <summary>View all data</summary>
+                    <div>
+                        {% for row in queryResults %}
+                            <div>{{ row }}</div>
+                        {% endfor %}
+                    </div>
+                </details>
+            {% endif %}
+        
         <script src="{% static 'js/utils/createCsv.js' %}"></script>
         <script>
             var queryData = {{ queryResults | safe }};
