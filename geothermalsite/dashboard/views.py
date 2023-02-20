@@ -94,7 +94,7 @@ def customQuery(request: HttpRequest):
             print("IN TRY")
             formData = getUserRawQuery(request)
             if not formData:
-                print("NOT formData")
+                print("NOT formData", formData)
                 context = {
                     "form": form,
                     "errorMessage": "Please enter a query."
