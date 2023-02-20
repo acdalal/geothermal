@@ -18,12 +18,14 @@
 
         <label for="query">Enter A Custom Query:</label>
         <br>
-        <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em; width: 80ch;">
-            {% if form.initial %}
-            {{ form.initial.rawQuery }}
-            {% else %}{{ rawQuery }}
-            {% endif %}
-        </textarea>
+        {% spaceless %}
+            <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em; width: 80ch;"
+                {% if form.initial %}
+                    >{{ form.initial.rawQuery }}
+                {% else %}>{{ rawQuery }}
+                {% endif %}
+            </textarea>
+        {% endspaceless %}
         <br>
 
         {% if errorMessage %}
