@@ -44,6 +44,7 @@
     </script>
 
     {% if queryResults %}
+        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="width: 80ch;">Download data </button>
         <p>Query Results:</p>
             <div>
                 {% for row in queryResults|slice:":10" %}
@@ -65,7 +66,7 @@
         <script>
             var queryData = {{ queryResults | safe }};
         </script>
-        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="width: 80ch;">Download data </button>
+        
     {% endif %}
 
 {% endblock %}
