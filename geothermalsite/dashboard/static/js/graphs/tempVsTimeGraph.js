@@ -121,3 +121,5 @@ const options = {
 }
 
 var chart = new Chart($chart, options);
+
+document.getElementById("ctx").scrollIntoView();
