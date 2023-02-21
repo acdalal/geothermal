@@ -2,6 +2,7 @@
 
 .list-group-item.active {
     background-color: var(--custom-green);
+    border-color: var(--custom-green);
 }
 
 .list-group {

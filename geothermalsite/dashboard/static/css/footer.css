@@ -11,3 +11,7 @@ a:hover {
 #main-footer {
     background-color: var(--primary-background-color) !important;
 }
+
+#footer-line {
+    background-color: var(--custom-cream);
+}
