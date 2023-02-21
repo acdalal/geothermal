@@ -28,13 +28,21 @@ Advanced API: Custom Query
             </textarea>
         {% endspaceless %}
         <br>
-
+        
         {% if errorMessage %}
+            {% if fromExcept %}
+                <div class="alert alert-danger" role="alert" style="width: 80ch;">
+                    {% for line in errorMessage %}
+                        <div style="font-family: monospace">{{ line | safe }}</div>
+                    {% endfor %}
+                </div>
+            {% else %}
             <div class="alert alert-danger" role="alert" style="width: 80ch;">
-                {{ errorMessage }}
+                <div style="font-family: monospace">{{ errorMessage }}</div>
             </div>
+            {% endif %}
         {% endif %}
-
+         
         <button class="btn btn-secondary form-control" data-toggle="modal" data-target="#exampleModal" type="submit" style="width: 80ch;">Submit</button>
     </form>
 

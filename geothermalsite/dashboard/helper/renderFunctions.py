@@ -149,9 +149,10 @@ def renderTempProfilePage(
     )
 
 
-def renderRawQueryPage(request: HttpRequest, context, form, queryResults: list = None, errorMessage: str = None):
-    context.update({'queryResults': queryResults, 'form':form, 'errorMessage': errorMessage})
-    print("ERROR MESSAGE", errorMessage)
-    print("QUERY RESULTS", queryResults)
-    print("FORM", form)
+def renderRawQueryPage(request: HttpRequest, context, form, queryResults: list = None, errorMessage: str = None, fromExcept: bool = False):
+    if fromExcept:
+        errorMessage = errorMessage.split("\n")
+        errorMessage = [line.replace(' ', '&#160;') for line in errorMessage]
+
+    context.update({'queryResults': queryResults, 'form':form, 'errorMessage': errorMessage, 'fromExcept': fromExcept})
     return render(request, "dashboard/customquery.html", context)
