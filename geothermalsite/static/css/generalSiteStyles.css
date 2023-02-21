@@ -96,6 +96,10 @@ label {
     padding: 1rem 2rem;
 }
 
+.my-4 {
+    background-color: var(--custom-cream);
+}
+
 /* Other classes ----------------------------------------------------------- */
 
 .left {
