@@ -83,7 +83,7 @@ class TempVsDepthForm(forms.Form):
     )
 
     tempVsDepthTimestamp = forms.CharField(
-        label="Time",
+        label="Date",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
