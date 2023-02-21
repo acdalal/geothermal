@@ -1,5 +1,17 @@
 @import "generalSiteStyles.css";
 
 .daterangepicker {
-    color: black;
+    color: black!important;
+}
+
+.available {
+    color: black!important;
+}
+
+.month {
+    color: black!important;
+}
+
+tr {
+    color: black!important;
 }
