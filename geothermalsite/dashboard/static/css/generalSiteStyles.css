@@ -124,8 +124,3 @@ label {
 .viewer {
     position: relative;
 }
-
-/* Other IDs --------------------------------------------------------------- */
-#myTabContent {
-    margin-top: 10px;
-}
