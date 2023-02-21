@@ -25,8 +25,8 @@ will change those respective attributes for the entire site.
     --primary-button-color: var(--custom-green);
 
     /* link colors */
-    --primary-link-color: var(--custom-green);
-    --secondary-link-color: white;
+    --primary-link-color: #17a2b8;
+    --secondary-link-color: #36cee6;
 }
 
 .black-background {
