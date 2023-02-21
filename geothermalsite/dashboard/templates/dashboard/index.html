@@ -65,7 +65,7 @@
 
             {# Temp profile form #}
             <div class="row justify-content-around">
-                <div class="col-md-8">
+                <div class="col-md-8" >
                         <form action="/" method="post">
                             {% include 'dashboard/boreholemap.html' %}
                             {% csrf_token %}
@@ -103,6 +103,7 @@
             <div class="row justify-content-around">
                 <div class="col-md-8">
                     <form action="/" method="post">
+                        {% include 'dashboard/boreholemap.html' %}
                         {% csrf_token %}
                         {{ tempOverTimeForm }}
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
@@ -139,6 +140,7 @@
             <div class="row justify-content-around">
                 <div class="col-md-8">
                     <form action="/" method="post">
+                        {% include 'dashboard/boreholemap.html' %}
                         {% csrf_token %}
                         {{ tempOverDepthForm }}
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-depth"/>

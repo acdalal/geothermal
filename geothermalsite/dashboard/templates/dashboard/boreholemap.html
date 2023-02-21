@@ -1,9 +1,10 @@
 {% load static %}
+<div>
 <div style="margin-bottom:0px">
-    <input type="button" id="info-btn" class="btn info-btn" value="ⓘ" style="background-color: var(--custom-black); color: var(--custom-cream); padding:0px;">
+    <input type="button" class="btn info-btn" value="ⓘ" style="background-color: var(--custom-black); color: var(--custom-cream); padding:0px;">
 </div>
 
-<div class="borehole-map-content" id="content" style="display:none; text-align:center;">
+<div class="borehole-map-content" style="display:none; text-align:center;">
     <h3>Borehole Map</h3>
     <img src="{% static 'img/boreholes.png' %}" alt="Map of baldspot boreholes" width="80%" >
     <p>Each B1, B2, ... , B5 represents a single borehole on the baldspot. </p>
@@ -11,8 +12,9 @@
 
 <script type="text/javascript">
 $(document).ready(function () {
-    $("#info-btn").click(function () {
-        $("#content").toggle();
+    $(".btn.info-btn").click(function () {
+        $(".borehole-map-content").toggle();
     });
 });
 </script>
+</div>
