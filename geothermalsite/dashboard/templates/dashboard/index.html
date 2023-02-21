@@ -66,14 +66,12 @@
             {# Temp profile form #}
             <div class="row justify-content-around">
                 <div class="col-md-8">
-                    <div class="justify-content-around" id="borehole-map" style="display:inline-block">
                         <form action="/" method="post">
                             {% include 'dashboard/boreholemap.html' %}
                             {% csrf_token %}
                             {{ temperatureProfileForm }}
                             <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-profile"/>
                         </form>
-                    </div>
                 </div>
             </div>
         </div>
@@ -104,11 +102,11 @@
             {# Temp vs time form #}
             <div class="row justify-content-around">
                 <div class="col-md-8">
-                        <form action="/" method="post">
-                            {% csrf_token %}
-                            {{ tempOverTimeForm }}
-                            <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
-                        </form>
+                    <form action="/" method="post">
+                        {% csrf_token %}
+                        {{ tempOverTimeForm }}
+                        <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
+                    </form>
                 </div>
             </div>
         </div>
@@ -140,11 +138,11 @@
             {# Temp vs depth form #}
             <div class="row justify-content-around">
                 <div class="col-md-8">
-                        <form action="/" method="post">
-                            {% csrf_token %}
-                            {{ tempOverDepthForm }}
-                            <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-depth"/>
-                        </form>
+                    <form action="/" method="post">
+                        {% csrf_token %}
+                        {{ tempOverDepthForm }}
+                        <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-depth"/>
+                    </form>
                 </div>
             </div>
         </div>
