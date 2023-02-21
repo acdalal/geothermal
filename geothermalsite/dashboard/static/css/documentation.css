@@ -26,3 +26,7 @@
 #accordion .link:hover {
     color: var(--custom-black);
 }
+
+thead {
+    background-color: var(--custom-green);
+}
