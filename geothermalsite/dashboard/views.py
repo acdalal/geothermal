@@ -85,16 +85,14 @@ def documentation(request: HttpRequest):
 
 def customQuery(request: HttpRequest):
     form = RawQueryForm(request.POST or None)
+    context = {"form": form, "queryResults": []}
     previousQuery = ""
-    context = {'form': form}
     formData = {'rawQuery': ''}
 
     if request.method == "POST":
         try: 
-            print("IN TRY")
             formData = getUserRawQuery(request)
             if not formData:
-                print("NOT formData", formData)
                 context = {
                     "form": form,
                     "errorMessage": "Please enter a query."
@@ -102,7 +100,6 @@ def customQuery(request: HttpRequest):
                 return render(request, "dashboard/customquery.html", context)
 
             queryResults = getRawQueryResults(formData)
-            print("THIS IS THE QUERY RESULTS", queryResults)
             context = {
                 "queryResults": [
                     {key: value for key, value in zip(queryResults[0].keys(), row)}
@@ -110,43 +107,20 @@ def customQuery(request: HttpRequest):
                 ],
                 "form": form,
                 "rawQuery": formData.get("rawQuery"),
-                # "rawQuery": formData["rawQuery"],
             }
 
-            print("THIS IS THE DATA:", context)
             return renderRawQueryPage(request, context, formData.get("rawQuery"), queryResults=queryResults)
-            # return renderRawQueryPage(request, context, formData, queryResults=queryResults)
         except Exception as e:
-            print("IN EXCEPT")
             errorMessage = str(e)
-            
-            print("ERROR MESSAGE IN EXCEPT", errorMessage)
-            print("FROM IN EXCEPT", form)
             context = {
-                "form": form,
+                "form": RawQueryForm(initial={"rawQuery": formData.get("rawQuery")}),
                 "errorMessage": errorMessage
             }
-            return renderRawQueryPage(request, context, formData.get("rawQuery"))
-            # return renderRawQueryPage(request, context, form)
+            context.update(formData)
+            return renderRawQueryPage(request, context, formData.get("rawQuery"), errorMessage=errorMessage, fromExcept = True)
 
     else:
         previousQuery = request.GET.get("query", "")
         form = RawQueryForm(initial={"rawQuery": previousQuery})
-
-        context = {"form": form}
         return renderRawQueryPage(request, context, formData.get("rawQuery"))
-        # return renderRawQueryPage(request, context, form)
-
-        # if form.is_valid():
-        #     form_data = form.cleaned_data
-        #     initial_query = form_data.get("rawQuery", "")
-        # else:
-        #     initial_query = request.POST.get("rawQuery", "")
-        #     form = RawQueryForm(initial={"rawQuery": initial_query})
-        #     context = {"form": form}
-        #     return renderRawQueryPage(request, context, form)
-
-
-# form = RawQueryForm(request.POST)
-#             formData = getUserRawQuery(request)
-#             errorMessage = getRawQueryResults(formData)
+        
