@@ -45,7 +45,7 @@ const fillChart = {
 const data = {
   datasets: [{
     data: graphData,
-    label: "Temperature vs Time Graph"
+    label: "Temperature vs. Time Graph"
 }]
 }
 
