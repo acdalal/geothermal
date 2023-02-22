@@ -35,3 +35,7 @@
 thead {
     background-color: var(--custom-green);
 }
+
+.heading-text {
+    color: white;
+}
