@@ -14,6 +14,10 @@
     background-color: var(--primary-button-color);
 }
 
+.card-header .btn:hover {
+    background-color: var(--primary-button-color);
+}
+
 #custom-btn-one,
 #custom-btn-two,
 #custom-btn-three,
@@ -34,4 +38,8 @@
 
 thead {
     background-color: var(--custom-green);
+}
+
+.heading-text {
+    color: white;
 }

@@ -10,6 +10,7 @@ will change those respective attributes for the entire site.
     --custom-cream: #faf3dd;
     --custom-brown: #A3693F;
     --custom-green: #648767;
+    --custom-light-green:#8dab90;
     --custom-pink: #CFA5B4;
     --custom-dark-cream: #F3E3B1;
 
@@ -23,6 +24,7 @@ will change those respective attributes for the entire site.
 
     /* button colors */
     --primary-button-color: var(--custom-green);
+    --secondary-button-color: var(--custom-light-green);
 
     /* link colors */
     --primary-link-color: #17a2b8;
@@ -88,6 +90,16 @@ label {
 
 .link:hover, .btn-link:hover {
     color: var(--secondary-link-color);
+}
+
+/* Buttons ----------------------------------------------------------------- */
+.btn {
+    color: white;
+    background-color: var(--primary-button-color);
+}
+
+.btn:hover {
+    background-color: var(--secondary-button-color);
 }
 
 /* Jumbotron --------------------------------------------------------------- */
