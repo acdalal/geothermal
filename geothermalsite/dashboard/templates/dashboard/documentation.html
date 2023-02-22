@@ -8,6 +8,17 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/documentation.css' %}">
 
+
+<script>
+  $(document).ready(function () {
+        $(".list-group-item").click(function () {
+            $('.list-group-item').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+</script>
+
+
 <div class="container-fluid" id="documentation-container">
   <div class="row">
     <!-- Left-hand navbar for page contents -->

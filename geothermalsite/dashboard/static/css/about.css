@@ -4,6 +4,11 @@
     position: sticky;
 }
 
+.list-group-item.active {
+    background-color: var(--custom-green);
+    border-color: var(--custom-green);
+}
+
 #content-block {
     margin-left: 5%;
     margin-right: 12% !important;

@@ -8,6 +8,15 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/about.css' %}">
 
+<script>
+  $(document).ready(function () {
+        $(".list-group-item").click(function () {
+            $('.list-group-item').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+</script>
+
 <div class="container-fluid" id="about-container">
   <div class="row">
     <div class="col-2 navbar-col">
