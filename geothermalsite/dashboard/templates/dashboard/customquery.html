@@ -11,16 +11,16 @@ Advanced API: Custom Query
 <div class="custom-query-container" id="custom-query-container" style="margin-left: 5%; margin-right: 5%">
     <form method="post" id="custom-query-form">
         {% csrf_token %}
-        <p>If you're looking to be able to access the database with a bit more freedom than the predefined queries provided,
-            that option is provided here. You will need to know some SQL to get started, <u><a class="link" href="https://www.sqltutorial.org/" target="_blank">here's a good resource</a></u> if you've never
+        <p>If you're looking to be able to access the database with a bit more freedom than the available predefined queries,
+            that option is provided here. You will need to know some SQL to get started. <u><a class="link" href="https://www.sqltutorial.org/" target="_blank">Here's a good resource</a></u> if you've never
             used SQL before.</p>
 
         <details>
             <summary>Here is the schema diagram for the database</summary>
-            <img src="{% static 'img/schema.png' %}" alt="Schema diagram for the Geothermal database" width="900" height="300">
+            <img src="{% static 'img/schema.png' %}" alt="Schema diagram for the Geothermal database" width="880" height="330">
         </details>
         <br>
-        <label for="query">Enter A Custom Query:</label>
+        <label for="query">Enter a Custom Query:</label>
         <br>
         {% spaceless %}
             <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em; width: 80ch;"
@@ -31,7 +31,7 @@ Advanced API: Custom Query
             </textarea>
         {% endspaceless %}
         <br>
-        
+
         {% if errorMessage %}
             {% if fromExcept %}
                 <div class="alert alert-danger" role="alert" style="width: 80ch;">
@@ -45,7 +45,7 @@ Advanced API: Custom Query
             </div>
             {% endif %}
         {% endif %}
-         
+
         <button class="btn btn-secondary form-control" data-toggle="modal" data-target="#exampleModal" type="submit" style="width: 80ch;">Submit</button>
     </form>
 
