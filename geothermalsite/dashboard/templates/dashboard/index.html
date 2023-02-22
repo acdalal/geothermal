@@ -28,10 +28,10 @@
             <a class="nav-link active" data-toggle="tab" href="#" id="tempprofile-button" onclick="selectTab('tempprofile')">Temperature Profile</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#" id="tempvstime-button" onclick="selectTab('tempvstime')">Temperature Vs Time</a>
+            <a class="nav-link" data-toggle="tab" href="#" id="tempvstime-button" onclick="selectTab('tempvstime')">Temperature vs. Time</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link" data-toggle="tab" href="#" id="tempvsdepth-button" onclick="selectTab('tempvsdepth')">Temperature Vs Depth</a>
+            <a class="nav-link" data-toggle="tab" href="#" id="tempvsdepth-button" onclick="selectTab('tempvsdepth')">Temperature vs. Depth</a>
         </li>
     </ul>
     <script src="{% static 'js/utils/selectTab.js' %}"></script>
@@ -91,6 +91,7 @@
                     <summary>more info</summary>
                         <div class="centered-left-list-parent">
                             <ul class="centered-left-list">
+                                <li>Depths in the database do not have clean integer values, so your specified depth may snap to the nearest recorded depth.</li>
                                 <li>
                                     Querying time periods with outages may generate visualizations with unexpected contours.
                                     Check the <u><a class="link" href="{% url 'documentation' %}">Documentation page</a></u> to see if you've queried an outage.
