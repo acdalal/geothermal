@@ -22,6 +22,7 @@
     </script>
 
 <div class="col-md-7 mx-auto">
+
     {# Toggle-able tabs for each query #}
     <ul class="nav nav-tabs justify-content-around" id="myTab">
         <li class="nav-item">
@@ -35,6 +36,7 @@
         </li>
     </ul>
     <script src="{% static 'js/utils/selectTab.js' %}"></script>
+    <script src="{% static 'js/utils/formCache.js' %}"></script>
 
     {# Content inside the given tab #}
     <div class="tab-content" id="myTabContent">
@@ -66,7 +68,7 @@
             {# Temp profile form #}
             <div class="row justify-content-around">
                 <div class="col-md-8">
-                    <form action="/" method="post">
+                    <form action="/" method="post" id="tempprofileform">
                         {% csrf_token %}
                         {{ temperatureProfileForm }}
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-profile"/>
@@ -101,7 +103,7 @@
             {# Temp vs time form #}
             <div class="row justify-content-around">
                 <div class="col-md-8">
-                    <form action="/" method="post">
+                    <form action="/" method="post" id="tempvstimeform">
                         {% csrf_token %}
                         {{ tempOverTimeForm }}
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
@@ -137,7 +139,7 @@
             {# Temp vs depth form #}
             <div class="row justify-content-around">
                 <div class="col-md-8">
-                    <form action="/" method="post">
+                    <form action="/" method="post" id="tempvsdepthform">
                         {% csrf_token %}
                         {{ tempOverDepthForm }}
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-depth"/>

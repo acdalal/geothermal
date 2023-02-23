@@ -24,7 +24,9 @@ class TempVsTimeForm(forms.Form):
     boreholeNumber = forms.ChoiceField(
         label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
-        widget=forms.Select(attrs={"class": "form-control"}),
+        widget=forms.Select(
+            attrs={"class": "form-control", "oninput": "cacheInput(this)"}
+        ),
     )
 
     tempVsTimeDateRange = forms.CharField(
@@ -34,6 +36,7 @@ class TempVsTimeForm(forms.Form):
                 "autocomplete": "off",
                 "value": f"{MONTH_BEFORE_END} - {DATA_END_DATE}",
                 "class": "form-control",
+                "oninput": "cacheInput(this)",
             }
         ),
     )
@@ -47,6 +50,7 @@ class TempVsTimeForm(forms.Form):
                 "step": "1",
                 "class": "form-control",
                 "value": f"{STARTING_DEPTH}",
+                "oninput": "cacheInput(this)",
             }
         ),
     )
@@ -59,6 +63,7 @@ class TempVsTimeForm(forms.Form):
             attrs={
                 "class": "form-control form-check-inline",
                 "value": "Metric",
+                "oninput": "cacheInput(this)",
             }
         ),
     )
@@ -79,7 +84,12 @@ class TempVsDepthForm(forms.Form):
     boreholeNumber = forms.ChoiceField(
         label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
-        widget=forms.Select(attrs={"class": "form-control"}),
+        widget=forms.Select(
+            attrs={
+                "class": "form-control",
+                "oninput": "cacheInput(this)",
+            }
+        ),
     )
 
     tempVsDepthTimestamp = forms.CharField(
@@ -89,6 +99,7 @@ class TempVsDepthForm(forms.Form):
                 "autocomplete": "off",
                 "value": DATA_END_DATE,
                 "class": "form-control",
+                "oninput": "cacheInput(this)",
             }
         ),
     )
@@ -101,6 +112,7 @@ class TempVsDepthForm(forms.Form):
             attrs={
                 "class": "form-control form-check-inline",
                 "value": "Metric",
+                "oninput": "cacheInput(this)",
             }
         ),
     )
@@ -121,7 +133,12 @@ class TemperatureProfileForm(forms.Form):
     boreholeNumber = forms.ChoiceField(
         label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
-        widget=forms.Select(attrs={"class": "form-control"}),
+        widget=forms.Select(
+            attrs={
+                "class": "form-control",
+                "oninput": "cacheInput(this)",
+            }
+        ),
     )
 
     temperatureProfileDateRange = forms.CharField(
@@ -131,13 +148,20 @@ class TemperatureProfileForm(forms.Form):
                 "autocomplete": "off",
                 "value": f"{MONTH_BEFORE_END} - {DATA_END_DATE}",
                 "class": "form-control",
+                "oninput": "cacheInput(this)",
             }
         ),
     )
 
     temperatureProfileTimeSelector = forms.CharField(
         label="Time",
-        widget=forms.TextInput(attrs={"class": "form-control", "value": "12:00 AM"}),
+        widget=forms.TextInput(
+            attrs={
+                "class": "form-control",
+                "value": "12:00 AM",
+                "oninput": "cacheInput(this)",
+            }
+        ),
     )
 
     tempProfileUnits = forms.ChoiceField(
@@ -148,6 +172,7 @@ class TemperatureProfileForm(forms.Form):
             attrs={
                 "class": "form-control form-check-inline",
                 "value": "Metric",
+                "oninput": "cacheInput(this)",
             }
         ),
     )
