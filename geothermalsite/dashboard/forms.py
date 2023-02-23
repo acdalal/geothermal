@@ -45,7 +45,7 @@ class TempVsTimeForm(forms.Form):
     )
 
     tempVsTimeDepth = forms.IntegerField(
-        label="Depth (max 159m/521ft)",
+        label="Depth in meters (range 5-160)",
         widget=forms.NumberInput(
             attrs={
                 "type": "number",
@@ -59,7 +59,7 @@ class TempVsTimeForm(forms.Form):
     )
 
     tempVsTimeUnits = forms.ChoiceField(
-        label="Units",
+        label="Display units",
         choices=[(0, "Metric"), (1, "Imperial")],
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
@@ -108,7 +108,7 @@ class TempVsDepthForm(forms.Form):
     )
 
     tempVsDepthUnits = forms.ChoiceField(
-        label="Units",
+        label="Display units",
         choices=[(0, "Metric"), (1, "Imperial")],
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
@@ -168,7 +168,7 @@ class TemperatureProfileForm(forms.Form):
     )
 
     tempProfileUnits = forms.ChoiceField(
-        label="Units",
+        label="Display units",
         choices=[(0, "Metric"), (1, "Imperial")],
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
