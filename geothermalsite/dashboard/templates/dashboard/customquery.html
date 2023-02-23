@@ -7,6 +7,9 @@ Advanced API: Custom Query
 {% block content %}
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/customquery.css' %}">
+{% comment %} moment.js for loading datetime object correctly in the data summary table {% endcomment %}
+<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+
 <body>
 <div class="custom-query-container" id="custom-query-container" style="margin-left: 5%; margin-right: 5%">
     <form method="post" id="custom-query-form">
@@ -54,19 +57,73 @@ Advanced API: Custom Query
             $('#myInput').trigger('focus')
         })
     </script>
-
     {% if queryResults %}
         <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="width: 80ch;">Download data </button>
-        <p>Query Results:</p>
-            <div>
-                {% for row in queryResults|slice:":10" %}
-                    <div>{{ row }}</div>
-                {% endfor %}
-            </div>
+        <p></p>
+        <h6>Query Results:</h6>
+            {% for row in queryResults|slice:":10" %}
+                <div>{{ row }}</div>
+            {% endfor %}
+            {% comment %} <table class="table table-sm">
+                <thead style="background-color: var(--custom-green);">
+                  <tr id="table-header">
+                    <!-- Header columns will be added dynamically -->
+                  </tr>
+                </thead>
+                <tbody id="table-body">
+                  <!-- Body rows will be added dynamically -->
+                </tbody>
+            </table>
+            <script>
+                var queryResults = {{ queryResults|safe }};
+
+                // Get a reference to the table header and body
+                var tableHeader = document.getElementById("table-header");
+                var tableBody = document.getElementById("table-body");
+                var upperlimit = Math.min(10, queryResults.length);
+                // Loop through the data and add rows to the table
+                for (var i = 0; i < upperlimit; i++) {
+                    var row = tableBody.insertRow(i);
+                    for (var key in queryResults[i]) {
+                        if (i === 0) {
+                            // Add a new header column for each unique key
+                            var headerColumn = document.createElement("th");
+
+                            headerColumn.innerHTML = key;
+                            tableHeader.appendChild(headerColumn);
+                        }
+                        var cell = row.insertCell();
+                        cell.innerHTML = queryResults[i][key];
+                    }
+                }
+            </script> {% endcomment %}
+
             {% if queryResults|length > 10 %}
                 <details>
                     <summary>View all data</summary>
                     <div>
+                        {% comment %} <script>
+                            var queryResults = {{ queryResults|safe }};
+                            // Get a reference to the table header and body
+                            var tableHeader = document.getElementById("table-header");
+                            var tableBody = document.getElementById("table-body");
+                            // Loop through the data and add rows to the table
+                            for (var i = 0; i < queryResults.length; i++) {
+                                var row = tableBody.insertRow(i);
+
+                                for (var key in queryResults[i]) {
+                                    if (i === 0) {
+                                        // Add a new header column for each unique key
+                                        var headerColumn = document.createElement("th");
+
+                                        headerColumn.innerHTML = key;
+                                        tableHeader.appendChild(headerColumn);
+                                    }
+                                    var cell = row.insertCell();
+                                    cell.innerHTML = queryResults[i][key];
+                                }
+                            }
+                        </script> {% endcomment %}
                         {% for row in queryResults %}
                             <div>{{ row }}</div>
                         {% endfor %}
