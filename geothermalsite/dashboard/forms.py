@@ -45,7 +45,7 @@ class TempVsTimeForm(forms.Form):
     )
 
     tempVsTimeDepth = forms.IntegerField(
-        label="Depth",
+        label="Depth (max 159m/521ft)",
         widget=forms.NumberInput(
             attrs={
                 "type": "number",
@@ -64,7 +64,7 @@ class TempVsTimeForm(forms.Form):
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
             attrs={
-                "class": "form-control form-check-inline",
+                "class": "form-control custom-radio-form",
                 "value": "Metric",
                 "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
@@ -113,7 +113,7 @@ class TempVsDepthForm(forms.Form):
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
             attrs={
-                "class": "form-control form-check-inline",
+                "class": "form-control custom-radio-form",
                 "value": "Metric",
                 "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
@@ -173,7 +173,7 @@ class TemperatureProfileForm(forms.Form):
         initial=(0, "Metric"),
         widget=forms.RadioSelect(
             attrs={
-                "class": "form-control form-check-inline",
+                "class": "form-control custom-radio-form",
                 "value": "Metric",
                 "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
