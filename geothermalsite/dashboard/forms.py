@@ -21,11 +21,14 @@ class TempVsTimeForm(forms.Form):
         the integer depth a user may select to query
     """
 
-    boreholeNumber = forms.ChoiceField(
+    tempVsTimeBoreholeNumber = forms.ChoiceField(
         label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(
-            attrs={"class": "form-control", "oninput": "cacheInput(this)"}
+            attrs={
+                "class": "form-control",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
+            }
         ),
     )
 
@@ -36,7 +39,7 @@ class TempVsTimeForm(forms.Form):
                 "autocomplete": "off",
                 "value": f"{MONTH_BEFORE_END} - {DATA_END_DATE}",
                 "class": "form-control",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
@@ -50,7 +53,7 @@ class TempVsTimeForm(forms.Form):
                 "step": "1",
                 "class": "form-control",
                 "value": f"{STARTING_DEPTH}",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
@@ -63,7 +66,7 @@ class TempVsTimeForm(forms.Form):
             attrs={
                 "class": "form-control form-check-inline",
                 "value": "Metric",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
@@ -81,25 +84,25 @@ class TempVsDepthForm(forms.Form):
         the date range that is queried for
     """
 
-    boreholeNumber = forms.ChoiceField(
+    tempVsDepthBoreholeNumber = forms.ChoiceField(
         label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(
             attrs={
                 "class": "form-control",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
 
     tempVsDepthTimestamp = forms.CharField(
-        label="Time",
+        label="Date",
         widget=forms.TextInput(
             attrs={
                 "autocomplete": "off",
                 "value": DATA_END_DATE,
                 "class": "form-control",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
@@ -112,7 +115,7 @@ class TempVsDepthForm(forms.Form):
             attrs={
                 "class": "form-control form-check-inline",
                 "value": "Metric",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
@@ -130,13 +133,13 @@ class TemperatureProfileForm(forms.Form):
         the time stamp to query data at, with a minimum at the data start date
     """
 
-    boreholeNumber = forms.ChoiceField(
+    tempProfileBoreholeNumber = forms.ChoiceField(
         label="Borehole",
         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
         widget=forms.Select(
             attrs={
                 "class": "form-control",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
@@ -148,7 +151,7 @@ class TemperatureProfileForm(forms.Form):
                 "autocomplete": "off",
                 "value": f"{MONTH_BEFORE_END} - {DATA_END_DATE}",
                 "class": "form-control",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
@@ -159,7 +162,7 @@ class TemperatureProfileForm(forms.Form):
             attrs={
                 "class": "form-control",
                 "value": "12:00 AM",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )
@@ -172,7 +175,7 @@ class TemperatureProfileForm(forms.Form):
             attrs={
                 "class": "form-control form-check-inline",
                 "value": "Metric",
-                "oninput": "cacheInput(this)",
+                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
             }
         ),
     )

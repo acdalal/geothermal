@@ -58,7 +58,7 @@ const options = {
   type: 'line',
   data,
   options: {
-    label: "Temperature vs Depth Graph",
+    label: "Temperature vs. Depth Graph",
     legend: {
         onClick: null
     },

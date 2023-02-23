@@ -145,7 +145,6 @@ const options = {
                 labels: {
                     filter: function(legendItem, data) {
                         let group = legendItem.text
-                        // console.log(group, groups)
                         if (groups.includes(group)) {
                             return true
                         }

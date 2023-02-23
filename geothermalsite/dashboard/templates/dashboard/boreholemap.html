@@ -1,0 +1,23 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/boreholemap.css' %}">
+<div class="borehole-container inactive">
+    <input type="button" class="btn info-btn" value="ⓘ Borehole:">
+
+    <div class="borehole-map-content">
+        <h3>Borehole Map</h3>
+        <img src="{% static 'img/boreholes.png' %}" alt="Map of baldspot boreholes" width="85%" >
+        <p>Each B1, B2, ... , B5 represents a single borehole on the baldspot. </p>
+    </div>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $(".btn.info-btn").click(function () {
+                $(".borehole-map-content").toggle();
+                $(".borehole-container").toggleClass('inactive');
+                $(this).val() == "ⓘ Borehole:" ? $(this).val("ⓘ") : $(this).val("ⓘ Borehole:")
+
+            });
+
+        });
+    </script>
+</div>

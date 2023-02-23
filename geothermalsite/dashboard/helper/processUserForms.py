@@ -23,7 +23,7 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     """
     Processes the temperature vs time form data and outputs it in an easily accessible format
     """
-    boreholeNumber = cleanedData.get("boreholeNumber")
+    boreholeNumber = cleanedData.get("tempVsTimeBoreholeNumber")
     depth = cleanedData.get("tempVsTimeDepth")
 
     dateRange = cleanedData.get("tempVsTimeDateRange")
@@ -48,7 +48,7 @@ def getTempVsDepthFormData(cleanedData: dict) -> dict:
     """
     Processes the temperature vs depth form data and outputs it in an easily accessible format
     """
-    boreholeNumber = cleanedData.get("boreholeNumber")
+    boreholeNumber = cleanedData.get("tempVsDepthBoreholeNumber")
 
     timestamp = cleanedData.get("tempVsDepthTimestamp")
     timestampUtc = dateparser.parse(timestamp).__str__()
@@ -66,7 +66,7 @@ def getTempProfileFormData(cleanedData: dict) -> dict:
     """
     Processes the temperature profile form data and outputs it in an easily accessible format
     """
-    boreholeNumber = cleanedData["boreholeNumber"]
+    boreholeNumber = cleanedData["tempProfileBoreholeNumber"]
 
     dateRange = cleanedData["temperatureProfileDateRange"]
     dateList = re.findall(r"../../....", dateRange)
@@ -142,4 +142,4 @@ def getUserRawQuery(request: HttpRequest) -> str:
         formData = userForm.cleaned_data
         return formData
     else:
-         return ''
+        return ""

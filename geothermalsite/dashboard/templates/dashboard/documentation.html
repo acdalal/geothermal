@@ -8,13 +8,24 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/documentation.css' %}">
 
+
+<script>
+  $(document).ready(function () {
+        $(".list-group-item").click(function () {
+            $('.list-group-item').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+</script>
+
+
 <div class="container-fluid" id="documentation-container">
   <div class="row">
     <!-- Left-hand navbar for page contents -->
     <div class="col-2 navbar-col">
       <div id="page-section-list" class="list-group" style="position: sticky; top: 40px;">
         <a class="list-group-item list-group-item-action" href="#faq-section">FAQ</a>
-        <a class="list-group-item list-group-item-action" href="#data-summary-section">Data Summary</a>
+        <a class="list-group-item list-group-item-action" href="#data-outages-section">Data Outages</a>
         <a class="list-group-item list-group-item-action" href="#advanced-api-section">Advanced API</a>
       </div>
     </div>
@@ -49,16 +60,16 @@
             >
               <div class="card-body">
                 <strong
-                  >You can query the temperature of one or multiple boreholes
-                  with respect to depth over a period of time.</strong
+                  > You can query the temperature distribution throughout the entire depth of
+                  one or multiple boreholes over a period of time, or for a single specified date.
+                  You can also query the temperature of one or multiple boreholes
+                  with respect to depth over a period of time. </strong
                 >
                 <br /> <br />
                 You can customize this range of time, or choose the most recent
-                7 days, 30 days, or year's worth of data. You can adjust the
-                time point of the temperature collection to be at midnight,
-                noon, or select a daily average. You can also specify the
-                density of the measurements intervals along the boreholes to
-                your preference.
+                7 days, 30 days, 3 months, or year's worth of data. For the temperature profile query, you can choose
+                a specific time point for all the temparature measurements in your chosen time range. Additionally, you have the option of
+                both metric and imperial units for all of the queries. Direct queries to the database are supported on the <u><a class="link" href="{% url 'customquery' %}">custom query page</a></u>.
               </div>
             </div>
           </div>
@@ -91,9 +102,8 @@
                   >
                   <br /> <br />
                   Try selecting a new custom date range instead, or choose the
-                  most recent available data range. To learn more about data
-                  outages, please visit the Data Outages section in the Data
-                  Summary tab.
+                  most recent available date range. Time ranges that straddle an outage may be queried, though the resulting visualization may have unexpected contours.
+                  To learn more about data outages, please visit the Data Outages section.
                 </div>
               </div>
             </div>
@@ -109,7 +119,7 @@
                     aria-expanded="false"
                     aria-controls="collapseThree"
                   >
-                    Why is there a gap in my graph?
+                    Why does my graph look weird?
                   </button>
                 </h5>
               </div>
@@ -120,13 +130,13 @@
                 data-parent="#accordion"
               >
                 <div class="card-body">
-                  <strong>Invalid data will not appear in query visualizations.</strong>
+                  <strong>Invalid data will affect query visualizations.</strong>
                   <br /> <br />
                   If you selected a time range that included a data outage, this
                   will be reflected in the visualization that is generated. The
-                  gap in the graph represents the period of time over which a data
+                  unexpected behavior in your graph represents the period of time over which a data
                   outage spanned. For more information, please visit the Data
-                  Outages section in the Data Summary tab.
+                  Outages section.
                 </div>
               </div>
             </div>
@@ -169,7 +179,7 @@
           <!-- end FAQ accordion -->
 
         <!-- Data summary section -->
-        <h4 id="data-summary-section">Data Summary</h4>
+        <h4 id="data-outages-section">Data Outages</h4>
         <p>
           Data outages were an important consideration for this project. We have
           aired on the conservative side in terms of defining outages. Any
@@ -177,15 +187,16 @@
           has been deemed an outage, and the measurements from that interval of
           time will not be displayed. See below for a full table of known
           outages as of January 2023.
+          <br/>
+          <br/>
           <table class="table table-sm">
-              <!-- inline styling of table head for now -->
-              <thead style="background: var(--custom-green);">
+              <thead>
                 <tr>
-                    <th scope ="col">Outage ID</th>
-                    <th scope ="col">Channel ID</th>
-                    <th scope ="col">Outage Type</th>
-                    <th scope ="col">Start Time</th>
-                    <th scope ="col">End Time</th>
+                    <th class="heading-text" scope ="col">Outage ID</th>
+                    <th class="heading-text" scope ="col">Channel ID</th>
+                    <th class="heading-text" scope ="col">Outage Type</th>
+                    <th class="heading-text" scope ="col">Start Time</th>
+                    <th class="heading-text" scope ="col">End Time</th>
                 </tr>
               </thead>
             <tbody>
@@ -202,7 +213,7 @@
         </table>
         </p>
         <details>
-          <summary><em>Learn about outage types</em></summary>
+          <summary>Learn about outage types</summary>
           <ul>
             <li> <em>Time slip</em> outages resulted from a time drift of the internal clock of the private PC the DTS unit is connected to. All data measurements taken during this time drift period have been discounted as a time slip outage.</li>
             <li>The <em>fiber failure</em> outage from July 2019-October 2020 was the result of an undetected comprimised fiber optic cable in one of the channels.</li>
