@@ -235,7 +235,7 @@ def getTempProfileResultsByMeasurement(
     ----------
     A dictionary with the results of the query
     """
-    query = createTempProfileQueryByMeasurement(borehole, startTime, endTime)
+    query = createTempProfileQueryByMeasurement()
     results = list()
 
     currentBorehole = boreholes[borehole]
@@ -308,7 +308,7 @@ def getTempProfileResults(
 
 
 def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
-    results = list()    
+    results = list()
     query = formData["rawQuery"]
 
     ### SANITIZE QUERY HERE ####
