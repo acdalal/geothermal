@@ -19,7 +19,9 @@ function setUpDatePicker(id, disabledRanges) {
             'Last 3 Available Months': [moment(dataEndDate).subtract(3, 'months'), moment()],
             'Last Available Year': [moment(dataEndDate).subtract(1, 'years'), moment()]
         },
-    })
+    }).on('apply.daterangepicker', function(ev, picker) {
+        cacheInput(id.slice(4), $(id)[0].value)
+      });
 }
 
 
@@ -41,7 +43,9 @@ $('#id_temperatureProfileTimeSelector').daterangepicker({
     }
 }).on('show.daterangepicker', function (ev, picker) {
     picker.container.find('.calendar-table').hide();
-})
+}).on('apply.daterangepicker', function(ev, picker) {
+    cacheInput("temperatureProfileTimeSelector", $("#id_temperatureProfileTimeSelector")[0].value)
+  });
 
 
 $('#id_tempVsDepthTimestamp').daterangepicker({
@@ -49,7 +53,9 @@ $('#id_tempVsDepthTimestamp').daterangepicker({
     minDate: dataStartDate,
     maxDate: dataEndDate,
     isInvalidDate: invalidDate
-})
+}).on('apply.daterangepicker', function(ev, picker) {
+    cacheInput("tempVsDepthTimestamp", $("#id_tempVsDepthTimestamp")[0].value)
+  });
 
 var ids = ['#id_tempVsTimeDateRange', '#id_temperatureProfileDateRange'];
 ids.forEach(id => {

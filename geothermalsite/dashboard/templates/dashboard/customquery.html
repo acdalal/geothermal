@@ -64,7 +64,11 @@ Advanced API: Custom Query
             {% for row in queryResults|slice:":10" %}
                 <div>{{ row }}</div>
             {% endfor %}
-            {% comment %} <table class="table table-sm">
+            {% comment %} This commented out code correspond to generating a dynamic
+            table for custum query results. Google Chrome does't support datetime objects
+            which is the reason why querying anything that contains a datetime object as
+            return will fail this dynamic table.
+            <table class="table table-sm">
                 <thead style="background-color: var(--custom-green);">
                   <tr id="table-header">
                     <!-- Header columns will be added dynamically -->
