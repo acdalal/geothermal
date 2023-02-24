@@ -71,3 +71,14 @@
     outline-style: solid;
     outline-color: var(--primary-text-color);
 }
+
+.custom-image {
+    height: 25%;
+    border-radius: 50%;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
+    margin-top: 5%;
+    margin-bottom: 0%;
+}
