@@ -61,13 +61,10 @@ Advanced API: Custom Query
         <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="width: 80ch;">Download data </button>
         <p></p>
         <h6>Query Results:</h6>
-            {% for row in queryResults|slice:":10" %}
+            <!-- {% for row in queryResults|slice:":10" %}
                 <div>{{ row }}</div>
-            {% endfor %}
-            {% comment %} This commented out code correspond to generating a dynamic
-            table for custum query results. Google Chrome does't support datetime objects
-            which is the reason why querying anything that contains a datetime object as
-            return will fail this dynamic table.
+            {% endfor %} -->
+
             <table class="table table-sm">
                 <thead style="background-color: var(--custom-green);">
                   <tr id="table-header">
@@ -100,13 +97,13 @@ Advanced API: Custom Query
                         cell.innerHTML = queryResults[i][key];
                     }
                 }
-            </script> {% endcomment %}
+            </script>
 
             {% if queryResults|length > 10 %}
                 <details>
                     <summary>View all data</summary>
                     <div>
-                        {% comment %} <script>
+                         <script>
                             var queryResults = {{ queryResults|safe }};
                             // Get a reference to the table header and body
                             var tableHeader = document.getElementById("table-header");
@@ -127,10 +124,10 @@ Advanced API: Custom Query
                                     cell.innerHTML = queryResults[i][key];
                                 }
                             }
-                        </script> {% endcomment %}
-                        {% for row in queryResults %}
+                        </script>
+                        <!-- {% for row in queryResults %}
                             <div>{{ row }}</div>
-                        {% endfor %}
+                        {% endfor %} -->
                     </div>
                 </details>
             {% endif %}

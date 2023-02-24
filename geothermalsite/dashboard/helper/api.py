@@ -330,6 +330,13 @@ def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
                 query_end_time - query_start_time,
                 len(results),
             )
+        for row in results:
+            if "datetime_utc" in row:
+                row['datetime_utc'] = row['datetime_utc'].strftime(f"%Y-%m-%d %H:%M:%S")
+            if "start_datetime_utc" in row:
+                row['start_datetime_utc'] = row['start_datetime_utc'].strftime(f"%Y-%m-%d %H:%M:%S")
+            if "end_datetime_utc" in row:
+                row['end_datetime_utc'] = row['end_datetime_utc'].strftime(f"%Y-%m-%d %H:%M:%S")
 
         return results
     except Exception as e:
