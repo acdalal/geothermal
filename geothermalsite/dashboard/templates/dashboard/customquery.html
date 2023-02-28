@@ -105,7 +105,7 @@ Advanced API: Custom Query
                 <script>
                     $(document).ready(function () {
                         $(".btn.see-all-data").click(function () {
-                            if ($(this).val() == "see all"){
+                            if ($(this).val() == "See all"){
                                 for (var i = 10; i < queryResults.length; i++) {
                                     var row = tableBody.insertRow(i);
                                     for (var key in queryResults[i]) {
@@ -119,7 +119,7 @@ Advanced API: Custom Query
 
                                 }
                             }
-                            $(this).val() == "see all" ? $(this).val("See less") : $(this).val("see all")
+                            $(this).val() == "See all" ? $(this).val("See less") : $(this).val("See all")
                         });
 
                     });
