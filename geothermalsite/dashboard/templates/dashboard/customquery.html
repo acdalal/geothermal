@@ -26,7 +26,7 @@ Advanced API: Custom Query
         <label for="query">Enter a Custom Query:</label>
         <br>
         {% spaceless %}
-            <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em; max-width: 80ch;"
+            <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em;"
                 {% if form.initial %}
                     >{{ form.initial.rawQuery }}
                 {% else %}>{{ rawQuery }}
@@ -37,19 +37,19 @@ Advanced API: Custom Query
 
         {% if errorMessage %}
             {% if fromExcept %}
-                <div class="alert alert-danger" role="alert" style="max-width: 80ch;">
+                <div class="alert alert-danger" role="alert">
                     {% for line in errorMessage %}
                         <div style="font-family: monospace">{{ line | safe }}</div>
                     {% endfor %}
                 </div>
             {% else %}
-            <div class="alert alert-danger" role="alert" style="max-width: 80ch;">
+            <div class="alert alert-danger" role="alert">
                 <div style="font-family: monospace">{{ errorMessage }}</div>
             </div>
             {% endif %}
         {% endif %}
 
-        <button class="btn btn-secondary form-control limitwidth" data-toggle="modal" data-target="#exampleModal" type="submit"  style="max-width:80ch">Submit</button>
+        <button class="btn btn-secondary form-control limitwidth" data-toggle="modal" data-target="#exampleModal" type="submit">Submit</button>
     </form>
 
     <script>
@@ -58,7 +58,7 @@ Advanced API: Custom Query
         })
     </script>
     {% if queryResults %}
-        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="max-width: 80ch;">Download data </button>
+        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')">Download data </button>
         <p></p>
         <h6>Query Results:</h6>
             <!-- {% for row in queryResults|slice:":10" %}
@@ -101,7 +101,7 @@ Advanced API: Custom Query
             </script>
 
             {% if queryResults|length > 10 %}
-                <input type="button" class="btn see-all-data" value="see all">
+                <input type="button" class="btn see-all-data" value="See all">
                 <script>
                     $(document).ready(function () {
                         $(".btn.see-all-data").click(function () {
@@ -119,7 +119,7 @@ Advanced API: Custom Query
 
                                 }
                             }
-                            $(this).val() == "see all" ? $(this).val("see less") : $(this).val("see all")
+                            $(this).val() == "see all" ? $(this).val("See less") : $(this).val("see all")
                         });
 
                     });
