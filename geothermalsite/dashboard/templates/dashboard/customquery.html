@@ -20,13 +20,13 @@ Advanced API: Custom Query
 
         <details>
             <summary>Here is the schema diagram for the database</summary>
-            <img src="{% static 'img/schema.png' %}" alt="Schema diagram for the Geothermal database" width="880" height="330">
+            <img src="{% static 'img/schema.png' %}" alt="Schema diagram for the Geothermal database" style="width:100%">
         </details>
         <br>
         <label for="query">Enter a Custom Query:</label>
         <br>
         {% spaceless %}
-            <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em; width: 80ch;"
+            <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em;"
                 {% if form.initial %}
                     >{{ form.initial.rawQuery }}
                 {% else %}>{{ rawQuery }}
@@ -37,19 +37,19 @@ Advanced API: Custom Query
 
         {% if errorMessage %}
             {% if fromExcept %}
-                <div class="alert alert-danger" role="alert" style="width: 80ch;">
+                <div class="alert alert-danger" role="alert">
                     {% for line in errorMessage %}
                         <div style="font-family: monospace">{{ line | safe }}</div>
                     {% endfor %}
                 </div>
             {% else %}
-            <div class="alert alert-danger" role="alert" style="width: 80ch;">
+            <div class="alert alert-danger" role="alert">
                 <div style="font-family: monospace">{{ errorMessage }}</div>
             </div>
             {% endif %}
         {% endif %}
 
-        <button class="btn btn-secondary form-control" data-toggle="modal" data-target="#exampleModal" type="submit" style="width: 80ch;">Submit</button>
+        <button class="btn btn-secondary form-control limitwidth" data-toggle="modal" data-target="#exampleModal" type="submit">Submit</button>
     </form>
 
     <script>
@@ -58,13 +58,14 @@ Advanced API: Custom Query
         })
     </script>
     {% if queryResults %}
-        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')" style="width: 80ch;">Download data </button>
+        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')">Download data </button>
         <p></p>
         <h6>Query Results:</h6>
-            {% for row in queryResults|slice:":10" %}
+            <!-- {% for row in queryResults|slice:":10" %}
                 <div>{{ row }}</div>
-            {% endfor %}
-            {% comment %} <table class="table table-sm">
+            {% endfor %} -->
+
+            <table class="table table-sm">
                 <thead style="background-color: var(--custom-green);">
                   <tr id="table-header">
                     <!-- Header columns will be added dynamically -->
@@ -74,6 +75,7 @@ Advanced API: Custom Query
                   <!-- Body rows will be added dynamically -->
                 </tbody>
             </table>
+
             <script>
                 var queryResults = {{ queryResults|safe }};
 
@@ -96,13 +98,43 @@ Advanced API: Custom Query
                         cell.innerHTML = queryResults[i][key];
                     }
                 }
-            </script> {% endcomment %}
+            </script>
 
             {% if queryResults|length > 10 %}
+                <input type="button" class="btn see-all-data" value="See all">
+                <script>
+                    $(document).ready(function () {
+                        $(".btn.see-all-data").click(function () {
+                            if ($(this).val() == "See all"){
+                                for (var i = 10; i < queryResults.length; i++) {
+                                    var row = tableBody.insertRow(i);
+                                    for (var key in queryResults[i]) {
+                                        var cell = row.insertCell();
+                                        cell.innerHTML = queryResults[i][key];
+                                    }
+                                }
+                            } else{
+                                for (var i = 10; i < queryResults.length; i++) {
+                                    var row = tableBody.deleteRow(10);
+
+                                }
+                            }
+                            $(this).val() == "See all" ? $(this).val("See less") : $(this).val("See all")
+                        });
+
+                    });
+                </script>
+            {% endif %}
+
+
+            {% comment %}
+            {% if queryResults|length > 10 %}
+                <input type="button" class="btn info-btn" value="see all">
+
                 <details>
                     <summary>View all data</summary>
                     <div>
-                        {% comment %} <script>
+                         <script>
                             var queryResults = {{ queryResults|safe }};
                             // Get a reference to the table header and body
                             var tableHeader = document.getElementById("table-header");
@@ -123,13 +155,14 @@ Advanced API: Custom Query
                                     cell.innerHTML = queryResults[i][key];
                                 }
                             }
-                        </script> {% endcomment %}
-                        {% for row in queryResults %}
+                        </script>
+                        <!-- {% for row in queryResults %}
                             <div>{{ row }}</div>
-                        {% endfor %}
+                        {% endfor %} -->
                     </div>
                 </details>
             {% endif %}
+            {% endcomment %}
 
         <script src="{% static 'js/utils/createCsv.js' %}"></script>
         <script>
