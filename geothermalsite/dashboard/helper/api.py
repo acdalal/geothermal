@@ -392,6 +392,9 @@ def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
                 len(results),
             )
         for row in results:
+            for key in row:
+                if row[key] == None:
+                    row[key] = "None"
             if "datetime_utc" in row:
                 row["datetime_utc"] = row["datetime_utc"].strftime(f"%Y-%m-%d %H:%M:%S")
             if "start_datetime_utc" in row:
