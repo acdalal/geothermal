@@ -30,7 +30,16 @@ def _toFeet(m: float) -> float:
 
 def _organizeDbResults(results: list[tuple], units: int) -> tuple[list[dict], int]:
     """
-    Organizes to query output in a list of datapoints. Each datapoint is presented as a dictionary,
+    Organizes to query output in a list of datapoints.
+
+    Parameters
+    ----------
+    results: raw results of the DB query
+    units: units in which the measurements are returned
+
+    Returns
+    ----------
+    A list of datapoints, where each datapoint is presented as a dictionary,
     in the following format: {'channel_id': str, 'measurement_id': str, 'datetime_utc': datetime object, 'data_id': str, 'temperature_c'/'temperature_f': float, 'depth_m'/'depth_ft': float}
     Also calculates the approximate size of the output for logging.
     """
@@ -79,14 +88,15 @@ def getTempVsTimeResults(
 
     Parameters
     ----------
-    channel: ID of the borehole (1 or 3)
+    channel: borehole number (1 through 5)
     depth: depth of temperature measurement
     startTime: start time of the query
     endTime: end time of the query
+    units: units in which the measurements are returned
 
     Returns
     ----------
-    A dictionary with the results of the query
+    A dictionary with the results of the query (column label:data point)
     """
     # Using boreholes.py, we define a custom Borehole class that stores borehole info
     currentBorehole = boreholes[borehole]
@@ -126,8 +136,9 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime, units: int) -> lis
 
     Parameters
     ----------
-    channel: ID of the borehole (1 or 3)
+    channel: borehole number (1 through 5)
     timestamp: time of the query
+    units: units in which the measurements are returned
 
     Returns
     ----------
@@ -181,11 +192,12 @@ def getTempProfileResultsByDay(
 
     Parameters
     ----------
-    channel: ID of the borehole (1 or 3)
+    channel: borehole number (1 through 5)
     depth: depth of temperature measurement
     startTime: start time of the query
     endTime: end time of the query
     dailyTimestamp: timestamp of the measurement, doesn't need to be precise
+    units: units in which the measurements are returned
 
     Returns
     ----------
@@ -249,10 +261,10 @@ def getTempProfileResultsByMeasurement(
 
     Parameters
     ----------
-    channel: ID of the borehole (1 or 3)
-    depth: depth of temperature measurement
+    channel: borehole number (1 through 5)
     startTime: start time of the query
     endTime: end time of the query
+    units: units in which the measurements are returned
 
     Returns
     ----------
@@ -331,7 +343,23 @@ def getTempProfileResults(
     groupBy: int,
     units: int,
 ) -> list[dict]:
-    """ """
+    """
+    A stand-in function for getting temperature profile, avoids cluttering other files with different function calls.
+    Based on the arguments provided, returns a list of all data points across all measurements associated with
+    the channel and depth for a given time range, returning each measurement or one measurement for each day.
+
+    Parameters
+    ----------
+    borehole: borehole number (1 through 5)
+    depth: depth of temperature measurement
+    startTime: start time of the query
+    endTime: end time of the query
+    dailyTimestamp: timestamp of the measurement, doesn't need to be precise
+
+    Returns
+    ----------
+    A dictionary with the results of the query
+    """
     if groupBy == HOURS:
         return getTempProfileResultsByMeasurement(borehole, startTime, endTime, units)
     else:
