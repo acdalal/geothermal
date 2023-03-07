@@ -15,17 +15,29 @@ from .constants import HOURS, METRIC, IMPERIAL
 
 
 def _toFarenheit(C: float) -> float:
+    """
+    Converts Celsius to Farenheit
+    """
     return C * 9 / 5 + 32
 
 
 def _toFeet(m: float) -> float:
+    """
+    Converts meters to feet
+    """
     return m / 0.3048
 
 
 def _organizeDbResults(results: list[tuple], units: int) -> tuple[list[dict], int]:
+    """
+    Organizes to query output in a list of datapoints. Each datapoint is presented as a dictionary,
+    in the following format: {'channel_id': str, 'measurement_id': str, 'datetime_utc': datetime object, 'data_id': str, 'temperature_c'/'temperature_f': float, 'depth_m'/'depth_ft': float}
+    Also calculates the approximate size of the output for logging.
+    """
     output = list()
     byteSize = 0
     for row in results:
+        # Units need to be valid
         assert units in [METRIC, IMPERIAL]
         if units == METRIC:
             datapoint = {
@@ -48,7 +60,7 @@ def _organizeDbResults(results: list[tuple], units: int) -> tuple[list[dict], in
                 "depth_ft": _toFeet(row[5]),
             }
             output.append(datapoint)
-
+        # to estimate the size, we take the string length and use that. If we include overhead, it should be ~ equal
         byteSize += len(str(row))
 
     return output, byteSize
@@ -63,7 +75,7 @@ def getTempVsTimeResults(
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
-    the channel and depth for a given time range.
+    the given channel and depth for a given time range.
 
     Parameters
     ----------
@@ -76,79 +88,84 @@ def getTempVsTimeResults(
     ----------
     A dictionary with the results of the query
     """
-
+    # Using boreholes.py, we define a custom Borehole class that stores borehole info
     currentBorehole = boreholes[borehole]
-
+    # Easily retrieve borehole info
     channel = currentBorehole.getChannel()
     lafStart = currentBorehole.getStart()
     lafBottom = currentBorehole.getBottom()
 
+    # Use a helper function to create the query
     query = createTempVsTimeQuery()
     results = list()
 
+    # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
         cursor.execute(query, (channel, depth, lafStart, lafBottom, startTime, endTime))
         query_end_time = time.time()
 
-        # clean results and crudely estimate the size of the query's result
-        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
+        # Retrieve and organize the query output
         results, byteSizeEstimate = _organizeDbResults(cursor.fetchall(), units)
 
-        # log the query execution as an INFO log
+        # Log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            len(results),
+            byteSizeEstimate,
         )
+
     return results
 
 
 def getTempVsDepthResults(borehole: str, timestamp: datetime, units: int) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
-    the channel during that hour.
+    the channel at a time around the given timestamp.
 
     Parameters
     ----------
     channel: ID of the borehole (1 or 3)
-    timestamp: start time of the query
+    timestamp: time of the query
 
     Returns
     ----------
     A dictionary with the query data (column label:data point)
     """
 
+    # We can't guarantee there's going to be a measurement at the exact time the user provided,
+    # so we create a 30-minute time range, which has to include exactly one measurement.
     timestampStart = datetime.strptime(timestamp, f"%Y-%m-%d %H:%M:%S")
     timestampEnd = (timestampStart + timedelta(minutes=30)).strftime(
         f"%Y-%m-%d %H:%M:%S"
     )
 
+    # Using boreholes.py, we define a custom Borehole class that stores borehole info
     currentBorehole = boreholes[borehole]
-
+    # Easily retrieve borehole info
     channel = currentBorehole.getChannel()
     lafStart = currentBorehole.getStart()
-    lafEnd = currentBorehole.getBottom()
+    lafBottom = currentBorehole.getBottom()
 
+    # Use a helper function to create the query
     query = createTempVsDepthQuery()
     results = list()
 
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
-        cursor.execute(query, (channel, timestamp, timestampEnd, lafStart, lafEnd))
+        cursor.execute(query, (channel, timestamp, timestampEnd, lafStart, lafBottom))
         query_end_time = time.time()
 
-        # clean results and crudely estimate the size of the query's result
-        # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
+        # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
         results, byteSizeEstimate = _organizeDbResults(cursor.fetchall(), units)
 
-        # log the query execution as an INFO log
+        # Log the query execution as an INFO log
         log_query_as_INFO(
             query,
             query_end_time - query_start_time,
-            len(results),
+            byteSizeEstimate,
         )
 
     return results
@@ -159,7 +176,8 @@ def getTempProfileResultsByDay(
 ) -> list[dict]:
     """
     Returns a list of all data points across all measurements associated with
-    the channel and depth for a given time range, returning one measurement for each day at a given timestamp
+    the channel and depth for a given time range, returning one measurement for
+    each day at a given timestamp.
 
     Parameters
     ----------
@@ -173,18 +191,23 @@ def getTempProfileResultsByDay(
     ----------
     A dictionary with the results of the query
     """
-    query = createTempProfileQueryByDay()
-    results = list()
-
+    # Using boreholes.py, we define a custom Borehole class that stores borehole info
     currentBorehole = boreholes[borehole]
-
+    # Easily retrieve borehole info
     channel = currentBorehole.getChannel()
     lafStart = currentBorehole.getStart()
     lafBottom = currentBorehole.getBottom()
 
+    # We can't guarantee there's going to be a measurement at the exact time the user provided,
+    # so we create a 30-minute time range, which has to include exactly one measurement.
     timestampStart = dailyTimestamp
     timestampEnd = timestampStart + timedelta(minutes=30)
 
+    # Use a helper function to create the query
+    query = createTempProfileQueryByDay()
+    results = list()
+
+    # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
@@ -235,15 +258,22 @@ def getTempProfileResultsByMeasurement(
     ----------
     A dictionary with the results of the query
     """
+    # Using boreholes.py, we define a custom Borehole class that stores borehole info
+    currentBorehole = boreholes[borehole]
+    # Easily retrieve borehole info
+    channel = currentBorehole.getChannel()
+    lafStart = currentBorehole.getStart()
+    lafBottom = currentBorehole.getBottom()
+
+    # Use a helper function to create the query
     query = createTempProfileQueryByMeasurement()
     results = list()
-
-    currentBorehole = boreholes[borehole]
 
     channel = currentBorehole.getChannel()
     lafStart = currentBorehole.getStart()
     lafBottom = currentBorehole.getBottom()
 
+    # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
     with connections["geothermal"].cursor() as cursor:
         # record query execution time
         query_start_time = time.time()
@@ -274,9 +304,11 @@ def getDataOutages() -> list[dict]:
     recorded in the history of the database.
     """
 
+    # Use a helper function to create the query
     query = createEntireDataOutageQuery()
     results = list()
 
+    # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
     with connections["geothermal"].cursor() as cursor:
         cursor.execute(query)
         for row in cursor.fetchall():
@@ -299,6 +331,7 @@ def getTempProfileResults(
     groupBy: int,
     units: int,
 ) -> list[dict]:
+    """ """
     if groupBy == HOURS:
         return getTempProfileResultsByMeasurement(borehole, startTime, endTime, units)
     else:
@@ -332,11 +365,15 @@ def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
             )
         for row in results:
             if "datetime_utc" in row:
-                row['datetime_utc'] = row['datetime_utc'].strftime(f"%Y-%m-%d %H:%M:%S")
+                row["datetime_utc"] = row["datetime_utc"].strftime(f"%Y-%m-%d %H:%M:%S")
             if "start_datetime_utc" in row:
-                row['start_datetime_utc'] = row['start_datetime_utc'].strftime(f"%Y-%m-%d %H:%M:%S")
+                row["start_datetime_utc"] = row["start_datetime_utc"].strftime(
+                    f"%Y-%m-%d %H:%M:%S"
+                )
             if "end_datetime_utc" in row:
-                row['end_datetime_utc'] = row['end_datetime_utc'].strftime(f"%Y-%m-%d %H:%M:%S")
+                row["end_datetime_utc"] = row["end_datetime_utc"].strftime(
+                    f"%Y-%m-%d %H:%M:%S"
+                )
 
         return results
     except Exception as e:
