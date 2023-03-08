@@ -81,7 +81,7 @@ def getTempVsTimeResults(
     startTime: datetime,
     endTime: datetime,
     units: int,
-) -> list[dict]:
+) -> tuple[list[dict], dict]:
     """
     Returns a list of all data points across all measurements associated with
     the given channel and depth for a given time range.
@@ -119,17 +119,17 @@ def getTempVsTimeResults(
         # Retrieve and organize the query output
         results, byteSizeEstimate = _organizeDbResults(cursor.fetchall(), units)
 
-        # Log the query execution as an INFO log
-        log_query_as_INFO(
-            query,
-            query_end_time - query_start_time,
-            byteSizeEstimate,
-        )
-
-    return results
+    queryStats = {
+        "query": query,
+        "executionTime": query_end_time - query_start_time,
+        "totalRecords": len(results),
+    }
+    return results, queryStats
 
 
-def getTempVsDepthResults(borehole: str, timestamp: datetime, units: int) -> list[dict]:
+def getTempVsDepthResults(
+    borehole: str, timestamp: datetime, units: int
+) -> tuple[list[dict], dict]:
     """
     Returns a list of all data points across all measurements associated with
     the channel at a time around the given timestamp.
@@ -172,19 +172,17 @@ def getTempVsDepthResults(borehole: str, timestamp: datetime, units: int) -> lis
         # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
         results, byteSizeEstimate = _organizeDbResults(cursor.fetchall(), units)
 
-        # Log the query execution as an INFO log
-        log_query_as_INFO(
-            query,
-            query_end_time - query_start_time,
-            byteSizeEstimate,
-        )
-
-    return results
+    queryStats = {
+        "query": query,
+        "executionTime": query_end_time - query_start_time,
+        "totalRecords": len(results),
+    }
+    return results, queryStats
 
 
 def getTempProfileResultsByDay(
     borehole: str, startTime: str, endTime: str, dailyTimestamp: str, units: int
-) -> list[dict]:
+) -> tuple[list[dict], dict]:
     """
     Returns a list of all data points across all measurements associated with
     the channel and depth for a given time range, returning one measurement for
@@ -242,18 +240,17 @@ def getTempProfileResultsByDay(
         queryOutput = cursor.fetchall()
         results, byteSizeEstimate = _organizeDbResults(queryOutput, units)
 
-        # log the query execution as an INFO log
-        log_query_as_INFO(
-            query,
-            query_end_time - query_start_time,
-            len(results),
-        )
-    return results
+    queryStats = {
+        "query": query,
+        "executionTime": query_end_time - query_start_time,
+        "totalRecords": len(results),
+    }
+    return results, queryStats
 
 
 def getTempProfileResultsByMeasurement(
     borehole: str, startTime: str, endTime: str, units: int
-) -> list[dict]:
+) -> tuple[list[dict], dict]:
     """
     Returns a list of all data points across all measurements associated with
     the channel and depth for a given time range, returning each measurement.
@@ -296,14 +293,12 @@ def getTempProfileResultsByMeasurement(
         # as though it were a csv file (1 char of plaintext ~ 1 byte in csv)
         results, byteSizeEstimate = _organizeDbResults(cursor.fetchall(), units)
 
-        # log the query execution as an INFO log
-        log_query_as_INFO(
-            query,
-            query_end_time - query_start_time,
-            len(results),
-        )
-
-    return results
+    queryStats = {
+        "query": query,
+        "executionTime": query_end_time - query_start_time,
+        "totalRecords": len(results),
+    }
+    return results, queryStats
 
 
 def getDataOutages() -> list[dict]:
@@ -342,7 +337,7 @@ def getTempProfileResults(
     dailyTimestamp: str,
     groupBy: int,
     units: int,
-) -> list[dict]:
+) -> tuple[list[dict], dict]:
     """
     A stand-in function for getting temperature profile, avoids cluttering other files with different function calls.
     Based on the arguments provided, returns a list of all data points across all measurements associated with
@@ -385,27 +380,30 @@ def getRawQueryResults(formData: dict[str, str]) -> list[dict]:
             for row in cursor.fetchall():
                 results.append(dict(zip(columns, row)))
 
-            # log the query execution as an INFO log
-            log_query_as_INFO(
-                query,
-                query_end_time - query_start_time,
-                len(results),
-            )
         for row in results:
             for key in row:
                 if row[key] == None:
                     row[key] = "None"
+
             if "datetime_utc" in row:
                 row["datetime_utc"] = row["datetime_utc"].strftime(f"%Y-%m-%d %H:%M:%S")
+
             if "start_datetime_utc" in row:
                 row["start_datetime_utc"] = row["start_datetime_utc"].strftime(
                     f"%Y-%m-%d %H:%M:%S"
                 )
+
             if "end_datetime_utc" in row:
                 row["end_datetime_utc"] = row["end_datetime_utc"].strftime(
                     f"%Y-%m-%d %H:%M:%S"
                 )
 
-        return results
+        queryStats = {
+            "query": query,
+            "executionTime": query_end_time - query_start_time,
+            "totalRecords": len(results),
+        }
+        return results, queryStats
+
     except Exception as e:
         raise Exception("Database error: " + str(e))

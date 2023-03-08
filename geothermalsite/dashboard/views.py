@@ -24,6 +24,10 @@ from .helper.renderFunctions import (
     renderTempProfilePage,
     renderRawQueryPage,
 )
+from .helper.logging import (
+    log_query_as_INFO,
+    get_user_ip_address,
+)
 
 from .forms import RawQueryForm
 
@@ -34,13 +38,19 @@ def index(request: HttpRequest):
             formData = getUserTempProfileQuery(request)
             groupBy = getGrouping(formData["startDateUtc"], formData["endDateUtc"])
             borehole = formData["boreholeNumber"]
-            queryResults = getTempProfileResults(
+            queryResults, queryStats = getTempProfileResults(
                 borehole,
                 formData["startDateUtc"],
                 formData["endDateUtc"],
                 formData["dailyTimestamp"],
                 groupBy,
                 formData["units"],
+            )
+            log_query_as_INFO(
+                get_user_ip_address(request),
+                queryStats["query"],
+                queryStats["executionTime"],
+                queryStats["totalRecords"],
             )
             return renderTempProfilePage(
                 request, formData["units"], groupBy, queryResults, int(borehole)
@@ -49,12 +59,18 @@ def index(request: HttpRequest):
         elif "temperature-time" in request.POST:
             formData = getUserTempVsTimeQuery(request)
             borehole = formData["boreholeNumber"]
-            queryResults = getTempVsTimeResults(
+            queryResults, queryStats = getTempVsTimeResults(
                 borehole,
                 formData["depth"],
                 formData["startDateUtc"],
                 formData["endDateUtc"],
                 formData["units"],
+            )
+            log_query_as_INFO(
+                get_user_ip_address(request),
+                queryStats["query"],
+                queryStats["executionTime"],
+                queryStats["totalRecords"],
             )
             return renderTempVsTimePage(
                 request, formData["units"], queryResults, int(borehole)
@@ -63,8 +79,14 @@ def index(request: HttpRequest):
         if "temperature-depth" in request.POST:
             formData = getUserTempVsDepthQuery(request)
             borehole = formData["boreholeNumber"]
-            queryResults = getTempVsDepthResults(
+            queryResults, queryStats = getTempVsDepthResults(
                 borehole, formData["timestampUtc"], formData["units"]
+            )
+            log_query_as_INFO(
+                get_user_ip_address(request),
+                queryStats["query"],
+                queryStats["executionTime"],
+                queryStats["totalRecords"],
             )
             return renderTempVsDepthPage(
                 request, formData["units"], queryResults, int(borehole)
@@ -87,19 +109,22 @@ def customQuery(request: HttpRequest):
     form = RawQueryForm(request.POST or None)
     context = {"form": form, "queryResults": []}
     previousQuery = ""
-    formData = {'rawQuery': ''}
+    formData = {"rawQuery": ""}
 
     if request.method == "POST":
-        try: 
+        try:
             formData = getUserRawQuery(request)
             if not formData:
-                context = {
-                    "form": form,
-                    "errorMessage": "Please enter a query."
-                }
+                context = {"form": form, "errorMessage": "Please enter a query."}
                 return render(request, "dashboard/customquery.html", context)
 
-            queryResults = getRawQueryResults(formData)
+            queryResults, queryStats = getRawQueryResults(formData)
+            log_query_as_INFO(
+                get_user_ip_address(request),
+                queryStats["query"],
+                queryStats["executionTime"],
+                queryStats["totalRecords"],
+            )
             context = {
                 "queryResults": [
                     {key: value for key, value in zip(queryResults[0].keys(), row)}
@@ -109,18 +134,25 @@ def customQuery(request: HttpRequest):
                 "rawQuery": formData.get("rawQuery"),
             }
 
-            return renderRawQueryPage(request, context, formData.get("rawQuery"), queryResults=queryResults)
+            return renderRawQueryPage(
+                request, context, formData.get("rawQuery"), queryResults=queryResults
+            )
         except Exception as e:
             errorMessage = str(e)
             context = {
                 "form": RawQueryForm(initial={"rawQuery": formData.get("rawQuery")}),
-                "errorMessage": errorMessage
+                "errorMessage": errorMessage,
             }
             context.update(formData)
-            return renderRawQueryPage(request, context, formData.get("rawQuery"), errorMessage=errorMessage, fromExcept = True)
+            return renderRawQueryPage(
+                request,
+                context,
+                formData.get("rawQuery"),
+                errorMessage=errorMessage,
+                fromExcept=True,
+            )
 
     else:
         previousQuery = request.GET.get("query", "")
         form = RawQueryForm(initial={"rawQuery": previousQuery})
         return renderRawQueryPage(request, context, formData.get("rawQuery"))
-        

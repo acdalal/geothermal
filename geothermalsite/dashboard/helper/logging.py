@@ -25,7 +25,9 @@ def get_user_ip_address(request):
     return ip_address
 
 
-def log_query_as_INFO(query: str, execution_time: int, number_of_records_returned: int):
+def log_query_as_INFO(
+    userIP: str, query: str, execution_time: int, number_of_records_returned: int
+):
     """Logs information about the executed query at INFO level
 
     Parameters
@@ -47,7 +49,8 @@ def log_query_as_INFO(query: str, execution_time: int, number_of_records_returne
     oneline_query = convert_multiline_to_oneline(query)
 
     logger.info(
-        "query: {} | query execution time: {}s | number of records returned: {}".format(
+        "User IP: {} | query: {} | query execution time: {}s | number of records returned: {}".format(
+            userIP,
             oneline_query,
             execution_time,
             number_of_records_returned,
