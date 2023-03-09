@@ -136,3 +136,9 @@ label {
 .viewer {
     position: relative;
 }
+
+/* make some space for the warning messages */
+.alert {
+    margin-top: 10px;
+    margin-bottom: 0px;
+}

@@ -59,37 +59,37 @@ function updateTempVsTimeForm() {
 
 }
 
-function updateTempVsDepthForm() {
-    // Update the temperature vs depth form
+// function updateTempVsDepthForm() {
+//     // Update the temperature vs depth form
 
-    let cachedValue = localStorage.getItem("tempVsDepthBoreholeNumber")
-    if (cachedValue != null) {
-        let borehole = document.getElementById("id_tempVsDepthBoreholeNumber")
-        borehole.value = cachedValue;
-    }
+//     let cachedValue = localStorage.getItem("tempVsDepthBoreholeNumber")
+//     if (cachedValue != null) {
+//         let borehole = document.getElementById("id_tempVsDepthBoreholeNumber")
+//         borehole.value = cachedValue;
+//     }
 
-    cachedValue = localStorage.getItem("tempVsDepthDateRange")
-    if (cachedValue != null) {
-        let dateRange = document.getElementById("id_tempVsDepthDateRange")
-        dateRange.value = cachedValue;
-    }
+//     cachedValue = localStorage.getItem("tempVsDepthDateRange")
+//     if (cachedValue != null) {
+//         let dateRange = document.getElementById("id_tempVsDepthDateRange")
+//         dateRange.value = cachedValue;
+//     }
 
-    cachedValue = localStorage.getItem("tempVsDepthTimeStamp")
-    if (cachedValue != null) {
-        let time = document.getElementById("id_tempVsDepthTimeStamp")
-        time.value = cachedValue;
-    }
+//     cachedValue = localStorage.getItem("tempVsDepthTimeStamp")
+//     if (cachedValue != null) {
+//         let time = document.getElementById("id_tempVsDepthTimeStamp")
+//         time.value = cachedValue;
+//     }
 
-    cachedValue = localStorage.getItem("tempVsDepthUnits")
-    if (cachedValue != null) {
-        document.getElementById("id_tempVsDepthUnits_" + cachedValue).checked = true
-    }
+//     cachedValue = localStorage.getItem("tempVsDepthUnits")
+//     if (cachedValue != null) {
+//         document.getElementById("id_tempVsDepthUnits_" + cachedValue).checked = true
+//     }
 
-}
+// }
 
 window.onload = function () {
     updateTempProfileForm()
-    updateTempVsDepthForm()
+    // updateTempVsDepthForm()
     updateTempVsTimeForm()
 }
 

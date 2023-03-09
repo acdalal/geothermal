@@ -1,3 +1,9 @@
+var disabledRanges = [];
+outageList.forEach(range => {
+    disabledRanges.push({start: range['startDate'], end: range['endDate']});
+})
+
+
 function invalidDate(date) {
     for (var i = 0; i < disabledRanges.length; i++) {
         if (date >= moment(disabledRanges[i].start) && date <= moment(disabledRanges[i].end)) {
@@ -8,7 +14,7 @@ function invalidDate(date) {
 }
 
 
-function setUpDatePicker(id, disabledRanges) {
+function setUpDatePicker(id) {
     $(id).daterangepicker({
         isInvalidDate: invalidDate,
         minDate: dataStartDate,
@@ -19,14 +25,12 @@ function setUpDatePicker(id, disabledRanges) {
             'Last 3 Available Months': [moment(dataEndDate).subtract(3, 'months'), moment()],
             'Last Available Year': [moment(dataEndDate).subtract(1, 'years'), moment()]
         },
+    }).on('apply.daterangepicker', function(ev, picker) {
+
     })
 }
 
 
-var disabledRanges = [];
-outageList.forEach(range => {
-    disabledRanges.push({start: range['startDate'], end: range['endDate']});
-})
 
 
 
@@ -53,7 +57,7 @@ $('#id_tempVsDepthTimestamp').daterangepicker({
 
 var ids = ['#id_tempVsTimeDateRange', '#id_temperatureProfileDateRange'];
 ids.forEach(id => {
-    setUpDatePicker(id, disabledRanges);
+    setUpDatePicker(id);
     $(id).value = moment(dataEndDate).subtract(30, "days").format("MM/DD/YYYY") + " - " + moment(dataEndDate).format("MM/DD/YYYY")
 })
 

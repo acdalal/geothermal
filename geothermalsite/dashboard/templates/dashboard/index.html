@@ -31,9 +31,9 @@
         <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#" id="tempvstime-button" onclick="selectTab('tempvstime')">Temperature vs. Time</a>
         </li>
-        <li class="nav-item">
+        <!-- <li class="nav-item">
             <a class="nav-link" data-toggle="tab" href="#" id="tempvsdepth-button" onclick="selectTab('tempvsdepth')">Temperature vs. Depth</a>
-        </li>
+        </li> -->
     </ul>
     <script src="{% static 'js/utils/selectTab.js' %}"></script>
     <script src="{% static 'js/utils/formCache.js' %}"></script>
@@ -73,6 +73,9 @@
                         {% include 'dashboard/boreholemap.html' %}
                         {% csrf_token %}
                         {{ temperatureProfileForm }}
+                        <div id="temperatureProfile_warning" class="alert alert-warning" role="alert" style="display:none;">
+                            The date range you selected includes at least one outage, which might result in incorrect data being displayed.
+                        </div>
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-profile"/>
                     </form>
                 </div>
@@ -111,11 +114,16 @@
                         {% include 'dashboard/boreholemap.html' %}
                         {% csrf_token %}
                         {{ tempOverTimeForm }}
+                        <div id="tempVsTime_warning" class="alert alert-warning" role="alert" display="none">
+                            The date range you selected includes at least one outage, which might result in incorrect data being displayed.
+                        </div>
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
                     </form>
                 </div>
             </div>
         </div>
+<!--
+        This was removed because it duplicates the temperature profile functionality.
 
         <div class="form-container tab-pane fade" id="tempvsdepth">
             {# Header and information about the query #}
@@ -149,11 +157,14 @@
                         {% include 'dashboard/boreholemap.html' %}
                         {% csrf_token %}
                         {{ tempOverDepthForm }}
+                        <div id="temppvsdepth_warning" class="alert alert-warning" role="alert">
+                            The date range you selected includes at least one outage, which might result in incorrect data being displayed.
+                        </div>
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-depth"/>
                     </form>
                 </div>
             </div>
-        </div>
+        </div> -->
         {# end tab content #}
     </div>
 </div>
