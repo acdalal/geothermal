@@ -114,7 +114,7 @@
                         {% include 'dashboard/boreholemap.html' %}
                         {% csrf_token %}
                         {{ tempOverTimeForm }}
-                        <div id="tempVsTime_warning" class="alert alert-warning" role="alert" display="none">
+                        <div id="tempVsTime_warning" class="alert alert-warning" role="alert"  style="display:none;">
                             The date range you selected includes at least one outage, which might result in incorrect data being displayed.
                         </div>
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
