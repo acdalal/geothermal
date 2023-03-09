@@ -32,21 +32,21 @@ function setUpDatePicker(id) {
 
 
 function containsOutage(range) {
-    const [startStr, endStr] = range.split(' - ');
-    const startDate = new Date(startStr);
-    const endDate = new Date(endStr);
+    const [startStr, endStr] = range.split(' - ')
+    const startDate = new Date(startStr)
+    const endDate = new Date(endStr)
 
     for (const outage of outageList) {
-        const outageStartDate = new Date(outage.startDate);
-        const outageEndDate = new Date(outage.endDate);
+        const outageStartDate = new Date(outage.startDate)
+        const outageEndDate = new Date(outage.endDate)
 
         if (startDate <= outageEndDate && outageStartDate <= endDate) {
-          return true;
+          return true
         }
       }
 
-      return false;
-    }
+      return false
+}
 
 
 

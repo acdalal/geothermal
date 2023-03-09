@@ -135,3 +135,4 @@ dmypy.json
 
 # Django static files
 geothermalsite/geothermalsite/static
+geothermalsite/static
