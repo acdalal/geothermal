@@ -9,8 +9,9 @@ will change those respective attributes for the entire site.
     --custom-black: #32292F;
     --custom-cream: #faf3dd;
     --custom-brown: #A3693F;
-    --custom-pink: #BC4B51;
-    --custom-light-pink:#DF6F75;
+    --custom-green: #648767;
+    --custom-light-green:#8dab90;
+    --custom-pink: #CFA5B4;
     --custom-dark-cream: #F3E3B1;
 
     /* change the colors here to change these colors of the whole site */
@@ -22,8 +23,8 @@ will change those respective attributes for the entire site.
     --secondary-text-color: var(--custom-dark-cream); /* text color on hover */
 
     /* button colors */
-    --primary-button-color: var(--custom-pink);
-    --secondary-button-color: var(--custom-light-pink);
+    --primary-button-color: var(--custom-green);
+    --secondary-button-color: var(--custom-light-green);
 
     /* link colors */
     --primary-link-color: #17a2b8;
@@ -48,6 +49,10 @@ will change those respective attributes for the entire site.
 
 .cream-background {
     background-color: var(--custom-cream);
+}
+
+.green-background {
+    background-color: var(--custom-green);
 }
 
 /* HTML tag styles --------------------------------------------------------- */
