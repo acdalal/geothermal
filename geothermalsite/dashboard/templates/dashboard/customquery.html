@@ -11,7 +11,7 @@ Advanced API: Custom Query
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
 <body>
-<div class="custom-query-container" id="custom-query-container" style="margin-left: 5%; margin-right: 5%">
+<div class="custom-query-container" id="custom-query-container">
     <form method="post" id="custom-query-form">
         {% csrf_token %}
         <p>If you're looking to be able to access the database with a bit more freedom than the available predefined queries,
@@ -66,7 +66,7 @@ Advanced API: Custom Query
             {% endfor %} -->
 
             <table class="table table-sm">
-                <thead style="background-color: var(--custom-green);">
+                <thead>
                   <tr id="table-header">
                     <!-- Header columns will be added dynamically -->
                   </tr>
