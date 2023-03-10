@@ -59,6 +59,17 @@ function updateTempVsTimeForm() {
 
 }
 
+function updateDisplayMode() {
+    // update light/dark mode settings
+    var cachedValue = localStorage.getItem("mode")
+    if (cachedValue == "light") {
+        document.getElementById("light-mode").click()
+    }
+    else {
+        document.getElementById("dark-mode").click()
+    }
+}
+
 // function updateTempVsDepthForm() {
 //     // Update the temperature vs depth form
 
@@ -87,33 +98,6 @@ function updateTempVsTimeForm() {
 
 // }
 
-window.onload = function () {
-    updateTempProfileForm()
-    // updateTempVsDepthForm()
-    updateTempVsTimeForm()
-
-
-    var fieldValue = $("#id_temperatureProfileDateRange")[0].value
-
-    if (containsOutage(fieldValue)) {
-        console.log("success")
-        $("#temperatureProfile_warning")[0].style.display = "block"
-    }
-    else {
-        $("#temperatureProfile_warning")[0].style.display = "none"
-    }
-
-
-    var fieldValue = $("#id_tempVsTimeDateRange")[0].value
-
-    if (containsOutage(fieldValue)) {
-        console.log("success")
-        $("#tempVsTime_warning")[0].style.display = "block"
-    }
-    else {
-        $("#tempVsTime_warning")[0].style.display = "none"
-    }
-}
 
 function clearCache() {
     localStorage.clear()

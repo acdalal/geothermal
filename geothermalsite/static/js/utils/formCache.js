@@ -59,6 +59,17 @@ function updateTempVsTimeForm() {
 
 }
 
+function updateDisplayMode() {
+    // update light/dark mode settings
+    var cachedValue = localStorage.getItem("mode")
+    if (cachedValue == "light") {
+        document.getElementById("light-mode").click()
+    }
+    else {
+        document.getElementById("dark-mode").click()
+    }
+}
+
 // function updateTempVsDepthForm() {
 //     // Update the temperature vs depth form
 
@@ -87,11 +98,6 @@ function updateTempVsTimeForm() {
 
 // }
 
-window.onload = function () {
-    updateTempProfileForm()
-    // updateTempVsDepthForm()
-    updateTempVsTimeForm()
-}
 
 function clearCache() {
     localStorage.clear()

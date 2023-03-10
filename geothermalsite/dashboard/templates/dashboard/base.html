@@ -43,11 +43,23 @@
             <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
             <!-- Daterangepicker -->
             <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+            <script type="text/javascript" src="{% static 'js/utils/onload.js' %}"></script>
         {% endblock %}
 
     </head>
     <body>
         {% include 'dashboard/navbar.html' %}
+
+        <div class="container float-left">
+            <div class="btn-group btn-group-toggle" data-toggle="buttons">
+            <label class="btn btn-light">
+                <input type="radio" name="options" id="light-mode"> Light Mode
+            </label>
+            <label class="btn btn-dark">
+                <input type="radio" name="options" id="dark-mode"> Dark Mode
+            </label>
+            </div>
+        </div>
 
         <!-- Block to contain the header of each page, with no header by default. -->
         <h1 class="header" id="page-header">
