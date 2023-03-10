@@ -38,8 +38,5 @@
 
 thead {
     background-color: var(--custom-pink);
-}
-
-.heading-text {
     color: white;
 }
