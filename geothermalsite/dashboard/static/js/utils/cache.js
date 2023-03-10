@@ -87,16 +87,11 @@ function updateTempVsTimeForm() {
 
 // }
 
-window.onload = function () {
-    updateTempProfileForm()
-    // updateTempVsDepthForm()
-    updateTempVsTimeForm()
-
+function displayOutageWarnings() {
 
     var fieldValue = $("#id_temperatureProfileDateRange")[0].value
 
     if (containsOutage(fieldValue)) {
-        console.log("success")
         $("#temperatureProfile_warning")[0].style.display = "block"
     }
     else {
@@ -104,15 +99,31 @@ window.onload = function () {
     }
 
 
-    var fieldValue = $("#id_tempVsTimeDateRange")[0].value
+    fieldValue = $("#id_tempVsTimeDateRange")[0].value
 
     if (containsOutage(fieldValue)) {
-        console.log("success")
         $("#tempVsTime_warning")[0].style.display = "block"
     }
     else {
         $("#tempVsTime_warning")[0].style.display = "none"
     }
+
+}
+
+function restoreTab() {
+    var tab = localStorage.getItem("tab")
+    console.log(tab)
+    if (tab == "tempvstime") {
+        document.getElementById("tempvstime-button").click()
+    }
+}
+
+window.onload = function () {
+    restoreTab()
+    updateTempProfileForm()
+    // updateTempVsDepthForm()
+    updateTempVsTimeForm()
+    displayOutageWarnings()
 }
 
 function clearCache() {
