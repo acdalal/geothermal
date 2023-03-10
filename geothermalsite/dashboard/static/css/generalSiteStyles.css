@@ -96,10 +96,12 @@ label {
 .btn {
     color: white;
     background-color: var(--primary-button-color);
+    outline-color: var(--primary-button-color);
 }
 
 .btn:hover {
     background-color: var(--secondary-button-color);
+    outline-color: var(--primary-button-color);
 }
 
 /* Jumbotron --------------------------------------------------------------- */
