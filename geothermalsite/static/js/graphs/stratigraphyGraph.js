@@ -170,6 +170,6 @@ const options = {
     plugins: [fillChart]
 }
 
-var chart = new Chart($chart, options);
+window.chart = new Chart($chart, options);
 
 document.getElementById("ctx").scrollIntoView();

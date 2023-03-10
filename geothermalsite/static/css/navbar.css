@@ -2,10 +2,12 @@
 
 .navbar .navbar-nav .nav-link, .navbar-brand {
     color: var(--primary-text-color);
+    font-size: 20px;
 }
 
 .navbar .navbar-nav .nav-link:hover, .navbar-brand:hover {
     color: var(--secondary-text-color);
+    font-size: 20px;
 }
 
 #main-navbar {

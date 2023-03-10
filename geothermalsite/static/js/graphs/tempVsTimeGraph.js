@@ -134,6 +134,6 @@ const options = {
     plugins: [drawVerticalLine, fillChart]
 }
 
-var chart = new Chart($chart, options);
+window.chart = new Chart($chart, options);
 
 document.getElementById("ctx").scrollIntoView();
