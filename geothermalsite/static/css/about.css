@@ -5,8 +5,8 @@
 }
 
 .list-group-item.active {
-    background-color: var(--custom-green);
-    border-color: var(--custom-green);
+    background-color: var(--custom-pink);
+    border-color: var(--custom-pink);
 }
 
 #content-block {
