@@ -1,8 +1,0 @@
-canvas #ctx {
-    height: 100vh;
-}
-
-#see-stratigraphy{
-    background-color: var(--custom-black);
-    color: var(--custom-cream);
-}

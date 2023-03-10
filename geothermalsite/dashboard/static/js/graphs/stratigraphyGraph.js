@@ -131,6 +131,20 @@ const options = {
                     })
                     chart.update()
                 }
+            },
+            zoom: {
+                zoom: {
+                    wheel: {
+                        enabled: true,
+                    },
+                    pinch: {
+                        enabled: true
+                    },
+                  mode: 'xy',
+                },
+                pan: {
+                    enabled: true
+                },
             }
         },
         indexAxis: 'y',
