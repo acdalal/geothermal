@@ -78,7 +78,7 @@
                         </div>
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-profile"/>
 
-                        {% if not graphData %}
+                        {% if queryResults and not graphData %}
                         <div class="alert alert-danger">
                             The parameters you requested didn't match any available data. Please adjust your inputs.
                         </div>
@@ -126,7 +126,7 @@
                         </div>
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
 
-                        {% if not graphData %}
+                        {% if queryResults and not graphData %}
                         <div class="alert alert-danger">
                             The parameters you requested didn't match any available data. Please adjust your inputs.
                         </div>
