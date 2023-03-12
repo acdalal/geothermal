@@ -6,8 +6,8 @@
 }
 
 .list-group-item.active {
-    background-color: var(--custom-green);
-    border-color: var(--custom-green);
+    background-color: var(--custom-pink);
+    border-color: var(--custom-pink);
 }
 
 .card-header {
@@ -37,9 +37,6 @@
 }
 
 thead {
-    background-color: var(--custom-green);
-}
-
-.heading-text {
+    background-color: var(--custom-pink);
     color: white;
 }
