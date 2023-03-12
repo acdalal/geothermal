@@ -61,7 +61,7 @@ dashboard/static
         ├── backToTopButton.js
         ├── createCsv.js
         ├── dateRangePicker.js
-        ├── formCache.js
+        ├── cache.js
         └── selectTab.js
 ```
 

@@ -37,7 +37,7 @@
         </li> -->
     </ul>
     <script src="{% static 'js/utils/selectTab.js' %}"></script>
-    <script src="{% static 'js/utils/formCache.js' %}"></script>
+    <script src="{% static 'js/utils/cache.js' %}"></script>
 
     {# Content inside the given tab #}
     <div class="tab-content" id="myTabContent">
@@ -78,7 +78,14 @@
                             The date range you selected includes at least one outage, which might result in incorrect data being displayed.
                         </div>
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-profile"/>
+
+                        {% if type and not queryData %}
+                        <div class="alert alert-danger">
+                            The parameters you requested didn't match any available data. Please adjust your inputs.
+                        </div>
+                        {% endif %}
                     </form>
+
                 </div>
             </div>
         </div>
@@ -119,12 +126,19 @@
                             The date range you selected includes at least one outage, which might result in incorrect data being displayed.
                         </div>
                         <input class="btn btn-secondary form-control submit-button" type="submit" value="Submit" name="temperature-time"/>
+
+                        {% if type and not queryData %}
+                        <div class="alert alert-danger">
+                            The parameters you requested didn't match any available data. Please adjust your inputs.
+                        </div>
+                        {% endif %}
                     </form>
+
                 </div>
             </div>
         </div>
-<!--
-        This was removed because it duplicates the temperature profile functionality.
+
+        <!-- This was removed because it duplicates the temperature profile functionality. -->
 
         <div class="form-container tab-pane fade" id="tempvsdepth">
             {# Header and information about the query #}
@@ -165,7 +179,7 @@
                     </form>
                 </div>
             </div>
-        </div> -->
+        </div>
         {# end tab content #}
     </div>
 </div>
@@ -173,20 +187,25 @@
     <link rel="stylesheet" href="{% static 'css/customdaterangepicker.css' %}">
     <script src="{% static 'js/utils/dateRangePicker.js' %}"></script>
 
-    {% if type %}
+
+    {% if type and graphData %}
         <script>$("#{{ type }}-button").click()</script>
+
+
+        {% if type == "tempprofile"%}
+            {% include 'dashboard/tempprofile.html' %}
+        {% endif %}
+
+        {% if type == "tempvstime" %}
+            {% include 'dashboard/tempvstime.html' %}
+        {% endif %}
+
+        <!-- {% if type == "tempvsdepth" %}
+            {% include 'dashboard/tempvsdepth.html' %}
+        {% endif %} -->
+
     {% endif %}
 
-    {% if type == "tempprofile" %}
-        {% include 'dashboard/tempprofile.html' %}
-    {% endif %}
 
-    {% if type == "tempvstime" %}
-        {% include 'dashboard/tempvstime.html' %}
-    {% endif %}
-
-    {% if type == "tempvsdepth" %}
-        {% include 'dashboard/tempvsdepth.html' %}
-    {% endif %}
 
 {% endblock %}

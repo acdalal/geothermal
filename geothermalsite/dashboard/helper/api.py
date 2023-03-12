@@ -18,7 +18,7 @@ def _toFarenheit(C: float) -> float:
     """
     Converts Celsius to Farenheit
     """
-    return C * 9 / 5 + 32
+    return C * 1.8 + 32
 
 
 def _toFeet(m: float) -> float:
@@ -26,6 +26,13 @@ def _toFeet(m: float) -> float:
     Converts meters to feet
     """
     return m / 0.3048
+
+
+def _toMeters(ft: float) -> float:
+    """
+    Converts feet to meters
+    """
+    return ft * 0.3048
 
 
 def _organizeDbResults(results: list[tuple], units: int) -> tuple[list[dict], int]:
@@ -108,6 +115,9 @@ def getTempVsTimeResults(
     # Use a helper function to create the query
     query = createTempVsTimeQuery()
     results = list()
+
+    if units == IMPERIAL:
+        depth = _toMeters(depth)
 
     # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
     with connections["geothermal"].cursor() as cursor:

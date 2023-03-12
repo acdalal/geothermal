@@ -2,7 +2,7 @@
 <link rel="stylesheet" href="{% static 'css/footer.css' %}">
 
 <footer class="bg-info text-center text-lg-start" id="main-footer">
-    <hr id="footer-line" style="background-color: var(--custom-cream);">
+    <hr id="footer-line">
     <!-- Grid container -->
     <div class="container p-4">
       <!--Grid row-->
@@ -31,10 +31,13 @@
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="https://www.carleton.edu/">Home</a>
+              <a href="https://www.carleton.edu/" target="_blank">Home</a>
             </li>
             <li>
-              <a href="https://www.carleton.edu/geothermal/">Utility Master Plan</a>
+              <a href="https://www.carleton.edu/geology/" target="_blank">Geology</a>
+            </li>
+            <li>
+              <a href="https://www.carleton.edu/geothermal/" target="_blank">Utility Master Plan</a>
             </li>
           </ul>
         </div>
@@ -46,7 +49,7 @@
 
           <ul class="list-unstyled mb-0">
             <li>
-              <a href="https://github.com/acdalal/geothermal">Source Code</a>
+              <a href="https://github.com/acdalal/geothermal" target="_blank">Source Code</a>
             </li>
             <li>
               <a href="{% url 'customquery' %}">Custom Query</a>
@@ -60,11 +63,4 @@
       <!--Grid row-->
     </div>
     <!-- Grid container -->
-
-    <!-- Copyright
-    <div class="text-center p-3 cream-background">
-      © 2020 Copyright:
-      <a class="text-dark" href="https://mdbootstrap.com/">MDBootstrap.com</a>
-    </div>
-    Copyright -->
 </footer>
