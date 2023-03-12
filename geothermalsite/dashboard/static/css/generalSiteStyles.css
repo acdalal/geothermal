@@ -40,14 +40,15 @@ will change those respective attributes for the entire site.
     }
 
     :root.dark {
-        --custom-black: #332A30;
+        --custom-black: #32292F;
         --custom-cream: #faf3dd;
         --custom-brown: #A3693F;
         --custom-green: #648767;
         --custom-light-green:#8dab90;
-        --custom-pink: #CFA5B4;
+        --custom-pink: #BC4B51;
+        --custom-light-pink:#DF6F75;
         --custom-dark-cream: #F3E3B1;
-        --custom-dark-black: #000000;
+        --custom-dark-black: #101010;
         --custom-gray: #808080;
 
 

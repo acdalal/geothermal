@@ -9,24 +9,34 @@ function updateTempProfileForm() {
     let cachedValue = localStorage.getItem("tempProfileBoreholeNumber")
     if (cachedValue != null) {
         let borehole = document.getElementById("id_tempProfileBoreholeNumber")
-        borehole.value = cachedValue;
+        if (borehole != null) {
+            borehole.value = cachedValue;
+        }
+
     }
 
     cachedValue = localStorage.getItem("temperatureProfileDateRange")
     if (cachedValue != null) {
         let dateRange = document.getElementById("id_temperatureProfileDateRange")
-        dateRange.value = cachedValue;
+        if (dateRange != null) {
+            dateRange.value = cachedValue;
+        }
     }
 
     cachedValue = localStorage.getItem("temperatureProfileTimeSelector")
     if (cachedValue != null) {
         let time = document.getElementById("id_temperatureProfileTimeSelector")
-        time.value = cachedValue;
+        if (time != null) {
+            time.value = cachedValue;
+        }
     }
 
     cachedValue = localStorage.getItem("tempProfileUnits")
     if (cachedValue != null) {
-        document.getElementById("id_tempProfileUnits_" + cachedValue).checked = true
+        let units = document.getElementById("id_tempProfileUnits_" + cachedValue)
+        if (units != null) {
+            units.checked = true
+        }
     }
 
 }
@@ -37,24 +47,33 @@ function updateTempVsTimeForm() {
     let cachedValue = localStorage.getItem("tempVsTimeBoreholeNumber")
     if (cachedValue != null) {
         let borehole = document.getElementById("id_tempVsTimeBoreholeNumber")
-        borehole.value = cachedValue;
+        if (borehole != null) {
+            borehole.value = cachedValue;
+        }
     }
 
     cachedValue = localStorage.getItem("tempVsTimeDateRange")
     if (cachedValue != null) {
         let dateRange = document.getElementById("id_tempVsTimeDateRange")
-        dateRange.value = cachedValue;
+        if (dateRange != null) {
+            dateRange.value = cachedValue;
+        }
     }
 
     cachedValue = localStorage.getItem("tempVsTimeDepth")
     if (cachedValue != null) {
         let depth = document.getElementById("id_tempVsTimeDepth")
-        depth.value = cachedValue;
+        if (depth != null) {
+            depth.value = cachedValue;
+        }
     }
 
     cachedValue = localStorage.getItem("tempVsTimeUnits")
     if (cachedValue != null) {
-        document.getElementById("id_tempVsTimeUnits_" + cachedValue).checked = true
+        let units = document.getElementById("id_tempProfileUnits_" + cachedValue)
+        if (units != null) {
+            units.checked = true
+        }
     }
 
 }
@@ -124,17 +143,12 @@ function displayOutageWarnings() {
 function restoreTab() {
     var tab = localStorage.getItem("tab")
     if (tab == "tempvstime") {
-        document.getElementById("tempvstime-button").click()
+        if (document.getElementById("tempvstime-button") != null){
+            document.getElementById("tempvstime-button").click()
+        }
     }
 }
 
-window.onload = function () {
-    restoreTab()
-    updateTempProfileForm()
-    // updateTempVsDepthForm()
-    updateTempVsTimeForm()
-    displayOutageWarnings()
-}
 
 function clearCache() {
     localStorage.clear()
