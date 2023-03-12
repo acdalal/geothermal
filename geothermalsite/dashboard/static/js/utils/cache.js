@@ -112,7 +112,6 @@ function displayOutageWarnings() {
 
 function restoreTab() {
     var tab = localStorage.getItem("tab")
-    console.log(tab)
     if (tab == "tempvstime") {
         document.getElementById("tempvstime-button").click()
     }

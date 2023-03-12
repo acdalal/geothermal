@@ -45,7 +45,7 @@ class TempVsTimeForm(forms.Form):
     )
 
     tempVsTimeDepth = forms.IntegerField(
-        label="Depth (allowed values: 5 - 160 in m., 15 - 500 in ft.)",
+        label="Depth",
         widget=forms.NumberInput(
             attrs={
                 "type": "number",
