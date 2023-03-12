@@ -82,10 +82,10 @@ function updateDisplayMode() {
     // update light/dark mode settings
     var cachedValue = localStorage.getItem("mode")
     if (cachedValue == "light") {
-        document.getElementById("light-mode").click()
+        document.getElementById("switch").checked = false;
     }
     else {
-        document.getElementById("dark-mode").click()
+        document.getElementById("switch").checked = true;
     }
 }
 

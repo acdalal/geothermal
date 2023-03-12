@@ -32,9 +32,12 @@
     <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
     <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
 
-
+    <!-- Google Font icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@48,400,0,0" />
     <!-- Custom site styles -->
     <link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}" />
+    <!-- Light/dark mode styles -->
+    <link rel="stylesheet" href="{% static 'css/modeSwitchStyles.css' %}" />
     {% endblock %}
 
     <!-- Block to contain all JS files, which can be overwritten/extended in child templates -->
@@ -71,15 +74,15 @@
 <body>
     {% include 'dashboard/navbar.html' %}
 
-    <div class="container float-left">
-        <div class="btn-group btn-group-toggle" data-toggle="buttons">
-        <label class="btn btn-light">
-            <input type="radio" name="options" id="light-mode"> Light Mode
-        </label>
-        <label class="btn btn-dark">
-            <input type="radio" name="options" id="dark-mode"> Dark Mode
-        </label>
+    <input type="checkbox" id="switch" />
+
+    <div class="switch-btn">
+      <label id="mode-label" for="switch">
+        <div class="icons">
+          <span class="material-symbols-rounded"> light_mode </span>
+          <span class="material-symbols-rounded"> nights_stay </span>
         </div>
+      </label>
     </div>
 
     <!-- Light/dark mode switch -->
