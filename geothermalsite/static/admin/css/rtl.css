@@ -4,16 +4,20 @@ th {
     text-align: right;
 }
 
-.module h2, .module caption {
+.module h2,
+.module caption {
     text-align: right;
 }
 
-.module ul, .module ol {
+.module ul,
+.module ol {
     margin-left: 0;
     margin-right: 1.5em;
 }
 
-.viewlink, .addlink, .changelink {
+.viewlink,
+.addlink,
+.changelink {
     padding-left: 0;
     padding-right: 16px;
     background-position: 100% 1px;
@@ -64,7 +68,7 @@ div.breadcrumbs {
 /* SORTABLE TABLES */
 
 table thead th.sorted .sortoptions {
-   float: left;
+    float: left;
 }
 
 thead th.sorted .text {
@@ -75,7 +79,7 @@ thead th.sorted .text {
 /* dashboard styles */
 
 .dashboard .module table td a {
-    padding-left: .6em;
+    padding-left: 0.6em;
     padding-right: 16px;
 }
 
@@ -102,7 +106,8 @@ thead th.sorted .text {
     margin-right: -15px;
 }
 
-#changelist table tbody td:first-child, #changelist table tbody th:first-child {
+#changelist table tbody td:first-child,
+#changelist table tbody th:first-child {
     border-right: none;
     border-left: none;
 }
@@ -115,7 +120,7 @@ thead th.sorted .text {
 }
 
 .submit-row {
-    text-align: left
+    text-align: left;
 }
 
 .submit-row p.deletelink-box {
@@ -126,7 +131,8 @@ thead th.sorted .text {
     margin-left: 0;
 }
 
-.vDateField, .vTimeField {
+.vDateField,
+.vTimeField {
     margin-left: 2px;
 }
 
@@ -134,7 +140,8 @@ thead th.sorted .text {
     margin-left: 5px;
 }
 
-form .aligned p.help, form .aligned div.help {
+form .aligned p.help,
+form .aligned div.help {
     clear: right;
 }
 
@@ -149,7 +156,8 @@ form ul.inline li {
     padding-left: 7px;
 }
 
-input[type=submit].default, .submit-row input.default {
+input[type="submit"].default,
+.submit-row input.default {
     float: left;
 }
 
@@ -195,7 +203,8 @@ fieldset .fieldBox {
     background-position: 0 -15px;
 }
 
-.calendar caption, .calendarbox h2 {
+.calendar caption,
+.calendarbox h2 {
     text-align: center;
 }
 
@@ -221,8 +230,9 @@ form .form-row p.datetime {
 
 /* MISC */
 
-.inline-related h2, .inline-group h2 {
-    text-align: right
+.inline-related h2,
+.inline-group h2 {
+    text-align: right;
 }
 
 .inline-related h3 span.delete {
@@ -230,7 +240,7 @@ form .form-row p.datetime {
     padding-left: inherit;
     left: 10px;
     right: inherit;
-    float:left;
+    float: left;
 }
 
 .inline-related h3 span.delete label {

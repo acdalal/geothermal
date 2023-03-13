@@ -6,58 +6,59 @@
 
 /* VARIABLE DEFINITIONS */
 :root {
-  --primary: #79aec8;
-  --secondary: #417690;
-  --accent: #f5dd5d;
-  --primary-fg: #fff;
+    --primary: #79aec8;
+    --secondary: #417690;
+    --accent: #f5dd5d;
+    --primary-fg: #fff;
 
-  --body-fg: #333;
-  --body-bg: #fff;
-  --body-quiet-color: #666;
-  --body-loud-color: #000;
+    --body-fg: #333;
+    --body-bg: #fff;
+    --body-quiet-color: #666;
+    --body-loud-color: #000;
 
-  --header-color: #ffc;
-  --header-branding-color: var(--accent);
-  --header-bg: var(--secondary);
-  --header-link-color: var(--primary-fg);
+    --header-color: #ffc;
+    --header-branding-color: var(--accent);
+    --header-bg: var(--secondary);
+    --header-link-color: var(--primary-fg);
 
-  --breadcrumbs-fg: #c4dce8;
-  --breadcrumbs-link-fg: var(--body-bg);
-  --breadcrumbs-bg: var(--primary);
+    --breadcrumbs-fg: #c4dce8;
+    --breadcrumbs-link-fg: var(--body-bg);
+    --breadcrumbs-bg: var(--primary);
 
-  --link-fg: #447e9b;
-  --link-hover-color: #036;
-  --link-selected-fg: #5b80b2;
+    --link-fg: #447e9b;
+    --link-hover-color: #036;
+    --link-selected-fg: #5b80b2;
 
-  --hairline-color: #e8e8e8;
-  --border-color: #ccc;
+    --hairline-color: #e8e8e8;
+    --border-color: #ccc;
 
-  --error-fg: #ba2121;
+    --error-fg: #ba2121;
 
-  --message-success-bg: #dfd;
-  --message-warning-bg: #ffc;
-  --message-error-bg: #ffefef;
+    --message-success-bg: #dfd;
+    --message-warning-bg: #ffc;
+    --message-error-bg: #ffefef;
 
-  --darkened-bg: #f8f8f8; /* A bit darker than --body-bg */
-  --selected-bg: #e4e4e4; /* E.g. selected table cells */
-  --selected-row: #ffc;
+    --darkened-bg: #f8f8f8; /* A bit darker than --body-bg */
+    --selected-bg: #e4e4e4; /* E.g. selected table cells */
+    --selected-row: #ffc;
 
-  --button-fg: #fff;
-  --button-bg: var(--primary);
-  --button-hover-bg: #609ab6;
-  --default-button-bg: var(--secondary);
-  --default-button-hover-bg: #205067;
-  --close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
-  --close-button-hover-bg: #747474;
-  --delete-button-bg: #ba2121;
-  --delete-button-hover-bg: #a41515;
+    --button-fg: #fff;
+    --button-bg: var(--primary);
+    --button-hover-bg: #609ab6;
+    --default-button-bg: var(--secondary);
+    --default-button-hover-bg: #205067;
+    --close-button-bg: #888; /* Previously #bbb, contrast 1.92 */
+    --close-button-hover-bg: #747474;
+    --delete-button-bg: #ba2121;
+    --delete-button-hover-bg: #a41515;
 
-  --object-tools-fg: var(--button-fg);
-  --object-tools-bg: var(--close-button-bg);
-  --object-tools-hover-bg: var(--close-button-hover-bg);
+    --object-tools-fg: var(--button-fg);
+    --object-tools-bg: var(--close-button-bg);
+    --object-tools-hover-bg: var(--close-button-hover-bg);
 }
 
-html, body {
+html,
+body {
     height: 100%;
 }
 
@@ -65,20 +66,23 @@ body {
     margin: 0;
     padding: 0;
     font-size: 0.875rem;
-    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans",
+        Verdana, Arial, sans-serif;
     color: var(--body-fg);
     background: var(--body-bg);
 }
 
 /* LINKS */
 
-a:link, a:visited {
+a:link,
+a:visited {
     color: var(--link-fg);
     text-decoration: none;
     transition: color 0.15s, background 0.15s;
 }
 
-a:focus, a:hover {
+a:focus,
+a:hover {
     color: var(--link-hover-color);
 }
 
@@ -90,19 +94,24 @@ a img {
     border: none;
 }
 
-a.section:link, a.section:visited {
+a.section:link,
+a.section:visited {
     color: var(--header-link-color);
     text-decoration: none;
 }
 
-a.section:focus, a.section:hover {
+a.section:focus,
+a.section:hover {
     text-decoration: underline;
 }
 
 /* GLOBAL DEFAULTS */
 
-p, ol, ul, dl {
-    margin: .2em 0 .8em 0;
+p,
+ol,
+ul,
+dl {
+    margin: 0.2em 0 0.8em 0;
 }
 
 p {
@@ -110,7 +119,11 @@ p {
     line-height: 140%;
 }
 
-h1,h2,h3,h4,h5 {
+h1,
+h2,
+h3,
+h4,
+h5 {
     font-weight: bold;
 }
 
@@ -123,7 +136,7 @@ h1 {
 
 h2 {
     font-size: 1rem;
-    margin: 1em 0 .5em 0;
+    margin: 1em 0 0.5em 0;
 }
 
 h2.subhead {
@@ -133,20 +146,20 @@ h2.subhead {
 
 h3 {
     font-size: 0.875rem;
-    margin: .8em 0 .3em 0;
+    margin: 0.8em 0 0.3em 0;
     color: var(--body-quiet-color);
     font-weight: bold;
 }
 
 h4 {
     font-size: 0.75rem;
-    margin: 1em 0 .8em 0;
+    margin: 1em 0 0.8em 0;
     padding-bottom: 3px;
 }
 
 h5 {
     font-size: 0.625rem;
-    margin: 1.5em 0 .5em 0;
+    margin: 1.5em 0 0.5em 0;
     color: var(--body-quiet-color);
     text-transform: uppercase;
     letter-spacing: 1px;
@@ -161,7 +174,9 @@ li ul {
     margin-bottom: 0;
 }
 
-li, dt, dd {
+li,
+dt,
+dd {
     font-size: 0.8125rem;
     line-height: 20px;
 }
@@ -196,8 +211,10 @@ blockquote {
     border-left: 5px solid #ddd;
 }
 
-code, pre {
-    font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier, monospace;
+code,
+pre {
+    font-family: "Bitstream Vera Sans Mono", Monaco, "Courier New", Courier,
+        monospace;
     color: var(--body-quiet-color);
     font-size: 0.75rem;
     overflow-x: auto;
@@ -234,24 +251,36 @@ hr {
     font-size: 0.625rem;
 }
 
-.help, p.help, form p.help, div.help, form div.help, div.help li {
+.help,
+p.help,
+form p.help,
+div.help,
+form div.help,
+div.help li {
     font-size: 0.6875rem;
     color: var(--body-quiet-color);
 }
 
 div.help ul {
-     margin-bottom: 0;
+    margin-bottom: 0;
 }
 
 .help-tooltip {
     cursor: help;
 }
 
-p img, h1 img, h2 img, h3 img, h4 img, td img {
+p img,
+h1 img,
+h2 img,
+h3 img,
+h4 img,
+td img {
     vertical-align: middle;
 }
 
-.quiet, a.quiet:link, a.quiet:visited {
+.quiet,
+a.quiet:link,
+a.quiet:visited {
     color: var(--body-quiet-color);
     font-weight: normal;
 }
@@ -275,7 +304,8 @@ table {
     border-color: var(--border-color);
 }
 
-td, th {
+td,
+th {
     font-size: 0.8125rem;
     line-height: 16px;
     border-bottom: 1px solid var(--hairline-color);
@@ -312,7 +342,8 @@ tr.alt {
     background: var(--darkened-bg);
 }
 
-tr:nth-child(odd), .row-form-errors {
+tr:nth-child(odd),
+.row-form-errors {
     background: var(--body-bg);
 }
 
@@ -332,7 +363,8 @@ thead th {
     background: var(--darkened-bg);
 }
 
-thead th a:link, thead th a:visited {
+thead th a:link,
+thead th a:visited {
     color: var(--body-quiet-color);
 }
 
@@ -355,7 +387,8 @@ table thead th .text a {
     padding: 8px 10px;
 }
 
-table thead th .text a:focus, table thead th .text a:hover {
+table thead th .text a:focus,
+table thead th .text a:hover {
     background: var(--selected-bg);
 }
 
@@ -375,7 +408,7 @@ table thead th.sorted .sortoptions {
 }
 
 table thead th.sorted .sortpriority {
-    font-size: .8em;
+    font-size: 0.8em;
     min-width: 12px;
     text-align: center;
     vertical-align: 3px;
@@ -397,7 +430,7 @@ table thead th.sorted .sortoptions a.sortremove {
 }
 
 table thead th.sorted .sortoptions a.sortremove:after {
-    content: '\\';
+    content: "\\";
     position: absolute;
     top: -6px;
     left: 3px;
@@ -437,7 +470,11 @@ table thead th.sorted .sortoptions a.descending:hover {
 
 /* FORM DEFAULTS */
 
-input, textarea, select, .form-row p, form .button {
+input,
+textarea,
+select,
+.form-row p,
+form .button {
     margin: 2px 0;
     padding: 2px 3px;
     vertical-align: middle;
@@ -453,8 +490,15 @@ textarea {
     vertical-align: top;
 }
 
-input[type=text], input[type=password], input[type=email], input[type=url],
-input[type=number], input[type=tel], textarea, select, .vTextField {
+input[type="text"],
+input[type="password"],
+input[type="email"],
+input[type="url"],
+input[type="number"],
+input[type="tel"],
+textarea,
+select,
+.vTextField {
     border: 1px solid var(--border-color);
     border-radius: 4px;
     padding: 5px 6px;
@@ -463,9 +507,15 @@ input[type=number], input[type=tel], textarea, select, .vTextField {
     background-color: var(--body-bg);
 }
 
-input[type=text]:focus, input[type=password]:focus, input[type=email]:focus,
-input[type=url]:focus, input[type=number]:focus, input[type=tel]:focus,
-textarea:focus, select:focus, .vTextField:focus {
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="number"]:focus,
+input[type="tel"]:focus,
+textarea:focus,
+select:focus,
+.vTextField:focus {
     border-color: var(--body-quiet-color);
 }
 
@@ -481,7 +531,11 @@ select[multiple] {
 
 /* FORM BUTTONS */
 
-.button, input[type=submit], input[type=button], .submit-row input, a.button {
+.button,
+input[type="submit"],
+input[type="button"],
+.submit-row input,
+a.button {
     background: var(--button-bg);
     padding: 10px 15px;
     border: none;
@@ -495,35 +549,47 @@ a.button {
     padding: 4px 5px;
 }
 
-.button:active, input[type=submit]:active, input[type=button]:active,
-.button:focus, input[type=submit]:focus, input[type=button]:focus,
-.button:hover, input[type=submit]:hover, input[type=button]:hover {
+.button:active,
+input[type="submit"]:active,
+input[type="button"]:active,
+.button:focus,
+input[type="submit"]:focus,
+input[type="button"]:focus,
+.button:hover,
+input[type="submit"]:hover,
+input[type="button"]:hover {
     background: var(--button-hover-bg);
 }
 
-.button[disabled], input[type=submit][disabled], input[type=button][disabled] {
+.button[disabled],
+input[type="submit"][disabled],
+input[type="button"][disabled] {
     opacity: 0.4;
 }
 
-.button.default, input[type=submit].default, .submit-row input.default {
+.button.default,
+input[type="submit"].default,
+.submit-row input.default {
     float: right;
     border: none;
     font-weight: 400;
     background: var(--default-button-bg);
 }
 
-.button.default:active, input[type=submit].default:active,
-.button.default:focus, input[type=submit].default:focus,
-.button.default:hover, input[type=submit].default:hover {
+.button.default:active,
+input[type="submit"].default:active,
+.button.default:focus,
+input[type="submit"].default:focus,
+.button.default:hover,
+input[type="submit"].default:hover {
     background: var(--default-button-hover-bg);
 }
 
 .button[disabled].default,
-input[type=submit][disabled].default,
-input[type=button][disabled].default {
+input[type="submit"][disabled].default,
+input[type="button"][disabled].default {
     opacity: 0.4;
 }
-
 
 /* MODULES */
 
@@ -533,7 +599,12 @@ input[type=button][disabled].default {
     background: var(--body-bg);
 }
 
-.module p, .module ul, .module h3, .module h4, .module dl, .module pre {
+.module p,
+.module ul,
+.module h3,
+.module h4,
+.module dl,
+.module pre {
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -542,15 +613,18 @@ input[type=button][disabled].default {
     margin-left: 12px;
 }
 
-.module ul, .module ol {
+.module ul,
+.module ol {
     margin-left: 1.5em;
 }
 
 .module h3 {
-    margin-top: .6em;
+    margin-top: 0.6em;
 }
 
-.module h2, .module caption, .inline-group h2 {
+.module h2,
+.module caption,
+.inline-group h2 {
     margin: 0;
     padding: 8px;
     font-weight: 400;
@@ -584,19 +658,22 @@ ul.messagelist li {
     font-size: 0.8125rem;
     padding: 10px 10px 10px 65px;
     margin: 0 0 10px 0;
-    background: var(--message-success-bg) url(../img/icon-yes.svg) 40px 12px no-repeat;
+    background: var(--message-success-bg) url(../img/icon-yes.svg) 40px 12px
+        no-repeat;
     background-size: 16px auto;
     color: var(--body-fg);
     word-break: break-word;
 }
 
 ul.messagelist li.warning {
-    background: var(--message-warning-bg) url(../img/icon-alert.svg) 40px 14px no-repeat;
+    background: var(--message-warning-bg) url(../img/icon-alert.svg) 40px 14px
+        no-repeat;
     background-size: 14px auto;
 }
 
 ul.messagelist li.error {
-    background: var(--message-error-bg) url(../img/icon-no.svg) 40px 12px no-repeat;
+    background: var(--message-error-bg) url(../img/icon-no.svg) 40px 12px
+        no-repeat;
     background-size: 16px auto;
 }
 
@@ -657,8 +734,12 @@ td ul.errorlist li {
     padding-left: 0;
 }
 
-.errors input, .errors select, .errors textarea,
-td ul.errorlist + input, td ul.errorlist + select, td ul.errorlist + textarea {
+.errors input,
+.errors select,
+.errors textarea,
+td ul.errorlist + input,
+td ul.errorlist + select,
+td ul.errorlist + textarea {
     border: 1px solid var(--error-fg);
 }
 
@@ -681,13 +762,15 @@ div.breadcrumbs a {
     color: var(--breadcrumbs-link-fg);
 }
 
-div.breadcrumbs a:focus, div.breadcrumbs a:hover {
+div.breadcrumbs a:focus,
+div.breadcrumbs a:hover {
     color: var(--breadcrumbs-fg);
 }
 
 /* ACTION ICONS */
 
-.viewlink, .inlineviewlink {
+.viewlink,
+.inlineviewlink {
     padding-left: 16px;
     background: url(../img/icon-viewlink.svg) 0 1px no-repeat;
 }
@@ -697,7 +780,8 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
     background: url(../img/icon-addlink.svg) 0 1px no-repeat;
 }
 
-.changelink, .inlinechangelink {
+.changelink,
+.inlinechangelink {
     padding-left: 16px;
     background: url(../img/icon-changelink.svg) 0 1px no-repeat;
 }
@@ -707,11 +791,13 @@ div.breadcrumbs a:focus, div.breadcrumbs a:hover {
     background: url(../img/icon-deletelink.svg) 0 1px no-repeat;
 }
 
-a.deletelink:link, a.deletelink:visited {
-    color: #CC3434; /* XXX Probably unused? */
+a.deletelink:link,
+a.deletelink:visited {
+    color: #cc3434; /* XXX Probably unused? */
 }
 
-a.deletelink:focus, a.deletelink:hover {
+a.deletelink:focus,
+a.deletelink:hover {
     color: #993333; /* XXX Probably unused? */
     text-decoration: none;
 }
@@ -738,7 +824,8 @@ a.deletelink:focus, a.deletelink:hover {
     border-radius: 15px;
 }
 
-.object-tools a:link, .object-tools a:visited {
+.object-tools a:link,
+.object-tools a:visited {
     display: block;
     float: left;
     padding: 3px 12px;
@@ -750,15 +837,17 @@ a.deletelink:focus, a.deletelink:hover {
     letter-spacing: 0.5px;
 }
 
-.object-tools a:focus, .object-tools a:hover {
+.object-tools a:focus,
+.object-tools a:hover {
     background-color: var(--object-tools-hover-bg);
 }
 
-.object-tools a:focus{
+.object-tools a:focus {
     text-decoration: none;
 }
 
-.object-tools a.viewsitelink, .object-tools a.addlink {
+.object-tools a.viewsitelink,
+.object-tools a.addlink {
     background-repeat: no-repeat;
     background-position: right 7px center;
     padding-right: 26px;
@@ -811,7 +900,7 @@ a.deletelink:focus, a.deletelink:hover {
 }
 
 .main > .content {
-    flex:  1 0;
+    flex: 1 0;
     max-width: 100%;
 }
 
@@ -878,11 +967,14 @@ a.deletelink:focus, a.deletelink:hover {
     overflow: hidden;
 }
 
-#header a:link, #header a:visited, #logout-form button {
+#header a:link,
+#header a:visited,
+#logout-form button {
     color: var(--header-link-color);
 }
 
-#header a:focus , #header a:hover {
+#header a:focus,
+#header a:hover {
     text-decoration: underline;
 }
 
@@ -898,7 +990,8 @@ a.deletelink:focus, a.deletelink:hover {
     color: var(--header-branding-color);
 }
 
-#branding h1 a:link, #branding h1 a:visited {
+#branding h1 a:link,
+#branding h1 a:visited {
     color: var(--accent);
 }
 
@@ -922,7 +1015,8 @@ a.deletelink:focus, a.deletelink:hover {
     background: none;
     border: 0;
     cursor: pointer;
-    font-family: "Roboto","Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif;
+    font-family: "Roboto", "Lucida Grande", "DejaVu Sans", "Bitstream Vera Sans",
+        Verdana, Arial, sans-serif;
 }
 
 #user-tools {
@@ -931,7 +1025,8 @@ a.deletelink:focus, a.deletelink:hover {
     text-align: right;
 }
 
-#user-tools, #logout-form button{
+#user-tools,
+#logout-form button {
     padding: 0;
     font-weight: 300;
     font-size: 0.6875rem;
@@ -939,17 +1034,21 @@ a.deletelink:focus, a.deletelink:hover {
     text-transform: uppercase;
 }
 
-#user-tools a, #logout-form button {
+#user-tools a,
+#logout-form button {
     border-bottom: 1px solid rgba(255, 255, 255, 0.25);
 }
 
-#user-tools a:focus, #user-tools a:hover,
-#logout-form button:active, #logout-form button:hover {
+#user-tools a:focus,
+#user-tools a:hover,
+#logout-form button:active,
+#logout-form button:hover {
     text-decoration: none;
     border-bottom: 0;
 }
 
-#logout-form button:active, #logout-form button:hover {
+#logout-form button:active,
+#logout-form button:hover {
     margin-bottom: 1px;
 }
 
@@ -1054,7 +1153,8 @@ a.deletelink:focus, a.deletelink:hover {
     width: 100%;
 }
 
-.paginator a:link, .paginator a:visited {
+.paginator a:link,
+.paginator a:visited {
     padding: 2px 6px;
     background: var(--button-bg);
     text-decoration: none;
@@ -1067,7 +1167,8 @@ a.deletelink:focus, a.deletelink:hover {
     color: var(--link-fg);
 }
 
-.paginator a.showall:focus, .paginator a.showall:hover {
+.paginator a.showall:focus,
+.paginator a.showall:hover {
     background: none;
     color: var(--link-hover-color);
 }
@@ -1083,7 +1184,8 @@ a.deletelink:focus, a.deletelink:hover {
     vertical-align: top;
 }
 
-.paginator a:focus, .paginator a:hover {
+.paginator a:focus,
+.paginator a:hover {
     color: white;
     background: var(--link-hover-color);
 }

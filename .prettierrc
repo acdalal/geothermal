@@ -1,0 +1,23 @@
+{
+    "overrides": [
+        {
+            "files": ["*.js"],
+            "excludeFiles": ["*vendor/*"],
+            "options": {
+                "tabWidth": 4,
+                "printWidth": 80,
+                "trailingComma": "es5",
+                "bracketSpacing": true
+            }
+        },
+        {
+            "files": ["*.css"],
+            "options": {
+                "tabWidth": 4,
+                "printWidth": 80,
+                "trailingComma": "es5",
+                "bracketSpacing": true
+            }
+        }
+    ]
+}
