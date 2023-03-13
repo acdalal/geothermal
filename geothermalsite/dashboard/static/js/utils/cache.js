@@ -83,9 +83,11 @@ function updateDisplayMode() {
     var cachedValue = localStorage.getItem("mode")
     if (cachedValue == "light") {
         document.getElementById("switch").checked = false;
+        toLightMode()
     }
     else {
         document.getElementById("switch").checked = true;
+        toDarkMode()
     }
 }
 
