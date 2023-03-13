@@ -109,7 +109,6 @@ $("#id_temperatureProfileDateRange").daterangepicker({
     cacheInput("temperatureProfileDateRange", fieldValue)
 
     if (containsOutage(fieldValue)) {
-        console.log("success")
         $("#temperatureProfile_warning")[0].style.display = "block"
     }
     else {
