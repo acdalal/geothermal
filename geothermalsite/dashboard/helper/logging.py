@@ -1,5 +1,3 @@
-import sys
-
 # configure logger for DB queries
 import logging
 
@@ -25,29 +23,31 @@ def get_user_ip_address(request):
     return ip_address
 
 
-def log_query_as_INFO(query: str, execution_time: int, number_of_records_returned: int):
+def log_query_as_INFO(
+    userIP: str, query: str, execution_time: int, number_of_records_returned: int
+):
     """Logs information about the executed query at INFO level
 
     Parameters
     ----------
+    userIP: str
+        the IP address of the user that executed the query
+        (see warning in get_user_ip_address)
     query : str
         the PostgreSQL query that was executed
     execution_time : int
-        the time it took to execute the query
+        the time it took to execute the query in seconds
     number_of_records_returned : int
         the number of records returned from the database
 
     Returns
     -------
-    Nothing; writes the log on a single line to the logfile specified in
-    settings.py
+    Nothing; writes the log on a single line to the logfile specified in settings.py
     """
-
-    # ip_address = get_user_ip_address(request)
     oneline_query = convert_multiline_to_oneline(query)
-
     logger.info(
-        "query: {} | query execution time: {}s | number of records returned: {}".format(
+        "User IP: {} | query: {} | query execution time: {}s | number of records returned: {}".format(
+            userIP,
             oneline_query,
             execution_time,
             number_of_records_returned,
