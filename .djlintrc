@@ -1,0 +1,14 @@
+{
+    "indent": "2",
+    "blank_line_before_tag": "block,if,for,csrf_token",
+    "blank_line_after_tag": "load,extends,include,endblock,endif,endfor,csrf_token",
+    "profile": "django",
+    "max_line_length": "120",
+    "max_attribute_length": "10",
+    "use_gitignore": "True",
+    "format_js": true,
+    "js": {
+        "indent_size": "2"
+    },
+    "ignore": "H006,H021,D018"
+}

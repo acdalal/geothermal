@@ -12,9 +12,20 @@ repos:
             language: system
             args: ['--maxkb=1000']
 
-
 -   repo: https://github.com/psf/black
     rev: 21.12b0
     hooks:
         -   id: black
             language: system
+
+# NOTE: Django templates are not strictly HTML files, and are therefore
+# tricky to format in a clean and consistent way. djlint will attempt to
+# reformat and check for compliance with HTML/Django template best practices
+# (see more about formatting and linting in the documentation here
+# https://www.djlint.com/docs/configuration/). djlint can be configured to desired
+# specifications using the .djlintrc file.
+-   repo: https://github.com/Riverside-Healthcare/djLint
+    rev: v1.19.16
+    hooks:
+        -   id: djlint-django
+            entry: djlint --profile=django --reformat --lint

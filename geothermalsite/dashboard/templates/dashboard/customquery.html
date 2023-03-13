@@ -1,133 +1,153 @@
-{% extends 'dashboard/base.html' %}
+{% extends "dashboard/base.html" %}
 
 {% block header %}
-Advanced API: Custom Query
-{% endblock %}
+  Advanced API: Custom Query
+{% endblock header %}
 
 {% block content %}
-{% load static %}
-<link rel="stylesheet" href="{% static 'css/customquery.css' %}">
-{% comment %} moment.js for loading datetime object correctly in the data summary table {% endcomment %}
-<script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  {% load static %}
 
-<body>
-<div class="custom-query-container" id="custom-query-container">
-    <form method="post" id="custom-query-form">
+  <link rel="stylesheet"
+        href="{% static 'css/customquery.css' %}"/>
+  {% comment %} moment.js for loading datetime object correctly in the data summary table {% endcomment %}
+  <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+  <body>
+    <div class="custom-query-container"
+         id="custom-query-container">
+      <form method="post"
+            id="custom-query-form">
+
         {% csrf_token %}
-        <p>If you're looking to be able to access the database with a bit more freedom than the available predefined queries,
-            that option is provided here. You will need to know some SQL to get started. <a class="link" href="https://www.sqltutorial.org/" target="_blank"><u>Here's a good resource</u></a> if you've never
-            used SQL before.</p>
-
+        <p>
+          If you're looking to be able to access the database with a bit more freedom than the available predefined queries,
+          that option is provided here. You will need to know some SQL to get started.
+          <a class="link"
+             href="https://www.sqltutorial.org/"
+             target="_blank"><u>Here's a good resource</u>
+          </a> if you've never used SQL before.
+        </p>
         <details>
-            <summary>Here is the schema diagram for the database</summary>
-            <img src="{% static 'img/schema.png' %}" alt="Schema diagram for the Geothermal database" style="width:100%">
+          <summary>
+            Here is the schema diagram for the database
+          </summary>
+          <img src="{% static 'img/schema.png' %}"
+               alt="Schema diagram for the Geothermal database"
+               style="width:100%"/>
         </details>
-        <br>
+        <br/>
         <label for="query">Enter a Custom Query:</label>
-        <br>
+        <br/>
         {% spaceless %}
-            <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em;"
-                {% if form.initial %}
-                    >{{ form.initial.rawQuery }}
-                {% else %}>{{ rawQuery }}
-                {% endif %}
-            </textarea>
+          <textarea class="form-control" name="rawQuery" id="rawQuery" style="height: 10em;" {% if form.initial %}>{{ form.initial.rawQuery }}
+          {% else %}>{{ rawQuery }}
+          {% endif %}
+          </textarea>
         {% endspaceless %}
-        <br>
+        <br/>
 
         {% if errorMessage %}
-            {% if fromExcept %}
-                <div class="alert alert-danger" role="alert">
-                    {% for line in errorMessage %}
-                        <div style="font-family: monospace">{{ line | safe }}</div>
-                    {% endfor %}
-                </div>
-            {% else %}
-            <div class="alert alert-danger" role="alert">
-                <div style="font-family: monospace">{{ errorMessage }}</div>
+          {% if fromExcept %}
+            <div class="alert alert-danger"
+                 role="alert">
+
+              {% for line in errorMessage %}<div style="font-family: monospace">{{ line | safe }}</div>{% endfor %}
+
             </div>
-            {% endif %}
+          {% else %}
+            <div class="alert alert-danger"
+                 role="alert">
+              <div style="font-family: monospace">{{ errorMessage }}</div>
+            </div>
+          {% endif %}
         {% endif %}
 
-        <button class="btn btn-secondary form-control limitwidth" data-toggle="modal" data-target="#exampleModal" type="submit">Submit</button>
-    </form>
-
-    <script>
-        $('#exampleModal').on('shown.bs.modal', function () {
-            $('#myInput').trigger('focus')
+        <button class="btn btn-secondary form-control limitwidth"
+                data-toggle="modal"
+                data-target="#exampleModal"
+                type="submit">
+          Submit
+        </button>
+      </form>
+      <script>
+        $('#exampleModal').on('shown.bs.modal', function() {
+          $('#myInput').trigger('focus')
         })
-    </script>
-    {% if queryResults %}
-        <button class="btn btn-secondary form-control" onclick="downloadData('geothermal')">Download data </button>
-        <p></p>
+      </script>
+
+      {% if queryResults %}
+        <button class="btn btn-secondary form-control"
+                onclick="downloadData('geothermal')">Download data</button>
         <h6>Query Results:</h6>
-            <!-- {% for row in queryResults|slice:":10" %}
+        <!-- {% for row in queryResults|slice:":10" %}
                 <div>{{ row }}</div>
-            {% endfor %} -->
+        {% endfor %} -->
+        <table class="table table-sm">
+          <thead>
+            <tr id="table-header">
+              <!-- Header columns will be added dynamically -->
+            </tr>
+          </thead>
+          <tbody id="table-body">
+            <!-- Body rows will be added dynamically -->
+          </tbody>
+        </table>
+        <script>
+          var queryResults = {
+            {
+              queryResults | safe
+            }
+          };
 
-            <table class="table table-sm">
-                <thead>
-                  <tr id="table-header">
-                    <!-- Header columns will be added dynamically -->
-                  </tr>
-                </thead>
-                <tbody id="table-body">
-                  <!-- Body rows will be added dynamically -->
-                </tbody>
-            </table>
+          // Get a reference to the table header and body
+          var tableHeader = document.getElementById("table-header");
+          var tableBody = document.getElementById("table-body");
+          var upperlimit = Math.min(10, queryResults.length);
+          // Loop through the data and add rows to the table
+          for (var i = 0; i < upperlimit; i++) {
+            var row = tableBody.insertRow(i);
+            for (var key in queryResults[i]) {
+              if (i === 0) {
+                // Add a new header column for each unique key
+                var headerColumn = document.createElement("th");
 
-            <script>
-                var queryResults = {{ queryResults|safe }};
+                headerColumn.innerHTML = key;
+                tableHeader.appendChild(headerColumn);
+              }
+              var cell = row.insertCell();
+              cell.innerHTML = queryResults[i][key];
+            }
+          }
+        </script>
 
-                // Get a reference to the table header and body
-                var tableHeader = document.getElementById("table-header");
-                var tableBody = document.getElementById("table-body");
-                var upperlimit = Math.min(10, queryResults.length);
-                // Loop through the data and add rows to the table
-                for (var i = 0; i < upperlimit; i++) {
+        {% if queryResults|length > 10 %}
+          <input type="button"
+                 class="btn see-all-data"
+                 value="See all"/>
+          <script>
+            $(document).ready(function() {
+              $(".btn.see-all-data").click(function() {
+                if ($(this).val() == "See all") {
+                  for (var i = 10; i < queryResults.length; i++) {
                     var row = tableBody.insertRow(i);
                     for (var key in queryResults[i]) {
-                        if (i === 0) {
-                            // Add a new header column for each unique key
-                            var headerColumn = document.createElement("th");
-
-                            headerColumn.innerHTML = key;
-                            tableHeader.appendChild(headerColumn);
-                        }
-                        var cell = row.insertCell();
-                        cell.innerHTML = queryResults[i][key];
+                      var cell = row.insertCell();
+                      cell.innerHTML = queryResults[i][key];
                     }
+                  }
+                } else {
+                  for (var i = 10; i < queryResults.length; i++) {
+                    var row = tableBody.deleteRow(10);
+
+                  }
                 }
-            </script>
+                $(this).val() == "See all" ? $(this).val("See less") : $(this).val("See all")
+              });
 
-            {% if queryResults|length > 10 %}
-                <input type="button" class="btn see-all-data" value="See all">
-                <script>
-                    $(document).ready(function () {
-                        $(".btn.see-all-data").click(function () {
-                            if ($(this).val() == "See all"){
-                                for (var i = 10; i < queryResults.length; i++) {
-                                    var row = tableBody.insertRow(i);
-                                    for (var key in queryResults[i]) {
-                                        var cell = row.insertCell();
-                                        cell.innerHTML = queryResults[i][key];
-                                    }
-                                }
-                            } else{
-                                for (var i = 10; i < queryResults.length; i++) {
-                                    var row = tableBody.deleteRow(10);
+            });
+          </script>
+        {% endif %}
 
-                                }
-                            }
-                            $(this).val() == "See all" ? $(this).val("See less") : $(this).val("See all")
-                        });
-
-                    });
-                </script>
-            {% endif %}
-
-
-            {% comment %}
+        {% comment %}
             {% if queryResults|length > 10 %}
                 <input type="button" class="btn info-btn" value="see all">
 
@@ -135,42 +155,49 @@ Advanced API: Custom Query
                     <summary>View all data</summary>
                     <div>
                          <script>
-                            var queryResults = {{ queryResults|safe }};
-                            // Get a reference to the table header and body
-                            var tableHeader = document.getElementById("table-header");
-                            var tableBody = document.getElementById("table-body");
-                            // Loop through the data and add rows to the table
-                            for (var i = 0; i < queryResults.length; i++) {
-                                var row = tableBody.insertRow(i);
+                           var queryResults = {
+                             {
+                               queryResults | safe
+                             }
+                           };
+                           // Get a reference to the table header and body
+                           var tableHeader = document.getElementById("table-header");
+                           var tableBody = document.getElementById("table-body");
+                           // Loop through the data and add rows to the table
+                           for (var i = 0; i < queryResults.length; i++) {
+                             var row = tableBody.insertRow(i);
 
-                                for (var key in queryResults[i]) {
-                                    if (i === 0) {
-                                        // Add a new header column for each unique key
-                                        var headerColumn = document.createElement("th");
+                             for (var key in queryResults[i]) {
+                               if (i === 0) {
+                                 // Add a new header column for each unique key
+                                 var headerColumn = document.createElement("th");
 
-                                        headerColumn.innerHTML = key;
-                                        tableHeader.appendChild(headerColumn);
-                                    }
-                                    var cell = row.insertCell();
-                                    cell.innerHTML = queryResults[i][key];
-                                }
-                            }
-                        </script>
-                        <!-- {% for row in queryResults %}
-                            <div>{{ row }}</div>
-                        {% endfor %} -->
+                                 headerColumn.innerHTML = key;
+                                 tableHeader.appendChild(headerColumn);
+                               }
+                               var cell = row.insertCell();
+                               cell.innerHTML = queryResults[i][key];
+                             }
+                           }
+                         </script>
+                        <!-- {% for row in queryResults %}                            <div>{{ row }}</div>{% endfor %} -->
                     </div>
                 </details>
             {% endif %}
-            {% endcomment %}
 
+
+
+        {% endcomment %}
         <script src="{% static 'js/utils/createCsv.js' %}"></script>
         <script>
-            var queryData = {{ queryResults | safe }};
+          var queryData = {
+            {
+              queryResults | safe
+            }
+          };
         </script>
+      {% endif %}
 
-    {% endif %}
-
-{% endblock %}
-</div>
-</body>
+    </div>
+  </body>
+{% endblock content %}
