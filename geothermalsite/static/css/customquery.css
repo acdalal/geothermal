@@ -5,3 +5,8 @@
     padding-right: 5%;
     margin-left: 5%;
 }
+
+#table-header {
+    background-color: var(--custom-pink);
+    color: white;
+}

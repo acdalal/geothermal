@@ -20,10 +20,10 @@ function setUpDatePicker(id) {
         minDate: dataStartDate,
         maxDate: dataEndDate,
         ranges: {
-            'Last 7 Available Days': [moment(dataEndDate).subtract(6, 'days'), moment()],
-            'Last 30 Available Days': [moment(dataEndDate).subtract(29, 'days'), moment()],
-            'Last 3 Available Months': [moment(dataEndDate).subtract(3, 'months'), moment()],
-            'Last Available Year': [moment(dataEndDate).subtract(1, 'years'), moment()]
+            'Last 7 Available Days': [moment(dataEndDate, 'MM/DD/YYYY').subtract(6, 'days'), moment()],
+            'Last 30 Available Days': [moment(dataEndDate, 'MM/DD/YYYY').subtract(29, 'days'), moment()],
+            'Last 3 Available Months': [moment(dataEndDate, 'MM/DD/YYYY').subtract(3, 'months'), moment()],
+            'Last Available Year': [moment(dataEndDate, 'MM/DD/YYYY').subtract(1, 'years'), moment()]
         },
     }).on('apply.daterangepicker', function(ev, picker) {
         cacheInput(id.slice(4), $(id)[0].value)
@@ -109,7 +109,6 @@ $("#id_temperatureProfileDateRange").daterangepicker({
     cacheInput("temperatureProfileDateRange", fieldValue)
 
     if (containsOutage(fieldValue)) {
-        console.log("success")
         $("#temperatureProfile_warning")[0].style.display = "block"
     }
     else {
