@@ -12,7 +12,6 @@ dashboard
 ├── helper
 │   ├── ...
 ├── __init__.py
-├── middleware.py
 ├── models.py
 ├── static
 │   ├── ...
@@ -105,9 +104,6 @@ app are *read-only*, dashboard uses neither models nor migrations.
 `views.py` contains the aforementioned [Django views](https://docs.djangoproject.com/en/4.1/topics/http/views/) for rendering and displaying templates. Each function takes in only an HTTP request and extracts the necessary information (such as user-submitted forms) from there. We found it useful to do a minimal amount of work in each view function, and mainly rely on helper functions.
 
 `forms.py` contains classes for all of the [Django forms](https://docs.djangoproject.com/en/4.1/topics/forms/) that the dashboard app uses.
-
-`middleware.py` contains custom [Django middleware](https://docs.djangoproject.com/en/4.1/topics/http/middleware/) that does extra processing
-when HTTP requests/responses are executed. This is how the app logs user IP addresses when the user submits a query.
 
 **Note:** other files, such as `admin.py` & `test.py`, are Django boilerplate but are not used by this application.
 

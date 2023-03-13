@@ -16,6 +16,5 @@ geothermalsite
 - connecting to the geothermal database
 - establishing a static files directory
 - configuring an automatic logging system
-- executing Django middleware
 
 `asgi.py` and `wsgi.py` aren't used since they're supposed to contain settings for framework not implemented in the project. `config.py` has the database credentials; it's not available on this repositry and needs to be requested from the database manager. `__init__.py` is an empty file, and its only purpose is to allow importing from this directory.
