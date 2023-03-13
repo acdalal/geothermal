@@ -38,7 +38,7 @@ def renderIndexPage(request: HttpRequest):
         type=None,
         units=None,
     )
-    return render(request, "dashboard/index.html", context=context)
+    return render(request, "dashboard/pages/index.html", context=context)
 
 
 def _getPageContext(
@@ -84,7 +84,7 @@ def renderTempVsTimePage(
     )
     return render(
         request,
-        "dashboard/index.html",
+        "dashboard/pages/index.html",
         context,
     )
 
@@ -112,7 +112,7 @@ def renderTempVsDepthPage(
 
     return render(
         request,
-        "dashboard/index.html",
+        "dashboard/pages/index.html",
         context,
     )
 
@@ -144,24 +144,29 @@ def renderTempProfilePage(
     context["groupBy"] = groupBy
     return render(
         request,
-        "dashboard/index.html",
+        "dashboard/pages/index.html",
         context,
     )
 
 
 def renderRawQueryPage(
-        request: HttpRequest, 
-        context, form, 
-        queryResults: list = None, 
-        errorMessage: str = None, 
-        fromExcept: bool = False
+    request: HttpRequest,
+    context,
+    form,
+    queryResults: list = None,
+    errorMessage: str = None,
+    fromExcept: bool = False,
 ):
     if fromExcept:
         errorMessage = errorMessage.split("\n")
-        errorMessage = [line.replace(' ', '&#160;') for line in errorMessage]
+        errorMessage = [line.replace(" ", "&#160;") for line in errorMessage]
 
-    context.update({'queryResults': queryResults, 
-                    'form':form, 
-                    'errorMessage': errorMessage, 
-                    'fromExcept': fromExcept})
-    return render(request, "dashboard/customquery.html", context)
+    context.update(
+        {
+            "queryResults": queryResults,
+            "form": form,
+            "errorMessage": errorMessage,
+            "fromExcept": fromExcept,
+        }
+    )
+    return render(request, "dashboard/pages/customquery.html", context)

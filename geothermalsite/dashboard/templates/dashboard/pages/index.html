@@ -1,8 +1,8 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/shared/base.html' %}
 
 {% block content %}
 
-    {% include 'dashboard/jumbotron.html' %}
+    {% include 'dashboard/components/jumbotron.html' %}
 
 
     <script>
@@ -20,8 +20,6 @@
 
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/pages/index.css' %}">
-    <link rel="stylesheet" href="{% static 'css/components/customdaterangepicker.css' %}">
-    <script src="{% static 'js/utils/dateRangePicker.js' %}"></script>
 
 <div class="col-md-7 mx-auto">
 
@@ -72,7 +70,7 @@
             <div class="row justify-content-around">
                 <div class="col-md-8" >
                     <form action="/" method="post" id="tempprofileform">
-                        {% include 'dashboard/boreholemap.html' %}
+                        {% include 'dashboard/components/boreholemap.html' %}
                         {% csrf_token %}
                         {{ temperatureProfileForm }}
                         <div id="temperatureProfile_warning" class="alert alert-warning" role="alert" style="display:none;">
@@ -120,7 +118,7 @@
             <div class="row justify-content-around">
                 <div class="col-md-8">
                     <form action="/" method="post" id="tempvstimeform">
-                        {% include 'dashboard/boreholemap.html' %}
+                        {% include 'dashboard/components/boreholemap.html' %}
                         {% csrf_token %}
                         {{ tempOverTimeForm }}
                         <div id="tempVsTime_warning" class="alert alert-warning" role="alert"  style="display:none;">
@@ -170,7 +168,7 @@
             <div class="row justify-content-around">
                 <div class="col-md-8">
                     <form action="/" method="post" id="tempvsdepthform">
-                        {% include 'dashboard/boreholemap.html' %}
+                        {% include 'dashboard/components/boreholemap.html' %}
                         {% csrf_token %}
                         {{ tempOverDepthForm }}
                         <div id="temppvsdepth_warning" class="alert alert-warning" role="alert">
@@ -185,22 +183,24 @@
     </div>
 </div>
 
+<link rel="stylesheet" href="{% static 'css/components/customdaterangepicker.css' %}">
+<script src="{% static 'js/utils/dateRangePicker.js' %}"></script>
 
 
     {% if type and graphData %}
-        <script>$("#{{ type }}-button").click()</script>
+        <!-- <script>$("#{{ type }}-button").click()</script> -->
 
 
         {% if type == "tempprofile"%}
-            {% include 'dashboard/tempprofile.html' %}
+            {% include 'dashboard/graphs/tempprofile.html' %}
         {% endif %}
 
         {% if type == "tempvstime" %}
-            {% include 'dashboard/tempvstime.html' %}
+            {% include 'dashboard/graphs/tempvstime.html' %}
         {% endif %}
 
         <!-- {% if type == "tempvsdepth" %}
-            {% include 'dashboard/tempvsdepth.html' %}
+            {% include 'dashboard/graphs/tempvsdepth.html' %}
         {% endif %} -->
 
     {% endif %}

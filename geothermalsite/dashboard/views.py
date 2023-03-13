@@ -74,30 +74,27 @@ def index(request: HttpRequest):
 
 
 def about(request: HttpRequest):
-    return render(request, "dashboard/about.html", context=None)
+    return render(request, "dashboard/pages/about.html", context=None)
 
 
 def documentation(request: HttpRequest):
     outageData = getDataOutages()
     outageDict = {"outage": outageData}
-    return render(request, "dashboard/documentation.html", context=outageDict)
+    return render(request, "dashboard/pages/documentation.html", context=outageDict)
 
 
 def customQuery(request: HttpRequest):
     form = RawQueryForm(request.POST or None)
     context = {"form": form, "queryResults": []}
     previousQuery = ""
-    formData = {'rawQuery': ''}
+    formData = {"rawQuery": ""}
 
     if request.method == "POST":
-        try: 
+        try:
             formData = getUserRawQuery(request)
             if not formData:
-                context = {
-                    "form": form,
-                    "errorMessage": "Please enter a query."
-                }
-                return render(request, "dashboard/customquery.html", context)
+                context = {"form": form, "errorMessage": "Please enter a query."}
+                return render(request, "dashboard/pages/customquery.html", context)
 
             queryResults = getRawQueryResults(formData)
             context = {
@@ -109,18 +106,26 @@ def customQuery(request: HttpRequest):
                 "rawQuery": formData.get("rawQuery"),
             }
 
-            return renderRawQueryPage(request, context, formData.get("rawQuery"), queryResults=queryResults)
+            return renderRawQueryPage(
+                request, context, formData.get("rawQuery"), queryResults=queryResults
+            )
+
         except Exception as e:
             errorMessage = str(e)
             context = {
                 "form": RawQueryForm(initial={"rawQuery": formData.get("rawQuery")}),
-                "errorMessage": errorMessage
+                "errorMessage": errorMessage,
             }
             context.update(formData)
-            return renderRawQueryPage(request, context, formData.get("rawQuery"), errorMessage=errorMessage, fromExcept = True)
+            return renderRawQueryPage(
+                request,
+                context,
+                formData.get("rawQuery"),
+                errorMessage=errorMessage,
+                fromExcept=True,
+            )
 
     else:
         previousQuery = request.GET.get("query", "")
         form = RawQueryForm(initial={"rawQuery": previousQuery})
         return renderRawQueryPage(request, context, formData.get("rawQuery"))
-        
