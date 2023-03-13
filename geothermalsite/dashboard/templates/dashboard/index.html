@@ -4,10 +4,6 @@
 
     {% include 'dashboard/jumbotron.html' %}
 
-    {% load static %}
-    <link rel="stylesheet" href="{% static 'css/pages/index.css' %}">
-    <link rel="stylesheet" href="{% static 'css/components/customdaterangepicker.css' %}">
-    <script src="{% static 'js/utils/dateRangePicker.js' %}"></script>
 
     <script>
         var outageList = {{ outageList | safe }}
@@ -21,6 +17,11 @@
         var units = {{ units }}
     {% endif %}
     </script>
+
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/pages/index.css' %}">
+    <link rel="stylesheet" href="{% static 'css/components/customdaterangepicker.css' %}">
+    <script src="{% static 'js/utils/dateRangePicker.js' %}"></script>
 
 <div class="col-md-7 mx-auto">
 

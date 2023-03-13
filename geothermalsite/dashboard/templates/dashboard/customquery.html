@@ -164,7 +164,7 @@ Advanced API: Custom Query
             {% endif %}
             {% endcomment %}
 
-        <script src="{% static 'js/utils/createCsv.js' %}"></script>
+        <script src="{% static 'js/utils/downloadCsv.js' %}"></script>
         <script>
             var queryData = {{ queryResults | safe }};
         </script>

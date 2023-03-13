@@ -1,0 +1,42 @@
+@import "generalSiteStyles.css";
+
+#content-block {
+    margin-left: 5%;
+    margin-right: 12% !important;
+}
+
+.list-group-item.active {
+    background-color: var(--custom-pink);
+    border-color: var(--custom-pink);
+}
+
+.card-header {
+    background-color: var(--primary-button-color);
+}
+
+.card-header .btn:hover {
+    background-color: var(--primary-button-color);
+}
+
+#custom-btn-one,
+#custom-btn-two,
+#custom-btn-three,
+#custom-btn-four {
+    color: white;
+}
+
+#collapseOne,
+#collapseTwo,
+#collapseThree,
+#collapseFour {
+    color: var(--custom-black);
+}
+
+#accordion .link:hover {
+    color: var(--custom-black);
+}
+
+thead {
+    background-color: var(--custom-pink);
+    color: white;
+}

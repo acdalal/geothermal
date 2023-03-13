@@ -9,7 +9,7 @@
     <!-- Buttons for downloading the data as a CSV and the graph as an image -->
     <div style="margin-bottom: 1ch;">
 
-        <script src="{% static 'js/utils/createCsv.js' %}"></script>
+        <script src="{% static 'js/utils/downloadCsv.js' %}"></script>
         <button class="btn btn-secondary submit-button" onclick="downloadData('temperature_profile')">Download data</button>
         <button class="btn btn-secondary submit-button" id="downloadImage" onclick="window.downloadGraphImage('temperature_profile')">Download graph</button>
         {% comment %}

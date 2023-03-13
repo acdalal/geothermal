@@ -59,7 +59,7 @@ dashboard/static
     │   └── tempVsTimeGraph.js
     └── utils
         ├── backToTopButton.js
-        ├── createCsv.js
+        ├── downloadCsv.js
         ├── dateRangePicker.js
         ├── cache.js
         └── selectTab.js
