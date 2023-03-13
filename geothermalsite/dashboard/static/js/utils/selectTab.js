@@ -9,4 +9,6 @@ function selectTab(formName) {
 
     // Show the current tab, and add an "active" class to the button that opened the tab
     document.getElementById(formName).className += " show active";
+
+    cacheInput("tab", formName)
 }

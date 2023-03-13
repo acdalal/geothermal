@@ -97,6 +97,20 @@ const options = {
               onClick: function(event, legendItem, legend) {
                 return
               }
+            },
+            zoom: {
+                zoom: {
+                    wheel: {
+                        enabled: true,
+                    },
+                    pinch: {
+                        enabled: true
+                    },
+                  mode: 'xy',
+                },
+                pan: {
+                    enabled: true
+                }
             }
         },
         animation: {
@@ -120,6 +134,6 @@ const options = {
     plugins: [drawVerticalLine, fillChart]
 }
 
-var chart = new Chart($chart, options);
+window.chart = new Chart($chart, options);
 
 document.getElementById("ctx").scrollIntoView();

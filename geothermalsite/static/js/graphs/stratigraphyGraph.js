@@ -4,14 +4,14 @@ const $chart = document.getElementById('ctx')
 const fillChart = {
     id: 'customCanvasBackgroundColor',
     beforeDraw: (chart, args, options) => {
-        const { ctx } = chart;
-        ctx.save();
-        ctx.globalCompositeOperation = 'destination-over';
-        ctx.fillStyle = options.color || '#ffffff';
-        ctx.fillRect(0, 0, chart.width, chart.height);
-        ctx.restore();
+      const {ctx} = chart;
+      ctx.save();
+      ctx.globalCompositeOperation = 'destination-over';
+      ctx.fillStyle = options.color || '#ffffff';
+      ctx.fillRect(0, 0, chart.width, chart.height);
+      ctx.restore();
     }
-};
+  };
 
 
 var datasets = []
@@ -43,8 +43,8 @@ Object.keys(graphData).forEach(group => {
             data: graphData[group][line],
             label: label,
             axis: 'y',
-            borderColor: "rgb(" + red + ",50," + blue + ")",
-            backgroundColor: "rgb(" + red + ",50," + blue + ")",
+            borderColor: "rgb(" + red + ",50,"+blue+")",
+            backgroundColor: "rgb(" + red + ",50,"+blue+")",
         }
 
         datasets.push(lineData)
@@ -55,19 +55,19 @@ Object.keys(graphData).forEach(group => {
 })
 
 const data = {
-    datasets: datasets
+  datasets: datasets
 }
 
 var depth = "_depth_" + queryData[0]['depth_m'];
 var startDate = "_startDate_" + queryData[0]['datetime_utc'].slice(0, 11) // Cut off the timestamp
 var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice(0, 11) // Cut off the timestamp
-const graphImageName = "geothermal_data" + startDate + endDate + ".png";
+const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
 
 var xLabel = "Temperature"
 var yLabel = "Depth Below Ground"
 
-if (units == 0) {
-    xLabel += ', °C'
+if (units == 0){
+    xLabel += ', C'
     yLabel += ', m'
 }
 else {
@@ -110,7 +110,7 @@ const options = {
             legend: {
                 display: true,
                 labels: {
-                    filter: function (legendItem, data) {
+                    filter: function(legendItem, data) {
                         let group = legendItem.text
 
                         if (groups.includes(group)) {
@@ -121,7 +121,7 @@ const options = {
                         }
                     }
                 },
-                onClick: function (event, legendItem, legend) {
+                onClick: function(event, legendItem, legend) {
                     let group = legendItem.text
                     let chart = legend.chart
                     legendItem.hidden = true
@@ -131,12 +131,26 @@ const options = {
                     })
                     chart.update()
                 }
+            },
+            zoom: {
+                zoom: {
+                    wheel: {
+                        enabled: true,
+                    },
+                    pinch: {
+                        enabled: true
+                    },
+                  mode: 'xy',
+                },
+                pan: {
+                    enabled: true
+                },
             }
         },
         indexAxis: 'y',
         animation: {
-            onComplete: function () {
-                window.downloadGraphImage = function () {
+            onComplete: function(){
+                window.downloadGraphImage = function(){
                     var image = chart.toBase64Image()
                     const a = document.createElement('a')
                     a.href = image
@@ -156,6 +170,6 @@ const options = {
     plugins: [fillChart]
 }
 
-var chart = new Chart($chart, options);
+window.chart = new Chart($chart, options);
 
 document.getElementById("ctx").scrollIntoView();

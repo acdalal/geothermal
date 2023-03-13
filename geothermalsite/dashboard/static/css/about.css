@@ -5,13 +5,20 @@
 }
 
 .list-group-item.active {
-    background-color: var(--custom-green);
-    border-color: var(--custom-green);
+    background-color: var(--custom-pink);
+    border-color: var(--custom-pink);
 }
 
 #content-block {
     margin-left: 5%;
     margin-right: 12% !important;
+}
+
+/* Styling the data pipeline image */
+img {
+    max-height: 100%;
+    max-width: 100%;
+    display: block;
 }
 
 /* Three columns side by side */

@@ -57,7 +57,7 @@ will change those respective attributes for the entire site.
 
 /* HTML tag styles --------------------------------------------------------- */
 body {
-    font-size: 16px;
+    font-size: 18px;
     font-family: "Montserrat";
     color: var(--primary-text-color);
     background-color: var(--primary-background-color);
@@ -96,10 +96,12 @@ label {
 .btn {
     color: white;
     background-color: var(--primary-button-color);
+    outline-color: var(--primary-button-color);
 }
 
 .btn:hover {
     background-color: var(--secondary-button-color);
+    outline-color: var(--primary-button-color);
 }
 
 /* Jumbotron --------------------------------------------------------------- */
@@ -135,4 +137,10 @@ label {
 /* left align all download buttons of queries with the graph */
 .viewer {
     position: relative;
+}
+
+/* make some space for the warning messages */
+.alert {
+    margin-top: 10px;
+    margin-bottom: 0px;
 }

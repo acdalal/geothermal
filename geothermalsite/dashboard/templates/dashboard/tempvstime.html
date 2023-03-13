@@ -1,11 +1,6 @@
 {% load static %}
 
 <link rel="stylesheet" href="{% static 'css/generalSiteStyles.css' %}">
-<script type="text/javascript" src="https://cdn.jsdelivr.net/jquery/latest/jquery.min.js"></script>
-<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
 
 
 <!-- Graph code and canvas for housing the graph -->
@@ -19,6 +14,7 @@
             <button class="btn btn-secondary submit-button"id="downloadImage" onclick="window.downloadGraphImage('temp_vs_time')">Download graph</button>
         </div>
         <canvas id="ctx"></canvas>
+        <button class="btn btn-outline-secondary" id="reset" onclick="window.chart.resetZoom();">Reset Zoom</button>
 
     </div>
 </div>

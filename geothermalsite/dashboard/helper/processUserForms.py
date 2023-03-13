@@ -8,7 +8,15 @@ from ..forms import (
     RawQueryForm,
 )
 from django.http import HttpRequest
-from .constants import HOURS, DAYS, WEEKS, MONTHS, YEARS
+from .constants import (
+    HOURS,
+    DAYS,
+    WEEKS,
+    MONTHS,
+    YEARS,
+    METRIC,
+    IMPERIAL,
+)
 
 
 def getQuerySelectionData(cleanedData: dict) -> dict[str:str]:
@@ -24,7 +32,7 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     Processes the temperature vs time form data and outputs it in an easily accessible format
     """
     boreholeNumber = cleanedData.get("tempVsTimeBoreholeNumber")
-    depth = cleanedData.get("tempVsTimeDepth")
+    depth = float(cleanedData.get("tempVsTimeDepth"))
 
     dateRange = cleanedData.get("tempVsTimeDateRange")
     dateList = re.findall(r"../../....", dateRange)
