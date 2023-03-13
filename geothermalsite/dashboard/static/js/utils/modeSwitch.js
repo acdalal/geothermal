@@ -24,3 +24,9 @@ $('#switch').change(function() {
         }
     }
 })
+
+
+$('#switch-button').click(function() {
+    console.log("hi")
+    $('#switch').trigger('click')
+})

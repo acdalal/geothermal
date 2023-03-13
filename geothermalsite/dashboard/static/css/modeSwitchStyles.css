@@ -56,3 +56,9 @@ input[type="checkbox"]:checked ~ .switch-btn label .icons {
   'GRAD' 0,
   'opsz' 48
 }
+
+#switch-button {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+}
