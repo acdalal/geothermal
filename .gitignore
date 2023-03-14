@@ -136,6 +136,3 @@ dmypy.json
 # Django static files
 geothermalsite/geothermalsite/static/
 geothermalsite/static/
-
-# Temporary files
-temp.txt
