@@ -3,6 +3,14 @@ outageList.forEach(range => {
     disabledRanges.push({start: range['startDate'], end: range['endDate']});
 })
 
+var premadeRanges = {
+    'Last 7 Available Days': [moment(dataEndDate, 'MM/DD/YYYY').subtract(6, 'days'), moment()],
+    'Last 30 Available Days': [moment(dataEndDate, 'MM/DD/YYYY').subtract(29, 'days'), moment()],
+    'Last 3 Available Months': [moment(dataEndDate, 'MM/DD/YYYY').subtract(3, 'months'), moment()],
+    'Last Available Year': [moment(dataEndDate, 'MM/DD/YYYY').subtract(1, 'years'), moment()]
+}
+
+var last30Days = moment(dataEndDate, 'MM/DD/YYYY').subtract(30, "days").format("MM/DD/YYYY") + " - " + moment(dataEndDate, 'MM/DD/YYYY').format("MM/DD/YYYY")
 
 function invalidDate(date) {
     for (var i = 0; i < disabledRanges.length; i++) {
@@ -19,12 +27,7 @@ function setUpDatePicker(id) {
         isInvalidDate: invalidDate,
         minDate: dataStartDate,
         maxDate: dataEndDate,
-        ranges: {
-            'Last 7 Available Days': [moment(dataEndDate).subtract(6, 'days'), moment()],
-            'Last 30 Available Days': [moment(dataEndDate).subtract(29, 'days'), moment()],
-            'Last 3 Available Months': [moment(dataEndDate).subtract(3, 'months'), moment()],
-            'Last Available Year': [moment(dataEndDate).subtract(1, 'years'), moment()]
-        },
+        ranges: premadeRanges,
     }).on('apply.daterangepicker', function(ev, picker) {
         cacheInput(id.slice(4), $(id)[0].value)
       });
@@ -73,12 +76,7 @@ $("#id_tempVsTimeDateRange").daterangepicker({
     isInvalidDate: invalidDate,
     minDate: dataStartDate,
     maxDate: dataEndDate,
-    ranges: {
-        'Last 7 Available Days': [moment(dataEndDate).subtract(6, 'days'), moment()],
-        'Last 30 Available Days': [moment(dataEndDate).subtract(29, 'days'), moment()],
-        'Last 3 Available Months': [moment(dataEndDate).subtract(3, 'months'), moment()],
-        'Last Available Year': [moment(dataEndDate).subtract(1, 'years'), moment()]
-},
+    ranges: premadeRanges,
 }).on('apply.daterangepicker', function(ev, picker) {
     var fieldValue = $("#id_tempVsTimeDateRange")[0].value
     cacheInput("#id_tempVsTimeDateRange", fieldValue)
@@ -90,7 +88,7 @@ $("#id_tempVsTimeDateRange").daterangepicker({
         $("#tempVsTime_warning")[0].style.display = "none"
     }
 });
-$("#id_tempVsTimeDateRange").value = moment(dataEndDate).subtract(30, "days").format("MM/DD/YYYY") + " - " + moment(dataEndDate).format("MM/DD/YYYY")
+$("#id_tempVsTimeDateRange").value = last30Days
 
 
 
@@ -98,12 +96,7 @@ $("#id_temperatureProfileDateRange").daterangepicker({
     isInvalidDate: invalidDate,
     minDate: dataStartDate,
     maxDate: dataEndDate,
-    ranges: {
-        'Last 7 Available Days': [moment(dataEndDate).subtract(6, 'days'), moment()],
-        'Last 30 Available Days': [moment(dataEndDate).subtract(29, 'days'), moment()],
-        'Last 3 Available Months': [moment(dataEndDate).subtract(3, 'months'), moment()],
-        'Last Available Year': [moment(dataEndDate).subtract(1, 'years'), moment()]
-},
+    ranges: premadeRanges,
 }).on('apply.daterangepicker', function(ev, picker) {
     var fieldValue = $("#id_temperatureProfileDateRange")[0].value
     cacheInput("temperatureProfileDateRange", fieldValue)
@@ -115,7 +108,7 @@ $("#id_temperatureProfileDateRange").daterangepicker({
         $("#temperatureProfile_warning")[0].style.display = "none"
     }
 });
-$("#id_temperatureProfileDateRange").value = moment(dataEndDate).subtract(30, "days").format("MM/DD/YYYY") + " - " + moment(dataEndDate).format("MM/DD/YYYY")
+$("#id_temperatureProfileDateRange").value = last30Days
 
 
 
