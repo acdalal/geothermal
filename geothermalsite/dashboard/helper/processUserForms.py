@@ -1,9 +1,8 @@
-import dateparser
 from datetime import datetime, timedelta
 import re
 from ..forms import (
     TempVsTimeForm,
-    TempVsDepthForm,
+    # TempVsDepthForm,
     TemperatureProfileForm,
     RawQueryForm,
 )
@@ -38,8 +37,10 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     dateList = re.findall(r"../../....", dateRange)
     startDate, endDate = dateList
 
-    startDateUtc = dateparser.parse(startDate)
-    endDateUtc = dateparser.parse(endDate).replace(hour=23, minute=59, second=59)
+    startDateUtc = datetime.strptime(startDate, "%m/%d/%Y")
+    endDateUtc = datetime.strptime(endDate, "%m/%d/%Y").replace(
+        hour=23, minute=59, second=59
+    )
 
     units = int(cleanedData.get("tempVsTimeUnits"))
 
@@ -52,22 +53,22 @@ def getTempVsTimeFormData(cleanedData: dict) -> dict:
     }
 
 
-def getTempVsDepthFormData(cleanedData: dict) -> dict:
-    """
-    Processes the temperature vs depth form data and outputs it in an easily accessible format
-    """
-    boreholeNumber = cleanedData.get("tempVsDepthBoreholeNumber")
+# def getTempVsDepthFormData(cleanedData: dict) -> dict:
+#     """
+#     Processes the temperature vs depth form data and outputs it in an easily accessible format
+#     """
+#     boreholeNumber = cleanedData.get("tempVsDepthBoreholeNumber")
 
-    timestamp = cleanedData.get("tempVsDepthTimestamp")
-    timestampUtc = dateparser.parse(timestamp).__str__()
+#     timestamp = cleanedData.get("tempVsDepthTimestamp")
+#     timestampUtc = dateparser.parse(timestamp).__str__()
 
-    units = int(cleanedData.get("tempVsDepthUnits"))
+#     units = int(cleanedData.get("tempVsDepthUnits"))
 
-    return {
-        "timestampUtc": timestampUtc,
-        "boreholeNumber": boreholeNumber,
-        "units": units,
-    }
+#     return {
+#         "timestampUtc": timestampUtc,
+#         "boreholeNumber": boreholeNumber,
+#         "units": units,
+#     }
 
 
 def getTempProfileFormData(cleanedData: dict) -> dict:
@@ -82,11 +83,13 @@ def getTempProfileFormData(cleanedData: dict) -> dict:
 
     dailyTimestampString = cleanedData.get("temperatureProfileTimeSelector")
 
-    startDateUtc: datetime = dateparser.parse(startDate).replace(
+    startDateUtc: datetime = datetime.strptime(startDate, "%m/%d/%Y").replace(
         hour=0, minute=0, second=0
     )
-    endDateUtc = dateparser.parse(endDate).replace(hour=23, minute=59, second=59)
-    dailyTimestamp: datetime = dateparser.parse(dailyTimestampString)
+    endDateUtc = datetime.strptime(endDate, "%m/%d/%Y").replace(
+        hour=23, minute=59, second=59
+    )
+    dailyTimestamp: datetime = datetime.strptime(dailyTimestampString, "%I:%M %p")
 
     units = int(cleanedData.get("tempProfileUnits"))
 
@@ -110,14 +113,14 @@ def getUserTempVsTimeQuery(request: HttpRequest) -> dict:
     return formData
 
 
-def getUserTempVsDepthQuery(request: HttpRequest) -> dict:
-    """
-    From the temperature vs depth form, extracts the user response and formats it into a dictionary
-    """
-    userForm = TempVsDepthForm(request.POST)
-    assert userForm.is_valid()
-    formData = getTempVsDepthFormData(userForm.cleaned_data)
-    return formData
+# def getUserTempVsDepthQuery(request: HttpRequest) -> dict:
+#     """
+#     From the temperature vs depth form, extracts the user response and formats it into a dictionary
+#     """
+#     userForm = TempVsDepthForm(request.POST)
+#     assert userForm.is_valid()
+#     formData = getTempVsDepthFormData(userForm.cleaned_data)
+#     return formData
 
 
 def getUserTempProfileQuery(request: HttpRequest) -> dict:

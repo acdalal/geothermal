@@ -72,53 +72,53 @@ class TempVsTimeForm(forms.Form):
     )
 
 
-class TempVsDepthForm(forms.Form):
-    """
-    A class used to represent a temperature vs. depth form.
+# class TempVsDepthForm(forms.Form):
+#     """
+#     A class used to represent a temperature vs. depth form.
 
-    Attributes
-    ----------
-    boreholeNumber : django.forms.ChoiceField
-        the borehole options a user may select to query
-    dateRange : django.forms.CharField
-        the date range that is queried for
-    """
+#     Attributes
+#     ----------
+#     boreholeNumber : django.forms.ChoiceField
+#         the borehole options a user may select to query
+#     dateRange : django.forms.CharField
+#         the date range that is queried for
+#     """
 
-    tempVsDepthBoreholeNumber = forms.ChoiceField(
-        label="Borehole",
-        choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
-        widget=forms.Select(
-            attrs={
-                "class": "form-control",
-                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
-            }
-        ),
-    )
+#     tempVsDepthBoreholeNumber = forms.ChoiceField(
+#         label="Borehole",
+#         choices=[(1, 1), (2, 2), (3, 3), (4, 4), (5, 5)],
+#         widget=forms.Select(
+#             attrs={
+#                 "class": "form-control",
+#                 "oninput": "cacheInput(this.attributes['name'].value, this.value)",
+#             }
+#         ),
+#     )
 
-    tempVsDepthTimestamp = forms.CharField(
-        label="Date",
-        widget=forms.TextInput(
-            attrs={
-                "autocomplete": "off",
-                "value": DATA_END_DATE,
-                "class": "form-control",
-                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
-            }
-        ),
-    )
+#     tempVsDepthTimestamp = forms.CharField(
+#         label="Date",
+#         widget=forms.TextInput(
+#             attrs={
+#                 "autocomplete": "off",
+#                 "value": DATA_END_DATE,
+#                 "class": "form-control",
+#                 "oninput": "cacheInput(this.attributes['name'].value, this.value)",
+#             }
+#         ),
+#     )
 
-    tempVsDepthUnits = forms.ChoiceField(
-        label="Display units",
-        choices=[(0, "Metric"), (1, "Imperial")],
-        initial=(0, "Metric"),
-        widget=forms.RadioSelect(
-            attrs={
-                "class": "form-control custom-radio-form",
-                "value": "Metric",
-                "oninput": "cacheInput(this.attributes['name'].value, this.value)",
-            }
-        ),
-    )
+#     tempVsDepthUnits = forms.ChoiceField(
+#         label="Display units",
+#         choices=[(0, "Metric"), (1, "Imperial")],
+#         initial=(0, "Metric"),
+#         widget=forms.RadioSelect(
+#             attrs={
+#                 "class": "form-control custom-radio-form",
+#                 "value": "Metric",
+#                 "oninput": "cacheInput(this.attributes['name'].value, this.value)",
+#             }
+#         ),
+#     )
 
 
 class TemperatureProfileForm(forms.Form):

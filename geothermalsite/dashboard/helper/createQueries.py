@@ -49,34 +49,34 @@ def createTempVsTimeQuery() -> str:
     return query
 
 
-def createTempVsDepthQuery() -> str:
-    """
-    Creates a query for getting temperature vs depth results for fixed depth
+# def createTempVsDepthQuery() -> str:
+#     """
+#     Creates a query for getting temperature vs depth results for fixed depth
 
-    Parameters
-    -----------
-    channel: ID of the borehole to query
-    timestamp: point in time for the query; if no measurements taken at that
-        exact moment, the closest measurements are returned instead
+#     Parameters
+#     -----------
+#     channel: ID of the borehole to query
+#     timestamp: point in time for the query; if no measurements taken at that
+#         exact moment, the closest measurements are returned instead
 
-    Returns
-    -----------
-    Formatted query to be executed by the database cursor
-    """
+#     Returns
+#     -----------
+#     Formatted query to be executed by the database cursor
+#     """
 
-    query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
-            temperature_c, depth_m
-            FROM measurement AS M
-            INNER JOIN dts_data AS D
-            ON M.id = D.measurement_id
-            WHERE channel_id IN (SELECT id FROM channel WHERE
-                                             channel_name='channel %s')
-            AND datetime_utc between %s AND %s
-            AND laf_m BETWEEN %s AND %s
-            ORDER BY depth_m;
-            """
+#     query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
+#             temperature_c, depth_m
+#             FROM measurement AS M
+#             INNER JOIN dts_data AS D
+#             ON M.id = D.measurement_id
+#             WHERE channel_id IN (SELECT id FROM channel WHERE
+#                                              channel_name='channel %s')
+#             AND datetime_utc between %s AND %s
+#             AND laf_m BETWEEN %s AND %s
+#             ORDER BY depth_m;
+#             """
 
-    return query
+#     return query
 
 
 def createTempProfileQueryByDay() -> str:

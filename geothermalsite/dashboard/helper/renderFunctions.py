@@ -1,15 +1,15 @@
 from django.shortcuts import render
-from ..forms import TempVsTimeForm, TempVsDepthForm, TemperatureProfileForm
+from django.http import HttpRequest
+from ..forms import TempVsTimeForm, TemperatureProfileForm
 from datetime import datetime
 
 from .constants import DATA_END_DATE, DATA_START_DATE
 from .visualization import (
     toChartJsTempVsTime,
-    toChartJsTempVsDepth,
+    # toChartJsTempVsDepth,
     toChartJsTempProfile,
 )
 from .api import getDataOutages
-from django.http import HttpRequest
 
 
 def truncateDateTime(dates: list[dict[str, datetime]]):
@@ -51,7 +51,6 @@ def _getPageContext(
     return {
         "temperatureProfileForm": TemperatureProfileForm(),
         "tempOverTimeForm": TempVsTimeForm(),
-        "tempOverDepthForm": TempVsDepthForm(),
         "queryData": queryData,
         "graphData": graphData,
         "dataStartDate": DATA_START_DATE,
@@ -89,32 +88,32 @@ def renderTempVsTimePage(
     )
 
 
-def renderTempVsDepthPage(
-    request: HttpRequest, units: int, queryResults: list = None, borehole=None
-):
-    """
-    TODO
-    """
-    if queryResults and borehole:
-        graphData = toChartJsTempVsDepth(queryResults, units)
-    else:
-        graphData = list()
+# def renderTempVsDepthPage(
+#     request: HttpRequest, units: int, queryResults: list = None, borehole=None
+# ):
+#     """
+#     TODO
+#     """
+#     if queryResults and borehole:
+#         graphData = toChartJsTempVsDepth(queryResults, units)
+#     else:
+#         graphData = list()
 
-    outageList = getDataOutages()
-    truncatedOutageList = truncateDateTime(outageList)
-    context = _getPageContext(
-        queryData=queryResults,
-        graphData=graphData,
-        outageList=truncatedOutageList,
-        type="tempvsdepth",
-        units=units,
-    )
+#     outageList = getDataOutages()
+#     truncatedOutageList = truncateDateTime(outageList)
+#     context = _getPageContext(
+#         queryData=queryResults,
+#         graphData=graphData,
+#         outageList=truncatedOutageList,
+#         type="tempvsdepth",
+#         units=units,
+#     )
 
-    return render(
-        request,
-        "dashboard/pages/index.html",
-        context,
-    )
+#     return render(
+#         request,
+#         "dashboard/pages/index.html",
+#         context,
+#     )
 
 
 def renderTempProfilePage(

@@ -113,10 +113,12 @@ $("#id_temperatureProfileDateRange").value = last30Days
 
 
 $('#id_temperatureProfileTimeSelector').value = "12:00 AM";
-$('#id_tempVsDepthTimestamp').value = dataEndDate;
+
+
 
 
 // this is for temp vs depth, which was cut
+// $('#id_tempVsDepthTimestamp').value = dataEndDate;
 // $('#id_tempVsDepthTimestamp').daterangepicker({
 //     singleDatePicker: true,
 //     minDate: dataStartDate,
