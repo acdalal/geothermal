@@ -61,14 +61,13 @@
               <div class="card-body">
                 <strong
                   > You can query the temperature distribution throughout the entire depth of
-                  one or multiple boreholes over a period of time, or for a single specified date.
-                  You can also query the temperature of one or multiple boreholes
-                  with respect to depth over a period of time. </strong
+                  a borehole over a period of time.
+                  You can also query the temperature distribution of a borehole
+                  at a fixed depth over a period of time. </strong
                 >
                 <br /> <br />
-                You can customize this range of time, or choose the most recent
-                7 days, 30 days, 3 months, or year's worth of data. For the temperature profile query, you can choose
-                a specific time point for all the temparature measurements in your chosen time range. Additionally, you have the option of
+                You can customize this interval of time, or choose the most recent
+                7 days, 30 days, 3 months, or year's worth of data. Additionally, you have the option of
                 both metric and imperial units for all of the queries. Direct queries to the database are supported on the <u><a class="link" href="{% url 'customquery' %}">custom query page</a></u>.
               </div>
             </div>
@@ -215,7 +214,7 @@
         <details>
           <summary>Learn about outage types</summary>
           <ul>
-            <li> <em>Time slip</em> outages resulted from a time drift of the internal clock of the private PC the DTS unit is connected to. All data measurements taken during this time drift period have been discounted as a time slip outage.</li>
+            <li> <em>Time slip</em> outages resulted from a time drift of the internal clock of the private PC the DTS unit is connected to. All data measurements taken during this time drift period have been discounted.</li>
             <li>The <em>fiber failure</em> outage from July 2019-October 2020 was the result of an undetected compromised fiber optic cable in one of the channels.</li>
             <li>The <em>hardware failure</em> outage was caused by a malfunction in the DTS unit. This outage lasted from September 2022 until the DTS unit was repaired and restored to the Chapel basement in January 2023. The endtime of this outage is set to 2222 for conveniency in implementation.</li>
           </ul>
