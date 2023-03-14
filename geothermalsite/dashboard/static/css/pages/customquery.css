@@ -1,5 +1,3 @@
-@import "generalSiteStyles.css";
-
 #custom-query-container {
     padding-left: 5%;
     padding-right: 5%;
@@ -10,3 +8,8 @@
     background-color: var(--custom-pink);
     color: white;
 }
+
+.error-message {
+    word-wrap: break-word;
+    max-width: 1130px;
+  }

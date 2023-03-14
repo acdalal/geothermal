@@ -1,4 +1,4 @@
-{% extends 'dashboard/base.html' %}
+{% extends 'dashboard/shared/base.html' %}
 
 {% block header %}
 Advanced API: Custom Query
@@ -6,7 +6,7 @@ Advanced API: Custom Query
 
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/customquery.css' %}">
+<link rel="stylesheet" href="{% static 'css/pages/customquery.css' %}">
 {% comment %} moment.js for loading datetime object correctly in the data summary table {% endcomment %}
 <script src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
 
@@ -18,9 +18,14 @@ Advanced API: Custom Query
             that option is provided here. You will need to know some SQL to get started. <a class="link" href="https://www.sqltutorial.org/" target="_blank"><u>Here's a good resource</u></a> if you've never
             used SQL before.</p>
 
+        <p>Note that given the size of the database, larger queries can take a while to run. Right now, custom queries are capped at 3000000 results.
+            If you're encountering weird behavior related to the number of returned rows, that could be why. If you need to run a larger query it is best to
+            contact Bruce directly, as queries bigger than the imposed limit here often end up crashing anyway.
+        </p>
+
         <details>
             <summary>Here is the schema diagram for the database</summary>
-            <img src="{% static 'img/schema.png' %}" alt="Schema diagram for the Geothermal database" style="width:100%">
+            <img src="{% static 'img/info/schema.png' %}" alt="Schema diagram for the Geothermal database" style="width:100%">
         </details>
         <br>
         <label for="query">Enter a Custom Query:</label>
@@ -37,13 +42,13 @@ Advanced API: Custom Query
 
         {% if errorMessage %}
             {% if fromExcept %}
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger error-message" role="alert">
                     {% for line in errorMessage %}
                         <div style="font-family: monospace">{{ line | safe }}</div>
                     {% endfor %}
                 </div>
             {% else %}
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger error-message" role="alert">
                 <div style="font-family: monospace">{{ errorMessage }}</div>
             </div>
             {% endif %}
@@ -164,7 +169,7 @@ Advanced API: Custom Query
             {% endif %}
             {% endcomment %}
 
-        <script src="{% static 'js/utils/createCsv.js' %}"></script>
+        <script src="{% static 'js/utils/downloadCsv.js' %}"></script>
         <script>
             var queryData = {{ queryResults | safe }};
         </script>

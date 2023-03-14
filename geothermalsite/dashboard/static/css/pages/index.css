@@ -18,3 +18,7 @@ div.centered-left-list-parent {
 .custom-radio-form {
 	display: inline-flex;
 }
+
+canvas #ctx {
+    height: 100vh;
+}

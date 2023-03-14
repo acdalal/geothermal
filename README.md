@@ -2,11 +2,17 @@
 Repository for the Carleton Geothermal Data API Comps project
 
 ## To begin working
-Run these commands:\
+
+First, clone the repository.
+In the root folder of the project, run these commands:\
 `pip install -r requirements.txt` \
 `pre-commit install` \
 `pip install pre-commit-hooks`
 
+To run the server, navigate to the `geothermalsite` subfolder and run\
+`python manage.py runserver`
+
+It will also be userful to check out the [Django documentation](https://www.djangoproject.com).
 ## Troubleshooting
 One of the packages relies on a specific version of the Python regex library, so if pip fails, try running \
 `ARCHFLAGS="-arch x86_64" pip install -r requirements.txt`.

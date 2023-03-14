@@ -6,10 +6,11 @@ from .createQueries import (
     createEntireDataOutageQuery,
     createTempProfileQueryByDay,
     createTempProfileQueryByMeasurement,
-    createTempVsDepthQuery,
+    # createTempVsDepthQuery,
     createTempVsTimeQuery,
 )
 from .constants import HOURS, METRIC, IMPERIAL
+import re
 
 
 def _toFarenheit(C: float) -> float:
@@ -173,63 +174,67 @@ def getTempVsTimeResults(
     return results, queryStats
 
 
-def getTempVsDepthResults(
-    borehole: str, timestamp: datetime, units: int
-) -> tuple[list[dict], dict]:
-    """
-    Returns a list of all data points across all measurements associated with
-    the channel at a time around the given timestamp.
+# def getTempVsDepthResults(
+#     borehole: str, timestamp: datetime, units: int
+# ) -> tuple[list[dict], dict]:
+#     """
+#     Returns a list of all data points across all measurements associated with
+#     the channel at a time around the given timestamp.
 
-    Parameters
-    ----------
-    channel: borehole number (1 through 5)
-    timestamp: time of the query
-    units: units in which the measurements are returned
+#     Parameters
+#     ----------
+#     channel: borehole number (1 through 5)
+#     timestamp: time of the query
+#     units: units in which the measurements are returned
 
-    Returns
-    ----------
-    A 2-tuple, consisting of:
-    1. a list of datapoints, where each datapoint is presented as a dictionary
-       in the form (database_column_label:data_point), and
-    2. a dictionary with statistics about the executed query for logging purposes
-    """
+#     Returns
+#     ----------
+#     A 2-tuple, consisting of:
+#     1. a list of datapoints, where each datapoint is presented as a dictionary
+#        in the form (database_column_label:data_point), and
+#     2. a dictionary with statistics about the executed query for logging purposes
+#     """
 
-    # We can't guarantee there's going to be a measurement at the exact time the user provided,
-    # so we create a 30-minute time range, which has to include exactly one measurement.
-    timestampStart = datetime.strptime(timestamp, f"%Y-%m-%d %H:%M:%S")
-    timestampEnd = (timestampStart + timedelta(minutes=30)).strftime(
-        f"%Y-%m-%d %H:%M:%S"
-    )
+#     # We can't guarantee there's going to be a measurement at the exact time the user provided,
+#     # so we create a 30-minute time range, which has to include exactly one measurement.
+#     timestampStart = datetime.strptime(timestamp, f"%Y-%m-%d %H:%M:%S")
+#     timestampEnd = (timestampStart + timedelta(minutes=30)).strftime(
+#         f"%Y-%m-%d %H:%M:%S"
+#     )
 
-    # Using boreholes.py, we define a custom Borehole class that stores borehole info
-    currentBorehole = boreholes[borehole]
-    channel = currentBorehole.getChannel()
-    lafStart = currentBorehole.getStart()
-    lafBottom = currentBorehole.getBottom()
+#     # Using boreholes.py, we define a custom Borehole class that stores borehole info
+#     currentBorehole = boreholes[borehole]
+#     channel = currentBorehole.getChannel()
+#     lafStart = currentBorehole.getStart()
+#     lafBottom = currentBorehole.getBottom()
 
-    # Use a helper function to create the query
-    query = createTempVsDepthQuery()
-    results = list()
+#     # Use a helper function to create the query
+#     query = createTempVsDepthQuery()
+#     results = list()
 
-    with connections["geothermal"].cursor() as cursor:
-        # execute query and record elapsed time
-        query_start_time = time.time()
-        cursor.execute(query, (channel, timestamp, timestampEnd, lafStart, lafBottom))
-        query_end_time = time.time()
+#     with connections["geothermal"].cursor() as cursor:
+#         # execute query and record elapsed time
+#         query_start_time = time.time()
+#         cursor.execute(query, (channel, timestamp, timestampEnd, lafStart, lafBottom))
+#         query_end_time = time.time()
 
-        # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
-        results, byteSizeEstimate = _organizeDbResults(cursor.fetchall(), units)
+#         # geothermalsite/settings.py has the DB credentials, which let us access the database cursor like this.
+#         results, byteSizeEstimate = _organizeDbResults(cursor.fetchall(), units)
 
-    queryStats = {
-        "query": query,
-        "executionTime": query_end_time - query_start_time,
-        "totalRecords": len(results),
-    }
-    return results, queryStats
+#     queryStats = {
+#         "query": query,
+#         "executionTime": query_end_time - query_start_time,
+#         "totalRecords": len(results),
+#     }
+#     return results, queryStats
 
 
 def getTempProfileResultsByDay(
-    borehole: str, startTime: str, endTime: str, dailyTimestamp: str, units: int
+    borehole: str,
+    startTime: datetime,
+    endTime: datetime,
+    dailyTimestamp: datetime,
+    units: int,
 ) -> tuple[list[dict], dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -299,7 +304,7 @@ def getTempProfileResultsByDay(
 
 
 def getTempProfileResultsByMeasurement(
-    borehole: str, startTime: str, endTime: str, units: int
+    borehole: str, startTime: datetime, endTime: datetime, units: int
 ) -> tuple[list[dict], dict]:
     """
     Returns a list of all data points across all measurements associated with
@@ -351,9 +356,9 @@ def getTempProfileResultsByMeasurement(
 
 def getTempProfileResults(
     borehole: str,
-    startTime: str,
-    endTime: str,
-    dailyTimestamp: str,
+    startTime: datetime,
+    endTime: datetime,
+    dailyTimestamp: datetime,
     groupBy: int,
     units: int,
 ) -> tuple[list[dict], dict]:
@@ -404,7 +409,22 @@ def getRawQueryResults(formData: dict[str, str]) -> tuple[list[dict], dict]:
     results = list()
     query = formData["rawQuery"]
 
-    ### SANITIZE QUERY HERE ####
+    ### LIMIT CHECKING ####
+    limit = 3000000
+
+    limit_clause = re.search(r"\bLIMIT\s+(\d+)\b", query, re.IGNORECASE)
+
+    if limit_clause:
+        if int(limit_clause.group(1)) > limit:
+            if ';' in query:
+                query = re.sub(r"\bLIMIT\s*\d+\b", f"LIMIT {limit};", query, flags=re.IGNORECASE)
+            else:
+                query = re.sub(r"\bLIMIT\s*\d+\b", f"LIMIT {limit}", query, flags=re.IGNORECASE)
+    else:
+        if ';' in query:
+            query = query.replace(';', f' LIMIT {limit};')
+        else:
+            query = f"{query} LIMIT {limit}"
 
     try:
         with connections["geothermal"].cursor() as cursor:

@@ -1,5 +1,4 @@
 from datetime import datetime
-import dateparser
 from collections import defaultdict
 from .constants import (
     GROUPS,
@@ -30,23 +29,23 @@ def toChartJsTempVsTime(queryResults: list, units: str) -> list:
     return graphData
 
 
-def toChartJsTempVsDepth(queryResults: list, units: str) -> list:
-    """
-    Takes the database query output from temperature vs depth query and modifies it to fit the format for the flot library
-    """
-    graphData = list()
+# def toChartJsTempVsDepth(queryResults: list, units: str) -> list:
+#     """
+#     Takes the database query output from temperature vs depth query and modifies it to fit the format for the flot library
+#     """
+#     graphData = list()
 
-    for datapoint in queryResults:
-        if units == METRIC:
-            temperature = float(datapoint["temperature_c"])
-            depth = float(datapoint["depth_m"])
-        else:
-            temperature = float(datapoint["temperature_f"])
-            depth = float(datapoint["depth_ft"])
+#     for datapoint in queryResults:
+#         if units == METRIC:
+#             temperature = float(datapoint["temperature_c"])
+#             depth = float(datapoint["depth_m"])
+#         else:
+#             temperature = float(datapoint["temperature_f"])
+#             depth = float(datapoint["depth_ft"])
 
-        graphData.append({"x": depth, "y": temperature})
+#         graphData.append({"x": depth, "y": temperature})
 
-    return graphData
+#     return graphData
 
 
 def toChartJsTempProfile(

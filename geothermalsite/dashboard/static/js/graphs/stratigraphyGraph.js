@@ -34,7 +34,7 @@ Object.keys(graphData).forEach(group => {
 
         let label = group
         if (groups.includes(group)) {
-            label += " "
+            label += "\u200B"   //we add a zero-width unicode character so that it's not visible to the user, but the label is filtered out.
         }
         else {
             groups.push(group)
