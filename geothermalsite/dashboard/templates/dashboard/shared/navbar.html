@@ -1,0 +1,32 @@
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/components/navbar.css' %}">
+
+<!-- Bootstrap 4 Navbar: https://getbootstrap.com/docs/4.0/components/navbar/ -->
+<nav class="navbar navbar-expand-lg bg-body-tertiary" id="main-navbar">
+  <div class="container-fluid">
+    <a class="navbar-brand mb-0 h1 font-weight-bold" href="{% url 'index' %}">Carleton GeoDE</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'about' %}">About</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'documentation' %}">Documentation</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'customquery' %}">Custom Query</a>
+        </li>
+      </ul>
+
+      <div class="ml-auto">
+        <a href="https://www.carleton.edu/" target="_blank">
+          <img class="logo" src="{% static 'img/logos/carleton_white_logo.png' %}" alt="Carleton College Blue Logo" width="45" height="45">
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>

@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpRequest
 
 from .helper.api import (
-    getTempVsDepthResults,
+    # getTempVsDepthResults,
     getTempVsTimeResults,
     getTempProfileResults,
     getDataOutages,
@@ -12,14 +12,14 @@ from .helper.api import (
 )
 from .helper.processUserForms import (
     getUserTempVsTimeQuery,
-    getUserTempVsDepthQuery,
+    # getUserTempVsDepthQuery,
     getGrouping,
     getUserRawQuery,
     getUserTempProfileQuery,
 )
 from .helper.renderFunctions import (
     renderIndexPage,
-    renderTempVsDepthPage,
+    # renderTempVsDepthPage,
     renderTempVsTimePage,
     renderTempProfilePage,
     renderRawQueryPage,
@@ -81,21 +81,21 @@ def index(request: HttpRequest):
 
         # execute temp vs. depth query, log the query, and render the
         # temp vs. depth page with the results
-        if "temperature-depth" in request.POST:
-            formData = getUserTempVsDepthQuery(request)
-            borehole = formData["boreholeNumber"]
-            queryResults, queryStats = getTempVsDepthResults(
-                borehole, formData["timestampUtc"], formData["units"]
-            )
-            log_query_as_INFO(
-                get_user_ip_address(request),
-                queryStats["query"],
-                queryStats["executionTime"],
-                queryStats["totalRecords"],
-            )
-            return renderTempVsDepthPage(
-                request, formData["units"], queryResults, int(borehole)
-            )
+        # if "temperature-depth" in request.POST:
+        #     formData = getUserTempVsDepthQuery(request)
+        #     borehole = formData["boreholeNumber"]
+        #     queryResults, queryStats = getTempVsDepthResults(
+        #         borehole, formData["timestampUtc"], formData["units"]
+        #     )
+        #     log_query_as_INFO(
+        #         get_user_ip_address(request),
+        #         queryStats["query"],
+        #         queryStats["executionTime"],
+        #         queryStats["totalRecords"],
+        #     )
+        #     return renderTempVsDepthPage(
+        #         request, formData["units"], queryResults, int(borehole)
+        #     )
 
     # if the request was not POST, but rather GET, render the index page
     else:
@@ -103,15 +103,14 @@ def index(request: HttpRequest):
 
 
 def about(request: HttpRequest):
-    """Renders the about page template"""
-    return render(request, "dashboard/about.html", context=None)
+    return render(request, "dashboard/pages/about.html", context=None)
 
 
 def documentation(request: HttpRequest):
     """Renders the documentation page template with the most recent data outages"""
     outageData = getDataOutages()
     outageDict = {"outage": outageData}
-    return render(request, "dashboard/documentation.html", context=outageDict)
+    return render(request, "dashboard/pages/documentation.html", context=outageDict)
 
 
 def customQuery(request: HttpRequest):
@@ -129,7 +128,7 @@ def customQuery(request: HttpRequest):
             # check if the user submitted a blank form
             if not formData:
                 context = {"form": form, "errorMessage": "Please enter a query."}
-                return render(request, "dashboard/customquery.html", context)
+                return render(request, "dashboard/pages/customquery.html", context)
 
             # log the query
             queryResults, queryStats = getRawQueryResults(formData)

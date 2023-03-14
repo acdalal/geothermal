@@ -1,0 +1,24 @@
+#myTabContent {
+    margin-top: 10px;
+}
+
+#form-information {
+    text-align: center;
+}
+
+div.centered-left-list-parent {
+	text-align: center;
+}
+
+.centered-left-list {
+	display: inline-block;
+	text-align: left;
+}
+
+.custom-radio-form {
+	display: inline-flex;
+}
+
+canvas #ctx {
+    height: 100vh;
+}

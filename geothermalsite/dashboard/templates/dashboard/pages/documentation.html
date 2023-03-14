@@ -1,0 +1,242 @@
+{% extends 'dashboard/shared/base.html' %}
+
+{% block header %}
+  Documentation
+{% endblock %}
+
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/pages/documentation.css' %}">
+
+
+<script>
+  $(document).ready(function () {
+        $(".list-group-item").click(function () {
+            $('.list-group-item').removeClass('active');
+            $(this).addClass('active');
+        });
+    });
+</script>
+
+
+<div class="container-fluid" id="documentation-container">
+  <div class="row">
+    <!-- Left-hand navbar for page contents -->
+    <div class="col-2 navbar-col">
+      <div id="page-section-list" class="list-group" style="position: sticky; top: 40px;">
+        <a class="list-group-item list-group-item-action" href="#faq-section">FAQ</a>
+        <a class="list-group-item list-group-item-action" href="#data-outages-section">Data Outages</a>
+        <a class="list-group-item list-group-item-action" href="#advanced-api-section">Advanced API</a>
+      </div>
+    </div>
+    <!-- end navbar for page contents -->
+
+    <!-- Right-hand page contents -->
+    <div class="col-10" id="page-contents">
+      <div data-spy="scroll" data-target="#page-section-list" data-offset="0" class="scrollspy-example">
+        <!-- FAQ as a Bootstrap 4 accordion-->
+        <h4 id="faq-section">FAQ</h4>
+        <div id="accordion">
+          <div class="card">
+            <div class="card-header" id="headingOne">
+              <h5 class="mb-0">
+                <button
+                  class="btn btn-link collapsed"
+                  id="custom-btn-one"
+                  data-toggle="collapse"
+                  data-target="#collapseOne"
+                  aria-expanded="false"
+                  aria-controls="collapseOne"
+                >
+                  What kinds of queries can I make?
+                </button>
+              </h5>
+            </div>
+            <div
+              id="collapseOne"
+              class="collapse"
+              aria-labelledby="headingOne"
+              data-parent="#accordion"
+            >
+              <div class="card-body">
+                <strong
+                  > You can query the temperature distribution throughout the entire depth of
+                  a borehole over a period of time.
+                  You can also query the temperature distribution of a borehole
+                  at a fixed depth over a period of time. </strong
+                >
+                <br /> <br />
+                You can customize this interval of time, or choose the most recent
+                7 days, 30 days, 3 months, or year's worth of data. Additionally, you have the option of
+                both metric and imperial units for all of the queries. Direct queries to the database are supported on the <u><a class="link" href="{% url 'customquery' %}">custom query page</a></u>.
+              </div>
+            </div>
+          </div>
+
+            <div class="card">
+              <div class="card-header" id="headingTwo">
+                <h5 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    id="custom-btn-two"
+                    data-toggle="collapse"
+                    data-target="#collapseTwo"
+                    aria-expanded="false"
+                    aria-controls="collapseTwo"
+                  >
+                    Why are certain time ranges in the calendar grayed out?
+                  </button>
+                </h5>
+              </div>
+              <div
+                id="collapseTwo"
+                class="collapse"
+                aria-labelledby="headingTwo"
+                data-parent="#accordion"
+              >
+                <div class="card-body">
+                  <strong
+                    >Time ranges that fall within a data outage cannot be
+                    queried.</strong
+                  >
+                  <br /> <br />
+                  Try selecting a new custom date range instead, or choose the
+                  most recent available date range. Time ranges that straddle an outage may be queried, though the resulting visualization may have unexpected contours.
+                  To learn more about data outages, please visit the Data Outages section.
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="headingThree">
+                <h5 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    id="custom-btn-three"
+                    data-toggle="collapse"
+                    data-target="#collapseThree"
+                    aria-expanded="false"
+                    aria-controls="collapseThree"
+                  >
+                    Why does my graph look weird?
+                  </button>
+                </h5>
+              </div>
+              <div
+                id="collapseThree"
+                class="collapse"
+                aria-labelledby="headingThree"
+                data-parent="#accordion"
+              >
+                <div class="card-body">
+                  <strong>Invalid data will affect query visualizations.</strong>
+                  <br /> <br />
+                  If you selected a time range that included a data outage, this
+                  will be reflected in the visualization that is generated. The
+                  unexpected behavior in your graph represents the period of time over which a data
+                  outage spanned. For more information, please visit the Data
+                  Outages section.
+                </div>
+              </div>
+            </div>
+
+            <div class="card">
+              <div class="card-header" id="headingFour">
+                <h5 class="mb-0">
+                  <button
+                    class="btn btn-link collapsed"
+                    id="custom-btn-four"
+                    data-toggle="collapse"
+                    data-target="#collapseFour"
+                    aria-expanded="false"
+                    aria-controls="collapseFour"
+                  >
+                    Where does this data come from?
+                  </button>
+                </h5>
+              </div>
+              <div
+                id="collapseFour"
+                class="collapse"
+                aria-labelledby="headingFour"
+                data-parent="#accordion"
+              >
+                <div class="card-body">
+                  <strong
+                    >The data you are querying originates from the 5 borehole
+                    loops in the Bald Spot that are equipped with fiber optic
+                    cables.</strong
+                  >
+                  <br /> <br />
+                  For a more in-depth overview of the data pipeline, visit the
+                  <a class="link" href="{% url 'about' %}"><u>about page</u></a>.
+                </div>
+              </div>
+            </div>
+          </div>
+          <br />
+          <!-- end FAQ accordion -->
+
+        <!-- Data summary section -->
+        <h4 id="data-outages-section">Data Outages</h4>
+        <p>
+          Data outages were an important consideration for this project. We have
+          aired on the conservative side in terms of defining outages. Any
+          period of time that produced either a lack of data or unreliable data
+          has been deemed an outage, and the measurements from that interval of
+          time will not be displayed. See below for a full table of known
+          outages.
+          <br/>
+          <br/>
+          <table class="table table-sm">
+              <thead>
+                <tr id="table-header">
+                    <th class="heading-text" scope ="col">Outage ID</th>
+                    <th class="heading-text" scope ="col">Channel ID</th>
+                    <th class="heading-text" scope ="col">Outage Type</th>
+                    <th class="heading-text" scope ="col">Start Time</th>
+                    <th class="heading-text" scope ="col">End Time</th>
+                </tr>
+              </thead>
+            <tbody>
+                {% for item in outage %}
+                <tr>
+                  <td>{{ item.outage_id }}</td>
+                  <td>{{ item.channel_id }}</td>
+                  <td>{{ item.outage_type }}</td>
+                  <td>{{ item.start_time }}</td>
+                  <td>{{ item.end_time }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        </p>
+        <details>
+          <summary>Learn about outage types</summary>
+          <ul>
+            <li> <em>Time slip</em> outages resulted from a time drift of the internal clock of the private PC the DTS unit is connected to. All data measurements taken during this time drift period have been discounted.</li>
+            <li>The <em>fiber failure</em> outage from July 2019-October 2020 was the result of an undetected compromised fiber optic cable in one of the channels.</li>
+            <li>The <em>hardware failure</em> outage was caused by a malfunction in the DTS unit. This outage lasted from September 2022 until the DTS unit was repaired and restored to the Chapel basement in January 2023. The endtime of this outage is set to 2222 for conveniency in implementation.</li>
+          </ul>
+        </details>
+        <br>
+        <!-- Advanced API section -->
+        <h4 id="advanced-api-section">Advanced API Use</h4>
+        <p>
+          The Geothermal Data API supports making more advanced queries,
+          including direct PostGreSQL queries. To query the database directly, visit the <a class="link" href="{% url 'customquery' %}"><u>custom query page</u></a>.
+          To view our API, visit
+          <a class="link" href="https://github.com/acdalal/geothermal" target="_blank"><u>our repository on GitHub</u></a>.
+        </p>
+      </div>
+      <!-- end scrollspy -->
+
+    </div>
+    <!-- end right-hand page contents -->
+
+  </div>
+  <!-- end row -->
+
+</div>
+<!-- end container -->
+{% endblock %}

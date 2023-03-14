@@ -1,0 +1,17 @@
+{% load static %}
+
+<!-- Graph code and canvas for housing the graph -->
+<script src="{% static 'js/graphs/tempVsTimeGraph.js' %}" type="module"></script>
+<div class="container">
+    <div class="viewer">
+         <!-- Buttons for downloading the data as a CSV and the graph as an image -->
+        <div class="download-btn" style="margin-bottom: 1ch;">
+            <script src="{% static 'js/utils/downloadCsv.js' %}"></script>
+            <button class="btn btn-secondary submit-button" onclick="downloadData('temp_vs_time')">Download data</button>
+            <button class="btn btn-secondary submit-button"id="downloadImage" onclick="window.downloadGraphImage('temp_vs_time')">Download graph</button>
+        </div>
+        <canvas id="ctx"></canvas>
+        <button class="btn btn-outline-secondary" id="reset" onclick="window.chart.resetZoom();">Reset Zoom</button>
+
+    </div>
+</div>

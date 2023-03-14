@@ -48,20 +48,32 @@ This contains the API (api.py), as well as constants (constants.py) and helper f
 ```
 dashboard/static
 ├── css
-│   ├── ...
+│   ├── components
+│   │   ├── ...
+│   ├── general
+│   │   └── ...
+│   └── pages
+│       ├── ...
 ├── img
-│   ├── ...
+│   ├── info
+│   │   ├── ...
+│   ├── logos
+│   │   ├── ...
+│   └── portraits
+│       ├── ...
 └── js
     ├── graphs
     │   ├── stratigraphyGraph.js
     │   ├── tempVsDepthGraph.js
     │   └── tempVsTimeGraph.js
+    ├── ui
+    │   ├── backToTopButton.js
+    │   ├── dateRangePicker.js
+    │   └── selectTab.js
     └── utils
-        ├── backToTopButton.js
-        ├── createCsv.js
-        ├── dateRangePicker.js
         ├── cache.js
-        └── selectTab.js
+        └── downloadCsv.js
+
 ```
 
 This contains static files, which Django defines as CSS, JavaScript, or img files. `css/` and `img/` contain the CSS and picture files, respectively. `js/` is split into two subfolders - `graphs/` has the JS files necessary for creating ChartJS graphs, while `utils/` has other miscellaneous files.
@@ -74,19 +86,23 @@ This contains static files, which Django defines as CSS, JavaScript, or img file
 ```
 dashboard/templates
 └── dashboard
-    ├── about.html
-    ├── backToTopButton.html
-    ├── base.html
-    ├── boreholemap.html
-    ├── customquery.html
-    ├── documentation.html
-    ├── footer.html
-    ├── index.html
-    ├── jumbotron.html
-    ├── navbar.html
-    ├── tempprofile.html
-    ├── tempvsdepth.html
-    └── tempvstime.html
+    ├── components
+    │   ├── backToTopButton.html
+    │   ├── boreholemap.html
+    │   └── jumbotron.html
+    ├── graphs
+    │   ├── tempprofile.html
+    │   ├── tempvsdepth.html
+    │   └── tempvstime.html
+    ├── pages
+    │   ├── about.html
+    │   ├── customquery.html
+    │   ├── documentation.html
+    │   └── index.html
+    └── shared
+        ├── base.html
+        ├── footer.html
+        └── navbar.html
 ```
 
 This contains all the HTML files that are rendered to the frontend, drawing on the
