@@ -5,30 +5,71 @@ will change those respective attributes for the entire site.
 */
 
 /* Custom color palette ---------------------------------------------------- */
-:root {
-    --custom-black: #32292F;
-    --custom-cream: #faf3dd;
-    --custom-brown: #A3693F;
-    --custom-pink: #BC4B51;
-    --custom-light-pink:#DF6F75;
-    --custom-dark-cream: #F3E3B1;
+:root,
+    :root.light {
+        --custom-black: #32292F;
+        --custom-cream: #faf3dd;
+        --custom-brown: #A3693F;
+        --custom-green: #648767;
+        --custom-light-green:#8dab90;
+        --custom-pink: #BC4B51;
+        --custom-light-pink:#DF6F75;
+        --custom-dark-cream: #F3E3B1;
+        --custom-dark-black: #101010;
+        --custom-gray: #808080;
 
-    /* change the colors here to change these colors of the whole site */
-    /* background colors */
-    --primary-background-color: var(--custom-black);
 
-    /* text colors */
-    --primary-text-color: var(--custom-cream);
-    --secondary-text-color: var(--custom-dark-cream); /* text color on hover */
+        /* change the colors here to change these colors of the whole site */
+        /* background colors */
+        --primary-background-color: var(--custom-cream);
 
-    /* button colors */
-    --primary-button-color: var(--custom-pink);
-    --secondary-button-color: var(--custom-light-pink);
+        /* text colors */
+        --primary-text-color: var(--custom-black);
+        /* text color on hover */
+        --secondary-text-color: var(--custom-dark-black);
 
-    /* link colors */
-    --primary-link-color: #17a2b8;
-    --secondary-link-color: #36cee6;
-}
+
+        /* button colors */
+        --primary-button-color: var(--custom-pink);
+        --secondary-button-color: var(--custom-light-pink);
+
+        /* link colors */
+        --primary-link-color: #17a2b8;
+        --secondary-link-color: #36cee6;
+
+    }
+
+    :root.dark {
+        --custom-black: #32292F;
+        --custom-cream: #faf3dd;
+        --custom-brown: #A3693F;
+        --custom-green: #648767;
+        --custom-light-green:#8dab90;
+        --custom-pink: #BC4B51;
+        --custom-light-pink:#DF6F75;
+        --custom-dark-cream: #F3E3B1;
+        --custom-dark-black: #101010;
+        --custom-gray: #808080;
+
+
+        /* change the colors here to change these colors of the whole site */
+        /* background colors */
+        --primary-background-color: var(--custom-black);
+
+        /* text colors */
+        --primary-text-color: var(--custom-cream);
+        --secondary-text-color: var(--custom-dark-cream); /* text color on hover */
+
+        /* button colors */
+        --primary-button-color: var(--custom-pink);
+        --secondary-button-color: var(--custom-light-pink);
+
+        /* link colors */
+        --primary-link-color: #17a2b8;
+        --secondary-link-color: #36cee6;
+
+    }
+
 
 .black-background {
     background-color: var(--custom-black);
@@ -51,6 +92,7 @@ will change those respective attributes for the entire site.
 }
 
 /* HTML tag styles --------------------------------------------------------- */
+
 body {
     font-size: 18px;
     font-family: "Montserrat";

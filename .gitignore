@@ -134,5 +134,5 @@ dmypy.json
 .vscode
 
 # Django static files
-geothermalsite/geothermalsite/static
-geothermalsite/static
+geothermalsite/geothermalsite/static/
+geothermalsite/static/
