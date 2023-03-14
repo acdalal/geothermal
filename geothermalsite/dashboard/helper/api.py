@@ -10,6 +10,7 @@ from .createQueries import (
     createTempVsTimeQuery,
 )
 from .constants import HOURS, METRIC, IMPERIAL
+import re
 
 
 def _toFarenheit(C: float) -> float:
@@ -408,7 +409,22 @@ def getRawQueryResults(formData: dict[str, str]) -> tuple[list[dict], dict]:
     results = list()
     query = formData["rawQuery"]
 
-    ### SANITIZE QUERY HERE ####
+    ### LIMIT CHECKING ####
+    limit = 3000000
+
+    limit_clause = re.search(r"\bLIMIT\s+(\d+)\b", query, re.IGNORECASE)
+
+    if limit_clause:
+        if int(limit_clause.group(1)) > limit:
+            if ';' in query:
+                query = re.sub(r"\bLIMIT\s*\d+\b", f"LIMIT {limit};", query, flags=re.IGNORECASE)
+            else:
+                query = re.sub(r"\bLIMIT\s*\d+\b", f"LIMIT {limit}", query, flags=re.IGNORECASE)
+    else:
+        if ';' in query:
+            query = query.replace(';', f' LIMIT {limit};')
+        else:
+            query = f"{query} LIMIT {limit}"
 
     try:
         with connections["geothermal"].cursor() as cursor:
