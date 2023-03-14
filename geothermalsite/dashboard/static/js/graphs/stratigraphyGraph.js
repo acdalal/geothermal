@@ -18,7 +18,7 @@ var datasets = []
 var groups = []
 var datasetIndex = 0
 var groupNumber = 0
-var datasetIndicesForEachWeek = {}
+var datasetIndicesForEachGroup = {}
 
 let numGroups = Object.keys(graphData).length
 var red = 0
@@ -26,10 +26,10 @@ var blue = 256
 var diff = 256 / numGroups
 
 Object.keys(graphData).forEach(group => {
-    datasetIndicesForEachWeek[group] = []
+    datasetIndicesForEachGroup[group] = []
 
     Object.keys(graphData[group]).forEach(line => {
-        datasetIndicesForEachWeek[group].push(datasetIndex)
+        datasetIndicesForEachGroup[group].push(datasetIndex)
         datasetIndex += 1
 
         let label = group
@@ -41,6 +41,7 @@ Object.keys(graphData).forEach(group => {
         }
         let lineData = {
             data: graphData[group][line],
+            day: line,
             label: label,
             axis: 'y',
             borderColor: "rgb(" + red + ",50,"+blue+")",
@@ -103,7 +104,7 @@ const options = {
         },
         interaction: {
             mode: 'nearest',
-            intersect: false,
+            intersect: false
         },
         plugins: {
             verticalLiner: {},
@@ -125,7 +126,7 @@ const options = {
                     let group = legendItem.text
                     let chart = legend.chart
                     legendItem.hidden = true
-                    datasetIndicesForEachWeek[group].forEach(index => {
+                    datasetIndicesForEachGroup[group].forEach(index => {
                         let meta = chart.getDatasetMeta(index)
                         meta.hidden = meta.hidden === null ? !chart.data.datasets[index].hidden : null
                     })
@@ -145,6 +146,19 @@ const options = {
                 pan: {
                     enabled: true
                 },
+            },
+            tooltip: {
+                callbacks: {
+                    title: function(context) {
+                        let day = context[0].dataset.day
+                        return day
+                    },
+                    label: function(context){
+                        let depth = context.label
+                        let temperature = context.formattedValue
+                        return ["Depth: " + depth, "Temperature: " + temperature]
+                    }
+                }
             }
         },
         indexAxis: 'y',
