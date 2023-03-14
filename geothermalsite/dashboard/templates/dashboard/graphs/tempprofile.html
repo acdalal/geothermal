@@ -12,8 +12,9 @@
         <script src="{% static 'js/utils/downloadCsv.js' %}"></script>
         <button class="btn btn-secondary submit-button" onclick="downloadData('temperature_profile')">Download data</button>
         <button class="btn btn-secondary submit-button" id="downloadImage" onclick="window.downloadGraphImage('temperature_profile')">Download graph</button>
-
-        <!-- <button class="btn submit-button" id="see-stratigraphy" onclick="$('.stratigraphy-container').toggle()" style="background-color: var(--custom-black); color: var(--custom-cream);padding:0px">ⓘ see stratigraphy</button>
+        {% comment %}
+        {# the code in this comment can be used to display a pop-up image of stratigraphy, we didn't have a great image to use, so it is not currently live. #}
+        <button class="btn submit-button" id="see-stratigraphy" onclick="$('.stratigraphy-container').toggle()" style="background-color: var(--custom-black); color: var(--custom-cream);padding:0px">ⓘ see stratigraphy</button>
         <div class="stratigraphy-container" style="display:none; text-align: center; margin-left:30%;margin-right:50%;">
             <h5>Stratigraphy</h5>
             <img src="{% static 'img/info/stratigraphy_placeholder.png' %}" alt="Map of baldspot boreholes" width="95%" >

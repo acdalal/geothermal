@@ -157,6 +157,7 @@ def renderRawQueryPage(
     errorMessage: str = None,
     fromExcept: bool = False,
 ):
+    # String parsing of the error message from the database
     if fromExcept:
         errorMessage = errorMessage.split("\n")
         errorMessage = [line.replace(" ", "&#160;") for line in errorMessage]
