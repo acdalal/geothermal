@@ -409,6 +409,8 @@ def getRawQueryResults(formData: dict[str, str]) -> tuple[list[dict], dict]:
     query = formData["rawQuery"]
 
     ### SANITIZE QUERY HERE ####
+    if 'limit' in query.lower():
+        print("LIMIT INCLUDED")
 
     try:
         with connections["geothermal"].cursor() as cursor:

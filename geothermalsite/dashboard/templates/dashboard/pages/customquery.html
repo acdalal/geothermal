@@ -37,13 +37,13 @@ Advanced API: Custom Query
 
         {% if errorMessage %}
             {% if fromExcept %}
-                <div class="alert alert-danger" role="alert">
+                <div class="alert alert-danger error-message" role="alert">
                     {% for line in errorMessage %}
                         <div style="font-family: monospace">{{ line | safe }}</div>
                     {% endfor %}
                 </div>
             {% else %}
-            <div class="alert alert-danger" role="alert">
+            <div class="alert alert-danger error-message" role="alert">
                 <div style="font-family: monospace">{{ errorMessage }}</div>
             </div>
             {% endif %}
