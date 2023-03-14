@@ -6,12 +6,12 @@ will change those respective attributes for the entire site.
 
 /* Custom color palette ---------------------------------------------------- */
 :root {
-    --custom-black: #32292F;
+    --custom-black: #32292f;
     --custom-cream: #faf3dd;
-    --custom-brown: #A3693F;
-    --custom-pink: #BC4B51;
-    --custom-light-pink:#DF6F75;
-    --custom-dark-cream: #F3E3B1;
+    --custom-brown: #a3693f;
+    --custom-pink: #bc4b51;
+    --custom-light-pink: #df6f75;
+    --custom-dark-cream: #f3e3b1;
 
     /* change the colors here to change these colors of the whole site */
     /* background colors */
@@ -79,11 +79,13 @@ label {
 }
 
 /* links ------------------------------------------------------------------- */
-.link, .btn-link {
+.link,
+.btn-link {
     color: var(--primary-link-color);
 }
 
-.link:hover, .btn-link:hover {
+.link:hover,
+.btn-link:hover {
     color: var(--secondary-link-color);
 }
 
@@ -119,8 +121,7 @@ label {
     float: left;
 }
 
-.spacer
-{
+.spacer {
     width: 100%;
     height: 95px;
 }

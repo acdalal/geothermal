@@ -1,102 +1,104 @@
-const $chart = document.getElementById('ctx')
+const $chart = document.getElementById("ctx");
 
 const drawVerticalLine = {
-    id: 'verticalLiner',
+    id: "verticalLiner",
     afterInit: (chart, args, opts) => {
-      chart.verticalLiner = {}
+        chart.verticalLiner = {};
     },
     afterEvent: (chart, args, options) => {
-        const {inChartArea} = args
-        chart.verticalLiner = {draw: inChartArea}
+        const { inChartArea } = args;
+        chart.verticalLiner = { draw: inChartArea };
     },
     beforeTooltipDraw: (chart, args, options) => {
-        const {draw} = chart.verticalLiner
-        if (!draw) return
+        const { draw } = chart.verticalLiner;
+        if (!draw) return;
 
-        const {ctx} = chart
-        const {top, bottom} = chart.chartArea
-        const {tooltip} = args
-        const x = tooltip?.caretX
-        if (!x) return
+        const { ctx } = chart;
+        const { top, bottom } = chart.chartArea;
+        const { tooltip } = args;
+        const x = tooltip?.caretX;
+        if (!x) return;
 
-        ctx.save()
+        ctx.save();
 
-        ctx.beginPath()
-        ctx.moveTo(x, top)
-        ctx.lineTo(x, bottom)
-        ctx.stroke()
+        ctx.beginPath();
+        ctx.moveTo(x, top);
+        ctx.lineTo(x, bottom);
+        ctx.stroke();
 
-        ctx.restore()
-    }
-}
+        ctx.restore();
+    },
+};
 
 const fillChart = {
-    id: 'customCanvasBackgroundColor',
+    id: "customCanvasBackgroundColor",
     beforeDraw: (chart, args, options) => {
-      const {ctx} = chart;
-      ctx.save();
-      ctx.globalCompositeOperation = 'destination-over';
-      ctx.fillStyle = options.color || '#ffffff';
-      ctx.fillRect(0, 0, chart.width, chart.height);
-      ctx.restore();
-    }
-  };
+        const { ctx } = chart;
+        ctx.save();
+        ctx.globalCompositeOperation = "destination-over";
+        ctx.fillStyle = options.color || "#ffffff";
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
+    },
+};
 
 const data = {
-  datasets: [{
-    data: graphData,
-    label: "Temperature vs Time Graph"
-}]
-}
+    datasets: [
+        {
+            data: graphData,
+            label: "Temperature vs Time Graph",
+        },
+    ],
+};
 
-var depth = "_depth_" + queryData[0]['depth_m'];
-var startDate = "_startDate_" + queryData[0]['datetime_utc'].slice(0, 11) // Cut off the timestamp
-var endDate = "_endDate" + queryData[queryData.length - 1]['datetime_utc'].slice(0, 11) // Cut off the timestamp
-const graphImageName = "geothermal_data"  + startDate + endDate + ".png";
+var depth = "_depth_" + queryData[0]["depth_m"];
+var startDate = "_startDate_" + queryData[0]["datetime_utc"].slice(0, 11); // Cut off the timestamp
+var endDate =
+    "_endDate" + queryData[queryData.length - 1]["datetime_utc"].slice(0, 11); // Cut off the timestamp
+const graphImageName = "geothermal_data" + startDate + endDate + ".png";
 
-const xLabel = 'Date'
-var yLabel = 'Temperature'
+const xLabel = "Date";
+var yLabel = "Temperature";
 
-if (units == 0){
-  yLabel += ', C'
-}
-else {
-  yLabel += ', F'
+if (units == 0) {
+    yLabel += ", C";
+} else {
+    yLabel += ", F";
 }
 
 const options = {
-    type: 'line',
+    type: "line",
     data: data,
     options: {
         scales: {
-          x: {
-            type: 'time',
-            title: {
-                display: true,
-                text: xLabel
-            }
-          },
-          y: {
-            title: {
-                display: true,
-                text: yLabel
-            }
-          }
+            x: {
+                type: "time",
+                title: {
+                    display: true,
+                    text: xLabel,
+                },
+            },
+            y: {
+                title: {
+                    display: true,
+                    text: yLabel,
+                },
+            },
         },
         legend: {
-            onClick: null
+            onClick: null,
         },
         interaction: {
-            mode: 'index',
+            mode: "index",
             intersect: false,
         },
         plugins: {
             verticalLiner: {},
             legend: {
-              display: true,
-              onClick: function(event, legendItem, legend) {
-                return
-              }
+                display: true,
+                onClick: function (event, legendItem, legend) {
+                    return;
+                },
             },
             zoom: {
                 zoom: {
@@ -104,35 +106,35 @@ const options = {
                         enabled: true,
                     },
                     pinch: {
-                        enabled: true
+                        enabled: true,
                     },
-                  mode: 'xy',
+                    mode: "xy",
                 },
                 pan: {
-                    enabled: true
-                }
-            }
+                    enabled: true,
+                },
+            },
         },
         animation: {
-            onComplete: function(){
-                window.downloadGraphImage = function(){
-                    var image = chart.toBase64Image()
-                    const a = document.createElement('a')
-                    a.href = image
-                    a.download = graphImageName
-                    document.body.appendChild(a)
-                    a.click()
-                    document.body.removeChild(a)
+            onComplete: function () {
+                window.downloadGraphImage = function () {
+                    var image = chart.toBase64Image();
+                    const a = document.createElement("a");
+                    a.href = image;
+                    a.download = graphImageName;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
                 };
-            }
+            },
         },
         pointRadius: 0,
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
+        backgroundColor: "rgba(255, 99, 132, 0.2)",
+        borderColor: "rgba(255, 99, 132, 1)",
         borderWidth: 1,
     },
-    plugins: [drawVerticalLine, fillChart]
-}
+    plugins: [drawVerticalLine, fillChart],
+};
 
 window.chart = new Chart($chart, options);
 

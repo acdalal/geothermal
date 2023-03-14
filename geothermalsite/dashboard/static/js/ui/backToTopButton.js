@@ -1,5 +1,5 @@
 // Wait until the button is loaded into the DOM
-document.addEventListener("DOMContentLoaded", function(){
+document.addEventListener("DOMContentLoaded", function () {
     // Get the button
     let mybutton = document.getElementById("btn-back-to-top");
 
