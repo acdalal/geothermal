@@ -409,7 +409,7 @@ def getRawQueryResults(formData: dict[str, str]) -> tuple[list[dict], dict]:
     results = list()
     query = formData["rawQuery"]
 
-    ### SANITIZE QUERY HERE ####
+    ### LIMIT CHECKING ####
     limit = 3000000
 
     limit_clause = re.search(r"\bLIMIT\s+(\d+)\b", query, re.IGNORECASE)
