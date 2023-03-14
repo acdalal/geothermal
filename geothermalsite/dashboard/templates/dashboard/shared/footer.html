@@ -1,66 +1,65 @@
 {% load static %}
-<link rel="stylesheet" href="{% static 'css/components/footer.css' %}">
 
-<footer class="bg-info text-center text-lg-start" id="main-footer">
-    <hr id="footer-line">
-    <!-- Grid container -->
-    <div class="container p-4">
-      <!--Grid row-->
-      <div class="row">
-        <!--Grid column-->
-        <div class="col">
-          <h5 class="text-uppercase">Dashboard Links</h5>
-
-          <ul class="list-unstyled mb-0">
-            <li>
-              <a href="{% url 'index' %}">Dashboard</a>
-            </li>
-            <li>
-              <a href="{% url 'about' %}">About</a>
-            </li>
-            <li>
-              <a href="{% url 'documentation' %}">Documentation</a>
-            </li>
-          </ul>
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col">
-          <h5 class="text-uppercase">Carleton Links</h5>
-
-          <ul class="list-unstyled mb-0">
-            <li>
-              <a href="https://www.carleton.edu/" target="_blank">Home</a>
-            </li>
-            <li>
-              <a href="https://www.carleton.edu/geology/" target="_blank">Geology</a>
-            </li>
-            <li>
-              <a href="https://www.carleton.edu/geothermal/" target="_blank">Utility Master Plan</a>
-            </li>
-          </ul>
-        </div>
-        <!--Grid column-->
-
-        <!--Grid column-->
-        <div class="col">
-          <h5 class="text-uppercase">Advanced Tools</h5>
-
-          <ul class="list-unstyled mb-0">
-            <li>
-              <a href="https://github.com/acdalal/geothermal" target="_blank">Source Code</a>
-            </li>
-            <li>
-              <a href="{% url 'customquery' %}">Custom Query</a>
-            </li>
-          </ul>
-
-        </div>
-        <!--Grid column-->
-
+<link rel="stylesheet"
+      href="{% static 'css/components/footer.css' %}"/>
+<footer class="bg-info text-center text-lg-start"
+        id="main-footer">
+  <hr id="footer-line"/>
+  <!-- Grid container -->
+  <div class="container p-4">
+    <!--Grid row-->
+    <div class="row">
+      <!--Grid column-->
+      <div class="col">
+        <h5 class="text-uppercase">Dashboard Links</h5>
+        <ul class="list-unstyled mb-0">
+          <li>
+            <a href="{% url 'index' %}">Dashboard</a>
+          </li>
+          <li>
+            <a href="{% url 'about' %}">About</a>
+          </li>
+          <li>
+            <a href="{% url 'documentation' %}">Documentation</a>
+          </li>
+        </ul>
       </div>
-      <!--Grid row-->
+      <!--Grid column-->
+      <!--Grid column-->
+      <div class="col">
+        <h5 class="text-uppercase">Carleton Links</h5>
+        <ul class="list-unstyled mb-0">
+          <li>
+            <a href="https://www.carleton.edu/"
+               target="_blank">Home</a>
+          </li>
+          <li>
+            <a href="https://www.carleton.edu/geology/"
+               target="_blank">Geology</a>
+          </li>
+          <li>
+            <a href="https://www.carleton.edu/geothermal/"
+               target="_blank">Utility Master Plan</a>
+          </li>
+        </ul>
+      </div>
+      <!--Grid column-->
+      <!--Grid column-->
+      <div class="col">
+        <h5 class="text-uppercase">Advanced Tools</h5>
+        <ul class="list-unstyled mb-0">
+          <li>
+            <a href="https://github.com/acdalal/geothermal"
+               target="_blank">Source Code</a>
+          </li>
+          <li>
+            <a href="{% url 'customquery' %}">Custom Query</a>
+          </li>
+        </ul>
+      </div>
+      <!--Grid column-->
     </div>
-    <!-- Grid container -->
+    <!--Grid row-->
+  </div>
+  <!-- Grid container -->
 </footer>

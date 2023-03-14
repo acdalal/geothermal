@@ -1,24 +1,26 @@
 {% load static %}
+
 <!-- This file contains code for the borehole map popup -->
-<link rel="stylesheet" href="{% static 'css/components/boreholemap.css' %}">
+<link rel="stylesheet"
+      href="{% static 'css/components/boreholemap.css' %}"/>
 <div class="borehole-container inactive">
-    <input type="button" class="btn info-btn" value="ⓘ Borehole:">
-
-    <div class="borehole-map-content">
-        <h3>Borehole Map</h3>
-        <img src="{% static 'img/info/boreholes.png' %}" alt="Map of baldspot boreholes" width="85%" >
-        <p>Each B1, B2, ... , B5 represents a single borehole sample in the baldspot. </p>
-    </div>
-
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $(".btn.info-btn").click(function () {
-                $(".borehole-map-content").toggle();
-                $(".borehole-container").toggleClass('inactive');
-                $(this).val() == "ⓘ Borehole:" ? $(this).val("ⓘ") : $(this).val("ⓘ Borehole:")
-
-            });
-
-        });
-    </script>
+  <input type="button"
+         class="btn info-btn"
+         value="ⓘ Borehole:"/>
+  <div class="borehole-map-content">
+    <h3>Borehole Map</h3>
+    <img src="{% static 'img/info/boreholes.png' %}"
+         alt="Map of baldspot boreholes"
+         width="85%"/>
+    <p>Each B1, B2, ... , B5 represents a single borehole sample in the baldspot.</p>
+  </div>
+  <script type="text/javascript">
+    $(document).ready(function() {
+      $(".btn.info-btn").click(function() {
+        $(".borehole-map-content").toggle();
+        $(".borehole-container").toggleClass('inactive');
+        $(this).val() == "ⓘ Borehole:" ? $(this).val("ⓘ") : $(this).val("ⓘ Borehole:")
+      });
+    });
+  </script>
 </div>

@@ -1,91 +1,103 @@
-<html lang="en">
-
+<!DOCTYPE html/>
+<html lang="en"/>
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta charset="utf-8"/>
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="keywords"
+        content="geothermal, Carleton, geology, data, explorer"/>
+  <meta name="description"
+        content="A Carleton College geothermal data explorer"/>
+  <title>GeoDE</title>
+  <!-- Include custom images, css, and js in the static directory -->
+  {% load static %}
 
-    <title>GeoDE</title>
+  <!-- Include the Carleton logo as the favicon image of the website's browser tab -->
+  <link rel="icon"
+        type="image/c-logo"
+        href="{% static 'img/logos/carleton_blue_logo.png' %}"/>
+  <!-- Block to contain all CSS files, which can be overwritten/extended in child templates -->
 
-    <!-- Include custom images, css, and js in the static directory -->
-    {% load static %}
-    <!-- Include the Carleton logo as the favicon image of the website's browser tab -->
-    <link rel="icon" type="image/c-logo" href="{% static 'img/logos/carleton_blue_logo.png' %}">
-
-    <!-- Block to contain all CSS files, which can be overwritten/extended in child templates -->
-    {% block css %}
+  {% block css %}
     <!-- jQuery -->
     <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
-        integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y=" crossorigin="anonymous" />
-
+          href="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.min.css"
+          integrity="sha256-DOS9W6NR+NFe1fUhEE0PGKY/fubbUCnOfTje2JMDw3Y="
+          crossorigin="anonymous"/>
     <!-- Bootstrap 4.0.0 -->
     <!-- Info on customizing Bootstrap CSS: https://blog.hubspot.com/website/how-to-override-bootstrap-css?hubs_content=blog.hubspot.com%2Fwebsite%2Fbootstrap-navbar&hubs_content-cta=How%20to%20Edit%2C%20Customize%2C%20and%20Override%20Bootstrap%20CSS%20to%20Suit%20Your%20Brand -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-        integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
+    <link rel="stylesheet"
+          href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm"
+          crossorigin="anonymous"/>
     <!-- FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
-        integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
-        crossorigin="anonymous" />
-
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css"
+          integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA=="
+          crossorigin="anonymous"/>
     <!-- Montserrat font family -->
-    <link href='https://fonts.googleapis.com/css?family=Montserrat' rel='stylesheet'>
-    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
-
-
+    <link href='https://fonts.googleapis.com/css?family=Montserrat'
+          rel='stylesheet'/>
+    <link rel="stylesheet"
+          type="text/css"
+          href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css"/>
     <!-- Custom site styles -->
-    <link rel="stylesheet" href="{% static 'css/general/generalSiteStyles.css' %}" />
-    {% endblock %}
+    <link rel="stylesheet"
+          href="{% static 'css/general/generalSiteStyles.css' %}"/>
+  {% endblock css %}
 
-    <!-- Block to contain all JS files, which can be overwritten/extended in child templates -->
-    {% block javascript %}
+  <!-- Block to contain all JS files, which can be overwritten/extended in child templates -->
+
+  {% block javascript %}
     <!-- jQuery -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
-        crossorigin="anonymous"></script>
+            integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+            crossorigin="anonymous"></script>
     <!-- Bootstrap JavaScript 4.0.0 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
-        crossorigin="anonymous"></script>
+            crossorigin="anonymous"></script>
     <!-- XDSoft DateTimePicker -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-datetimepicker/2.5.20/jquery.datetimepicker.full.min.js"
-        integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk=" crossorigin="anonymous"></script>
+            integrity="sha256-FEqEelWI3WouFOo2VWP/uJfs1y8KJ++FLh2Lbqc8SJk="
+            crossorigin="anonymous"></script>
     <!-- MomentJs -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <!-- Daterangepicker -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+    <script type="text/javascript"
+            src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+
     {% if queryData %}
-    <!-- ChartJS -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.js"></script>
-    <!-- ChartJS date adapter -->
-    <script
-        src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
-    <!-- Hammer.js -->
-    <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
-    <!-- ChartJS zoom-->
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.0/dist/chartjs-plugin-zoom.js"></script>
+      <!-- ChartJS -->
+      <script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.0/dist/chart.umd.js"></script>
+      <!-- ChartJS date adapter -->
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+      <!-- Hammer.js -->
+      <script src="https://cdn.jsdelivr.net/npm/hammerjs@2.0.8"></script>
+      <!-- ChartJS zoom-->
+      <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.0/dist/chartjs-plugin-zoom.js"></script>
     {% endif %}
-    {% endblock %}
+
+  {% endblock javascript %}
 
 </head>
-
 <body>
-    {% include 'dashboard/shared/navbar.html' %}
+  {% include "dashboard/shared/navbar.html" %}
+  <!-- Block to contain the header of each page, with no header by default. -->
+  <h1 class="header"
+      id="page-header">
 
-    <!-- Block to contain the header of each page, with no header by default. -->
-    <h1 class="header" id="page-header">
-        {% block header %}
-        {% endblock %}
-    </h1>
+    {% block header %}
+    {% endblock header %}
 
-    <!-- Block to contain all page content, which can be overwritten/extended in child templates -->
-    <div id="content-block">
-        {% block content %}
-        {% endblock %}
-    </div>
+  </h1>
+  <!-- Block to contain all page content, which can be overwritten/extended in child templates -->
+  <div id="content-block">
 
-    {% include 'dashboard/components/backToTopButton.html' %}
+    {% block content %}
+    {% endblock content %}
 
-    {% include 'dashboard/shared/footer.html' %}
+  </div>
+  {% include "dashboard/components/backToTopButton.html" %}
+  {% include "dashboard/shared/footer.html" %}
 </body>
-
-</html>

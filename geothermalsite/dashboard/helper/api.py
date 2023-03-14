@@ -416,13 +416,17 @@ def getRawQueryResults(formData: dict[str, str]) -> tuple[list[dict], dict]:
 
     if limit_clause:
         if int(limit_clause.group(1)) > limit:
-            if ';' in query:
-                query = re.sub(r"\bLIMIT\s*\d+\b", f"LIMIT {limit};", query, flags=re.IGNORECASE)
+            if ";" in query:
+                query = re.sub(
+                    r"\bLIMIT\s*\d+\b", f"LIMIT {limit};", query, flags=re.IGNORECASE
+                )
             else:
-                query = re.sub(r"\bLIMIT\s*\d+\b", f"LIMIT {limit}", query, flags=re.IGNORECASE)
+                query = re.sub(
+                    r"\bLIMIT\s*\d+\b", f"LIMIT {limit}", query, flags=re.IGNORECASE
+                )
     else:
-        if ';' in query:
-            query = query.replace(';', f' LIMIT {limit};')
+        if ";" in query:
+            query = query.replace(";", f" LIMIT {limit};")
         else:
             query = f"{query} LIMIT {limit}"
 
