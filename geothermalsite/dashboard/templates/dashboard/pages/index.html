@@ -2,44 +2,19 @@
 
 {% block content %}
   {% include "dashboard/components/jumbotron.html" %}
-  {# djlint:off #}
-  <!-- NOTE: unfortunately, there is a bug in djlint version 1.19.16, which is used here
-  where code that should be ignored inside of the djlint:off djlint:on comments is still
-  formatted. This results in an undersirable formatting for this script, but hopefully
-  future versions will fix this. https://github.com/Riverside-Healthcare/djLint/releases -->
+
   <script>
-    var outageList = {
-      {
-        outageList | safe
-      }
-    }
+    var outageList = {{ outageList | safe }}
     var dataStartDate = "{{ dataStartDate }}"
     var dataEndDate = "{{ dataEndDate }}"
 
-    {
-      %
-      if queryData %
-    }
-    var queryData = {
-      {
-        queryData | safe
-      }
-    }
-    var graphData = {
-      {
-        graphData | safe
-      }
-    }
-    var units = {
-      {
-        units
-      }
-    } {
-      %
-      endif %
-    }
+    {% if queryData %}
+      var queryData = {{ queryData | safe }}
+      var graphData = {{ graphData | safe }}
+      var units = {{ units }}
+    {% endif %}
   </script>
-  {# djlint:on #}
+
   {% load static %}
 
   <link rel="stylesheet"

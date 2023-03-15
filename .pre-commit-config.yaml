@@ -21,15 +21,24 @@ repos:
 
 # NOTE: Django templates are not strictly HTML files, and are therefore
 # tricky to format in a clean and consistent way. djlint will attempt to
-# reformat and check for compliance with HTML/Django template best practices
-# (see more about formatting and linting in the documentation here
+# check for compliance with HTML/Django template best practices
+# (see more about linting in the documentation here
 # https://www.djlint.com/docs/configuration/). djlint can be configured to desired
 # specifications using the .djlintrc file.
+#
+# Initially, we configured djlint to reformat the html template files as well.
+# However, there are some issues with this formatter that caused bugs on the site.
+# In particular, it reformatted <script> tags without taking Django's double curly
+# bracket syntax {{}} into account, which broke parts of the site. It may be worth
+# adding this formatter back if future versions of the repository fix this,
+# but for now, we removed it.
+# To add the formatter back, change:
+#   entry: djlint --profile=django --reformat --lint
 -   repo: https://github.com/Riverside-Healthcare/djLint
     rev: v1.19.16
     hooks:
         -   id: djlint-django
-            entry: djlint --profile=django --reformat --lint
+            entry: djlint --profile=django --lint
 
 -   repo: https://github.com/pre-commit/mirrors-prettier
     rev: v2.5.0

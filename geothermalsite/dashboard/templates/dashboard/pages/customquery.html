@@ -99,11 +99,7 @@
           <!-- displayed dynamically -->
         </h6>
         <script>
-          var queryResults = {
-            {
-              queryResults | safe
-            }
-          };
+          var queryResults = {{ queryResults|safe }};
 
           // Get a reference to the table header and body
           var tableHeader = document.getElementById("table-header");
@@ -150,13 +146,11 @@
                 } else {
                   for (var i = 10; i < upperlimit; i++) {
                     var row = tableBody.deleteRow(10);
-
                   }
                   numResults.innerHTML = ''.concat("Displaying 10 out of ", queryResults.length, " results")
                 }
                 $(this).val() == "See more" ? $(this).val("See less") : $(this).val("See more")
               });
-
             });
           </script>
         {% endif %}
@@ -198,17 +192,11 @@
                     </div>
                 </details>
             {% endif %}
-
-
-
         {% endcomment %}
+
         <script src="{% static 'js/utils/downloadCsv.js' %}"></script>
         <script>
-          var queryData = {
-            {
-              queryResults | safe
-            }
-          };
+          var queryData = {{ queryResults | safe }};
         </script>
       {% endif %}
 
