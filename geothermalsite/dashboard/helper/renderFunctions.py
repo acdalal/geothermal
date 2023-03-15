@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpRequest
 from ..forms import TempVsTimeForm, TemperatureProfileForm
-from datetime import datetime
+from datetime import datetime, timedelta
 
 from .constants import DATA_END_DATE, DATA_START_DATE
 from .visualization import (
@@ -48,6 +48,11 @@ def _getPageContext(
     type: str,
     units: str,
 ) -> dict():
+
+    global DATA_END_DATE
+    if DATA_END_DATE == "yesterday":
+        DATA_END_DATE = (datetime.now() - timedelta(days=1)).strftime("%m/%d/%Y")
+
     return {
         "temperatureProfileForm": TemperatureProfileForm(),
         "tempOverTimeForm": TempVsTimeForm(),
