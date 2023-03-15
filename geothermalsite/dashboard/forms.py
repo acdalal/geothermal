@@ -1,8 +1,8 @@
 from django import forms
+from datetime import datetime, timedelta
 from .helper.constants import (
     DATA_START_DATE,
     DATA_END_DATE,
-    MONTH_BEFORE_END,
     STARTING_DEPTH,
 )
 
@@ -20,6 +20,17 @@ class TempVsTimeForm(forms.Form):
     depth : django.forms.IntegerField
         the integer depth a user may select to query
     """
+
+    # if the end date is dynamic, then we need to update the DATA_END_DATE
+    # to yesterday. In either case, we need to define MONTH_BEFORE_END as
+    # well.
+    global DATA_END_DATE
+    if DATA_END_DATE == "yesterday":
+        DATA_END_DATE = (datetime.now() - timedelta(days=1)).strftime("%m/%d/%Y")
+
+    MONTH_BEFORE_END = (
+        datetime.strptime(DATA_END_DATE, "%m/%d/%Y") - timedelta(days=30)
+    ).strftime("%m/%d/%Y")
 
     tempVsTimeBoreholeNumber = forms.ChoiceField(
         label="Borehole",
@@ -132,6 +143,17 @@ class TemperatureProfileForm(forms.Form):
     timestamp : django.forms.CharField
         the time stamp to query data at, with a minimum at the data start date
     """
+
+    # if the end date is dynamic, then we need to update the DATA_END_DATE
+    # to yesterday. In either case, we need to define MONTH_BEFORE_END as
+    # well.
+    global DATA_END_DATE
+    if DATA_END_DATE == "yesterday":
+        DATA_END_DATE = (datetime.now() - timedelta(days=1)).strftime("%m/%d/%Y")
+
+    MONTH_BEFORE_END = (
+        datetime.strptime(DATA_END_DATE, "%m/%d/%Y") - timedelta(days=30)
+    ).strftime("%m/%d/%Y")
 
     tempProfileBoreholeNumber = forms.ChoiceField(
         label="Borehole",
