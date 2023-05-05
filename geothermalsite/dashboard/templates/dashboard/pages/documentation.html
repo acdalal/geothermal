@@ -26,7 +26,7 @@
              class="list-group"
              style="position: sticky;
                     top: 40px">
-          <a class="list-group-item list-group-item-action"
+          <a class="list-group-item list-group-item-action active"
              href="#faq-section">FAQ</a>
           <a class="list-group-item list-group-item-action"
              href="#data-outages-section">Data Outages</a>
@@ -38,10 +38,6 @@
       <!-- Right-hand page contents -->
       <div class="col-10"
            id="page-contents">
-        <div data-spy="scroll"
-             data-target="#page-section-list"
-             data-offset="0"
-             class="scrollspy-example">
           <!-- FAQ as a Bootstrap 4 accordion-->
           <h4 id="faq-section">FAQ</h4>
           <div id="accordion">
@@ -222,7 +218,7 @@
                       <em>Time slip</em> outages resulted from a time drift of the internal clock of the private PC the DTS unit is connected to. All data measurements taken during this time drift period have been discounted.
                     </li>
                     <li>
-                      The <em>fiber failure</em> outage from July 2019-October 2020 was the result of an undetected compromised fiber optic cable in one of the channels.
+                      The <em>fiber failure</em> outage from July 2019-October 2020 was the result of a compromised fiber optic cable in channel 3.
                     </li>
                     <li>
                       The <em>hardware failure</em> outage was caused by a malfunction in the DTS unit. This outage lasted from September 2022 until the DTS unit was repaired and restored to the Chapel basement in January 2023. The endtime of this outage is set to 2222 for conveniency in implementation.
@@ -241,8 +237,6 @@
                      href="https://github.com/acdalal/geothermal"
                      target="_blank"><u>our repository on GitHub</u></a>.
                 </p>
-              </div>
-              <!-- end scrollspy -->
             </div>
             <!-- end right-hand page contents -->
           </div>
