@@ -52,6 +52,12 @@ def index(request: HttpRequest):
                 queryStats["query"],
                 queryStats["executionTime"],
                 queryStats["totalRecords"],
+                queryStats["channel"],
+                0,
+                queryStats["lafStart"],
+                queryStats["lafBottom"],
+                queryStats["startTime"],
+                queryStats["endTime"],
             )
             return renderTempProfilePage(
                 request, formData["units"], groupBy, queryResults, int(borehole)
@@ -74,6 +80,12 @@ def index(request: HttpRequest):
                 queryStats["query"],
                 queryStats["executionTime"],
                 queryStats["totalRecords"],
+                queryStats["channel"],
+                queryStats["depth"],
+                queryStats["lafStart"],
+                queryStats["lafBottom"],
+                queryStats["startTime"],
+                queryStats["endTime"],
             )
             return renderTempVsTimePage(
                 request, formData["units"], queryResults, int(borehole)
@@ -174,3 +186,4 @@ def customQuery(request: HttpRequest):
         previousQuery = request.GET.get("query", "")
         form = RawQueryForm(initial={"rawQuery": previousQuery})
         return renderRawQueryPage(request, context, formData.get("rawQuery"))
+    
