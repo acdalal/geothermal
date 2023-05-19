@@ -8,6 +8,9 @@
 .navbar-brand:hover {
     color: var(--secondary-text-color);
     font-size: 25px;
+    border-radius: 10px;
+    border: 1px solid var(--secondary-text-color);
+    margin: 2px;
 }
 
 #main-navbar {
