@@ -24,13 +24,13 @@ def get_user_ip_address(request):
 
 
 def log_query_as_INFO(
-    userIP: str, query: str, execution_time: int, number_of_records_returned: int
+    userIP: str, query: str, execution_time: int, number_of_records_returned: int, channel: int, depth: int, lafStart: int, lafBottom: int, startTime: int, endTime: int
 ):
     """Logs information about the executed query at INFO level
 
     Parameters
     ----------
-    userIP: str
+    userIP : str
         the IP address of the user that executed the query
         (see warning in get_user_ip_address)
     query : str
@@ -39,6 +39,18 @@ def log_query_as_INFO(
         the time it took to execute the query in seconds
     number_of_records_returned : int
         the number of records returned from the database
+    channel : int
+        the channel included in the query
+    depth : int
+        the depth included in the query
+    lafStart : int
+        the lafStart included in the query
+    lafBottom : int
+        the lafBottom included in the query
+    startTime : int
+        startTime included in the query
+    endTime : int
+        endTime included in the query
 
     Returns
     -------
@@ -46,10 +58,16 @@ def log_query_as_INFO(
     """
     oneline_query = convert_multiline_to_oneline(query)
     logger.info(
-        "User IP: {} | query: {} | query execution time: {}s | number of records returned: {}".format(
+        "User IP: {} | query: {} | query execution time: {}s | number of records returned: {} | channel: {} | depth: {} | lafStart: {} | lafBottom: {} | startTime: {} | endTime: {}".format(
             userIP,
             oneline_query,
             execution_time,
             number_of_records_returned,
+            channel,
+            depth,
+            lafStart,
+            lafBottom,
+            startTime,
+            endTime,
         )
     )

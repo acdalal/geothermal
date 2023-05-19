@@ -170,6 +170,12 @@ def getTempVsTimeResults(
         "query": query,
         "executionTime": query_end_time - query_start_time,
         "totalRecords": len(results),
+        "channel": channel,
+        "depth": depth,
+        "lafStart": lafStart,
+        "lafBottom": lafBottom,
+        "startTime": startTime,
+        "endTime": endTime,
     }
     return results, queryStats
 
@@ -299,6 +305,11 @@ def getTempProfileResultsByDay(
         "query": query,
         "executionTime": query_end_time - query_start_time,
         "totalRecords": len(results),
+        "channel": channel,
+        "lafStart": lafStart,
+        "lafBottom": lafBottom,
+        "startTime": startTime,
+        "endTime": endTime,
     }
     return results, queryStats
 
@@ -350,6 +361,11 @@ def getTempProfileResultsByMeasurement(
         "query": query,
         "executionTime": query_end_time - query_start_time,
         "totalRecords": len(results),
+        "channel": channel,
+        "lafStart": lafStart,
+        "lafBottom": lafBottom,
+        "startTime": startTime,
+        "endTime": endTime,
     }
     return results, queryStats
 
