@@ -120,18 +120,19 @@ def createTempProfileQueryByDay() -> str:
     # new, streamlined query
     # This new query is identical to the query formed by createTempProfileQueryByMeasurement()
     # because of this it may be possible to streamline further and declutter the code by removing one of these functions
-    query = f"""SELECT M.channel_id, D.measurement_id, M.datetime_utc, D.id,
-            D.temperature_c, D.depth_m
-            FROM dts_data AS D
-            INNER JOIN measurement AS M
-            ON M.id = D.measurement_id
-            INNER JOIN channel AS H
-            ON M.channel_id = H.id
-            WHERE M.channel_id IN (SELECT id FROM channel WHERE
-                                             channel_name='channel %s')
-            AND laf_m BETWEEN %s AND %s
-            AND datetime_utc BETWEEN %s AND %s
-            AND CAST(datetime_utc AS TIME) BETWEEN %s AND %s
+    query = f"""SELECT M.channel_id, D.measurement_id, M.datetime_utc, D.id, 
+            D.temperature_c, D.depth_m 
+            FROM dts_data AS D 
+            INNER JOIN measurement AS M 
+            ON M.id = D.measurement_id 
+            INNER JOIN channel AS H 
+            ON M.channel_id = H.id 
+            INNER JOIN dts_config AS C 
+            ON H.dts_config_id = C.id 
+            WHERE M.channel_id IN (SELECT id FROM channel WHERE 
+                                                channel_name = 'channel %s') 
+            AND laf_m BETWEEN %s AND %s 
+            AND datetime_utc BETWEEN %s AND %s 
             ORDER BY depth_m, datetime_utc;
             """
 
