@@ -129,8 +129,11 @@ def createTempProfileQueryByDay() -> str:
             ON M.channel_id = H.id 
             INNER JOIN dts_config AS C 
             ON H.dts_config_id = C.id 
-            WHERE M.channel_id IN (SELECT id FROM channel WHERE 
-                                                channel_name = 'channel %s') 
+            WHERE C.id IN (SELECT id FROM dts_config WHERE 
+                                        configuration_name = '2019-02-26-geothermal_config' 
+                                        OR configuration_name = 'geothermal-config-2019-05-15') 
+            AND M.channel_id IN (SELECT id FROM channel WHERE 
+                                        channel_name = 'channel %s') 
             AND laf_m BETWEEN %s AND %s 
             AND datetime_utc BETWEEN %s AND %s 
             ORDER BY depth_m, datetime_utc;
