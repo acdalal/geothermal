@@ -28,7 +28,7 @@ def createTempVsTimeQuery() -> str:
     -----------
     Formatted query to be executed by the database cursor
     """
-
+    # old query
     # query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
     #         temperature_c, depth_m
     #         FROM dts_data AS D
@@ -46,6 +46,7 @@ def createTempVsTimeQuery() -> str:
     #         ORDER BY datetime_utc;
     #         """
 
+    # new query to include the new fiber_topology table in the dts_db
     query = f"""SELECT M.channel_id, D.measurement_id, M.datetime_utc, D.id, 
             D.temperature_c, D.depth_m 
             FROM dts_data AS D 
