@@ -29,20 +29,41 @@ def createTempVsTimeQuery() -> str:
     Formatted query to be executed by the database cursor
     """
 
-    query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
-            temperature_c, depth_m
-            FROM dts_data AS D
-            INNER JOIN measurement AS M
-            ON M.id = measurement_id
-            INNER JOIN channel AS H
-            ON channel_id = H.id
-            INNER JOIN dts_config AS C
-            ON dts_config_id = C.id
-            WHERE channel_id IN (SELECT id FROM channel WHERE
-                                             channel_name='channel %s')
-            AND ABS(depth_m-%s) < step_increment_m/2
-            AND laf_m BETWEEN %s AND %s
-            AND datetime_utc BETWEEN %s AND %s
+    # query = f"""SELECT channel_id, measurement_id, datetime_utc, D.id,
+    #         temperature_c, depth_m
+    #         FROM dts_data AS D
+    #         INNER JOIN measurement AS M
+    #         ON M.id = measurement_id
+    #         INNER JOIN channel AS H
+    #         ON channel_id = H.id
+    #         INNER JOIN dts_config AS C
+    #         ON dts_config_id = C.id
+    #         WHERE channel_id IN (SELECT id FROM channel WHERE
+    #                                          channel_name='channel %s')
+    #         AND ABS(depth_m-%s) < step_increment_m/2
+    #         AND laf_m BETWEEN %s AND %s
+    #         AND datetime_utc BETWEEN %s AND %s
+    #         ORDER BY datetime_utc;
+    #         """
+
+    query = f"""SELECT M.channel_id, D.measurement_id, M.datetime_utc, D.id, 
+            D.temperature_c, D.depth_m 
+            FROM dts_data AS D 
+            INNER JOIN measurement AS M 
+            ON M.id = D.measurement_id 
+            INNER JOIN channel AS H 
+            ON M.channel_id = H.id 
+            INNER JOIN dts_config AS C 
+            ON H.dts_config_id = C.id 
+            INNER JOIN fiber_topology AS F 
+            ON C.fiber_topology_id  = F.id 
+            WHERE M.channel_id IN (SELECT id FROM channel WHERE 
+                                    channel_name = 'channel %s' 
+                                    AND channel.fiber_topology_id = (SELECT id FROM fiber_topology WHERE 
+                                                                        fiber_topology_name = 'baldspot')) 
+            AND ABS(depth_m-%s) < C.step_increment_m/2 
+            AND laf_m BETWEEN %s AND %s 
+            AND datetime_utc BETWEEN %s AND %s 
             ORDER BY datetime_utc;
             """
 
@@ -127,21 +148,20 @@ def createTempProfileQueryByDay() -> str:
             ON M.id = D.measurement_id 
             INNER JOIN channel AS H 
             ON M.channel_id = H.id 
-            INNER JOIN dts_config AS C 
-            ON H.dts_config_id = C.id 
-            WHERE C.id IN (SELECT id FROM dts_config WHERE 
-                                        configuration_name = '2019-02-26-geothermal_config' 
-                                        OR configuration_name = 'geothermal-config-2019-05-15') 
-            AND M.channel_id IN (SELECT id FROM channel WHERE 
-                                        channel_name = 'channel %s') 
+            INNER JOIN fiber_topology AS F 
+            ON H.fiber_topology_id = F.id 
+            WHERE M.channel_id IN (SELECT id FROM channel WHERE 
+                                    channel_name = 'channel %s' 
+                                    AND channel.fiber_topology_id = (SELECT id FROM fiber_topology 
+                                                                    WHERE fiber_topology_name = 'baldspot')) 
             AND laf_m BETWEEN %s AND %s 
             AND datetime_utc BETWEEN %s AND %s 
-            ORDER BY depth_m, datetime_utc;
+            ORDER BY depth_m, datetime_utc; 
             """
 
     return query
 
-
+# The below function is redundant given the function above
 def createTempProfileQueryByMeasurement() -> str:
     """
     Creates a query for getting temperature vs time and depth for a given borehole, returning each measurement
